@@ -12,8 +12,8 @@ public class MemberDao {
 		return sqlSession.insert("memberMapper.insertMember", member);
 	}
 	
-	public int idDouble(SqlSession sqlSession, Member member) {
-		return sqlSession.selectOne("memberMapper.idDouble", member);
+	public int idDouble(SqlSession sqlSession, String checkId) {
+		return sqlSession.selectOne("memberMapper.idDouble", checkId);
 	}
 
 }

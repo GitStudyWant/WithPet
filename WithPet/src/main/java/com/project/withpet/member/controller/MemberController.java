@@ -19,10 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.project.withpet.member.model.service.MemberService;
@@ -57,11 +55,13 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value="idDouble.me", produces="application/json; charset=UTF-8")
-	public void idDouble(String , HttpServletResponse response) throws ServletException, IOException {
+	public void idDouble(String checkId, HttpServletResponse response) throws ServletException, IOException {
 		
 		System.out.println("idDouble ½ÇÇà");
-				
-		return memberService.idDouble(member)? 0 : 1;
+		
+		response.setContentType("text/html; charset=UTF-8");
+		response.getWriter().print(memberService.idDouble(checkId));
+		//return memberService.idDouble(checkId) > 0? 1 : 0;
 	}
 	
 	@RequestMapping("kakaoGetCodeUrl")

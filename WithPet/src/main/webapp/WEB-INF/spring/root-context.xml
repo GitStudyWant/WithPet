@@ -13,7 +13,7 @@
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
 		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" />
 		<property name="username" value="WITHPET" />
-		<property name="password" value="withpet" />
+		<property name="password" value="WITHPET" />
 	</bean>
 
 	 <!-- 2단계. MyBatisSpring에서 제공하는 SQL명령을 실행하기 위한 도구 등록 -->

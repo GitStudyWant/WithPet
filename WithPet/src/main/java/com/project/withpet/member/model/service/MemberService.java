@@ -13,7 +13,7 @@ public interface MemberService {
 	// È¸¿ø
 	public int insertMember(Member member);
 	
-	public int idDouble(Member member);
+	public int idDouble(String checkId);
 	
 	public Member selectMember(Member member);
 	

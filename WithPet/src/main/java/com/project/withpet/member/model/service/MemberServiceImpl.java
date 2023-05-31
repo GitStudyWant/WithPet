@@ -28,8 +28,8 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
-	public int idDouble(Member member) {
-		return memberDao.idDouble(sqlSession, member);
+	public int idDouble(String checkId) {
+		return memberDao.idDouble(sqlSession, checkId);
 	}
 
 	@Override

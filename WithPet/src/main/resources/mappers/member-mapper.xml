@@ -30,13 +30,13 @@
 	</insert>
 	
 	
-	<select id="idDouble" returnType="_int">
+	<select id="idDouble" resultType="_int">
 		select
 				count(*)
 		from
 				member
 		where
-				member_id = #{checkId}
+				mem_id = #{checkId}
 	</select>
 
 
