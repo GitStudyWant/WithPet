@@ -46,10 +46,7 @@ public class TripController {
 	@RequestMapping("insertPlace")
 	public String insertPlace(Place p,
 			                   MultipartFile upfile,
-			                   HttpSession session,
-			                   Model model) {
-		
-		System.out.println(upfile);
+			                   HttpSession session) {
 		 
 		if(!upfile.getOriginalFilename().equals("")) {
 			System.out.println(saveFile(upfile, session));
@@ -57,9 +54,11 @@ public class TripController {
 			p.setPlaceChangeName("resources/uploadFiles/place/" + saveFile(upfile, session));
 		}
 		if(tripService.insertPlace(p)>0) {
-			return "s";
+			session.setAttribute("alertMsg","장소 추가에 성공했습니다.");
+			return "redirect:placeList";
 		} else {
-			return "f";
+			session.setAttribute("alertMsg","장소 추가에 실패했습니다.");
+			return "redirect:placeList";
 		}
 	}
 	
@@ -72,7 +71,7 @@ public class TripController {
 		int ranNum = (int)(Math.random() * 90000 + 10000);
 		String ext = originName.substring(originName.lastIndexOf("."));
 		String changeName = "WITHPET"+currentTime + ranNum + ext;
-		String savePath = session.getServletContext().getRealPath("/resources/uploadFiles/");
+		String savePath = session.getServletContext().getRealPath("/resources/uploadFiles/places/");
 		
 		try {
 			upfile.transferTo(new File(savePath + changeName));
@@ -83,5 +82,23 @@ public class TripController {
 		return changeName;
 		
 		}
+	
+	
+	
+	@RequestMapping
+	public int checkMyCourse(String memId) {
+		
+	}
+	
+	
+	
+	
+	@ResponseBody
+	@RequestMapping(value="saveMyPlace", produces="application/json; charset=UTF-8")
+	public String saveMyCourse() {
+		
+		
+	};
+	
 }
 

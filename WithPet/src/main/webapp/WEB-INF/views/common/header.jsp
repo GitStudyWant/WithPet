@@ -163,6 +163,16 @@
             }
         })
     </script>
+    
+ 
+    <c:if test="${ not empty alertMsg }">
+		<script>
+			alert('${alertMsg}');
+		</script>
+		<c:remove var="alertMsg" scope="session" />
+	</c:if>
+    
+  
 
 </body>
 <meta name="viewport" content="width=device-width,initial-scale=1">
