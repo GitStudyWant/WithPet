@@ -95,10 +95,10 @@
 	         )
 	</insert>
 	
-	<select id="checkMyCourse" resultType="_int">
+	<select id="checkMyCourse" resultType="int">
 		SELECT
-		      SUM
-		      (COURSE_SE)
+		      NVL(SUM
+		      (COURSE_SE),0)
 		  FROM
 		      (
 		       SELECT 

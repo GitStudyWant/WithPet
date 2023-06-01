@@ -7,10 +7,10 @@ public class MyPlace {
 	
 	private int courseSe;
 	private String memId;
-	private int placeNo1;
-	private int placeNo2;
-	private int placeNo3;
-	private int placeNo4;
-	private int placeNo5;
+	private String placeNo1;
+	private String placeNo2;
+	private String placeNo3;
+	private String placeNo4;
+	private String placeNo5;
 
 }

@@ -85,9 +85,10 @@ public class TripController {
 		}
 	
 	
-	
+	@ResponseBody
 	@RequestMapping("checkMyCourse")
 	public int checkMyCourse(String memId) {
+		System.out.println(memId);
 		return tripService.checkMyCourse(memId);
 	}
 	
@@ -95,7 +96,7 @@ public class TripController {
 	
 	
 	@ResponseBody
-	@RequestMapping(value="saveMyCourse", produces="application/json; charset=UTF-8")
+	@RequestMapping("saveMyCourse")
 	public String saveMyCourse(MyPlace myCourse, HttpSession session) {
 		   			
 			R_MyPlace rMyPlace = new R_MyPlace();
@@ -115,7 +116,7 @@ public class TripController {
 			int result3 = 1;
 			int result4 = 1;
 			
-			if(myCourse.getPlaceNo3() != 0 && myCourse.getPlaceNo4() != 0) {
+			if(!myCourse.getPlaceNo3().equals("") && !myCourse.getPlaceNo4().equals("")) {
 				
 				rMyPlace.setPlaceNo(myCourse.getPlaceNo3());
 				result3 = tripService.saveMyCourse(rMyPlace);
@@ -123,24 +124,22 @@ public class TripController {
 				rMyPlace.setPlaceNo(myCourse.getPlaceNo4());
 				result4 = tripService.saveMyCourse(rMyPlace);
 				
-			} else if(myCourse.getPlaceNo3() == 0 && myCourse.getPlaceNo4() != 0) {
+			} else if(myCourse.getPlaceNo3().equals("") && !myCourse.getPlaceNo4().equals("")) {
 				
 				rMyPlace.setPlaceNo(myCourse.getPlaceNo4());
 				result4 = tripService.saveMyCourse(rMyPlace);
 				
-			} else if(myCourse.getPlaceNo4() == 0 && myCourse.getPlaceNo3() != 0) {
+			} else if(myCourse.getPlaceNo4().equals("") && !myCourse.getPlaceNo3().equals("")) {
 
 				rMyPlace.setPlaceNo(myCourse.getPlaceNo3());
 				result3 = tripService.saveMyCourse(rMyPlace);
 			}
 			
 			
-			if(result1 * result2 * result3 * result4 * result5 == 0) {
-				session.setAttribute("alertMsg","코스 저장에 실패했습니다.");
-				return "redirect:placeList";
+			if(result1 * result2 * result3 * result4 * result5 != 0) {
+				return "F";
 			} else {
-				session.setAttribute("alertMsg","코스 저장에 성공했습니다.");
-				return "redirect:placeList";
+				return "S";
 			}
 
 	}

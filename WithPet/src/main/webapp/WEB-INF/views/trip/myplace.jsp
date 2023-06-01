@@ -546,12 +546,18 @@
 					function saveMyCourse(){
 						// 먼저 해당 회원의 저장 되어 있는 코스가 몇개인지 조회 해오기 
 						// 2개 이하면 => myCourse테이블에 인서트 해주기 순서(1~5)
-						
+						console.log('${loginMember.memId}');
 						$.ajax({
 						url :'checkMyCourse',
-						data : { memId : '${loginMember.memId}'}
+						data : { memId : '${loginMember.memId}'},
 						success : function(result){
 							console.log(result);
+							console.log($('#pn1').val());
+							console.log($('#pn2').val());
+							console.log($('#pn3').val());
+							console.log($('#pn4').val());
+							console.log($('#pn5').val());
+							
 							if(result == 9){
 								if(confirm('이미 3개의 코스를 저장하셨습니다. 내 코스 페이지로 이동하시겠습니까?')){
 									href="#"
@@ -569,19 +575,22 @@
 									url : 'saveMyCourse',
 									data : { courseSe : courseSe,
 										     memId : '${ loginMember.memId }',
-										     placeNo1 : $('#pn1').val(),
-										     placeNo2 : $('#pn2').val(),
-										     placeNo3 : $('#pn3').val(),
-										     placeNo4 : $('#pn4').val(),
-										     placeNo5 : $('#pn5').val()
+										     placeNo1 : $('#pn1').text(),
+										     placeNo2 : $('#pn2').text(),
+										     placeNo3 : $('#pn3').text(),
+										     placeNo4 : $('#pn4').text(),
+										     placeNo5 : $('#pn5').text()
 									},
 									success : function(result){
-										console.log('result');
-										if(result == 1){
-											alert('내 코스로 저장이 완료 되었습니다.');
+										console.log(result);
+										if(result == 'S'){
+											alert('코스 저장에 성공했습니다.');
+											$('#myChoice'>tbody>tr).children().eq(1).text('');
+											$('#myChoice'>tbody>tr).children().eq(1).text('');
 										} else {
-											alert('내 코스 저장이 실패하였습니다.');
+											alert('코스 저장에 실패했습니다.');
 										}
+										
 									},
 									error : function(){
 										console.log('실패 ㅠㅠ');

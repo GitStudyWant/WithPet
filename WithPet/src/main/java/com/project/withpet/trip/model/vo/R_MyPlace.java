@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class R_MyPlace {
 	
-	private int placeNo;
+	private String placeNo;
 	private int CourseSe;
 	private int placeSe;
 	private String memId;
