@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.withpet.board.model.vo.Board;
-import com.project.withpet.board.model.vo.Reply;
+import com.project.withpet.board.model.vo.Comments;
 import com.project.withpet.member.model.dao.MemberDao;
 import com.project.withpet.member.model.vo.CertVO;
 import com.project.withpet.member.model.vo.Member;
@@ -198,14 +198,14 @@ public class MemberServiceImpl implements MemberService {
 	
 	
 	
-	// 박민성
+	// 諛뺣�쇱꽦
 	@Override
 	public ArrayList<Board> writingBoard(String memId) {
 		return null;
 	}
 
 	@Override
-	public ArrayList<Reply> writingReply(String memId) {
+	public ArrayList<Comments> writingReply(String memId) {
 		return null;
 	}
 
