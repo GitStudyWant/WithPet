@@ -49,8 +49,10 @@ public class TripController {
 			                   HttpSession session,
 			                   Model model) {
 		
+		System.out.println(p);
+		
 		if(!upfile.getOriginalFilename().equals("")) {
-			saveFile(upfile, session);
+			System.out.println(saveFile(upfile, session));
 			p.setPlaceOriginName(upfile.getOriginalFilename());
 			p.setPlaceChangeName("resources/uploadFiles/place/" + saveFile(upfile, session));
 		}
@@ -65,23 +67,22 @@ public class TripController {
 	
 	public String saveFile(MultipartFile upfile, 
  			 HttpSession session) {
-
-
-	String originName = upfile.getOriginalFilename();
-	String currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-	int ranNum = (int)(Math.random() * 90000 + 10000);
-	String ext = originName.substring(originName.lastIndexOf("."));
-	String changeName = currentTime + ranNum + ext;
-	String savePath = session.getServletContext().getRealPath("/resources/uploadFiles/");
 	
-	try {
-		upfile.transferTo(new File(savePath + changeName));
-		} catch (IllegalStateException | IOException e) {
-		e.printStackTrace();
+		String originName = upfile.getOriginalFilename();
+		String currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+		int ranNum = (int)(Math.random() * 90000 + 10000);
+		String ext = originName.substring(originName.lastIndexOf("."));
+		String changeName = "WITHPET"+currentTime + ranNum + ext;
+		String savePath = session.getServletContext().getRealPath("/resources/uploadFiles/");
+		
+		try {
+			upfile.transferTo(new File(savePath + changeName));
+			} catch (IllegalStateException | IOException e) {
+			e.printStackTrace();
+			}
+		
+		return changeName;
+		
 		}
-	
-	return changeName;
-	
-	}
 }
 
