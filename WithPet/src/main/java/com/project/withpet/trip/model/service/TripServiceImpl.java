@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.project.withpet.trip.model.dao.TripDao;
 import com.project.withpet.trip.model.vo.MyPlace;
 import com.project.withpet.trip.model.vo.Place;
+import com.project.withpet.trip.model.vo.R_MyPlace;
 
 @Service
 public class TripServiceImpl implements TripService {
@@ -31,19 +32,23 @@ public class TripServiceImpl implements TripService {
 
 	@Override
 	public int checkMyCourse(String memId) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int saveMyPlace(MyPlace place) {
-		// TODO Auto-generated method stub
-		return 0;
+		return tripdao.checkMyCourse(sqlSession, memId);
 	}
 
 	@Override
 	public int insertPlace(Place p) {
 		return tripdao.insertPlace(sqlSession, p);
 	}
+
+	@Override
+	public int saveMyCourse(R_MyPlace rMyPlace) {
+		return tripdao.saveMyCourse(sqlSession, rMyPlace);
+	}
+
+	@Override
+	public int increaseCount(String placeNo) {
+		return tripdao.increaseCount(sqlSession, placeNo);
+	}
+
 
 }

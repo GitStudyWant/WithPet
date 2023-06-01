@@ -26,6 +26,11 @@
 	.margin-Left5{
 		margin-left: 10px;
 	}
+
+	.idNext{
+		display : none;
+	}
+
 </style>
 </head>
 <body>
@@ -48,31 +53,28 @@
 	          <form action="login.me" method="get">
 	          	<table width="400" style="text-align:center">
 		          	<tr>
-		          		<td width="80"><p style="font-size:10px; color:gray; margin-top:12px">아이디 :</p></td>
-		          		<td width="200"><input type="text" style="width:100%; border:solid 1px lightgray" required placeholder="내용을 입력해주세요" name="memId"></td>
-						<td></td>
-		          	<tr>
-		          	<tr>
-			          	<td><p style="font-size:10px; color:gray; margin-top:12px">이메일 : </p></td>
-						<td><input type="text" id="email" style="width:100%; border:solid 1px lightgray" class="dis_inline" required placeholder="내용을 입력해주세요" name="email"></td>
-						<td><a class="btn_size btn_font btn btn-primary" onclick="authenticationNumber();">인증번호 받기</a></td>
+			          	<td width="80"><p style="font-size:10px; color:gray; margin-top:12px">이메일 : </p></td>
+						<td width="200"><input type="text" id="email" style="width:100%; border:solid 1px lightgray" class="dis_inline" required placeholder="내용을 입력해주세요" name="email1"></td>
+						<td><button type="button" class="btn_size btn_font btn btn-primary" onclick="authenticationNumber();">인증번호 받기</button></td>
 		          	</tr>
 					  <tr>
 						<td><p style="font-size:10px; color:gray; margin-top:12px">인증번호 : </p></td>
-						<td><input type="text" style="width:100%; border:solid 1px lightgray" required placeholder="내용을 입력해주세요"></td>
-						<td></td>
+						<td><input type="text" id="code" style="width:100%; border:solid 1px lightgray" required placeholder="내용을 입력해주세요"></td>
+						<td><button type="button" class="btn_size btn_font btn btn-primary" onclick="numberCheck();">인증번호 확인</button>
+							<p id="notCode"></p>
+						</td>
 					</tr>
 	          	</table>
-	          	<a class="btn btn-primary" style="width:80%; margin:35px 50px" data-bs-toggle="modal" data-bs-target="#idResult">다음	</a>
+	          	<a class="btn btn-primary idNext" id="idNext" style="width:80%; margin:35px 50px" data-bs-toggle="modal" data-bs-target="#idResult" onclick="idFind();">다음	</a>
 	       
 
 	          </form>
 		      
 		      <script>
 		      	function authenticationNumber(){
-		      		$ajax({
+		      		$.ajax({
 		      			url : 'sendMail.bo',
-		      			data : $('#email').text(),
+		      			data : {email : $('#email').val()},
 		      			type : 'post',
 		      			success : function(num){
 		      				console.log(num);
@@ -84,6 +86,61 @@
 		      		});
 		      		
 		      	};
+		      	
+		      	function numberCheck(){
+		      		
+		      		httpRequest = new XMLHttpRequest();
+		      		const code = document.getElementById('code').value;
+		      		httpRequest.onreadystatechange = () =>{
+		      			if(httpRequest.readyState === XMLHttpRequest.DONE){
+		      				if(httpRequest.status === 200){
+		      					
+		      					let result = httpRequest.response;
+		      					
+		      					console.log(result);
+		      					if(result == 0) {
+		      						
+		      						document.getElementById('notCode').innerText='인증번호가 일치하지 않습니다.';
+		      						document.getElementById('idNext').style.display='none';
+		      						//document.getElementsByClassName('btn-next').style.display = 'none';
+		      						console.log(document.getElementById('idNext').style);
+		      						
+		      					}
+		      					else{
+		      						document.getElementById('notCode').innerText='다음으로 넘어가주세요.';
+		      						document.getElementById('idNext').style.display='';
+		      					}
+		      				}
+		      			}
+		      		}
+		      		httpRequest.open('POST', 'check?code=' + code);
+		      		httpRequest.responseType = 'text/html';
+		      		httpRequest.send();
+		      	};
+		      	
+		      	function idFind(){
+		      		
+		      		httpRequest = new XMLHttpRequest();
+		      		const name = document.getElementById('memberName').value;
+		      		const email = document.getElementById('email').value;
+		      		httpRequest.onreadystatechange = () =>{
+		      			if(httpRequest.readyState === XMLHttpRequest.DONE){
+		      				if(httpRequest.status === 200){
+		      					let result = httpRequest.response;
+		      					if(result != null){
+									console.log(result.memId);
+									document.getElementById('resultId').innerText='아이디 : '+ result.memId+'';
+									document.getElementById('resultDate').innerText='가입일 : '+ result.memDate+'';
+								}
+		      				}
+		      			}
+		      		}
+		      		httpRequest.open('POST', 'idFind?email=' + email);
+		      		httpRequest.responseType = 'json';
+		      		httpRequest.send();
+		      	};
+		      	
+		      	
 		      </script>
 	        </div>
 	        
@@ -113,20 +170,9 @@
 	          <form action="login.me" method="get">
 	          	<table width="300" style="text-align:center">
 		          	<tr>
-		          		<td width="20"><input type="checkbox"></td>
-		          		<td width="100"><b>user01</b></td>
-						<td>가입일 : 2023-05-26</td>
+		          		<td width="100" id="resultId"></td>
+		          		<td width="150" id="resultDate"></td>
 		          	<tr>
-		          	<tr>
-			          	<td><input type="checkbox"></td>
-						<td><b>user01</b></td>
-						<td>가입일 : 2023-05-26</td>
-		          	</tr>
-					  <tr>
-						<td><input type="checkbox"></td>
-						<td><b>user01</b></td>
-						<td>가입일 : 2023-05-26</td>
-					</tr>
 	          	</table>
 				<br><br><br><br>
 	          	<a class="btn btn-primary dis_inline" style="width:40%; margin:10px 10px" data-bs-toggle="modal" data-bs-target="#login">로그인하기</a>
@@ -162,31 +208,100 @@
 	          <form action="login.me" method="get">
 	          	<table width="400" style="text-align:center">
 		          	<tr>
-		          		<td width="80"><p style="font-size:10px; color:gray; margin-top:12px">이름 :</p></td>
-		          		<td width="200"><input type="text" style="width:100%; border:solid 1px lightgray" required placeholder="내용을 입력해주세요"></td>
-						<td></td>
-		          	<tr>
-		          	<tr>
-			          	<td><p style="font-size:10px; color:gray; margin-top:12px">아이디 : </p></td>
-						<td><input type="text" style="width:100%; border:solid 1px lightgray" class="dis_inline" required placeholder="내용을 입력해주세요"></td>
+			          	<td width="80"><p style="font-size:10px; color:gray; margin-top:12px">아이디 : </p></td>
+						<td width="200"><input type="text" style="width:100%; border:solid 1px lightgray" class="dis_inline" required placeholder="내용을 입력해주세요"></td>
 						<td></td>
 		          	</tr>
-					<tr>
-						<td><p style="font-size:10px; color:gray; margin-top:12px">이메일 : </p></td>
-						<td><input type="text" style="width:100%; border:solid 1px lightgray" required placeholder="내용을 입력해주세요"></td>
-						<td><a class="btn_size btn_font btn btn-primary">인증번호 받기</a></td>
-					</tr>
-					<tr>
+		          	<tr>
+			          	<td width="80"><p style="font-size:10px; color:gray; margin-top:12px">이메일 : </p></td>
+						<td width="200"><input type="text" id="pwdEmail" style="width:100%; border:solid 1px lightgray" class="dis_inline" required placeholder="내용을 입력해주세요"></td>
+						<td><button type="button" class="btn_size btn_font btn btn-primary" onclick="authenticationPwd();">인증번호 받기</button></td>
+		          	</tr>
+					  <tr>
 						<td><p style="font-size:10px; color:gray; margin-top:12px">인증번호 : </p></td>
-						<td><input type="text" style="width:100%; border:solid 1px lightgray" required placeholder="내용을 입력해주세요"></td>
-						<td><a class="btn_size btn_font btn btn-primary">인증번호 확인</a></td>
+						<td><input type="text" id="pwdCode" style="width:100%; border:solid 1px lightgray" required placeholder="내용을 입력해주세요"></td>
+						<td><button type="button" class="btn_size btn_font btn btn-primary" onclick="pwdCheck();">인증번호 확인</button>
+							<p id="pwdCode"></p>
+						</td>
 					</tr>
 	          	</table>
-	          	<a class="btn btn-primary" style="width:80%; margin:35px 50px" data-bs-toggle="modal" data-bs-target="#pwdResult">다음</a>
+	          	<a class="btn btn-primary idNext" id="pwdNext" style="width:80%; margin:35px 50px" data-bs-toggle="modal" data-bs-target="#pwdResult">다음	</a>
 	       
 
 	          </form>
-		      
+		      <script>
+		      	function authenticationPwd(){
+		      		$.ajax({
+		      			url : 'pwdMail.bo',
+		      			data : {email : $('#pwdEmail').val()},
+		      			type : 'post',
+		      			success : function(num){
+		      				alert('메시지 전송 성공');
+		      			},
+		      			error : function(){
+		      				console.log('메일 보내기 실패');
+		      			}
+		      			
+		      		});
+		      		
+		      	};
+		      	
+		      	function pwdCheck(){
+		      		
+		      		httpRequest = new XMLHttpRequest();
+		      		const code = document.getElementById('pwdCode').value;
+		      		httpRequest.onreadystatechange = () =>{
+		      			if(httpRequest.readyState === XMLHttpRequest.DONE){
+		      				if(httpRequest.status === 200){
+		      					
+		      					let result = httpRequest.response;
+		      					
+		      					console.log(result);
+		      					if(result == 0) {
+		      						
+		      						document.getElementById('pwdCode').innerText='인증번호가 일치하지 않습니다.';
+		      						document.getElementById('pwdNext').style.display='none';
+		      						//document.getElementsByClassName('btn-next').style.display = 'none';
+		      						console.log(document.getElementById('idNext').style);
+		      						
+		      					}
+		      					else{
+		      						document.getElementById('pwdCode').innerText='다음으로 넘어가주세요.';
+		      						console.log(document.getElementById('pwdNext').style);
+		      						document.getElementById('pwdNext').style.display='';
+		      					}
+		      				}
+		      			}
+		      		}
+		      		httpRequest.open('POST', 'pwdCheck?code=' + code);
+		      		httpRequest.responseType = 'text/html';
+		      		httpRequest.send();
+		      	};
+		      	/*
+		      	function idFind(){
+		      		
+		      		httpRequest = new XMLHttpRequest();
+		      		const name = document.getElementById('memberName').value;
+		      		const email = document.getElementById('email').value;
+		      		httpRequest.onreadystatechange = () =>{
+		      			if(httpRequest.readyState === XMLHttpRequest.DONE){
+		      				if(httpRequest.status === 200){
+		      					let result = httpRequest.response;
+		      					if(result != null){
+									console.log(result.memId);
+									document.getElementById('resultId').innerText='아이디 : '+ result.memId+'';
+									document.getElementById('resultDate').innerText='가입일 : '+ result.memDate+'';
+								}
+		      				}
+		      			}
+		      		}
+		      		httpRequest.open('POST', 'idFind?email=' + email);
+		      		httpRequest.responseType = 'json';
+		      		httpRequest.send();
+		      	};
+		      	*/
+		      	
+		      </script>
 	        </div>
 	        
 	        <div class="modal-footer">
