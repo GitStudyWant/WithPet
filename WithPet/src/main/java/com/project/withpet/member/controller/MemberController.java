@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.project.withpet.member.model.service.MemberService;
@@ -106,13 +107,34 @@ public class MemberController {
 		System.out.println(loginMemo);
 		
 		if(loginMember != null/* && bcryptPasswordEncoder.matches(member.getMemPwd(), loginMember.getMemPwd())*/) {
-			//session.setAttribute("loginMember", loginMember);
-			//session.setAttribute("loginMemo", loginMemo);
+			session.setAttribute("loginMember", loginMember);
+			session.setAttribute("loginMemo", loginMemo);
 			mv.setViewName("redirect:/");
 		} else {
 			//mv.addObject("errorMsg", "응 안돼~");
 			mv.setViewName("common/errorPage");
 		}
+		
+		return mv;
+		
+	}
+	
+	@RequestMapping("logout.me")
+	public ModelAndView deleteMember(String memId, ModelAndView mv, HttpSession session) throws ServletException, IOException{
+				
+		session.removeAttribute("loginMember");
+		session.removeAttribute("loginMemo");
+		
+		mv.setViewName("redirect:/");
+		
+		return mv;
+		
+	}
+	
+	@RequestMapping("myPage.me")
+	public ModelAndView myPageMember(String memId, ModelAndView mv, HttpSession session) throws ServletException, IOException{
+		
+		mv.setViewName("member/myPageMain");
 		
 		return mv;
 		
@@ -585,7 +607,8 @@ public class MemberController {
 	@ResponseBody
 	@PostMapping("sendMail.bo")
 	public int sendMail(String email, HttpServletRequest request) throws MessagingException {
-		
+		System.out.println("오냐?");
+		System.out.println(email);
 		MimeMessage message = sender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 		
@@ -617,5 +640,55 @@ public class MemberController {
 	
 	return secret;
 	}
+
+	
+	@ResponseBody
+	@PostMapping("check")
+	public int checkCode(String code, HttpServletRequest request) {
+		CertVO certVo = CertVO.builder().who(request.getRemoteAddr()).secret(code).build();
+		return memberService.validata(certVo);
+	}
+	
+	@ResponseBody
+	@PostMapping(value="idFind", produces="application/json; charset=UTF-8")
+	public String idFind(String email, HttpServletRequest request) {
+		return new Gson().toJson(memberService.idFind(email));
+	}
+	
+	@ResponseBody
+	@PostMapping("pwdMail.bo")
+	public int pwdMail(String email, HttpServletRequest request) throws MessagingException {
+		System.out.println("오냐?");
+		System.out.println(email);
+		MimeMessage message = sender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+		
+		String ip = request.getRemoteAddr();
+		String secret = generateSecret();
+		
+		CertVO certvo = CertVO.builder()
+				  .who(ip)
+				  .secret(secret)
+				  .build();
+		
+		int result = memberService.sendMail(certvo);
+		
+		helper.setTo(email);
+		helper.setSubject("인증번호 보내드립니다");
+		helper.setText("인증번호 : " + secret);
+		
+		sender.send(message);
+		
+		return result;
+		
+	}
+	
+	@ResponseBody
+	@PostMapping("pwdCheck")
+	public int pwdCheck(String code, HttpServletRequest request) {
+		CertVO certVo = CertVO.builder().who(request.getRemoteAddr()).secret(code).build();
+		return memberService.validata(certVo);
+	}
+
 		
 }

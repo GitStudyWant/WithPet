@@ -441,7 +441,7 @@
 							<tbody>
 								<tr id="my1">
 									<td><b>출발지 :</b></td>
-									<td></td>
+									<td id="pn1"></td>
 									<td></td>
 									<td><input type="hidden" value=""></td>
 									<td><input type="hidden" value=""></td>
@@ -449,7 +449,7 @@
 								</tr>
 								<tr id="my2" class="mylist">
 									<td><b>2번 :</b></td>
-									<td></td>
+									<td id="pn2"></td>
 									<td></td>
 									<td><input type="hidden" value=""></td>
 									<td><input type="hidden" value=""></td>
@@ -457,7 +457,7 @@
 								</tr>
 								<tr id="my3" class="mylist">
 									<td><b>3번 :</b></td>
-									<td></td>
+									<td id="pn3"></td>
 									<td></td>
 									<td><input type="hidden" value=""></td>
 									<td><input type="hidden" value=""></td>
@@ -465,7 +465,7 @@
 								</tr>
 								<tr id="my4" class="mylist">
 									<td><b>4번 :</b></td>
-									<td></td>
+									<td id="pn4"></td>
 									<td></td>
 									<td><input type="hidden" value=""></td>
 									<td><input type="hidden" value=""></td>
@@ -473,7 +473,7 @@
 								</tr>
 								<tr id="my5" class="mylist">
 									<td><b>도착지 :</b></td>
-									<td></td>
+									<td id="pn5"></td>
 									<td></td>
 									<td><input type="hidden" value=""></td>
 									<td><input type="hidden" value=""></td>
@@ -546,26 +546,51 @@
 					function saveMyCourse(){
 						// 먼저 해당 회원의 저장 되어 있는 코스가 몇개인지 조회 해오기 
 						// 2개 이하면 => myCourse테이블에 인서트 해주기 순서(1~5)
-						
+						console.log('${loginMember.memId}');
 						$.ajax({
-						url:'checkMyCourse',
+						url :'checkMyCourse',
+						data : { memId : '${loginMember.memId}'},
 						success : function(result){
 							console.log(result);
-							if(result == 3){
+							console.log($('#pn1').val());
+							console.log($('#pn2').val());
+							console.log($('#pn3').val());
+							console.log($('#pn4').val());
+							console.log($('#pn5').val());
+							
+							if(result == 9){
 								if(confirm('이미 3개의 코스를 저장하셨습니다. 내 코스 페이지로 이동하시겠습니까?')){
 									href="#"
 								} 
 							} else {
+								
+								var courseSe;
+								if(result == 0 || result == 8) courseSe = 1;
+								else if(result == 1 || result == 6) courseSe = 3;
+								else courseSe = 5;
+								
+								console.log('courseSe : ' + courseSe);
 
 								$.ajax({
 									url : 'saveMyCourse',
+									data : { courseSe : courseSe,
+										     memId : '${ loginMember.memId }',
+										     placeNo1 : $('#pn1').text(),
+										     placeNo2 : $('#pn2').text(),
+										     placeNo3 : $('#pn3').text(),
+										     placeNo4 : $('#pn4').text(),
+										     placeNo5 : $('#pn5').text()
+									},
 									success : function(result){
-										console.log('result');
-										if(result == 1){
-											alert('내 코스로 저장이 완료 되었습니다.');
+										console.log(result);
+										if(result == 'S'){
+											alert('코스 저장에 성공했습니다.');
+											$('#myChoice'>tbody>tr).children().eq(1).text('');
+											$('#myChoice'>tbody>tr).children().eq(1).text('');
 										} else {
-											alert('내 코스 저장이 실패하였습니다.');
+											alert('코스 저장에 실패했습니다.');
 										}
+										
 									},
 									error : function(){
 										console.log('실패 ㅠㅠ');
@@ -640,37 +665,6 @@
 
 
 					}
-
-				
-				/*
-
-				$('#bestlist').on('click', '.best', function(e){
-
-					
-					//console.log($(this));
-					//console.log($(this).parent().parent().children().eq(0).text());
-					var name = $(this).parent().parent().children().eq(0).text();
-					var w = $(this).parent().parent().children().eq(2).text();
-					var g = $(this).parent().parent().children().eq(3).text();
-					console.log(name);
-					console.log(w);
-					console.log(g);
-					
-					test = '333';
-					value = '';
-					value += '<tr>'
-						 + '<td>'+name+'</td>'
-						 + '<td>'+w+'</td>'
-						 + '<td>'+g+'</td>'
-					     + '</tr>';
-					
-					console.log(value);
-							 
-					$('#list2body').html(value);
-							 
-				});
-						
-				*/
 
 				</script>
 				

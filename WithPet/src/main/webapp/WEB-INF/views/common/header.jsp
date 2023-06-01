@@ -28,7 +28,7 @@
         #header_4 {width: 21%; height:100%; float:left;}
         #header_5 {width: 12%; height:100%; float:left;}
         #header_6 {width: 12%; height:100%; float:left;}
-        #header_7 {width: 10%; height:100%; float:left;}
+        #header_7 {width: 15%; height:100%; float:left;}
 
         #header_1>img {height:100%; position:absolute; margin:auto; top:0px; bottom:0px; right:0px; left:0px;}
 
@@ -77,8 +77,8 @@
         #header_6>a:hover + div{display:block;}
         #header_6>a~div:hover{cursor:pointer; display:block;}
 
-        #header_7 {text-align:right; line-height:60px; font-size:17px; padding-right:2%;}
-        @media (max-width: 470px) { #header_7 { font-size: 13px; } }
+        #header_7 {text-align:center; line-height:60px; font-size:15px; padding-right:2%;}
+        @media (max-width: 940px) { #header_7 { font-size: 10px; } }
         #header_7>a:hover {cursor:pointer;}
         #header_2_detail_4>a{text-decoration:none; color:black;}
         
@@ -106,14 +106,24 @@
         <div id="header_4"  onclick="location.href='list.creator'"><a>Creator</a></div>
         <div id="header_5"  onclick="location.href='list.share'"><a>Share</a></div>
         <div id="header_6"  onclick="location.href='list.notice'"><a>Notice</a></div>
-        <div id="header_7"><a data-bs-toggle="modal" data-bs-target="#loginModal">Login</a>
+        <div id="header_7">
+        <c:choose>
+            <c:when test="${ empty loginMember }">
+        		<a data-bs-toggle="modal" data-bs-target="#loginModal">Login</a>
+        	</c:when>
+        	<c:otherwise>
+        		<a href="logout.me">Logout</a> / <a href="myPage.me">MyPage</a>
+        	</c:otherwise>        	
+        </c:choose>
+        
+        
         <p id="token-result"></p>
         </div>
                
     </div>
     
     <jsp:include page="../member/modal/memberModal.jsp" />
-
+	<jsp:include page="../member/modal/userFindmodal.jsp"/>
     <script>
         $('#header a').on({'mouseenter' : function(){
             var tag = $(this).text();

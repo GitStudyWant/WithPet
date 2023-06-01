@@ -209,5 +209,20 @@ public class MemberServiceImpl implements MemberService {
 	public int sendMail(CertVO certVo) {
 		return memberDao.sendMail(sqlSession, certVo);
 	}
+	
+	@Override
+	public int validata(CertVO certVo) {
+		return memberDao.validata(sqlSession, certVo);
+	}
+	
+	@Override
+	public Member idFind(String email) {
+		return memberDao.idFind(sqlSession, email);
+	}
+	
+	@Override
+	public int pwdMail(CertVO certVo) {
+		return memberDao.sendMail(sqlSession, certVo);
+	}
 
 }
