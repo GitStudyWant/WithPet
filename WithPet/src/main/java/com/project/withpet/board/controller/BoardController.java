@@ -1,26 +1,14 @@
 package com.project.withpet.board.controller;
 
-import java.io.File;
-
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
-import com.google.gson.Gson;
+import com.project.withpet.board.common.model.vo.PageInfo;
+import com.project.withpet.board.common.template.Pagination;
 import com.project.withpet.board.model.service.BoardService;
-import com.project.withpet.board.model.vo.Board;
 
 @Controller
 public class BoardController {
@@ -29,22 +17,28 @@ public class BoardController {
 	private BoardService boardService;
 	
 	
+	@RequestMapping("list.free")
+	public String selectFrList(@RequestParam(value="cPage", defaultValue = "1") int currentPage,
+								Model model) {
+		
+		PageInfo pi = Pagination.getPageInfo(boardService.selectFrListCount(), currentPage, 5, 10);
+		model.addAttribute("pi", pi);
+		model.addAttribute("list", boardService.selectFrList(pi));
+		return "board/FreeBoard";
+	}
 	
 	@RequestMapping("list.review")
 	public String selectReList() {
-		
-		
-
 		return "board/ReviewBoard";
 	}
 	
-	@RequestMapping("list.free")
-	public String selectFrList() {
-		
-		
-		
-		return "board/FreeBoard";
+	
+	@RequestMapping("enrollForm.fr")
+	public String enrollForm() {
+		return "board/FreeBoardEnroll";
 	}
+	
+	
 	
 	@RequestMapping("list.qna")
 	public String selectQnList() {
