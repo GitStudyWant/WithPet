@@ -10,7 +10,7 @@ import com.project.withpet.member.model.vo.Schedule;
 
 public interface MemberService {
 	
-	// È¸¿ø
+	// ë©¤ë²„
 	public int insertMember(Member member);
 	
 	public int idDouble(String checkId);
@@ -23,7 +23,7 @@ public interface MemberService {
 
 	public int updateMember(Member member);
 	
-	// ¸Ş¸ğ
+	// ë©”ëª¨
 	public ArrayList<Memo> selectMemoGet(String memId);
 	
 	public int updateMemoCheck(int memoNo);
@@ -38,7 +38,7 @@ public interface MemberService {
 	
 	public int insertMemo(Memo memo);
 	
-	// ½ºÄÉÁì
+	// ìŠ¤ì¼€ì¥´
 	public ArrayList<Schedule> selectSchedule(String memId);
 	
 	public ArrayList<Schedule> selectScheduleDetails(Date day);
@@ -49,15 +49,15 @@ public interface MemberService {
 	
 	public int deleteSchedule(int scheduleNo);
 	
-	// Æ÷ÀÎÆ®
+	// í¬ì¸íŠ¸
 	public ArrayList<Point> selectPoint(String memId);
 	
 	public ArrayList<Point> selectPointPlus(String memId);
 	
 	public ArrayList<Point> selectPointMinus(String memId);
 	
-	// ÄÚ½º
-	// ¿¹¾à
-	// °áÁ¦
+	// ì½”ìŠ¤
+	// ì˜ˆì•½
+	// ê²°ì œ
 	
 }

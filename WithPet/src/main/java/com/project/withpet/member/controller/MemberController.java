@@ -38,7 +38,7 @@ public class MemberController {
 	@RequestMapping("insert.me")
 	public ModelAndView insertUser(Member member, ModelAndView mv) throws ServletException, IOException{
 		
-		System.out.println("insertUser Ω««‡");
+		System.out.println("insertUser ÏßÑÏûÖ");
 		
 		String encPwd = bcryptPasswordEncoder.encode(member.getMemPwd());
 
@@ -47,7 +47,7 @@ public class MemberController {
 		if(memberService.insertMember(member) > 0) {
 			mv.setViewName("common/main");
 		} else { 
-			mv.addObject("errorMsg", "»∏ø¯∞°¿‘ Ω«∆–").setViewName("common/errorPage");
+			mv.addObject("errorMsg", "ÏóêÎü¨ Î∞úÏÉù").setViewName("common/errorPage");
 		}
 		
 		return mv;
@@ -57,7 +57,7 @@ public class MemberController {
 	@RequestMapping(value="idDouble.me", produces="application/json; charset=UTF-8")
 	public void idDouble(String checkId, HttpServletResponse response) throws ServletException, IOException {
 		
-		System.out.println("idDouble Ω««‡");
+		System.out.println("idDouble ÏßÑÏûÖ");
 		
 		response.setContentType("text/html; charset=UTF-8");
 		response.getWriter().print(memberService.idDouble(checkId));
@@ -67,7 +67,7 @@ public class MemberController {
 	@RequestMapping("kakaoGetCodeUrl")
 	public void kakaoGetCodeUrl(HttpServletResponse response) throws ServletException, IOException {
 		
-		System.out.println("kakaoGetCodeUrl Ω««‡");
+		System.out.println("kakaoGetCodeUrl ÏßÑÏûÖ");
 		
 		String getCodeUrl = "https://kauth.kakao.com/oauth/authorize"
 				        + "?client_id=" + "261f64346cb2da405692b542c232a7d3&"
@@ -86,7 +86,7 @@ public class MemberController {
 	@RequestMapping("kakaoGetTokenUser")
 	public void kakaoGetTokenUser(String code, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ParseException {
 		
-		System.out.println("kakaoGetTokenUser Ω««‡");
+		System.out.println("kakaoGetTokenUser ÏßÑÏûÖ");
 		
 		String accessToken = getAccessToken(code);
 		HashMap<String, Object> userInfo = getUserInfo(accessToken);
@@ -104,7 +104,7 @@ public class MemberController {
 	
 	public String getAccessToken(String code) throws ServletException, IOException, ParseException {
 		
-		System.out.println("getAccessToken Ω««‡");
+		System.out.println("getAccessToken ÏßÑÏûÖ");
 		
 		String GetTokenUrl = "https://kauth.kakao.com/oauth/token?grant_type=authorization_code"
 				   + "&client_id=" + "261f64346cb2da405692b542c232a7d3&"
@@ -141,7 +141,7 @@ public class MemberController {
 	
 	public HashMap<String, Object> getUserInfo(String accessToken) throws ServletException, IOException, ParseException {
 	
-		System.out.println("getUserInfo Ω««‡");
+		System.out.println("getUserInfo ÏßÑÏûÖ");
 		
 		HashMap<String, Object> userInfo = new HashMap<String, Object>();
 		String getUserURL = "https://kapi.kakao.com/v2/user/me";
@@ -176,7 +176,7 @@ public class MemberController {
 	@RequestMapping("kakaoLogout")
 	public void kakaoLogout(String accessToken, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ParseException {
 		
-		System.out.println("kakaoLogout Ω««‡");
+		System.out.println("kakaoLogout ÏßÑÏûÖ");
 		
 		String logoutUrl = "https://kapi.kakao.com/v1/user/logout";
 		
