@@ -8,7 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.withpet.board.model.vo.Board;
+<<<<<<< HEAD
 import com.project.withpet.board.model.vo.Comments;
+=======
+>>>>>>> fd92c0528caf8c894fd939cd4e615875615c0e23
 import com.project.withpet.member.model.dao.MemberDao;
 import com.project.withpet.member.model.vo.CertVO;
 import com.project.withpet.member.model.vo.Member;
@@ -31,18 +34,33 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
-	public int idDouble(String checkId) {
-		return memberDao.idDouble(sqlSession, checkId);
+	public int idCheck(String checkId) {
+		return memberDao.idCheck(sqlSession, checkId);
+	}
+	
+	@Override
+	public int nickCheck(String checkNick) {
+		return memberDao.nickCheck(sqlSession, checkNick);
+	}
+	
+	@Override
+	public int phoneCheck(String checkPhone) {
+		return memberDao.phoneCheck(sqlSession, checkPhone);
+	}
+	
+	@Override
+	public int emailCheck(String checkEmail) {
+		return memberDao.emailCheck(sqlSession, checkEmail);
 	}
 
 	@Override
 	public Member selectMember(Member member) {
-		return null;
+		return memberDao.selectMember(sqlSession, member);
 	}
 
 	@Override
 	public int selectMemoCount(String memId) {
-		return 0;
+		return memberDao.selectMemoCount(sqlSession, memId);
 	}
 
 	@Override
@@ -205,7 +223,11 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
+<<<<<<< HEAD
 	public ArrayList<Comments> writingReply(String memId) {
+=======
+	public ArrayList writingReply(String memId) {
+>>>>>>> fd92c0528caf8c894fd939cd4e615875615c0e23
 		return null;
 	}
 

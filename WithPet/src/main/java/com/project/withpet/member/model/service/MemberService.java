@@ -5,7 +5,10 @@ import java.sql.Date;
 import java.util.ArrayList;
 
 import com.project.withpet.board.model.vo.Board;
+<<<<<<< HEAD
 import com.project.withpet.board.model.vo.Comments;
+=======
+>>>>>>> fd92c0528caf8c894fd939cd4e615875615c0e23
 import com.project.withpet.member.model.dao.MemberDao;
 import com.project.withpet.member.model.vo.CertVO;
 import com.project.withpet.member.model.vo.Member;
@@ -18,7 +21,13 @@ public interface MemberService {
 	// 硫ㅻ쾭
 	public int insertMember(Member member);
 	
-	public int idDouble(String checkId);
+	public int idCheck(String checkId);
+	
+	public int nickCheck(String checkNick);
+	
+	public int phoneCheck(String checkPhone);
+	
+	public int emailCheck(String checkEmail);
 	
 	public Member selectMember(Member member);
 	
@@ -208,7 +217,11 @@ public interface MemberService {
 	
 	public ArrayList<Board> writingBoard(String memId);
 	
+<<<<<<< HEAD
 	public ArrayList<Comments> writingReply(String memId);
+=======
+	public ArrayList writingReply(String memId);
+>>>>>>> fd92c0528caf8c894fd939cd4e615875615c0e23
 	
 	public ArrayList<Board> likesBoard(String memId);
 	

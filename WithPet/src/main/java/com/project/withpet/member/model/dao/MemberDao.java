@@ -14,11 +14,29 @@ public class MemberDao {
 		return sqlSession.insert("memberMapper.insertMember", member);
 	}
 	
-	public int idDouble(SqlSession sqlSession, String checkId) {
-		return sqlSession.selectOne("memberMapper.idDouble", checkId);
+	public int idCheck(SqlSession sqlSession, String checkId) {
+		return sqlSession.selectOne("memberMapper.idCheck", checkId);
 	}
 	
+	public int nickCheck(SqlSession sqlSession, String checkNick) {
+		return sqlSession.selectOne("memberMapper.nickCheck", checkNick);
+	}
 	
+	public int phoneCheck(SqlSession sqlSession, String checkPhone) {
+		return sqlSession.selectOne("memberMapper.phoneCheck", checkPhone);
+	}
+	
+	public int emailCheck(SqlSession sqlSession, String checkEmail) {
+		return sqlSession.selectOne("memberMapper.emailCheck", checkEmail);
+	}
+	
+	public Member selectMember(SqlSession sqlSession, Member member) {
+		return sqlSession.selectOne("memberMapper.selectMember", member);
+	}
+	
+	public int selectMemoCount(SqlSession sqlSession, String memId) {
+		return sqlSession.selectOne("memberMapper.selectMemoCount", memId);
+	}
 	
 	
 	
@@ -208,4 +226,5 @@ public class MemberDao {
 	
 	
 
+	
 }
