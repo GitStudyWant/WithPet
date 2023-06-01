@@ -3,6 +3,8 @@ package com.project.withpet.member.model.service;
 import java.sql.Date;
 import java.util.ArrayList;
 
+import com.project.withpet.board.model.vo.Board;
+import com.project.withpet.board.model.vo.Reply;
 import com.project.withpet.member.model.vo.Member;
 import com.project.withpet.member.model.vo.Memo;
 import com.project.withpet.member.model.vo.Point;
@@ -59,5 +61,158 @@ public interface MemberService {
 	// 코스
 	// 예약
 	// 결제
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// 박민성
+	
+	// 기능 1 작성글, 작성댓글, 스크랩한글 보기 (출석체크, 삭제한 게시글 보기)
+	
+	public ArrayList<Board> writingBoard(String memId);
+	
+	public ArrayList<Reply> writingReply(String memId);
+	
+	public ArrayList<Board> likesBoard(String memId);
+	
+	public int attendance(String memId);
+	
+	public ArrayList<Board> deletedBoard(String memId);
+	
+	
 	
 }

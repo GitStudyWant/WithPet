@@ -1,4 +1,4 @@
-package com.kh.spring.board.model.vo;
+package com.project.withpet.board.model.vo;
 
 import lombok.Data;
 
