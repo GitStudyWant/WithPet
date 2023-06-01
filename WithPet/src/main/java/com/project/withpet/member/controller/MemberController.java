@@ -130,6 +130,15 @@ public class MemberController {
 		
 	}
 	
+	@RequestMapping("myPage.me")
+	public ModelAndView myPageMember(String memId, ModelAndView mv, HttpSession session) throws ServletException, IOException{
+		
+		mv.setViewName("member/myPageMain");
+		
+		return mv;
+		
+	}
+	
 	@RequestMapping("kakaoGetCodeUrl")
 	public void kakaoGetCodeUrl(HttpServletResponse response) throws ServletException, IOException {
 		

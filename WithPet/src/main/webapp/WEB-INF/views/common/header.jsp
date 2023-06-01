@@ -112,7 +112,7 @@
         		<a data-bs-toggle="modal" data-bs-target="#loginModal">Login</a>
         	</c:when>
         	<c:otherwise>
-        		<a href="logout.me">Logout</a> / <a href="../member/myPageMain.jsp">MyPage</a>
+        		<a href="logout.me">Logout</a> / <a href="myPage.me">MyPage</a>
         	</c:otherwise>        	
         </c:choose>
         
