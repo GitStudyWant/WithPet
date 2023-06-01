@@ -49,14 +49,13 @@ public class TripController {
 			                   HttpSession session,
 			                   Model model) {
 		
-		System.out.println(p);
-		
+		System.out.println(upfile);
+		 
 		if(!upfile.getOriginalFilename().equals("")) {
 			System.out.println(saveFile(upfile, session));
 			p.setPlaceOriginName(upfile.getOriginalFilename());
 			p.setPlaceChangeName("resources/uploadFiles/place/" + saveFile(upfile, session));
 		}
-		
 		if(tripService.insertPlace(p)>0) {
 			return "s";
 		} else {
