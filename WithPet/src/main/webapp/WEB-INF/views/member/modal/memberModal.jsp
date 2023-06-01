@@ -17,7 +17,7 @@
 		Kakao.init('261f64346cb2da405692b542c232a7d3&');
 	</script>
 
-	<div class="modal fade" id="loginModal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+	<div class="modal fade" id="loginModal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" data-bs-backdrop="static" tabindex="-1">
  	   <div class="modal-dialog modal-dialog-centered">
 	      <div class="modal-content">
 	      
@@ -61,7 +61,7 @@
 	    </div>
 	  </div>
 	  
-	  <div class="modal fade" id="joinModal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+	  <div class="modal fade" id="joinModal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" data-bs-backdrop="static" tabindex="-1">
  	   <div class="modal-dialog modal-dialog-centered">
 	      <div class="modal-content">
 	      
