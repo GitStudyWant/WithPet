@@ -65,6 +65,65 @@
 				mem_email = #{checkEmail}
 	</select>
 	
+	<select id="selectMember" parameterType="member" resultType="Member">
+		SELECT
+				MEM_ID memId
+				,MEM_NICK memNick
+				,MEM_PWD memPwd
+				,MEM_PHONE memPhone
+				,MEM_EMAIL memEmail
+				,MEM_PHOTO memPhoto
+				,MEM_PATH memPath
+				,MEM_INTRO memIntro
+				,MEM_GRADE memGrade
+				,MEM_DATE memDate
+				,MEM_MEMO memMemo
+				,MEM_POINT memPoint
+				,MEM_REPORT memReport
+				,MEM_STATUS memStatus
+				,MEM_UPDATE memUpdate
+				,MEM_KAKAOID memKakaoId
+		FROM
+				MEMBER
+		WHERE
+				MEM_ID = #{memId}
+		AND
+				MEM_STATUS = 'Y'
+	</select>
+	
+	<select id="selectMemoCount" resultType="_int">
+		select
+				count(*)
+		from
+				memo
+		where
+				MEMO_RECEIVER = #{memId}
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	<insert id="sendMail" parameterType="cert">
 		INSERT
 		  INTO 

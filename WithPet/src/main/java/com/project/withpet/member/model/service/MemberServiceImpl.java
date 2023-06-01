@@ -51,12 +51,12 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public Member selectMember(Member member) {
-		return null;
+		return memberDao.selectMember(sqlSession, member);
 	}
 
 	@Override
 	public int selectMemoCount(String memId) {
-		return 0;
+		return memberDao.selectMemoCount(sqlSession, memId);
 	}
 
 	@Override

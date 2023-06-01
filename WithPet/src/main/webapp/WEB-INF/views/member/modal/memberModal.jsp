@@ -29,15 +29,15 @@
 	        <div class="modal-body">
 	        
 	          <p class="modal-title" style="font-size:15px; text-align:center; margin-top:15px; margin-bottom:30px">회원 로그인</p>
-	          <form>
+	          <form action="login.me" method="POST">
 	          	<table width="100%" style="text-align:center">
 		          	<tr>
 		          		<td width="80"><p style="font-size:10px; color:gray; margin-top:12px">ID</p></td>
-		          		<td width="100"><input type="text" style="width:100%; border:solid 1px lightgray"></td>
+		          		<td width="100"><input type="text" name="memId" style="width:100%; border:solid 1px lightgray"></td>
 		          	<tr>
 		          	<tr>
 			          	<td><p style="font-size:10px; color:gray; margin-top:12px">Password</p></td>
-			          	<td><input type="text" style="width:100%; border:solid 1px lightgray"></td>
+			          	<td><input type="text" name="memPwd" style="width:100%; border:solid 1px lightgray"></td>
 		          	</tr>
 	          	</table>
 	          	<button type="submit" class="btn btn-primary" style="width:80%; margin:35px 50px">로그인</button>
@@ -81,7 +81,7 @@
 		          	<tr>
 		          	<tr>
 		          		<td height="17"></td>
-		          		<td><p id="idCheck" style="font-size:3px; color:gray; margin-bottom:0px;">5글자 이상을 입력해주세요</p></td>
+		          		<td><p id="idCheck" style="font-size:3px; color:gray; margin-bottom:0px;">5글자 이상 입력해주세요</p></td>
 		          	<tr>
 		          	<tr>
 			          	<td><p style="font-size:10px; color:gray;"><img id="memNickImg" src="https://i.postimg.cc/0j8WNTkS/graycheck.png" width="14px" height="14px">
@@ -90,7 +90,7 @@
 		          	</tr>
 		          	<tr>
 		          		<td height="17"></td>
-		          		<td><p id="nickCheck" style="font-size:3px; color:gray; margin-bottom:0px;">3글자 이상을 입력해주세요</p></td>
+		          		<td><p id="nickCheck" style="font-size:3px; color:gray; margin-bottom:0px;">3글자 이상 입력해주세요</p></td>
 		          	<tr>
 		          	<tr>
 			          	<td><p style="font-size:10px; color:gray;"><img class="memPwdImg" src="https://i.postimg.cc/0j8WNTkS/graycheck.png" width="14px" height="14px">
@@ -99,7 +99,7 @@
 		          	</tr>
 		          	<tr>
 		          		<td height="17"></td>
-		          		<td><p class="pwdCheck" style="font-size:3px; color:red; margin-bottom:0px; display:none;">비밀번호가 일치하지 않습니다</p></td>
+		          		<td><p class="pwdCheck" style="font-size:3px; color:gray; margin-bottom:0px;">8글자 이상 입력해주세요</p></td>
 		          	<tr>
 		          	<tr>
 			          	<td><p style="font-size:10px; color:gray;"><img class="memPwdImg" src="https://i.postimg.cc/0j8WNTkS/graycheck.png" width="14px" height="14px">
@@ -108,7 +108,7 @@
 		          	</tr>
 		          	<tr>
 		          		<td height="17"></td>
-		          		<td><p class="pwdCheck" style="font-size:3px; color:red; margin-bottom:0px; display:none;">비밀번호가 일치하지 않습니다</p></td>
+		          		<td><p class="pwdCheck" style="font-size:3px; color:gray; margin-bottom:0px;">8글자 이상 입력해주세요</p></td>
 		          	<tr>
 		          	<tr>
 			          	<td><p style="font-size:10px; color:gray;"><img id="memPhoneImg" src="https://i.postimg.cc/0j8WNTkS/graycheck.png" width="14px" height="14px">
@@ -332,8 +332,9 @@
     	
     	$('#memPwd').on('keyup', function(){
     		if($(this).val().length >= 8 ){
-	    		if(($('#memPwd').val()== "") || ($('#memPwd').val()!=$('#memPwd2').val())){
+	    		if($('#memPwd').val()!=$('#memPwd2').val()){
 	    			$('.pwdCheck').show();
+	    			$('.pwdCheck').css('color', 'red').text('비밀번호가 일치하지 않습니다');
 	    			$('.memPwdImg').attr('src', 'https://i.postimg.cc/0j8WNTkS/graycheck.png');
 	    			buttonEnable3 = 0;
 	    		} else{    			
@@ -353,7 +354,7 @@
     	
     	$('#memPwd2').on('keyup', function(){
     		if($(this).val().length >= 8 ){
-	    		if(($('#memPwd').val()== "") || ($('#memPwd').val()!=$('#memPwd2').val())){
+	    		if($('#memPwd').val()!=$('#memPwd2').val()){
 	    			$('.pwdCheck').show();
 	    			$('.memPwdImg').attr('src', 'https://i.postimg.cc/0j8WNTkS/graycheck.png');
 	    			buttonEnable3 = 0;

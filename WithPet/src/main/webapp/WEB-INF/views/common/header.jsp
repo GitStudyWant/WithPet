@@ -106,7 +106,7 @@
         <div id="header_4"  onclick="location.href='list.creator'"><a>Creator</a></div>
         <div id="header_5"  onclick="location.href='list.share'"><a>Share</a></div>
         <div id="header_6"  onclick="location.href='list.notice'"><a>Notice</a></div>
-        <div id="header_7"><a data-bs-toggle="modal" data-bs-target="#joinModal">Login</a>
+        <div id="header_7"><a data-bs-toggle="modal" data-bs-target="#loginModal">Login</a>
         <p id="token-result"></p>
         </div>
                
