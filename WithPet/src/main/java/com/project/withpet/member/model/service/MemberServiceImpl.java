@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.withpet.board.model.vo.Board;
-import com.project.withpet.board.model.vo.Reply;
 import com.project.withpet.member.model.dao.MemberDao;
 import com.project.withpet.member.model.vo.CertVO;
 import com.project.withpet.member.model.vo.Member;
@@ -31,8 +30,23 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
-	public int idDouble(String checkId) {
-		return memberDao.idDouble(sqlSession, checkId);
+	public int idCheck(String checkId) {
+		return memberDao.idCheck(sqlSession, checkId);
+	}
+	
+	@Override
+	public int nickCheck(String checkNick) {
+		return memberDao.nickCheck(sqlSession, checkNick);
+	}
+	
+	@Override
+	public int phoneCheck(String checkPhone) {
+		return memberDao.phoneCheck(sqlSession, checkPhone);
+	}
+	
+	@Override
+	public int emailCheck(String checkEmail) {
+		return memberDao.emailCheck(sqlSession, checkEmail);
 	}
 
 	@Override
@@ -205,7 +219,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public ArrayList<Reply> writingReply(String memId) {
+	public ArrayList writingReply(String memId) {
 		return null;
 	}
 

@@ -29,8 +29,7 @@
 				)
 	</insert>
 	
-	
-	<select id="idDouble" resultType="_int">
+	<select id="idCheck" resultType="_int">
 		select
 				count(*)
 		from
@@ -39,43 +38,32 @@
 				mem_id = #{checkId}
 	</select>
 	
+	<select id="nickCheck" resultType="_int">
+		select
+				count(*)
+		from
+				member
+		where
+				mem_nick = #{checkNick}
+	</select>
+
+	<select id="phoneCheck" resultType="_int">
+		select
+				count(*)
+		from
+				member
+		where
+				mem_phone = #{checkPhone}
+	</select>
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	<select id="emailCheck" resultType="_int">
+		select
+				count(*)
+		from
+				member
+		where
+				mem_email = #{checkEmail}
+	</select>
 	
 	<insert id="sendMail" parameterType="cert">
 		INSERT
@@ -95,5 +83,5 @@
 			  
 	</insert>
 
-
+	
 </mapper>

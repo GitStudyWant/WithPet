@@ -4,7 +4,6 @@ import java.sql.Date;
 import java.util.ArrayList;
 
 import com.project.withpet.board.model.vo.Board;
-import com.project.withpet.board.model.vo.Reply;
 import com.project.withpet.member.model.dao.MemberDao;
 import com.project.withpet.member.model.vo.CertVO;
 import com.project.withpet.member.model.vo.Member;
@@ -17,7 +16,13 @@ public interface MemberService {
 	// 멤버
 	public int insertMember(Member member);
 	
-	public int idDouble(String checkId);
+	public int idCheck(String checkId);
+	
+	public int nickCheck(String checkNick);
+	
+	public int phoneCheck(String checkPhone);
+	
+	public int emailCheck(String checkEmail);
 	
 	public Member selectMember(Member member);
 	
@@ -207,7 +212,7 @@ public interface MemberService {
 	
 	public ArrayList<Board> writingBoard(String memId);
 	
-	public ArrayList<Reply> writingReply(String memId);
+	public ArrayList writingReply(String memId);
 	
 	public ArrayList<Board> likesBoard(String memId);
 	
