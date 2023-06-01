@@ -217,8 +217,6 @@ public interface MemberService {
 	public ArrayList<Board> writingBoard(String memId);
 
 	public ArrayList<Comments> writingReply(String memId);
-	
-	public ArrayList writingReply(String memId);
 
 	
 	public ArrayList<Board> likesBoard(String memId);

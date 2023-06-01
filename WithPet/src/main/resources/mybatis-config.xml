@@ -15,7 +15,6 @@
 		<typeAlias type="com.project.withpet.member.model.vo.Schedule" alias="schedule" />
 		<typeAlias type="com.project.withpet.trip.model.vo.Place" alias="place" />
 		<typeAlias type="com.project.withpet.board.model.vo.Board" alias="board" />
-
 		<typeAlias type="com.project.withpet.member.model.vo.CertVO" alias="cert" />
 
 	</typeAliases>
