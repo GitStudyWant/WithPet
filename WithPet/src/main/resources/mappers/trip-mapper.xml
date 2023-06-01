@@ -136,9 +136,26 @@
 		UPDATE 
 		      PLACE
 		  SET
-		      COUNT = COUNT + 1
+		      PLACE_COUNT = PLACE_COUNT + 1
 		WHERE 
 		     PLACE_NO = #{placeNo}
 	</update>
+	
+	<select id="detailPlace" resultMap="placeResultSet" >
+		SELECT
+		      PLACE_NO
+		     ,PLACE_TYPE
+		     ,PLACE_NAME
+		     ,PLACE_LOCATION
+		     ,PLACE_PHONE
+		     ,PLACE_INFO
+		     ,PLACE_ORIGIN_NAME
+		     ,PLACE_CHANGE_NAME
+		     ,PLACE_COUNT
+		 FROM
+		      PLACE
+	   WHERE
+	        PLACE_NO = #{placeNo}
+	</select>
 
 </mapper>

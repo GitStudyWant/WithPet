@@ -21,8 +21,9 @@
 		}
 		
 		#title_wrap{
-			heigth : 150px;
+			height : 140px;
 			width: 100%;
+			text-align: center;
 		}
 
 		#list_wrap{
@@ -381,22 +382,24 @@
 
 	
 	<!--<body onload="initTmap()"> 맵 생성 실행 -->
-		<h5>여행 코스 짜기</h5>
 		<div id="Ttotal">
-			<hr>
-			<select id="location">
-				<option value="서울">서울</option>
-				<option value="경기">경기도</option>
-				<option value="대구">대구</option>
-				<option value="부산">부산</option>
-				<option value="전주">전주</option>
-			</select>
-			<select id="type">
-				<option value="A">식당/카페</option>
-				<option value="B">숙박</option>
-				<option value="C">야외시설</option>
-			</select>
+			<div id="title_wrap">
+				<p><h4 align="center">여행 코스 짜기</h4></p>
+				<hr>
+				<select id="location">
+					<option value="서울">서울</option>
+					<option value="경기">경기도</option>
+					<option value="대구">대구</option>
+					<option value="부산">부산</option>
+					<option value="전주">전주</option>
+				</select>
+				<select id="type">
+					<option value="A">식당/카페</option>
+					<option value="B">숙박</option>
+					<option value="C">야외시설</option>
+				</select>
 			<button id="selecbtn" onclick="selectList();">조회</button>
+			</div>
 				<div id="list_wrap">
 					<div id="list1">
 							<button onclick="addMyPlace1(1);">출발지 추가</button>
@@ -548,123 +551,146 @@
 						// 2개 이하면 => myCourse테이블에 인서트 해주기 순서(1~5)
 						console.log('${loginMember.memId}');
 						$.ajax({
-						url :'checkMyCourse',
-						data : { memId : '${loginMember.memId}'},
-						success : function(result){
-							console.log(result);
-							console.log($('#pn1').val());
-							console.log($('#pn2').val());
-							console.log($('#pn3').val());
-							console.log($('#pn4').val());
-							console.log($('#pn5').val());
-							
-							if(result == 9){
-								if(confirm('이미 3개의 코스를 저장하셨습니다. 내 코스 페이지로 이동하시겠습니까?')){
-									href="#"
-								} 
-							} else {
+							url :'checkMyCourse',
+							data : { memId : '${loginMember.memId}'},
+							success : function(result){
+								console.log(result);
+								console.log($('#pn1').val());
+								console.log($('#pn2').val());
+								console.log($('#pn3').val());
+								console.log($('#pn4').val());
+								console.log($('#pn5').val());
 								
-								var courseSe;
-								if(result == 0 || result == 8) courseSe = 1;
-								else if(result == 1 || result == 6) courseSe = 3;
-								else courseSe = 5;
-								
-								console.log('courseSe : ' + courseSe);
+								if(result == 9){
+									if(confirm('이미 3개의 코스를 저장하셨습니다. 내 코스 페이지로 이동하시겠습니까?')){
+										href="#"
+									} 
+								} else {
+									
+									var courseSe;
+									if(result == 0 || result == 8) courseSe = 1;
+									else if(result == 1 || result == 6) courseSe = 3;
+									else courseSe = 5;
+									
+									console.log('courseSe : ' + courseSe);
 
-								$.ajax({
-									url : 'saveMyCourse',
-									data : { courseSe : courseSe,
-										     memId : '${ loginMember.memId }',
-										     placeNo1 : $('#pn1').text(),
-										     placeNo2 : $('#pn2').text(),
-										     placeNo3 : $('#pn3').text(),
-										     placeNo4 : $('#pn4').text(),
-										     placeNo5 : $('#pn5').text()
-									},
+									$.ajax({
+										url : 'saveMyCourse',
+										data : { courseSe : courseSe,
+												memId : '${ loginMember.memId }',
+												placeNo1 : $('#pn1').text(),
+												placeNo2 : $('#pn2').text(),
+												placeNo3 : $('#pn3').text(),
+												placeNo4 : $('#pn4').text(),
+												placeNo5 : $('#pn5').text()
+										},
+										success : function(result){
+											console.log(result);
+											if(result == 'S'){
+												alert('코스 저장에 성공했습니다.');
+												$('#myChoice'>tbody>tr).children().eq(1).text('');
+												$('#myChoice'>tbody>tr).children().eq(1).text('');
+											} else {
+												alert('코스 저장에 실패했습니다.');
+											}
+											
+										},
+										error : function(){
+											console.log('실패 ㅠㅠ');
+										}
+									})
+								}
+							},
+							error : function(){
+								console.log('실패');
+							}
+							})
+						}
+
+						function selectList(){
+
+							//console.log('되나요?')
+
+							$.ajax({
+								url : "placeAllList",
+								data : { placeLocation : $('#location').val(),
+										placeType : $('#type').val()},
+								success : function(result){
+									console.log('전체는 성공!');
+									console.log(result);
+									let placeList ='';
+									for(let i in result){
+										placeList+= '<tr>'
+												+ '<td>'+'<input type="hidden" value="'+result[i].placeLng+'">'+'</td>'
+												+ '<td>'+'<input type="hidden" value="'+result[i].placeLat+'">'+'</td>'
+												+ '<td>' + '<input type="radio" name="pick">' + '</td>'
+												+ '<td>'+ result[i].placeNo+ '</td>'
+												+ '<td>'+ result[i].placeName + '<td>'
+												+ '</tr>'
+									}
+									$('#allList>tbody').html(placeList);
+									$('#allList>tbody>tr').click(function(){
+										$('#placeDetailModal').modal("show");
+										var placeNo = $(this).children().eq(3).text();
+										console.log(placeNo);
+										placedetail(placeNo);
+									})
+								},
+								error : function(){
+									console.log('전체 리스트 조회 실패');
+								}
+							})
+
+
+							$.ajax({
+								url : "placeBestList",
+								data : {placeLocation : $('#location').val(),
+										placeType : $('#type').val()},
+								success : function(result){
+									let bestList = '';
+									console.log('베스트도 성공');
+									for(let i in result){	
+										bestList += '<tr>'
+												+ '<td>'+'<input type="hidden" value="'+result[i].placeLng+'">'+'</td>'
+												+ '<td>'+'<input type="hidden" value="'+result[i].placeLat+'">'+'</td>'
+												+ '<td>' + '<input type="radio" name="pick">' + '</td>'
+												+ '<td>'+ result[i].placeNo+ '</td>'
+												+ '<td>'+ result[i].placeName + '<td>'
+												+ '</tr>'
+									}
+									$('#bestlist>tbody').html(bestList);
+								},
+								error : function(){
+									console.log('베스트 리스트 조회 실패');
+								}
+							})
+						}
+						
+						function placedetail(placeNo){
+							
+							console.log(placeNo);
+							
+						 	$.ajax({
+									url : 'detail.place',
+									data : { placeNo : placeNo },
 									success : function(result){
 										console.log(result);
-										if(result == 'S'){
-											alert('코스 저장에 성공했습니다.');
-											$('#myChoice'>tbody>tr).children().eq(1).text('');
-											$('#myChoice'>tbody>tr).children().eq(1).text('');
-										} else {
-											alert('코스 저장에 실패했습니다.');
+										if(result.changeName != null){
+											//value = '<img src="file:///D:/finalProject-workspace/WithPet/WithPet/src/main/webapp/' + result.changeName + '">';
+											//$('#photo').html(value);
 										}
-										
+										$('#placeName').text(result.placeName);
+										$('#placeCount').text(result.placeCount);
+										$('#placeLocation').text(result.placeLocation);
+										$('#placePhone').text(result.placePhone);
+										$('#placeInfo').html(result.placeInfo);
 									},
 									error : function(){
-										console.log('실패 ㅠㅠ');
+										console.log('상세 페이지 내용 불러오기 실패 ')
 									}
 								})
-							}
-						},
-						error : function(){
-							console.log('실패');
-						}
-					});
-				}
-
-					function selectList(){
-
-						//console.log('되나요?')
-
-						$.ajax({
-							url : "placeAllList",
-							data : { placeLocation : $('#location').val(),
-									placeType : $('#type').val()},
-							success : function(result){
-								console.log('전체는 성공!');
-								console.log(result);
-								let placeList ='';
-								for(let i in result){
-									placeList+= '<tr>'
-											 + '<td>'+'<input type="hidden" value="'+result[i].placeLng+'">'+'</td>'
-											 + '<td>'+'<input type="hidden" value="'+result[i].placeLat+'">'+'</td>'
-											 + '<td>' + '<input type="radio" name="pick">' + '</td>'
-											 + '<td>'+ result[i].placeNo+ '</td>'
-											 + '<td>'+ result[i].placeName + '<td>'
-										     + '</tr>'
-								}
-								$('#allList>tbody').html(placeList);
-							},
-							error : function(){
-								console.log('전체 리스트 조회 실패');
-							}
-						})
-
-
-						$.ajax({
-							url : "placeBestList",
-							data : {placeLocation : $('#location').val(),
-									placeType : $('#type').val()},
-							success : function(result){
-								let bestList = '';
-								console.log('베스트도 성공');
-								for(let i in result){	
-									bestList += '<tr>'
-											 + '<td>'+'<input type="hidden" value="'+result[i].placeLng+'">'+'</td>'
-											 + '<td>'+'<input type="hidden" value="'+result[i].placeLat+'">'+'</td>'
-											 + '<td>' + '<input type="radio" name="pick">' + '</td>'
-											 + '<td>'+ result[i].placeNo+ '</td>'
-											 + '<td>'+ result[i].placeName + '<td>'
-										     + '</tr>'
-								}
-								$('#bestlist>tbody').html(bestList);
-							},
-							error : function(){
-								console.log('베스트 리스트 조회 실패');
-							}
-						})
-
-					
-						$('#addPlace').click(function(e){
-							e.preventDefault();
-							$('#placeModal').modal("show");
-						});
 	
-
-
-					}
+						}
 
 				</script>
 				
@@ -682,7 +708,67 @@
 					</div>
 				</div>
 		</div>
+	
+	
+	<!-- 모달 창 -->
+	<div class="modal fade" id="placeDetailModal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+   <div class="modal-dialog modal-dialog-centered">
+     <div class="modal-content">
+     
+       <div class="modal-header" style="height:15px; background-color:lightgray">
+         <h5 class="modal-title"></h5>
+         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+       </div>
+       
+       <div class="modal-body">
+            <p class="modal-title" style="font-size:15px; text-align:center; margin-top:15px; margin-bottom:5px"><b>상세 정보</b></p>
+            <br>
+             <table width="100%" style="text-align:center">
+             	 <tr>
+                    <td style="font-size:13px; color:gray; width: 30px; height: 10px;" colspan="2" id="photo">
+                    	
+                    </td>
+                 </tr>
+                 <tr>
+                    <td style="font-size:13px; color:gray; width: 30px; height: 10px;">분류 : </td>
+                    <td id="placeType"></td>
+                 </tr>
+                 <tr style="height: 10px;"></tr>
+                 <tr style="margin-top:5px">
+                     <td width="80" height="25" style="font-size:13px; color:gray; width: 30px">장소명 : </td>
+                     <td width="100" id="placeName"></td>
+                </tr>
+                <tr style="height: 10px;"></tr>
+                <tr style="margin-top:5px">
+                     <td width="80" height="25" style="font-size:13px; color:gray; width: 30px">저장된 수 : </td>
+                     <td width="100" id="placeCount"></td>
+                </tr>
+                 <tr style="height: 10px;"></tr>
+                 <tr>
+                     <td style="font-size:13px; color:gray; width: 30px">주소 : </td>
+                     <td id="placeLocation"></td>
+                 </tr>
+                 <tr style="height: 10px;"></tr>
+                 <tr>
+                    <td style="font-size:13px; color:gray; width: 30px">연락처 : </td>
+                    <td id="placePhone"></td>
+                </tr>
+                <tr style="height: 10px;"></tr>
+                <tr>
+                     <td style="font-size:13px; color:gray; width: 30px">상세 정보 : </td>
+                     <td>
+                        <textarea id="placeInfo" style="resize: none; border:solid 1px lightgray; width: 90%; height: 200px;" readonly></textarea>
+                    </td>
+                </tr>
+            
+             </table>
+       </div>
+     </div>
+   </div>
+ </div>
 
+	
 	<jsp:include page="insertPlace.jsp" />
+	<!-- <jsp:include page="placeDetail.jsp" /> -->
 	</body>
 </html>

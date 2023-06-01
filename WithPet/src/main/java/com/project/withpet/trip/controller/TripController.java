@@ -95,16 +95,11 @@ public class TripController {
 	@ResponseBody
 	@RequestMapping("saveMyCourse")
 	public String saveMyCourse(MyPlace myCourse, HttpSession session) {
-		   			
-		
-		//count 수 먼저 증가 
-		
+	
 			int result1 = 0;
 			int result2 = 0;
 			int result5 = 0;
-		
-		
-		
+	
 			R_MyPlace rMyPlace = new R_MyPlace();
 			
 			rMyPlace.setCourseSe(myCourse.getCourseSe());
@@ -167,10 +162,8 @@ public class TripController {
 	
 	@ResponseBody
 	@RequestMapping(value="detail.place",produces="application/json; charset=UTF-8")
-	public String detailPlace() {
-		
-		
-		
+	public String detailPlace(int placeNo) {
+		return new Gson().toJson(tripService.detailPlace(placeNo));
 	}
 	
 	

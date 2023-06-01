@@ -20,6 +20,7 @@ public interface TripService {
 	
 	int insertPlace(Place p);
 	
+	Place detailPlace(int placeNo);
 	
 	
 

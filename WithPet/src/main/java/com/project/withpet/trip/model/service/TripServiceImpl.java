@@ -50,5 +50,10 @@ public class TripServiceImpl implements TripService {
 		return tripdao.increaseCount(sqlSession, placeNo);
 	}
 
+	@Override
+	public Place detailPlace(int placeNo) {
+		return tripdao.detailPlace(sqlSession, placeNo);
+	}
+
 
 }

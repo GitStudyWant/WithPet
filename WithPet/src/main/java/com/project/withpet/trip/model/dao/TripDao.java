@@ -35,4 +35,8 @@ public class TripDao {
 	public int increaseCount(SqlSessionTemplate sqlSession, String placeNo) {
 		return sqlSession.update("tripMapper.increaseCount", placeNo);
 	}
+
+	public Place detailPlace(SqlSessionTemplate sqlSession, int placeNo) {
+		return sqlSession.selectOne("tripMapper.detailPlace",placeNo);
+	}
 }
