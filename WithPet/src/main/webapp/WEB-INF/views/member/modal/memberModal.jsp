@@ -141,13 +141,7 @@
 	      </div>
 	    </div>
 	  </div>
-	  <script>
 	  
-	  
-	  
-	  
-	  
-	  </script>
 	  <script>    
 	    function kakaoLogin(){
 	    	$.ajax({

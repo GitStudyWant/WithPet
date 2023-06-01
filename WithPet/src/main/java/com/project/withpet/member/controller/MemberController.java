@@ -106,13 +106,25 @@ public class MemberController {
 		System.out.println(loginMemo);
 		
 		if(loginMember != null/* && bcryptPasswordEncoder.matches(member.getMemPwd(), loginMember.getMemPwd())*/) {
-			//session.setAttribute("loginMember", loginMember);
-			//session.setAttribute("loginMemo", loginMemo);
+			session.setAttribute("loginMember", loginMember);
+			session.setAttribute("loginMemo", loginMemo);
 			mv.setViewName("redirect:/");
 		} else {
 			//mv.addObject("errorMsg", "응 안돼~");
 			mv.setViewName("common/errorPage");
 		}
+		
+		return mv;
+		
+	}
+	
+	@RequestMapping("logout.me")
+	public ModelAndView deleteMember(String memId, ModelAndView mv, HttpSession session) throws ServletException, IOException{
+				
+		session.removeAttribute("loginMember");
+		session.removeAttribute("loginMemo");
+		
+		mv.setViewName("redirect:/");
 		
 		return mv;
 		
