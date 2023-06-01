@@ -80,6 +80,7 @@
         #header_7 {text-align:right; line-height:60px; font-size:17px; padding-right:2%;}
         @media (max-width: 470px) { #header_7 { font-size: 13px; } }
         #header_7>a:hover {cursor:pointer;}
+        #header_2_detail_4>a{text-decoration:none; color:black;}
         
     </style>
 
@@ -92,7 +93,7 @@
                 <div id="header_2_detail_1">내 주변 조회</div>
                 <div id="header_2_detail_2">교통 예약하기</div>
                 <div id="header_2_detail_3">숙소 예약하기</div>
-                <div id="header_2_detail_4">여행코스 추천</div>
+                <div id="header_2_detail_4"><a href="placeList">여행코스 추천</a></div>
             </div>
         </div>
         <div id="header_3"><a id="header_3_a">Community</a>
