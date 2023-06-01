@@ -45,5 +45,10 @@ public class TripServiceImpl implements TripService {
 		return tripdao.saveMyCourse(sqlSession, rMyPlace);
 	}
 
+	@Override
+	public int increaseCount(String placeNo) {
+		return tripdao.increaseCount(sqlSession, placeNo);
+	}
+
 
 }

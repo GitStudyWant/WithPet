@@ -92,49 +92,69 @@ public class TripController {
 		return tripService.checkMyCourse(memId);
 	}
 	
-	
-	
-	
 	@ResponseBody
 	@RequestMapping("saveMyCourse")
 	public String saveMyCourse(MyPlace myCourse, HttpSession session) {
 		   			
+		
+		//count 수 먼저 증가 
+		
+			int result1 = 0;
+			int result2 = 0;
+			int result5 = 0;
+		
+		
+		
 			R_MyPlace rMyPlace = new R_MyPlace();
 			
 			rMyPlace.setCourseSe(myCourse.getCourseSe());
 			rMyPlace.setMemId(myCourse.getMemId());
 			
-			rMyPlace.setPlaceNo(myCourse.getPlaceNo1());	
-			int result1 = tripService.saveMyCourse(rMyPlace);
+			rMyPlace.setPlaceNo(myCourse.getPlaceNo1());
 			
-			rMyPlace.setPlaceNo(myCourse.getPlaceNo2());
-			int result2 = tripService.saveMyCourse(rMyPlace);
+			if(tripService.increaseCount(myCourse.getPlaceNo1())>0) {
+				result1 = tripService.saveMyCourse(rMyPlace);
+			}
 			
-			rMyPlace.setPlaceNo(myCourse.getPlaceNo5());
-			int result5 = tripService.saveMyCourse(rMyPlace);
+			if(tripService.increaseCount(myCourse.getPlaceNo2())>0) {
+				rMyPlace.setPlaceNo(myCourse.getPlaceNo2());
+				result2 = tripService.saveMyCourse(rMyPlace);
+			}
+			
+			if(tripService.increaseCount(myCourse.getPlaceNo5())>0) {				
+				rMyPlace.setPlaceNo(myCourse.getPlaceNo5());
+				result5 = tripService.saveMyCourse(rMyPlace);
+			}
 			
 			int result3 = 1;
 			int result4 = 1;
 			
 			if(!myCourse.getPlaceNo3().equals("") && !myCourse.getPlaceNo4().equals("")) {
 				
-				rMyPlace.setPlaceNo(myCourse.getPlaceNo3());
-				result3 = tripService.saveMyCourse(rMyPlace);
+				if(tripService.increaseCount(myCourse.getPlaceNo3())>0) {
+					rMyPlace.setPlaceNo(myCourse.getPlaceNo3());
+					result3 = tripService.saveMyCourse(rMyPlace);
+				}
 				
-				rMyPlace.setPlaceNo(myCourse.getPlaceNo4());
-				result4 = tripService.saveMyCourse(rMyPlace);
+				if(tripService.increaseCount(myCourse.getPlaceNo4())>0) {
+					rMyPlace.setPlaceNo(myCourse.getPlaceNo4());
+					result4 = tripService.saveMyCourse(rMyPlace);
+				}
 				
 			} else if(myCourse.getPlaceNo3().equals("") && !myCourse.getPlaceNo4().equals("")) {
 				
-				rMyPlace.setPlaceNo(myCourse.getPlaceNo4());
-				result4 = tripService.saveMyCourse(rMyPlace);
+				if(tripService.increaseCount(myCourse.getPlaceNo4())>0) {
+					rMyPlace.setPlaceNo(myCourse.getPlaceNo4());
+					result4 = tripService.saveMyCourse(rMyPlace);
+				}
 				
 			} else if(myCourse.getPlaceNo4().equals("") && !myCourse.getPlaceNo3().equals("")) {
-
-				rMyPlace.setPlaceNo(myCourse.getPlaceNo3());
-				result3 = tripService.saveMyCourse(rMyPlace);
+				
+				if(tripService.increaseCount(myCourse.getPlaceNo3())>0) {
+					rMyPlace.setPlaceNo(myCourse.getPlaceNo3());
+					result3 = tripService.saveMyCourse(rMyPlace);
+				}
 			}
-			
 			
 			if(result1 * result2 * result3 * result4 * result5 != 0) {
 				return "F";
@@ -143,6 +163,16 @@ public class TripController {
 			}
 
 	}
+	
+	
+	@ResponseBody
+	@RequestMapping(value="detail.place",produces="application/json; charset=UTF-8")
+	public String detailPlace() {
+		
+		
+		
+	}
+	
 	
 }
 

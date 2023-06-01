@@ -31,4 +31,8 @@ public class TripDao {
 	public int saveMyCourse(SqlSessionTemplate sqlSession, R_MyPlace rMyPlace) {
 		return sqlSession.insert("tripMapper.saveMyCourse", rMyPlace);
 	}
+
+	public int increaseCount(SqlSessionTemplate sqlSession, String placeNo) {
+		return sqlSession.update("tripMapper.increaseCount", placeNo);
+	}
 }

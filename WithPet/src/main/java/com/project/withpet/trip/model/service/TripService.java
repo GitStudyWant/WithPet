@@ -16,6 +16,8 @@ public interface TripService {
 	
 	int saveMyCourse(R_MyPlace rMyPlace);
 	
+	int increaseCount(String placeNo);
+	
 	int insertPlace(Place p);
 	
 	

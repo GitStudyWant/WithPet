@@ -13,24 +13,31 @@
 <style>
 		#Ttotal{
 			margin: auto;
-			height: 1000px;
+			height: 1200px;
 			width: 1200px;
 			border: 0.1px solid sandybrown;
 			box-sizing: border-box;
 			text-align: center;
 		}
+		
+		#title_wrap{
+			heigth : 150px;
+			width: 100%;
+		}
 
 		#list_wrap{
-			height: 48%;
+			height: 480px;
 			width: 100%;
 			border: 0.1px solid sandybrown;
 		}
 
 		#map_wrap{
-			height: 48%;
+			height: 480px;
 			width: 100%;
 			border: 0.1px solid sandybrown;
 		}
+		
+		
 
 		#list1, #list2{
 			float: left;
@@ -77,81 +84,87 @@
 				var lat4 = $('#my4').children().eq(3).children().val();
 				var lng4 = $('#my4').children().eq(4).children().val();
 
-				console.log(lat1);
-				console.log(lat5);
+				//console.log(lat1);
+				//console.log(lat5);
 
 				if(lat1 == '' || lat5 == ''){
 						alert("출발지와 도착지를 선택 해 주세요!");
 						return false;
 					}
 
-				if(map != null){
+				resultMarkerArr = [];
+
+				if(map == null){
+								
+				 	// 1. 지도 띄우기
+					map = new Tmapv2.Map("map_div", {
+						center: new Tmapv2.LatLng(lat1, lng1),
+						width : "80%",
+						height : "80%",
+						zoom : 14,
+						zoomControl : true,
+						scrollwheel : true
+						
+					});
+					
+					// 2. 시작, 도착 심볼찍기
+					// 시작
+					marker_s = new Tmapv2.Marker({
+						position : new Tmapv2.LatLng(lat1,lng1),
+						icon : "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_s.png",
+						iconSize : new Tmapv2.Size(24, 38),
+						map:map
+					});
+					resultMarkerArr.push(marker_s);
+					// 도착
+					marker_e = new Tmapv2.Marker({
+						position : new Tmapv2.LatLng(lat5,lng5),
+						icon : "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_e.png",
+						iconSize : new Tmapv2.Size(24, 38),
+						map:map
+					});
+					resultMarkerArr.push(marker_e);
+					
+					// 3. 경유지 심볼 찍기
+					
+					if(lat2 != ''){
+					marker = new Tmapv2.Marker({
+						position : new Tmapv2.LatLng(lat2, lng2),
+						icon : "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_b_m_1.png",
+						iconSize : new Tmapv2.Size(24, 38),
+						map:map
+					});
+					resultMarkerArr.push(marker);					
+					}
+					
+					if(lat3 != ''){
+					marker = new Tmapv2.Marker({
+						position : new Tmapv2.LatLng(lat3, lng3),
+						icon : "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_b_m_2.png",
+						iconSize : new Tmapv2.Size(24, 38),
+						map:map
+					});
+					resultMarkerArr.push(marker);	
+					}
+					
+					if(lat4 != ''){
+					marker = new Tmapv2.Marker({
+						position : new Tmapv2.LatLng(lat4, lng4),
+						icon : "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_b_m_3.png",
+						iconSize : new Tmapv2.Size(24, 38),
+						map:map
+					});
+					resultMarkerArr.push(marker);					
+					}
+				
+				} else {
 					if(confirm('지도를 새로 조회 하시겠습니까?')){
-						$('#map_div').html('');
 						$('#result').text('');
-						initTmap();
+						
 					} else {
 						return false;
 					}
 				}
-
-				resultMarkerArr = [];
-
-
-				
-			 	// 1. 지도 띄우기
-				map = new Tmapv2.Map("map_div", {
-					center: new Tmapv2.LatLng(lat1, lng1),
-					width : "80%",
-					height : "80%",
-					zoom : 10,
-					zoomControl : true,
-					scrollwheel : true
-					
-				});
-				
-				// 2. 시작, 도착 심볼찍기
-				// 시작
-				marker_s = new Tmapv2.Marker({
-					position : new Tmapv2.LatLng(lat1,lng1),
-					icon : "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_s.png",
-					iconSize : new Tmapv2.Size(24, 38),
-					map:map
-				});
-				resultMarkerArr.push(marker_s);
-				// 도착
-				marker_e = new Tmapv2.Marker({
-					position : new Tmapv2.LatLng(lat5,lng5),
-					icon : "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_e.png",
-					iconSize : new Tmapv2.Size(24, 38),
-					map:map
-				});
-				resultMarkerArr.push(marker_e);
-				
-				// 3. 경유지 심볼 찍기
-				marker = new Tmapv2.Marker({
-					position : new Tmapv2.LatLng(lat2, lng2),
-					icon : "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_b_m_1.png",
-					iconSize : new Tmapv2.Size(24, 38),
-					map:map
-				});
-				resultMarkerArr.push(marker);
-				
-				marker = new Tmapv2.Marker({
-					position : new Tmapv2.LatLng(lat3, lng3),
-					icon : "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_b_m_2.png",
-					iconSize : new Tmapv2.Size(24, 38),
-					map:map
-				});
-				resultMarkerArr.push(marker);
-				
-				marker = new Tmapv2.Marker({
-					position : new Tmapv2.LatLng(lat4, lng4),
-					icon : "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_b_m_3.png",
-					iconSize : new Tmapv2.Size(24, 38),
-					map:map
-				});
-				resultMarkerArr.push(marker);
 				
 				// 4. 경로탐색 API 사용요청
 				var routeLayer; 
@@ -170,11 +183,11 @@
 					var lng5 = $('#my5').children().eq(4).children().val();
 					var value = '';
 					
-					console.log(lat1);
-					console.log(lat5);
-					console.log(lat2);
-					console.log(lat3);
-					console.log(lat4);
+					//console.log(lat1);
+					//console.log(lat5);
+					//console.log(lat2);
+					//console.log(lat3);
+					//console.log(lat4);
 
 					if(lat1 == '' || lat5 == ''){
 						alert("출발지와 도착지를 선택 해 주세요!");
@@ -243,9 +256,9 @@
 									}]
 					}
 
-					console.log(lat3);
-					console.log(lng3);
-					console.log(value);
+					//console.log(lat3);
+					//console.log(lng3);
+					//console.log(value);
 
 					var searchOption = $("#selectLevel").val();
 					
@@ -487,19 +500,6 @@
 
 				<script>
 
-				//$(document).ready(function(){				
-					//$.ajax({
-					//	url:'myplaceList',
-						//success : function(result){
-						//	console.log()
-						//},
-						//error : function(){
-						//	console.log('실패');
-					//	}
-					//});
-				
-				//})
-
 					function addMyPlace1(num){
 						var checkbox = $("input[name=pick]:checked");
 						var pnum = checkbox.parent().parent().children().eq(3).text();
@@ -508,11 +508,11 @@
 						var g = checkbox.parent().parent().children().eq(1).children().val();
 						var choice = '#my'+num;
 						var choice2 = '#my'+(num-1);
-						console.log(w);
-						console.log(g);
-						console.log(pnum);
-						console.log(pname);
-						console.log(choice);
+						//console.log(w);
+						//console.log(g);
+						//console.log(pnum);
+						//console.log(pname);
+						//console.log(choice);
 
 						if(pnum !='' && pnum == $(choice2).children().eq(1).text()){
 							if(!confirm("이전 장소가 추가하려는 장소와 동일합니다. 계속 하시겠습니까?")){
@@ -606,7 +606,7 @@
 
 					function selectList(){
 
-						console.log('되나요?')
+						//console.log('되나요?')
 
 						$.ajax({
 							url : "placeAllList",
