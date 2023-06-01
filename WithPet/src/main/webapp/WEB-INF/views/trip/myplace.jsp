@@ -424,7 +424,7 @@
 							</table>
 						</div>
 					<div id="list2">
-						<button onclick="saveMyplace();">코스 저장</button>
+						<button onclick="saveMyCourse();">코스 저장</button>
 						<button onclick="initTmap();">지도 조회</button>
 						<button id="addPlace"><a data-bs-toggle="modal" data-bs-target="#placeModal">새 장소 추가</a></button>
 						<br>
@@ -543,12 +543,12 @@
 
 					}
 
-					function saveMyplace(){
+					function saveMyCourse(){
 						// 먼저 해당 회원의 저장 되어 있는 코스가 몇개인지 조회 해오기 
 						// 2개 이하면 => myCourse테이블에 인서트 해주기 순서(1~5)
 						
 						$.ajax({
-						url:'checkMyplace',
+						url:'checkMyCourse',
 						success : function(result){
 							console.log(result);
 							if(result == 3){
@@ -558,7 +558,7 @@
 							} else {
 
 								$.ajax({
-									url : 'saveMyplace',
+									url : 'saveMyCourse',
 									success : function(result){
 										console.log('result');
 										if(result == 1){

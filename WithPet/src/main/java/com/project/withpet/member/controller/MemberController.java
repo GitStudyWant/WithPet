@@ -45,14 +45,46 @@ public class MemberController {
 	@Autowired
 	private BCryptPasswordEncoder bcryptPasswordEncoder;
 	
+	@RequestMapping(value="idCheck.me", produces="application/json; charset=UTF-8")
+	public void idCheck(String checkId, HttpServletResponse response) throws ServletException, IOException {
+		
+		response.setContentType("text/html; charset=UTF-8");
+		response.getWriter().print(memberService.idCheck(checkId));
+	}
+	
+	@RequestMapping(value="nickCheck.me", produces="application/json; charset=UTF-8")
+	public void nickCheck(String checkNick, HttpServletResponse response) throws ServletException, IOException {
+		
+		response.setContentType("text/html; charset=UTF-8");
+		response.getWriter().print(memberService.nickCheck(checkNick));
+	}
+	
+	@RequestMapping(value="phoneCheck.me", produces="application/json; charset=UTF-8")
+	public void phoneCheck(String checkPhone, HttpServletResponse response) throws ServletException, IOException {
+		
+		response.setContentType("text/html; charset=UTF-8");
+		response.getWriter().print(memberService.phoneCheck(checkPhone));
+	}
+	
+	@RequestMapping(value="emailCheck.me", produces="application/json; charset=UTF-8")
+	public void emailCheck(String checkEmail, HttpServletResponse response) throws ServletException, IOException {
+		
+		String email = checkEmail.substring(0, checkEmail.lastIndexOf("@")) + checkEmail.substring(checkEmail.lastIndexOf("@")).toLowerCase();
+		
+		response.setContentType("text/html; charset=UTF-8");
+		response.getWriter().print(memberService.emailCheck(email));
+	}
+	
 	@RequestMapping("insert.me")
 	public ModelAndView insertUser(Member member, ModelAndView mv) throws ServletException, IOException{
-		
-		System.out.println("insertUser 진입");
 		
 		String encPwd = bcryptPasswordEncoder.encode(member.getMemPwd());
 
 		member.setMemPwd(encPwd);
+		
+		String email = member.getMemEmail().substring(0, member.getMemEmail().lastIndexOf("@")) + member.getMemEmail().substring(member.getMemEmail().lastIndexOf("@")).toLowerCase();
+		
+		member.setMemEmail(email);
 		
 		if(memberService.insertMember(member) > 0) {
 			mv.setViewName("common/main");
@@ -64,14 +96,47 @@ public class MemberController {
 		
 	}
 	
-	@RequestMapping(value="idDouble.me", produces="application/json; charset=UTF-8")
-	public void idDouble(String checkId, HttpServletResponse response) throws ServletException, IOException {
+	@RequestMapping("login.me")
+	public ModelAndView selectMember(Member member, ModelAndView mv, HttpSession session) throws ServletException, IOException{
+				
+		Member loginMember = memberService.selectMember(member);
+		int loginMemo = memberService.selectMemoCount(member.getMemId());
+
+		System.out.println(loginMember);
+		System.out.println(loginMemo);
 		
-		System.out.println("idDouble 진입");
+		if(loginMember != null/* && bcryptPasswordEncoder.matches(member.getMemPwd(), loginMember.getMemPwd())*/) {
+			session.setAttribute("loginMember", loginMember);
+			session.setAttribute("loginMemo", loginMemo);
+			mv.setViewName("redirect:/");
+		} else {
+			//mv.addObject("errorMsg", "응 안돼~");
+			mv.setViewName("common/errorPage");
+		}
 		
-		response.setContentType("text/html; charset=UTF-8");
-		response.getWriter().print(memberService.idDouble(checkId));
-		//return memberService.idDouble(checkId) > 0? 1 : 0;
+		return mv;
+		
+	}
+	
+	@RequestMapping("logout.me")
+	public ModelAndView deleteMember(String memId, ModelAndView mv, HttpSession session) throws ServletException, IOException{
+				
+		session.removeAttribute("loginMember");
+		session.removeAttribute("loginMemo");
+		
+		mv.setViewName("redirect:/");
+		
+		return mv;
+		
+	}
+	
+	@RequestMapping("myPage.me")
+	public ModelAndView myPageMember(String memId, ModelAndView mv, HttpSession session) throws ServletException, IOException{
+		
+		mv.setViewName("member/myPageMain");
+		
+		return mv;
+		
 	}
 	
 	@RequestMapping("kakaoGetCodeUrl")
@@ -507,6 +572,28 @@ public class MemberController {
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	// 박민성
 	
 	// 작성글 보기
@@ -552,6 +639,7 @@ public class MemberController {
 	
 	return secret;
 	}
+
 	
 	@ResponseBody
 	@PostMapping("check")
@@ -567,5 +655,6 @@ public class MemberController {
 		System.out.println(m);
 		return m;
 	}
+
 		
 }

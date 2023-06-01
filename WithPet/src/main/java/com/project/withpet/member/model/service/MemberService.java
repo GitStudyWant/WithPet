@@ -1,9 +1,13 @@
 package com.project.withpet.member.model.service;
 
 import java.sql.Date;
+
 import java.util.ArrayList;
 
 import com.project.withpet.board.model.vo.Board;
+
+import com.project.withpet.board.model.vo.Comments;
+
 import com.project.withpet.member.model.dao.MemberDao;
 import com.project.withpet.member.model.vo.CertVO;
 import com.project.withpet.member.model.vo.Member;
@@ -13,10 +17,16 @@ import com.project.withpet.member.model.vo.Schedule;
 
 public interface MemberService {
 	
-	// 멤버
+	// 硫ㅻ쾭
 	public int insertMember(Member member);
 	
-	public int idDouble(String checkId);
+	public int idCheck(String checkId);
+	
+	public int nickCheck(String checkNick);
+	
+	public int phoneCheck(String checkPhone);
+	
+	public int emailCheck(String checkEmail);
 	
 	public Member selectMember(Member member);
 	
@@ -26,7 +36,7 @@ public interface MemberService {
 
 	public int updateMember(Member member);
 	
-	// 메모
+	// 硫붾え
 	public ArrayList<Memo> selectMemoGet(String memId);
 	
 	public int updateMemoCheck(int memoNo);
@@ -41,7 +51,7 @@ public interface MemberService {
 	
 	public int insertMemo(Memo memo);
 	
-	// 스케쥴
+	// �뒪耳�伊�
 	public ArrayList<Schedule> selectSchedule(String memId);
 	
 	public ArrayList<Schedule> selectScheduleDetails(Date day);
@@ -52,16 +62,16 @@ public interface MemberService {
 	
 	public int deleteSchedule(int scheduleNo);
 	
-	// 포인트
+	// �룷�씤�듃
 	public ArrayList<Point> selectPoint(String memId);
 	
 	public ArrayList<Point> selectPointPlus(String memId);
 	
 	public ArrayList<Point> selectPointMinus(String memId);
 	
-	// 코스
-	// 예약
-	// 결제
+	// 肄붿뒪
+	// �삁�빟
+	// 寃곗젣
 	
 	
 	
@@ -200,13 +210,14 @@ public interface MemberService {
 	
 	
 	
-	// 박민성
+	// 諛뺣�쇱꽦
 	
-	// 기능 1 작성글, 작성댓글, 스크랩한글 보기 (출석체크, 삭제한 게시글 보기)
+	// 湲곕뒫 1 �옉�꽦湲�, �옉�꽦�뙎湲�, �뒪�겕�옪�븳湲� 蹂닿린 (異쒖꽍泥댄겕, �궘�젣�븳 寃뚯떆湲� 蹂닿린)
 	
 	public ArrayList<Board> writingBoard(String memId);
-	
-	public ArrayList writingReply(String memId);
+
+	public ArrayList<Comments> writingReply(String memId);
+
 	
 	public ArrayList<Board> likesBoard(String memId);
 	
