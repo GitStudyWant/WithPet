@@ -17,6 +17,7 @@
 			width: 1200px;
 			border: 0.1px solid sandybrown;
 			box-sizing: border-box;
+			text-align: center;
 		}
 
 		#list_wrap{
@@ -38,12 +39,15 @@
 			border: 0.1px solid sandybrown;
 		}
 
-
-
-
-
-
-	</style>
+		button{
+			background-color:rgb(73, 166, 112);
+			color: white;
+			border: 1px rgb(73, 166, 112);
+			font-size: small;
+			border-radius: 5px;
+		}
+		
+</style>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script	src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -85,6 +89,7 @@
 					if(confirm('지도를 새로 조회 하시겠습니까?')){
 						$('#map_div').html('');
 						$('#result').text('');
+						initTmap();
 					} else {
 						return false;
 					}
@@ -167,6 +172,9 @@
 					
 					console.log(lat1);
 					console.log(lat5);
+					console.log(lat2);
+					console.log(lat3);
+					console.log(lat4);
 
 					if(lat1 == '' || lat5 == ''){
 						alert("출발지와 도착지를 선택 해 주세요!");
@@ -192,8 +200,8 @@
 						value = [{
 									"viaPointId" : "test01",
 									"viaPointName" : "name01",
-									"viaX" : lng2,
-									"viaY" : lat2
+									"viaX" : lat2,
+									"viaY" : lng2
 						}]
 					}
 
@@ -201,14 +209,14 @@
 						value = [{
 									"viaPointId" : "test01",
 									"viaPointName" : "name01",
-									"viaX" : lng2,
-									"viaY" : lat2
+									"viaX" : lat2,
+									"viaY" : lng2
 									},
 									{
 										"viaPointId" : "test02",
 										"viaPointName" : "name02",
-										"viaX" : lng3 ,
-										"viaY" : lat3 
+										"viaX" : lat3 ,
+										"viaY" : lng3 
 									}]
 
 					}
@@ -217,21 +225,21 @@
 						value = [{
 									"viaPointId" : "test01",
 									"viaPointName" : "name01",
-									"viaX" : lng2,
-									"viaY" : lat2
+									"viaX" : lat2,
+									"viaY" : lng2
 									},
 								
 									{
 										"viaPointId" : "test02",
 										"viaPointName" : "name02",
-										"viaX" : lng3 ,
-										"viaY" : lat3 
+										"viaX" : lat3 ,
+										"viaY" : lng3 
 									},
 									{
 										"viaPointId" : "test03",
 										"viaPointName" : "name03",
-										"viaX" : lng4 ,
-										"viaY" : lat4 
+										"viaX" : lat4 ,
+										"viaY" : lng4 
 									}]
 					}
 
@@ -247,12 +255,12 @@
 					
 					var param = JSON.stringify({
 						"startName" : "출발지",
-						"startX" : lng1,
-						"startY" : lat1,
+						"startX" : lat1,
+						"startY" : lng1,
 						"startTime" : "201708081103",
 						"endName" : "도착지",
-						"endX" : lng5,//lat5 :37.4990106lng5 : 127.0328414
-						"endY" : lat5,
+						"endX" : lat5,//lat5 :37.4990106lng5 : 127.0328414
+						"endY" : lng5,
 						"viaPoints" : value,
 						"reqCoordType" : "WGS84GEO",
 						"resCoordType" : "EPSG3857",
@@ -360,7 +368,22 @@
 
 	
 	<!--<body onload="initTmap()"> 맵 생성 실행 -->
+		<h5>여행 코스 짜기</h5>
 		<div id="Ttotal">
+			<hr>
+			<select id="location">
+				<option value="서울">서울</option>
+				<option value="경기">경기도</option>
+				<option value="대구">대구</option>
+				<option value="부산">부산</option>
+				<option value="전주">전주</option>
+			</select>
+			<select id="type">
+				<option value="A">식당/카페</option>
+				<option value="B">숙박</option>
+				<option value="C">야외시설</option>
+			</select>
+			<button id="selecbtn" onclick="selectList();">조회</button>
 				<div id="list_wrap">
 					<div id="list1">
 							<button onclick="addMyPlace1(1);">출발지 추가</button>
@@ -370,83 +393,54 @@
 							<button onclick="addMyPlace1(5);">도착지 추가</button>
 							<Br>
 							
-							BEST 3
-							<br>
+							<b>[ BEST 3 ]</b>
 							<table id="bestlist">
-								<tr>
-									<td><input type="radio" name="pick" value="ggg"></td>
-									<td>1</td>
-									<td>장소명1</td>
-									<td><input type="hidden" value="37.4990106"></td>
-									<td><input type="hidden" value="127.0328414"></td>
-								</tr>
-								<tr>
-									<td><input type="radio" name="pick"></td>
-									<td>2</td>
-									<td>장소명2</td>
-									<td><input type="hidden" value="37.5679514"></td>
-									<td><input type="hidden" value="126.9831357"></td>
-								</tr>
-								<tr>
-									<td><input type="radio" name="pick"></td>
-									<td>3</td>
-									<td>장소명3</td>
-									<td><input type="hidden" value="37.4890106"></td>
-									<td><input type="hidden" value="127.0321514"></td>
-								</tr>
+								<thead>
+									<th width="70px"></th>
+									<th width="70px"></th>
+									<th width="80px">선택</th>
+									<th width="100px">번호</th>
+									<th>장소명</th>
+								</thead>
+								<tbody>
+								
+								</tbody>
 							</table>
 
 							<hr>
 
-							전체 목록
-							<br>
+							<b>[ 전체 목록 ]</b>
 							<table id="allList">
-								<tr>
-									<td><input type="radio" name="pick" value="ggg"></td>
-									<td>4</td>
-									<td>장소명4</td>
-									<td><input type="hidden" value="37.4990111"></td>
-									<td><input type="hidden" value="126.9831357"></td>
-								</tr>
-								<tr>
-									<td><input type="radio" name="pick"></td>
-									<td>5</td>
-									<td>장소명5</td>
-									<td><input type="hidden" value="37.5338151"></td>
-									<td><input type="hidden" value="126.8969784"></td>
-								</tr>
-								<tr>
-									<td><input type="radio" name="pick"></td>
-									<td>6</td>
-									<td>장소명6</td>
-									<td><input type="hidden" value="37.4985164"></td>
-									<td><input type="hidden" value="127.0325625"></td>
-								</tr>
-								<tr>
-									<td><input type="radio" name="pick"></td>
-									<td>7</td>
-									<td>장소명7</td>
-									<td><input type="hidden" value="37.5002218"></td>
-									<td><input type="hidden" value="127.029133"></td>
-								</tr>
-								<tr>
-									<td><input type="radio" name="pick"></td>
-									<td>8</td>
-									<td>장소명8</td>
-									<td><input type="hidden" value="37.5546725"></td>
-									<td><input type="hidden" value="126.9375613"></td>
-								</tr>
+								<thead>
+									<th width="70px"></th>
+									<th width="70px"></th>
+									<th width="80px" align="center">선택</th>
+									<th width="100px" align="center">번호</th>
+									<th align="center">장소명</th>
+								</thead>
+								<tbody>
+								</tbody>
+								
 							</table>
-					</div>
+						</div>
 					<div id="list2">
-						선택한 코스  <button onclick="saveMyplace();">코스 저장하기</button>
-						<button onclick="initTmap();">지도 조회하기</button>
-						<table>
+						<button onclick="saveMyplace();">코스 저장</button>
+						<button onclick="initTmap();">지도 조회</button>
+						<button id="addPlace"><a data-bs-toggle="modal" data-bs-target="#placeModal">새 장소 추가</a></button>
+						<br>
+						<b>[ 선택한 장소 ]</b>  
+						<table id="myChoiceList" align="center">
 							<thead>
+								<th width="70px">순번</th>
+								<th width="70px">장소번호</th>
+								<th width="300px">장소명</th>
+								<th></th>
+								<th></th>
+								<th>삭제</th>
 							</thead>
-							<tbody id="list2body">
+							<tbody>
 								<tr id="my1">
-									<td>출발지</td>
+									<td><b>출발지 :</b></td>
 									<td></td>
 									<td></td>
 									<td><input type="hidden" value=""></td>
@@ -454,7 +448,7 @@
 									<td><button onclick="deleteMyPlace1(1);">X</button></td>
 								</tr>
 								<tr id="my2" class="mylist">
-									<td>2번</td>
+									<td><b>2번 :</b></td>
 									<td></td>
 									<td></td>
 									<td><input type="hidden" value=""></td>
@@ -462,7 +456,7 @@
 									<td><button onclick="deleteMyPlace1(2);">X</button></td>
 								</tr>
 								<tr id="my3" class="mylist">
-									<td>3번</td>
+									<td><b>3번 :</b></td>
 									<td></td>
 									<td></td>
 									<td><input type="hidden" value=""></td>
@@ -470,7 +464,7 @@
 									<td><button onclick="deleteMyPlace1(3);">X</button></td>
 								</tr>
 								<tr id="my4" class="mylist">
-									<td>4번</td>
+									<td><b>4번 :</b></td>
 									<td></td>
 									<td></td>
 									<td><input type="hidden" value=""></td>
@@ -478,7 +472,7 @@
 									<td><button onclick="deleteMyPlace1(4);">X</button></td>
 								</tr>
 								<tr id="my5" class="mylist">
-									<td>도착지</td>
+									<td><b>도착지 :</b></td>
 									<td></td>
 									<td></td>
 									<td><input type="hidden" value=""></td>
@@ -493,18 +487,34 @@
 
 				<script>
 
+				//$(document).ready(function(){				
+					//$.ajax({
+					//	url:'myplaceList',
+						//success : function(result){
+						//	console.log()
+						//},
+						//error : function(){
+						//	console.log('실패');
+					//	}
+					//});
+				
+				//})
+
 					function addMyPlace1(num){
 						var checkbox = $("input[name=pick]:checked");
-						var num1 = checkbox.parent().parent().children().eq(1).text();
-						var name1 = checkbox.parent().parent().children().eq(2).text();
-						var w = checkbox.parent().parent().children().eq(3).children().val();
-						var g = checkbox.parent().parent().children().eq(4).children().val();
+						var pnum = checkbox.parent().parent().children().eq(3).text();
+						var pname = checkbox.parent().parent().children().eq(4).text();
+						var w = checkbox.parent().parent().children().eq(0).children().val();
+						var g = checkbox.parent().parent().children().eq(1).children().val();
 						var choice = '#my'+num;
 						var choice2 = '#my'+(num-1);
 						console.log(w);
 						console.log(g);
+						console.log(pnum);
+						console.log(pname);
+						console.log(choice);
 
-						if(num1 == $(choice2).children().eq(1).text()){
+						if(pnum !='' && pnum == $(choice2).children().eq(1).text()){
 							if(!confirm("이전 장소가 추가하려는 장소와 동일합니다. 계속 하시겠습니까?")){
 								return false;
 							} else {}
@@ -512,8 +522,8 @@
 
 						//console.log(choice2);
 
-						$(choice).children().eq(1).text(num1);
-						$(choice).children().eq(2).text(name1);
+						$(choice).children().eq(1).text(pnum);
+						$(choice).children().eq(2).text(pname);
 						$(choice).children().eq(3).children().val(w);
 						$(choice).children().eq(4).children().val(g);
 
@@ -536,6 +546,99 @@
 					function saveMyplace(){
 						// 먼저 해당 회원의 저장 되어 있는 코스가 몇개인지 조회 해오기 
 						// 2개 이하면 => myCourse테이블에 인서트 해주기 순서(1~5)
+						
+						$.ajax({
+						url:'checkMyplace',
+						success : function(result){
+							console.log(result);
+							if(result == 3){
+								if(confirm('이미 3개의 코스를 저장하셨습니다. 내 코스 페이지로 이동하시겠습니까?')){
+									href="#"
+								} 
+							} else {
+
+								$.ajax({
+									url : 'saveMyplace',
+									success : function(result){
+										console.log('result');
+										if(result == 1){
+											alert('내 코스로 저장이 완료 되었습니다.');
+										} else {
+											alert('내 코스 저장이 실패하였습니다.');
+										}
+									},
+									error : function(){
+										console.log('실패 ㅠㅠ');
+									}
+								})
+							}
+						},
+						error : function(){
+							console.log('실패');
+						}
+					});
+				}
+
+					function selectList(){
+
+						console.log('되나요?')
+
+						$.ajax({
+							url : "placeAllList",
+							data : { placeLocation : $('#location').val(),
+									placeType : $('#type').val()},
+							success : function(result){
+								console.log('전체는 성공!');
+								console.log(result);
+								let placeList ='';
+								for(let i in result){
+									placeList+= '<tr>'
+											 + '<td>'+'<input type="hidden" value="'+result[i].placeLng+'">'+'</td>'
+											 + '<td>'+'<input type="hidden" value="'+result[i].placeLat+'">'+'</td>'
+											 + '<td>' + '<input type="radio" name="pick">' + '</td>'
+											 + '<td>'+ result[i].placeNo+ '</td>'
+											 + '<td>'+ result[i].placeName + '<td>'
+										     + '</tr>'
+								}
+								$('#allList>tbody').html(placeList);
+							},
+							error : function(){
+								console.log('전체 리스트 조회 실패');
+							}
+						})
+
+
+						$.ajax({
+							url : "placeBestList",
+							data : {placeLocation : $('#location').val(),
+									placeType : $('#type').val()},
+							success : function(result){
+								let bestList = '';
+								console.log('베스트도 성공');
+								for(let i in result){	
+									bestList += '<tr>'
+											 + '<td>'+'<input type="hidden" value="'+result[i].placeLng+'">'+'</td>'
+											 + '<td>'+'<input type="hidden" value="'+result[i].placeLat+'">'+'</td>'
+											 + '<td>' + '<input type="radio" name="pick">' + '</td>'
+											 + '<td>'+ result[i].placeNo+ '</td>'
+											 + '<td>'+ result[i].placeName + '<td>'
+										     + '</tr>'
+								}
+								$('#bestlist>tbody').html(bestList);
+							},
+							error : function(){
+								console.log('베스트 리스트 조회 실패');
+							}
+						})
+
+					
+						$('#addPlace').click(function(e){
+							e.preventDefault();
+							$('#placeModal').modal("show");
+						});
+	
+
+
 					}
 
 				
@@ -572,16 +675,20 @@
 				</script>
 				
 				<div id="map_wrap" class="map_wrap">
-					<div id="map_div"></div>
-					<p id="result"></p>
-					<select id="selectLevel">
-						<option value="0" selected="selected">교통최적+추천</option>
-						<option value="1" >교통최적+무료우선</option>
-						<option value="2" >교통최적+최소시간</option>
-						<option value="3" >교통최적+초보</option>
-					</select>
-					<button id="btn_select">적용하기</button>
+					<div id="map_div">
+
+						<p id="result"></p>
+						<select id="selectLevel">
+							<option value="0" selected="selected">교통최적+추천</option>
+							<option value="1" >교통최적+무료우선</option>
+							<option value="2" >교통최적+최소시간</option>
+							<option value="3" >교통최적+초보</option>
+						</select>
+						<button id="btn_select">거리 조회</button>
+					</div>
 				</div>
 		</div>
+
+	<jsp:include page="insertPlace.jsp" />
 	</body>
-</html>					
+</html>
