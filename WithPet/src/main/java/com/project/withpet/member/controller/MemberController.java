@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.project.withpet.member.model.service.MemberService;
@@ -649,11 +650,44 @@ public class MemberController {
 	}
 	
 	@ResponseBody
-	@PostMapping("idFind")
-	public Member idFind(String email, HttpServletRequest request) {
-		Member m = memberService.idFind(email);
-		System.out.println(m);
-		return m;
+	@PostMapping(value="idFind", produces="application/json; charset=UTF-8")
+	public String idFind(String email, HttpServletRequest request) {
+		return new Gson().toJson(memberService.idFind(email));
+	}
+	
+	@ResponseBody
+	@PostMapping("pwdMail.bo")
+	public int pwdMail(String email, HttpServletRequest request) throws MessagingException {
+		System.out.println("오냐?");
+		System.out.println(email);
+		MimeMessage message = sender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+		
+		String ip = request.getRemoteAddr();
+		String secret = generateSecret();
+		
+		CertVO certvo = CertVO.builder()
+				  .who(ip)
+				  .secret(secret)
+				  .build();
+		
+		int result = memberService.sendMail(certvo);
+		
+		helper.setTo(email);
+		helper.setSubject("인증번호 보내드립니다");
+		helper.setText("인증번호 : " + secret);
+		
+		sender.send(message);
+		
+		return result;
+		
+	}
+	
+	@ResponseBody
+	@PostMapping("pwdCheck")
+	public int pwdCheck(String code, HttpServletRequest request) {
+		CertVO certVo = CertVO.builder().who(request.getRemoteAddr()).secret(code).build();
+		return memberService.validata(certVo);
 	}
 
 		

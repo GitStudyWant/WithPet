@@ -162,7 +162,22 @@
 	
 	<select id="idFind" resultType="member" parameterType="string">
 		select
-		      *
+		     	MEM_ID memId
+				,MEM_NICK memNick
+				,MEM_PWD memPwd
+				,MEM_PHONE memPhone
+				,MEM_EMAIL memEmail
+				,MEM_PHOTO memPhoto
+				,MEM_PATH memPath
+				,MEM_INTRO memIntro
+				,MEM_GRADE memGrade
+				,MEM_DATE memDate
+				,MEM_MEMO memMemo
+				,MEM_POINT memPoint
+				,MEM_REPORT memReport
+				,MEM_STATUS memStatus
+				,MEM_UPDATE memUpdate
+				,MEM_KAKAOID memKakaoId
 		  from
 		      member
 		 where
@@ -170,6 +185,24 @@
 		   and
 		      mem_status = 'Y'
 	</select>
+	
+		<insert id="pwdMail" parameterType="cert">
+		INSERT
+		  INTO 
+		      CERTIFIED
+		      (
+		      CERTIFIED_ID,
+		      CERTIFIED_CODE,
+		      CERTIFIED_DATE
+		      )
+		VALUES
+			  (
+			  #{who},
+			  #{secret},
+			  SYSDATE
+			  )
+			  
+	</insert>
 	
 
 	

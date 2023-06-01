@@ -219,5 +219,10 @@ public class MemberServiceImpl implements MemberService {
 	public Member idFind(String email) {
 		return memberDao.idFind(sqlSession, email);
 	}
+	
+	@Override
+	public int pwdMail(CertVO certVo) {
+		return memberDao.sendMail(sqlSession, certVo);
+	}
 
 }
