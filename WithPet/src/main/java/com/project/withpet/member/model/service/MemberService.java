@@ -19,6 +19,10 @@ public interface MemberService {
 	
 	public int nickCheck(String checkNick);
 	
+	public int phoneCheck(String checkPhone);
+	
+	public int emailCheck(String checkEmail);
+	
 	public Member selectMember(Member member);
 	
 	public int selectMemoCount(String memId);

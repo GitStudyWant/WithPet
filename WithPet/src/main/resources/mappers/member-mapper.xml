@@ -48,5 +48,22 @@
 				mem_nick = #{checkNick}
 	</select>
 
-
+	<select id="phoneCheck" resultType="_int">
+		select
+				count(*)
+		from
+				member
+		where
+				mem_phone = #{checkPhone}
+	</select>
+	
+	<select id="emailCheck" resultType="_int">
+		select
+				count(*)
+		from
+				member
+		where
+				mem_email = #{checkEmail}
+	</select>
+	
 </mapper>

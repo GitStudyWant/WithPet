@@ -75,22 +75,22 @@
 	          <form action="insert.me" method="POST">
 	          	<table width="100%" style="text-align:center">
 		          	<tr style="margin-top:5px">
-		          		<td width="80" height="10"><p style="font-size:10px; color:gray;"><img class="memIdImg" src="https://i.postimg.cc/0j8WNTkS/graycheck.png" width="14px" height="14px">
+		          		<td width="80" height="10"><p style="font-size:10px; color:gray;"><img id="memIdImg" src="https://i.postimg.cc/0j8WNTkS/graycheck.png" width="14px" height="14px">
 		          		ID</p></td>
 		          		<td width="100"><input type="text" maxlength="15" id="memId" name="memId" style="width:100%; border:solid 1px lightgray"></td>
 		          	<tr>
 		          	<tr>
 		          		<td height="17"></td>
-		          		<td><p id="idCheck" style="font-size:3px; color:gray; margin-bottom:0px; display:none;"></p></td>
+		          		<td><p id="idCheck" style="font-size:3px; color:gray; margin-bottom:0px;">5글자 이상을 입력해주세요</p></td>
 		          	<tr>
 		          	<tr>
-			          	<td><p style="font-size:10px; color:gray;"><img class="memNickImg" src="https://i.postimg.cc/0j8WNTkS/graycheck.png" width="14px" height="14px">
+			          	<td><p style="font-size:10px; color:gray;"><img id="memNickImg" src="https://i.postimg.cc/0j8WNTkS/graycheck.png" width="14px" height="14px">
 			          	NICKNAME</p></td>
 			          	<td><input type="text" id="memNick" name="memNick" maxlength="15" style="width:100%; border:solid 1px lightgray"></td>
 		          	</tr>
 		          	<tr>
 		          		<td height="17"></td>
-		          		<td><p id="nickCheck" style="font-size:3px; color:gray; margin-bottom:0px; display:none;">중복입니다</p></td>
+		          		<td><p id="nickCheck" style="font-size:3px; color:gray; margin-bottom:0px;">3글자 이상을 입력해주세요</p></td>
 		          	<tr>
 		          	<tr>
 			          	<td><p style="font-size:10px; color:gray;"><img class="memPwdImg" src="https://i.postimg.cc/0j8WNTkS/graycheck.png" width="14px" height="14px">
@@ -117,7 +117,7 @@
 		          	</tr>
 		          	<tr>
 		          		<td height="17"></td>
-		          		<td><p style="font-size:3px; color:gray; margin-bottom:0px; display:none;">중복입니다</p></td>
+		          		<td><p id="phoneCheck" style="font-size:3px; color:gray; margin-bottom:0px; display:none;"></p></td>
 		          	<tr>
 		          	<tr>
 			          	<td><p style="font-size:10px; color:gray;"><img id="memEmailImg" src="https://i.postimg.cc/0j8WNTkS/graycheck.png" width="14px" height="14px">
@@ -126,7 +126,7 @@
 		          	</tr>
 		          	<tr>
 		          		<td height="17"></td>
-		          		<td><p style="font-size:3px; color:gray; margin-bottom:0px; display:none;">중복입니다</p></td>
+		          		<td><p style="font-size:3px; color:gray; margin-bottom:0px; display:none;"></p></td>
 		          	<tr>
 	          	</table>
 	          	<button id="insertFormButton" type="submit" class="btn btn-primary" style="width:80%; display:block; margin:auto" disabled>회원 가입</button>
@@ -141,7 +141,13 @@
 	      </div>
 	    </div>
 	  </div>
+	  <script>
 	  
+	  
+	  
+	  
+	  
+	  </script>
 	  <script>    
 	    function kakaoLogin(){
 	    	$.ajax({
@@ -169,88 +175,202 @@
     </script>
     
     <script>
-    	$('#memId').on('keyup', function(){
-    		var empty = $(this).val();
+    	<!-- 회원가입 -->
+    	var buttonEnable
+    	
+   		var buttonEnable1;
+   		var buttonEnable2;
+   		var buttonEnable3;
+   		var buttonEnable4;
+   		var buttonEnable5;
+   		
+    	function buttonEnableCheck(){
+    		buttonEnable = buttonEnable1 + buttonEnable2 + buttonEnable3 + buttonEnable4 + buttonEnable5;
     		
-    		$.ajax({
-    			url : "idCheck.me",
-    			data : {checkId : $(this).val()},
-    			success : function(result){
-    				if(empty != "" && result == '0'){
-    					$('#idCheck').show();
-    					$('#idCheck').css('color', 'lightgreen').text('멋진 아이디네요!');
-    					$('#insertFormButton').removeAttr("disabled");
-    					$('.memIdImg').attr('src', 'https://i.postimg.cc/BvHMBStD/bluecheck.png');
-    				} else if(empty != "" && result == '1'){
-    					$('#idCheck').show();
-    					$('#idCheck').css('color', 'red').text('중복된 아이디가 존재합니다.');
-    					$('#insertFormButton').attr("disabled", true);
-    					$('.memIdImg').attr('src', 'https://i.postimg.cc/0j8WNTkS/graycheck.png');	
-    				} else{
-    					$('#idCheck').hide();
-    					$('#insertFormButton').attr("disabled", true);
-    					$('.memIdImg').attr('src', 'https://i.postimg.cc/0j8WNTkS/graycheck.png');	
-    				}
-    			},
-    			fail : function(error){
-    				console.log(error);
-    			}
-    		})
+    		if(buttonEnable == 5){
+    			$('#insertFormButton').removeAttr("disabled");
+    		} else{
+    			$('#insertFormButton').attr("disabled", true);
+    		}
+    	}
+    	
+    	$('#memId').on('keyup', function(){
+    		if($(this).val().length >= 5){
+	    		var empty = $(this).val();
+	    		
+	    		$.ajax({
+	    			url : "idCheck.me",
+	    			data : {checkId : $(this).val()},
+	    			success : function(result){
+	    				if(empty != "" && result == '0'){
+	    					$('#idCheck').show();
+	    					$('#idCheck').css('color', 'lightgreen').text('멋진 아이디네요!');
+	    					$('#memIdImg').attr('src', 'https://i.postimg.cc/BvHMBStD/bluecheck.png');
+	    					buttonEnable1 = 1;
+	    				} else if(empty != "" && result == '1'){
+	    					$('#idCheck').show();
+	    					$('#idCheck').css('color', 'red').text('중복된 아이디가 존재합니다.');
+	    					$('#memIdImg').attr('src', 'https://i.postimg.cc/0j8WNTkS/graycheck.png');
+	    					buttonEnable1 = 0;
+	    				} else{
+	    					$('#idCheck').hide();
+	    					$('#memIdImg').attr('src', 'https://i.postimg.cc/0j8WNTkS/graycheck.png');
+	    					buttonEnable1 = 0;
+	    				}
+	    			}
+	    		})
+    		} else{
+    			$('#idCheck').hide();
+				$('#memIdImg').attr('src', 'https://i.postimg.cc/0j8WNTkS/graycheck.png');
+				buttonEnable1 = 0;
+    		}
+    		
+			buttonEnableCheck();
+			
     	})
     	
     	$('#memNick').on('keyup', function(){
-    		var empty = $(this).val();
+    		if($(this).val().length >= 3){
+	    		var empty = $(this).val();
+	    		
+	    		$.ajax({
+	    			url : "nickCheck.me",
+	    			data : {checkNick : $(this).val()},
+	    			success : function(result){
+	    				if(empty != "" && result == '0'){
+	    					$('#nickCheck').show();
+	    					$('#nickCheck').css('color', 'lightgreen').text('멋진 닉네임이네요!');
+	    					$('#memNickImg').attr('src', 'https://i.postimg.cc/BvHMBStD/bluecheck.png');
+	    					buttonEnable2 = 1;
+	    				} else if(empty != "" && result == '1'){
+	    					$('#nickCheck').show();
+	    					$('#nickCheck').css('color', 'red').text('중복된 닉네임이 존재합니다.');
+	    					$('#memNickImg').attr('src', 'https://i.postimg.cc/0j8WNTkS/graycheck.png');
+	    					buttonEnable2 = 0;
+	    				} else{
+	    					$('#nickCheck').hide();
+	    					$('#memNickImg').attr('src', 'https://i.postimg.cc/0j8WNTkS/graycheck.png');
+	    					buttonEnable2 = 0;
+	    				}
+	    			}
+	    		})
+    		} else{
+    			$('#nickCheck').hide();
+				$('#memNickImg').attr('src', 'https://i.postimg.cc/0j8WNTkS/graycheck.png');
+				buttonEnable2 = 0;
+    		}
+	    	
+    		buttonEnableCheck();
     		
-    		$.ajax({
-    			url : "nickCheck.me",
-    			data : {checkNick : $(this).val()},
-    			success : function(result){
-    				if(empty != "" && result == '0'){
-    					$('#nickCheck').show();
-    					$('#nickCheck').css('color', 'lightgreen').text('멋진 닉네임이네요!');
-    					$('#insertFormButton').removeAttr("disabled");
-    					$('.memNickImg').attr('src', 'https://i.postimg.cc/BvHMBStD/bluecheck.png');
-    				} else if(empty != "" && result == '1'){
-    					$('#nickCheck').show();
-    					$('#nickCheck').css('color', 'red').text('중복된 닉네임이 존재합니다.');
-    					$('#insertFormButton').attr("disabled", true);
-    					$('.memNickImg').attr('src', 'https://i.postimg.cc/0j8WNTkS/graycheck.png');	
-    				} else{
-    					$('#nickCheck').hide();
-    					$('#insertFormButton').attr("disabled", true);
-    					$('.memNickImg').attr('src', 'https://i.postimg.cc/0j8WNTkS/graycheck.png');	
-    				}
-    			},
-    			fail : function(error){
-    				console.log(error);
-    			}
-    		})
+    	})
+    	
+    	$('#memPhone').on('keyup', function(){
+    		if($(this).val().length == 11){
+	    		var empty = $(this).val();
+	    		
+	    		$.ajax({
+	    			url : "phoneCheck.me",
+	    			data : {checkPhone : $(this).val()},
+	    			success : function(result){
+	    				if(empty != "" && result == '0'){
+	    					$('#memPhoneImg').attr('src', 'https://i.postimg.cc/BvHMBStD/bluecheck.png');
+	    					buttonEnable4 = 1;
+	    				} else if(empty != "" && result == '1'){
+	    					$('#phoneCheck').show();
+	    					$('#phoneCheck').css('color', 'red').text('중복된 번호가 존재합니다.');
+	    					$('#memPhoneImg').attr('src', 'https://i.postimg.cc/0j8WNTkS/graycheck.png');	
+	    					buttonEnable4 = 0;
+	    				} else{
+	    					$('#phoneCheck').hide();
+	    					$('#memPhoneImg').attr('src', 'https://i.postimg.cc/0j8WNTkS/graycheck.png');
+	    					buttonEnable4 = 0;
+	    				}
+	    			}
+	    		})
+    		} else{
+    			$('#phoneCheck').hide();
+				$('#memPhoneImg').attr('src', 'https://i.postimg.cc/0j8WNTkS/graycheck.png');
+				buttonEnable4 = 0;
+    		}
+    		
+    		buttonEnableCheck();
+    		
+    	})
+    	
+    	$('#memEmail').on('keyup', function(){
+    		if($(this).val().includes("@")){
+	    		var empty = $(this).val();
+	    		
+	    		$.ajax({
+	    			url : "emailCheck.me",
+	    			data : {checkEmail : $(this).val()},
+	    			success : function(result){
+	    				if(empty != "" && result == '0'){
+	    					$('#memEmailImg').attr('src', 'https://i.postimg.cc/BvHMBStD/bluecheck.png');
+	    					buttonEnable5 = 1;
+	    				} else if(empty != "" && result == '1'){
+	    					$('#emailCheck').show();
+	    					$('#emailCheck').css('color', 'red').text('중복된 메일이 존재합니다.');
+	    					$('#memEmailImg').attr('src', 'https://i.postimg.cc/0j8WNTkS/graycheck.png');
+	    					buttonEnable5 = 0;
+	    				} else{
+	    					$('#emailCheck').hide();
+	    					$('#memEmailImg').attr('src', 'https://i.postimg.cc/0j8WNTkS/graycheck.png');
+	    					buttonEnable5 = 0;
+	    				}
+	    			}
+	    		})
+    		} else{
+    			$('#emailCheck').hide();
+				$('#memEmailImg').attr('src', 'https://i.postimg.cc/0j8WNTkS/graycheck.png');
+				buttonEnable5 = 0;
+    		}
+    		
+    		buttonEnableCheck();
+    		
     	})
     	
     	$('#memPwd').on('keyup', function(){
-    		if(($('#memPwd').val()!= "") && ($('#memPwd').val()==$('#memPwd2').val())){
-    			$('.pwdCheck').hide();
-    			$('.memPwdImg').attr('src', 'https://i.postimg.cc/BvHMBStD/bluecheck.png');
-    			$('#insertFormButton').removeAttr("disabled");
+    		if($(this).val().length >= 8 ){
+	    		if(($('#memPwd').val()== "") || ($('#memPwd').val()!=$('#memPwd2').val())){
+	    			$('.pwdCheck').show();
+	    			$('.memPwdImg').attr('src', 'https://i.postimg.cc/0j8WNTkS/graycheck.png');
+	    			buttonEnable3 = 0;
+	    		} else{    			
+	    			$('.pwdCheck').hide();
+	    			$('.memPwdImg').attr('src', 'https://i.postimg.cc/BvHMBStD/bluecheck.png');
+	    			buttonEnable3 = 1;
+	    		}
     		} else{
-    			$('.pwdCheck').show();
+    			$('.pwdCheck').hide();
     			$('.memPwdImg').attr('src', 'https://i.postimg.cc/0j8WNTkS/graycheck.png');
-    			$('#insertFormButton').attr("disabled", true);
-    		} 		
+    			buttonEnable3 = 0;
+    		}
+    		
+    		buttonEnableCheck();
+    		
     	})
     	
     	$('#memPwd2').on('keyup', function(){
-    		if(($('#memPwd').val()!= "") && ($('#memPwd').val()==$('#memPwd2').val())){
-    			$('.pwdCheck').hide();
-    			$('.memPwdImg').attr('src', 'https://i.postimg.cc/BvHMBStD/bluecheck.png');
-    			$('#insertFormButton').removeAttr("disabled");
+    		if($(this).val().length >= 8 ){
+	    		if(($('#memPwd').val()== "") || ($('#memPwd').val()!=$('#memPwd2').val())){
+	    			$('.pwdCheck').show();
+	    			$('.memPwdImg').attr('src', 'https://i.postimg.cc/0j8WNTkS/graycheck.png');
+	    			buttonEnable3 = 0;
+	    		} else{    			
+	    			$('.pwdCheck').hide();
+	    			$('.memPwdImg').attr('src', 'https://i.postimg.cc/BvHMBStD/bluecheck.png');
+	    			buttonEnable3 = 1;
+	    		}	
     		} else{
-    			$('.pwdCheck').show();
+    			$('.pwdCheck').hide();
     			$('.memPwdImg').attr('src', 'https://i.postimg.cc/0j8WNTkS/graycheck.png');
-    			$('#insertFormButton').attr("disabled", true);
-    		}	
+    			buttonEnable3 = 0;
+    		}
+    		
+    		buttonEnableCheck();
+    		
     	})
-    
     </script>
 
 </body>

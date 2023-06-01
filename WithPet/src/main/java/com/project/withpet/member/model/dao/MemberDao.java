@@ -19,4 +19,12 @@ public class MemberDao {
 	public int nickCheck(SqlSession sqlSession, String checkNick) {
 		return sqlSession.selectOne("memberMapper.nickCheck", checkNick);
 	}
+	
+	public int phoneCheck(SqlSession sqlSession, String checkPhone) {
+		return sqlSession.selectOne("memberMapper.phoneCheck", checkPhone);
+	}
+	
+	public int emailCheck(SqlSession sqlSession, String checkEmail) {
+		return sqlSession.selectOne("memberMapper.emailCheck", checkEmail);
+	}
 }
