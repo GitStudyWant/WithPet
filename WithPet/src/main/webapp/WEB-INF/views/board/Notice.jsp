@@ -69,19 +69,26 @@
     }
     #notice-form{
         width: 80%;
-        height: 80%;
-        margin-left: 10%;
-        margin-right: 10%;
+        margin: 0 auto;
+        margin-top: 30px;
     }
 
     #notice-form>thead>tr>th{
-        border: 1px solid black;
-        width: 30%;
+        border: 1px solid grey;
+        height: 40px;
+        text-align: center;
        
         
     }
     #notice-form>tbody>tr>td{
-        border: 1px solid black;
+        border: 1px solid grey;
+    }
+     #notice-form>tbody>tr{
+   		height: 40px;
+    }
+    #head{
+    	color: white;
+        background-color: rgb(73, 166, 112);
     }
 
     
@@ -113,14 +120,14 @@
             <br><br>
             <div class="board-element">
                 <table id="notice-form">
-                    <thead>
+                    <thead id="head">
                         <tr>
-                            <th>글번호</th>
-                            <th>제목</th>
-                            <th>작성일자</th>
+                            <th style="width: 10%;">글번호</th>
+                            <th style="width: 70%;">제목</th>
+                            <th style="width: 20%;">게시일자</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody >
                         <tr>
                             <td>1</td>
                             <td>첫 공지사항</td>
@@ -133,8 +140,9 @@
                         </tr>
                     </tbody>
                 </table>
+			<br>
+			<a class="btn btn-secondary" style="margin: 0 auto;width: 150px; display: block;">더보기</a>
             </div>
-
             
         </div>
     </div>
