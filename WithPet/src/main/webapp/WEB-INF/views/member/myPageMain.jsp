@@ -1,49 +1,43 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
+<title>메인</title>
 <style>
 
-#body{
+
+	#body{
 	height: 1000px;
 	width: 100%;
-	background-color:lightyellow;
+	background-color:white;
 	box-sizing: border-box;
 	}
 
-#side{
-    width: 20%;
-    height: 100%;
-    display: inline-block;
-    border-right : 4px solid rgb(229, 221, 221);
-}
-#pro{
-    width: 100%;
-    height: 30%;
-    border-bottom : 4px solid rgb(229, 221, 221);
-}
-#mune{
-    width: 100%;
-    height: 69%;
-}
-#main{
-    width: 79%;
-    height: 100%;
-    display: inline-block;
-}
-img{
-    display: inline;
-}
+	#mainSi{
+		height : 1000px;
+		display: inline-block;	
+		float:left;
+	}
 
-#naviTable{
+	#mainmain{
+		width : 75%;
+		height : 1000px;
+		display: inline-block;	
+		float:left;
+	}
+
+	#mainTable{
+		border-top: 1px solid #dee2e6;
+	}
+
+	#mainTable p{
+		margin-top: 10px;
+	}
+
+	#naviTable{
 		width : 100%;
 		height : 150px;
 	}
@@ -54,6 +48,10 @@ img{
 
 	.thHigh{
 		height : 120px;
+		font-size: 25px;
+	}
+	.thHigh:hover{
+		color:rgb(73, 166, 112);
 	}
 
 	.width10{
@@ -79,32 +77,135 @@ img{
         width: 25%;
     }
 
-    #memberimg{
-        width: 150px;
-        height : 150px;
-        border-radius: 100px;
-        margin-top: 30px;
-    }
-
-    #memberoption{
-        width: 50px;
-        height : 50px;
-        border-radius: 100px;
-    }
+	.inCheck{
+		width :20px;
+		height: 20px;
+		margin-right: 40px;
+	}
 
 
-
-    
 
 
 </style>
 </head>
 <body>
-   
 
-    
+	<jsp:include page="common/header.jsp" />
+	<div id="body">
+			<div id="mainSi"><jsp:include page="common/myPageSide.jsp" /></div>
+			<div id="mainmain">
+				<table id="naviTable">
+					<thead>
+						<tr>
+							<th class="width10"></th>
+							<th class="thHigh">작성글 확인</th>
+							<th class="thHigh">작성 댓글 확인</th>
+							<th class="thHigh">스크랩한 글</th>
+							<th class="thHigh">출석하기</th>
+							<th class="thHigh"></th>
+						</tr>
+						<tr>
+							<td colspan="5">삭제한 게시글 조회</td>
+						</tr>
+					</thead>
+				</table>
+				<br>
+				<table class="table table-hover" id="mainTable">
+					<thead>
+						<tr align="center">
+						<th scope="col"><p>선택</p></th>
+						<th scope="col"><p>제목</p></th>
+						<th scope="col"><p>작성일</p></th>
+						<th scope="col"><p>조회수</p></th>
+						</tr>
+					  </thead>
+					  <tbody align="center">
+						<tr>
+						<th scope="row"><p><input type="checkbox"/></p></th>
+						<td><p>제목1</p></td>
+						<td><p>작성일</p></td>
+						<td><p>1</p></td>
+						</tr>
+						<tr>
+						<th scope="row"><p><input type="checkbox"/></p></th>
+						<td><p>제목1</p></td>
+						<td><p>작성일</p></td>
+						<td><p>1</p></td>
+						</tr>
+						<tr>
+						<th scope="row"><p><input type="checkbox"/></p></th>
+						<td><p>제목1</p></td>
+						<td><p>작성일</p></td>
+						<td><p>1</p></td>
+						</tr>
+						<tr>
+							<th scope="row"><p><input type="checkbox"/></p></th>
+							<td><p>제목1</p></td>
+							<td><p>작성일</p></td>
+							<td><p>1</p></td>
+						</tr>
+						<tr>
+							<th scope="row"><p><input type="checkbox"/></p></th>
+							<td><p>제목1</p></td>
+							<td><p>작성일</p></td>
+							<td><p>1</p></td>
+						</tr>
+						<tr>
+							<th scope="row"><p><input type="checkbox"/></p></th>
+							<td><p>제목1</p></td>
+							<td><p>작성일</p></td>
+							<td><p>1</p></td>
+						</tr>
+						<tr>
+							<th scope="row"><p><input type="checkbox"/></p></th>
+							<td><p>제목1</p></td>
+							<td><p>작성일</p></td>
+							<td><p>1</p></td>
+						</tr>
+						<tr>
+						   <th scope="row"><p><input type="checkbox"/></p></th>
+							<td><p>제목1</p></td>
+							<td><p>작성일</p></td>
+							<td><p>1</p></td>
+							</tr>
+						<tr>
+							<th scope="row"><p><input type="checkbox"/></p></th>
+							<td><p>제목1</p></td>
+							<td><p>작성일</p></td>
+							<td><p>1</p></td>
+						</tr>
+						<tr>
+							 <th scope="row"><p><input type="checkbox"/></p></th>
+							<td><p>제목1</p></td>
+							<td><p>작성일</p></td>
+							<td><p>1</p></td>
+						</tr>
+					  </tbody>
+				 </table>
+	
+				<table id="foogg">
+					<thead>
+						<tr align="center">
+							<th style="width : 30%;"><input class="inCheck" type="checkbox"/><button class="btn btn-success">선택 삭제</button></th>
+							<th style="width : 50%;">
+								<button class="btn btn-success">&lt</button>
+								<button class="btn btn-success">1</button>
+								<button class="btn btn-success">2</button>
+								<button class="btn btn-success">3</button>
+								<button class="btn btn-success">4</button>
+								<button class="btn btn-success">&gt</button>
+							
+							</th>
+							<th style="width : 10%;"><button class="btn btn-success">삭제</button></th>
+							<th style="width : 10%;" ><button class="btn btn-success">글쓰기</button></th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+	</div>		
 
-
-
+	
+	<jsp:include page="common/footer.jsp" />
+	
 </body>
 </html>
