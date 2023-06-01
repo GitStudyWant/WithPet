@@ -230,4 +230,6 @@ public interface MemberService {
 	public int validata(CertVO certVo);
 	
 	public Member idFind(String email);
+	
+	public int pwdMail(CertVO certVo);
 }

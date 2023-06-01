@@ -233,12 +233,12 @@ public class MemberDao {
 	}
 	
 	public Member idFind(SqlSessionTemplate sqlSession, String email) {
-		System.out.println(email);
-		Member m = sqlSession.selectOne("memberMapper.idFind", email);
-		System.out.println(m);
-		return m;
+		return sqlSession.selectOne("memberMapper.idFind", email);
 	}
 	
+	public int pwdMail(SqlSessionTemplate sqlSession, CertVO certVo) {
+		return sqlSession.insert("memberMapper.pwdMail", certVo);
+	}
 	
 
 	
