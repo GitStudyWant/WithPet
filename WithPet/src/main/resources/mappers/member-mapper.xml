@@ -38,6 +38,62 @@
 		where
 				mem_id = #{checkId}
 	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<insert id="sendMail" parameterType="cert">
+		INSERT
+		  INTO 
+		      CERTIFIED
+		      (
+		      CERTIFIED_ID,
+		      CERTIFIED_CODE,
+		      CERTIFIED_DATE
+		      )
+		VALUES
+			  (
+			  #{who},
+			  #{secret},
+			  SYSDATE
+			  )
+			  
+	</insert>
 
 
 </mapper>
