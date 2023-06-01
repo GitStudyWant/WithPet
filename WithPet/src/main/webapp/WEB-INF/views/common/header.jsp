@@ -98,14 +98,14 @@
         </div>
         <div id="header_3"><a id="header_3_a">Community</a>
             <div id="header_3_detail">
-                <div id="header_3_detail_1">리뷰</div>
-                <div id="header_3_detail_2">자유</div>
-                <div id="header_3_detail_3">질문</div>
+                <div id="header_3_detail_1" onclick="location.href='list.review'">리뷰</div>
+                <div id="header_3_detail_2" onclick="location.href='list.free'">자유</div>
+                <div id="header_3_detail_3" onclick="location.href='list.qna'">질문</div>
             </div>
         </div>
-        <div id="header_4"><a>Creator</a></div>
-        <div id="header_5"><a>Share</a></div>
-        <div id="header_6"><a>Notice</a></div>
+        <div id="header_4"  onclick="location.href='list.creator'"><a>Creator</a></div>
+        <div id="header_5"  onclick="location.href='list.share'"><a>Share</a></div>
+        <div id="header_6"  onclick="location.href='list.notice'"><a>Notice</a></div>
         <div id="header_7"><a data-bs-toggle="modal" data-bs-target="#joinModal">Login</a>
         <p id="token-result"></p>
         </div>

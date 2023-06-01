@@ -28,14 +28,13 @@ public class BoardController {
 	@Autowired
 	private BoardService boardService;
 	
-	// 메뉴바의 게시판 클릭 시 => /list.bo
-	// 페이징 바 클릭 시 => /list.bo?cPage=요청하는 페이지의 번호
+	
 	
 	@RequestMapping("list.review")
 	public String selectReList() {
 		
 		
-		// 포워딩 // /WEB-INF/views/			board/boardListView		.jsp
+
 		return "board/ReviewBoard";
 	}
 	
