@@ -9,14 +9,15 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
 import com.project.withpet.trip.model.service.TripService;
+import com.project.withpet.trip.model.vo.MyPlace;
 import com.project.withpet.trip.model.vo.Place;
+import com.project.withpet.trip.model.vo.R_MyPlace;
 
 @Controller
 public class TripController {
@@ -84,21 +85,64 @@ public class TripController {
 		}
 	
 	
-	
-	@RequestMapping
+	@ResponseBody
+	@RequestMapping("checkMyCourse")
 	public int checkMyCourse(String memId) {
-		
+		System.out.println(memId);
+		return tripService.checkMyCourse(memId);
 	}
 	
 	
 	
 	
 	@ResponseBody
-	@RequestMapping(value="saveMyPlace", produces="application/json; charset=UTF-8")
-	public String saveMyCourse() {
-		
-		
-	};
+	@RequestMapping("saveMyCourse")
+	public String saveMyCourse(MyPlace myCourse, HttpSession session) {
+		   			
+			R_MyPlace rMyPlace = new R_MyPlace();
+			
+			rMyPlace.setCourseSe(myCourse.getCourseSe());
+			rMyPlace.setMemId(myCourse.getMemId());
+			
+			rMyPlace.setPlaceNo(myCourse.getPlaceNo1());	
+			int result1 = tripService.saveMyCourse(rMyPlace);
+			
+			rMyPlace.setPlaceNo(myCourse.getPlaceNo2());
+			int result2 = tripService.saveMyCourse(rMyPlace);
+			
+			rMyPlace.setPlaceNo(myCourse.getPlaceNo5());
+			int result5 = tripService.saveMyCourse(rMyPlace);
+			
+			int result3 = 1;
+			int result4 = 1;
+			
+			if(!myCourse.getPlaceNo3().equals("") && !myCourse.getPlaceNo4().equals("")) {
+				
+				rMyPlace.setPlaceNo(myCourse.getPlaceNo3());
+				result3 = tripService.saveMyCourse(rMyPlace);
+				
+				rMyPlace.setPlaceNo(myCourse.getPlaceNo4());
+				result4 = tripService.saveMyCourse(rMyPlace);
+				
+			} else if(myCourse.getPlaceNo3().equals("") && !myCourse.getPlaceNo4().equals("")) {
+				
+				rMyPlace.setPlaceNo(myCourse.getPlaceNo4());
+				result4 = tripService.saveMyCourse(rMyPlace);
+				
+			} else if(myCourse.getPlaceNo4().equals("") && !myCourse.getPlaceNo3().equals("")) {
+
+				rMyPlace.setPlaceNo(myCourse.getPlaceNo3());
+				result3 = tripService.saveMyCourse(rMyPlace);
+			}
+			
+			
+			if(result1 * result2 * result3 * result4 * result5 != 0) {
+				return "F";
+			} else {
+				return "S";
+			}
+
+	}
 	
 }
 
