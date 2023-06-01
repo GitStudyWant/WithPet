@@ -606,7 +606,8 @@ public class MemberController {
 	@ResponseBody
 	@PostMapping("sendMail.bo")
 	public int sendMail(String email, HttpServletRequest request) throws MessagingException {
-		
+		System.out.println("오냐?");
+		System.out.println(email);
 		MimeMessage message = sender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 		
@@ -638,5 +639,22 @@ public class MemberController {
 	
 	return secret;
 	}
+
+	
+	@ResponseBody
+	@PostMapping("check")
+	public int checkCode(String code, HttpServletRequest request) {
+		CertVO certVo = CertVO.builder().who(request.getRemoteAddr()).secret(code).build();
+		return memberService.validata(certVo);
+	}
+	
+	@ResponseBody
+	@PostMapping("idFind")
+	public Member idFind(String email, HttpServletRequest request) {
+		Member m = memberService.idFind(email);
+		System.out.println(m);
+		return m;
+	}
+
 		
 }

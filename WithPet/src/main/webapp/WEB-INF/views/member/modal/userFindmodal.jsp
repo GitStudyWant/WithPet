@@ -48,31 +48,33 @@
 	          <form action="login.me" method="get">
 	          	<table width="400" style="text-align:center">
 		          	<tr>
-		          		<td width="80"><p style="font-size:10px; color:gray; margin-top:12px">아이디 :</p></td>
-		          		<td width="200"><input type="text" style="width:100%; border:solid 1px lightgray" required placeholder="내용을 입력해주세요" name="memId"></td>
+		          		<td width="80"><p style="font-size:10px; color:gray; margin-top:12px">이름 :</p></td>
+		          		<td width="200"><input id="memberName" type="text" style="width:100%; border:solid 1px lightgray" required placeholder="내용을 입력해주세요" name="memId"></td>
 						<td></td>
 		          	<tr>
 		          	<tr>
 			          	<td><p style="font-size:10px; color:gray; margin-top:12px">이메일 : </p></td>
-						<td><input type="text" id="email" style="width:100%; border:solid 1px lightgray" class="dis_inline" required placeholder="내용을 입력해주세요" name="email"></td>
-						<td><a class="btn_size btn_font btn btn-primary" onclick="authenticationNumber();">인증번호 받기</a></td>
+						<td><input type="text" id="email" style="width:100%; border:solid 1px lightgray" class="dis_inline" required placeholder="내용을 입력해주세요" name="email1"></td>
+						<td><button type="button" class="btn_size btn_font btn btn-primary" onclick="authenticationNumber();">인증번호 받기</button></td>
 		          	</tr>
 					  <tr>
 						<td><p style="font-size:10px; color:gray; margin-top:12px">인증번호 : </p></td>
-						<td><input type="text" style="width:100%; border:solid 1px lightgray" required placeholder="내용을 입력해주세요"></td>
-						<td></td>
+						<td><input type="text" id="code" style="width:100%; border:solid 1px lightgray" required placeholder="내용을 입력해주세요"></td>
+						<td><button type="button" class="btn_size btn_font btn btn-primary" onclick="numberCheck();">인증번호 확인</button>
+							<p id="notCode"></p>
+						</td>
 					</tr>
 	          	</table>
-	          	<a class="btn btn-primary" style="width:80%; margin:35px 50px" data-bs-toggle="modal" data-bs-target="#idResult">다음	</a>
+	          	<a class="btn btn-primary" id="idNext" style="width:80%; margin:35px 50px" data-bs-toggle="modal" data-bs-target="#idResult" onclick="idFind();">다음	</a>
 	       
 
 	          </form>
 		      
 		      <script>
 		      	function authenticationNumber(){
-		      		$ajax({
+		      		$.ajax({
 		      			url : 'sendMail.bo',
-		      			data : $('#email').text(),
+		      			data : {email : $('#email').val()},
 		      			type : 'post',
 		      			success : function(num){
 		      				console.log(num);
@@ -84,6 +86,59 @@
 		      		});
 		      		
 		      	};
+		      	
+		      	function numberCheck(){
+		      		
+		      		httpRequest = new XMLHttpRequest();
+		      		const code = document.getElementById('code').value;
+		      		httpRequest.onreadystatechange = () =>{
+		      			if(httpRequest.readyState === XMLHttpRequest.DONE){
+		      				if(httpRequest.status === 200){
+		      					
+		      					let result = httpRequest.response;
+		      					
+		      					console.log(result);
+		      					if(result == 0) {
+		      						
+		      						document.getElementById('notCode').innerText='인증번호가 일치하지 않습니다.';
+		      						document.getElementById('idNext').style.display='none';
+		      						//document.getElementsByClassName('btn-next').style.display = 'none';
+		      						console.log(document.getElementById('idNext').style);
+		      						
+		      					}
+		      					else{
+		      						document.getElementById('notCode').innerText='다음으로 넘어가주세요.';
+		      						document.getElementById('idNext').style.display='';
+		      					}
+		      				}
+		      			}
+		      		}
+		      		httpRequest.open('POST', 'check?code=' + code);
+		      		httpRequest.responseType = 'text/html';
+		      		httpRequest.send();
+		      	};
+		      	
+		      	function idFind(){
+		      		
+		      		httpRequest = new XMLHttpRequest();
+		      		const name = document.getElementById('memberName').value;
+		      		const email = document.getElementById('email').value;
+		      		httpRequest.onreadystatechange = () =>{
+		      			if(httpRequest.readyState === XMLHttpRequest.DONE){
+		      				if(httpRequest.status === 200){
+		      					let result = httpRequest.response;
+		      					if(result != null){
+									console.log(result);
+								}
+		      				}
+		      			}
+		      		}
+		      		httpRequest.open('POST', 'idFind?email=' + email);
+		      		httpRequest.responseType = 'text/html';
+		      		httpRequest.send();
+		      	};
+		      	
+		      	
 		      </script>
 	        </div>
 	        

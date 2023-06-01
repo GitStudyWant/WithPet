@@ -227,4 +227,7 @@ public interface MemberService {
 	
 	public int sendMail(CertVO certVo);
 	
+	public int validata(CertVO certVo);
+	
+	public Member idFind(String email);
 }

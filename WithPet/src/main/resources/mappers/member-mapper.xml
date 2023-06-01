@@ -141,6 +141,36 @@
 			  )
 			  
 	</insert>
+	
+	<select id="validate" resultType="cert"
+						  parameterType="cert">
+		SELECT
+		      *
+		  FROM
+		      CERTIFIED
+		 WHERE
+		      CERTIFIED_ID = #{who}
+		   AND
+		      CERTIFIED_CODE = #{secret}
+		   AND
+		      CERTIFIED_DATE BETWEEN SYSDATE - 3/24/60 AND SYSDATE
+	</select>
+	
+	<delete id="remove" parameterType="cert">
+		delete CERTIFIED where CERTIFIED_ID = #{who} and CERTIFIED_CODE = #{secret}
+	</delete>
+	
+	<select id="idFind" resultType="member" parameterType="string">
+		select
+		      *
+		  from
+		      member
+		 where
+		      mem_email = #{email}
+		   and
+		      mem_status = 'Y'
+	</select>
+	
 
 	
 </mapper>
