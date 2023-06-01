@@ -15,12 +15,15 @@
 		<typeAlias type="com.project.withpet.member.model.vo.Schedule" alias="schedule" />
 		<typeAlias type="com.project.withpet.trip.model.vo.Place" alias="place" />
 		<typeAlias type="com.project.withpet.trip.model.vo.R_MyPlace" alias="R_myPlace" />
+		<typeAlias type="com.project.withpet.board.model.vo.Board" alias="board" />
 		<typeAlias type="com.project.withpet.member.model.vo.CertVO" alias="cert" />
+
 	</typeAliases>
 	
 	<mappers>
 		<mapper resource="/mappers/member-mapper.xml" />
 		<mapper resource="/mappers/trip-mapper.xml" />
+		<mapper resource="/mappers/board-mapper.xml" />
 	</mappers>
 
 

@@ -30,7 +30,13 @@ public class MemberDao {
 		return sqlSession.selectOne("memberMapper.emailCheck", checkEmail);
 	}
 	
+	public Member selectMember(SqlSession sqlSession, Member member) {
+		return sqlSession.selectOne("memberMapper.selectMember", member);
+	}
 	
+	public int selectMemoCount(SqlSession sqlSession, String memId) {
+		return sqlSession.selectOne("memberMapper.selectMemoCount", memId);
+	}
 	
 	
 	

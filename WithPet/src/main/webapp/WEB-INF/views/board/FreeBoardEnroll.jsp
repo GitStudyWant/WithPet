@@ -165,7 +165,7 @@
             <br><br><br>
             
             <label for="" id="board-head">자유게시판</label>
-            <a class="btn btn-secondary" style="float:right; margin-right: 100px; width: 150px;" href="enrollForm.fr">글쓰기</a>
+            <a class="btn btn-secondary" style="float:right; margin-right: 100px; width: 150px;" href="enrollForm.bo">글쓰기</a>
             <br>
             <label for="" id="board-subtext">자유롭게 이야기해봐요~&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
         

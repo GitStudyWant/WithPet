@@ -96,6 +96,49 @@ public class MemberController {
 		
 	}
 	
+	@RequestMapping("login.me")
+	public ModelAndView selectMember(Member member, ModelAndView mv, HttpSession session) throws ServletException, IOException{
+				
+		Member loginMember = memberService.selectMember(member);
+		int loginMemo = memberService.selectMemoCount(member.getMemId());
+
+		System.out.println(loginMember);
+		System.out.println(loginMemo);
+		
+		if(loginMember != null/* && bcryptPasswordEncoder.matches(member.getMemPwd(), loginMember.getMemPwd())*/) {
+			session.setAttribute("loginMember", loginMember);
+			session.setAttribute("loginMemo", loginMemo);
+			mv.setViewName("redirect:/");
+		} else {
+			//mv.addObject("errorMsg", "응 안돼~");
+			mv.setViewName("common/errorPage");
+		}
+		
+		return mv;
+		
+	}
+	
+	@RequestMapping("logout.me")
+	public ModelAndView deleteMember(String memId, ModelAndView mv, HttpSession session) throws ServletException, IOException{
+				
+		session.removeAttribute("loginMember");
+		session.removeAttribute("loginMemo");
+		
+		mv.setViewName("redirect:/");
+		
+		return mv;
+		
+	}
+	
+	@RequestMapping("myPage.me")
+	public ModelAndView myPageMember(String memId, ModelAndView mv, HttpSession session) throws ServletException, IOException{
+		
+		mv.setViewName("member/myPageMain");
+		
+		return mv;
+		
+	}
+	
 	@RequestMapping("kakaoGetCodeUrl")
 	public void kakaoGetCodeUrl(HttpServletResponse response) throws ServletException, IOException {
 		
