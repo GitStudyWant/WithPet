@@ -223,11 +223,12 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-<<<<<<< HEAD
+
 	public ArrayList<Comments> writingReply(String memId) {
-=======
+		
+	}
 	public ArrayList writingReply(String memId) {
->>>>>>> fd92c0528caf8c894fd939cd4e615875615c0e23
+
 		return null;
 	}
 

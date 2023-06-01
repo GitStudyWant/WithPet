@@ -5,10 +5,9 @@ import java.sql.Date;
 import java.util.ArrayList;
 
 import com.project.withpet.board.model.vo.Board;
-<<<<<<< HEAD
+
 import com.project.withpet.board.model.vo.Comments;
-=======
->>>>>>> fd92c0528caf8c894fd939cd4e615875615c0e23
+
 import com.project.withpet.member.model.dao.MemberDao;
 import com.project.withpet.member.model.vo.CertVO;
 import com.project.withpet.member.model.vo.Member;
@@ -216,12 +215,11 @@ public interface MemberService {
 	// 湲곕뒫 1 �옉�꽦湲�, �옉�꽦�뙎湲�, �뒪�겕�옪�븳湲� 蹂닿린 (異쒖꽍泥댄겕, �궘�젣�븳 寃뚯떆湲� 蹂닿린)
 	
 	public ArrayList<Board> writingBoard(String memId);
-	
-<<<<<<< HEAD
+
 	public ArrayList<Comments> writingReply(String memId);
-=======
+	
 	public ArrayList writingReply(String memId);
->>>>>>> fd92c0528caf8c894fd939cd4e615875615c0e23
+
 	
 	public ArrayList<Board> likesBoard(String memId);
 	
