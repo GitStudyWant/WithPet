@@ -7,6 +7,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.project.withpet.board.model.vo.Board;
+import com.project.withpet.board.model.vo.Reply;
 import com.project.withpet.member.model.dao.MemberDao;
 import com.project.withpet.member.model.vo.Member;
 import com.project.withpet.member.model.vo.Memo;
@@ -124,6 +126,100 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public ArrayList<Point> selectPointMinus(String memId) {
+		return null;
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// 박민성
+	@Override
+	public ArrayList<Board> writingBoard(String memId) {
+		return null;
+	}
+
+	@Override
+	public ArrayList<Reply> writingReply(String memId) {
+		return null;
+	}
+
+	@Override
+	public ArrayList<Board> likesBoard(String memId) {
+		return null;
+	}
+
+	@Override
+	public int attendance(String memId) {
+		return 0;
+	}
+
+	@Override
+	public ArrayList<Board> deletedBoard(String memId) {
 		return null;
 	}
 

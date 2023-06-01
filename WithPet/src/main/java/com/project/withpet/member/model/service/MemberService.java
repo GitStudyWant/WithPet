@@ -203,11 +203,15 @@ public interface MemberService {
 	
 	// 기능 1 작성글, 작성댓글, 스크랩한글 보기 (출석체크, 삭제한 게시글 보기)
 	
-	public ArrayList<Board> writingBoard(int memId);
+	public ArrayList<Board> writingBoard(String memId);
 	
-	public ArrayList<Reply> writingReply(int memId);
+	public ArrayList<Reply> writingReply(String memId);
 	
+	public ArrayList<Board> likesBoard(String memId);
 	
+	public int attendance(String memId);
+	
+	public ArrayList<Board> deletedBoard(String memId);
 	
 	
 	
