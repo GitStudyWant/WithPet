@@ -52,7 +52,7 @@
 	        <div class="modal-footer">
 	        <div style="margin:auto">
 	          <button type="button" class="btn btn-secondary" data-bs-target="#joinModal" data-bs-toggle="modal">회원가입</button>
-	          <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#idFind">아이디 찾기</button>
+	          <button type="button" class="btn btn-secondary" data-bs-target="#idFind" data-bs-toggle="modal">아이디 찾기</button>
 	          <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#pwdFind">비밀번호 찾기</button>
 	        </div>
 	        </div>
