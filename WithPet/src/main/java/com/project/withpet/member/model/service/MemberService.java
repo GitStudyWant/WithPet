@@ -15,7 +15,9 @@ public interface MemberService {
 	// 멤버
 	public int insertMember(Member member);
 	
-	public int idDouble(String checkId);
+	public int idCheck(String checkId);
+	
+	public int nickCheck(String checkNick);
 	
 	public Member selectMember(Member member);
 	

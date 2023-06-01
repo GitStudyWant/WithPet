@@ -30,8 +30,13 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
-	public int idDouble(String checkId) {
-		return memberDao.idDouble(sqlSession, checkId);
+	public int idCheck(String checkId) {
+		return memberDao.idCheck(sqlSession, checkId);
+	}
+	
+	@Override
+	public int nickCheck(String checkNick) {
+		return memberDao.nickCheck(sqlSession, checkNick);
 	}
 
 	@Override

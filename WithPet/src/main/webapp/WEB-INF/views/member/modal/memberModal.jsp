@@ -75,22 +75,22 @@
 	          <form action="insert.me" method="POST">
 	          	<table width="100%" style="text-align:center">
 		          	<tr style="margin-top:5px">
-		          		<td width="80" height="10"><p style="font-size:10px; color:gray;"><img id="memIdImg"  src="https://i.postimg.cc/0j8WNTkS/graycheck.png" width="14px" height="14px">
+		          		<td width="80" height="10"><p style="font-size:10px; color:gray;"><img class="memIdImg" src="https://i.postimg.cc/0j8WNTkS/graycheck.png" width="14px" height="14px">
 		          		ID</p></td>
 		          		<td width="100"><input type="text" maxlength="15" id="memId" name="memId" style="width:100%; border:solid 1px lightgray"></td>
 		          	<tr>
 		          	<tr>
 		          		<td height="17"></td>
-		          		<td><p id="idDouble" style="font-size:3px; color:gray; margin-bottom:0px;">중복입니다</p></td>
+		          		<td><p id="idCheck" style="font-size:3px; color:gray; margin-bottom:0px; display:none;"></p></td>
 		          	<tr>
 		          	<tr>
-			          	<td><p style="font-size:10px; color:gray;"><img id="memNickImg"  src="https://i.postimg.cc/0j8WNTkS/graycheck.png" width="14px" height="14px">
+			          	<td><p style="font-size:10px; color:gray;"><img class="memNickImg" src="https://i.postimg.cc/0j8WNTkS/graycheck.png" width="14px" height="14px">
 			          	NICKNAME</p></td>
-			          	<td><input type="text" name="memNick"  maxlength="15" style="width:100%; border:solid 1px lightgray"></td>
+			          	<td><input type="text" id="memNick" name="memNick" maxlength="15" style="width:100%; border:solid 1px lightgray"></td>
 		          	</tr>
 		          	<tr>
 		          		<td height="17"></td>
-		          		<td><p style="font-size:3px; color:gray; margin-bottom:0px;">중복입니다</p></td>
+		          		<td><p id="nickCheck" style="font-size:3px; color:gray; margin-bottom:0px; display:none;">중복입니다</p></td>
 		          	<tr>
 		          	<tr>
 			          	<td><p style="font-size:10px; color:gray;"><img class="memPwdImg" src="https://i.postimg.cc/0j8WNTkS/graycheck.png" width="14px" height="14px">
@@ -99,7 +99,7 @@
 		          	</tr>
 		          	<tr>
 		          		<td height="17"></td>
-		          		<td><p style="font-size:3px; color:gray; margin-bottom:0px;">비밀번호가 일치하지 않습니다</p></td>
+		          		<td><p class="pwdCheck" style="font-size:3px; color:red; margin-bottom:0px; display:none;">비밀번호가 일치하지 않습니다</p></td>
 		          	<tr>
 		          	<tr>
 			          	<td><p style="font-size:10px; color:gray;"><img class="memPwdImg" src="https://i.postimg.cc/0j8WNTkS/graycheck.png" width="14px" height="14px">
@@ -108,7 +108,7 @@
 		          	</tr>
 		          	<tr>
 		          		<td height="17"></td>
-		          		<td><p style="font-size:3px; color:gray; margin-bottom:0px;">비밀번호가 일치하지 않습니다</p></td>
+		          		<td><p class="pwdCheck" style="font-size:3px; color:red; margin-bottom:0px; display:none;">비밀번호가 일치하지 않습니다</p></td>
 		          	<tr>
 		          	<tr>
 			          	<td><p style="font-size:10px; color:gray;"><img id="memPhoneImg" src="https://i.postimg.cc/0j8WNTkS/graycheck.png" width="14px" height="14px">
@@ -117,7 +117,7 @@
 		          	</tr>
 		          	<tr>
 		          		<td height="17"></td>
-		          		<td><p style="font-size:3px; color:gray; margin-bottom:0px;">중복입니다</p></td>
+		          		<td><p style="font-size:3px; color:gray; margin-bottom:0px; display:none;">중복입니다</p></td>
 		          	<tr>
 		          	<tr>
 			          	<td><p style="font-size:10px; color:gray;"><img id="memEmailImg" src="https://i.postimg.cc/0j8WNTkS/graycheck.png" width="14px" height="14px">
@@ -126,10 +126,10 @@
 		          	</tr>
 		          	<tr>
 		          		<td height="17"></td>
-		          		<td><p style="font-size:3px; color:gray; margin-bottom:0px;">중복입니다</p></td>
+		          		<td><p style="font-size:3px; color:gray; margin-bottom:0px; display:none;">중복입니다</p></td>
 		          	<tr>
 	          	</table>
-	          	<button type="submit" class="btn btn-primary" style="width:80%; display:block; margin:auto">회원 가입</button>
+	          	<button id="insertFormButton" type="submit" class="btn btn-primary" style="width:80%; display:block; margin:auto" disabled>회원 가입</button>
 	       		</form>
 	        </div>
 	        
@@ -170,33 +170,84 @@
     
     <script>
     	$('#memId').on('keyup', function(){
-    		console.log($(this).val());
+    		var empty = $(this).val();
     		
     		$.ajax({
-    			url : "idDouble.me",
+    			url : "idCheck.me",
     			data : {checkId : $(this).val()},
     			success : function(result){
-    				console.log(result);
+    				if(empty != "" && result == '0'){
+    					$('#idCheck').show();
+    					$('#idCheck').css('color', 'lightgreen').text('멋진 아이디네요!');
+    					$('#insertFormButton').removeAttr("disabled");
+    					$('.memIdImg').attr('src', 'https://i.postimg.cc/BvHMBStD/bluecheck.png');
+    				} else if(empty != "" && result == '1'){
+    					$('#idCheck').show();
+    					$('#idCheck').css('color', 'red').text('중복된 아이디가 존재합니다.');
+    					$('#insertFormButton').attr("disabled", true);
+    					$('.memIdImg').attr('src', 'https://i.postimg.cc/0j8WNTkS/graycheck.png');	
+    				} else{
+    					$('#idCheck').hide();
+    					$('#insertFormButton').attr("disabled", true);
+    					$('.memIdImg').attr('src', 'https://i.postimg.cc/0j8WNTkS/graycheck.png');	
+    				}
     			},
     			fail : function(error){
     				console.log(error);
-    			}    			
+    			}
+    		})
+    	})
+    	
+    	$('#memNick').on('keyup', function(){
+    		var empty = $(this).val();
+    		
+    		$.ajax({
+    			url : "nickCheck.me",
+    			data : {checkNick : $(this).val()},
+    			success : function(result){
+    				if(empty != "" && result == '0'){
+    					$('#nickCheck').show();
+    					$('#nickCheck').css('color', 'lightgreen').text('멋진 닉네임이네요!');
+    					$('#insertFormButton').removeAttr("disabled");
+    					$('.memNickImg').attr('src', 'https://i.postimg.cc/BvHMBStD/bluecheck.png');
+    				} else if(empty != "" && result == '1'){
+    					$('#nickCheck').show();
+    					$('#nickCheck').css('color', 'red').text('중복된 닉네임이 존재합니다.');
+    					$('#insertFormButton').attr("disabled", true);
+    					$('.memNickImg').attr('src', 'https://i.postimg.cc/0j8WNTkS/graycheck.png');	
+    				} else{
+    					$('#nickCheck').hide();
+    					$('#insertFormButton').attr("disabled", true);
+    					$('.memNickImg').attr('src', 'https://i.postimg.cc/0j8WNTkS/graycheck.png');	
+    				}
+    			},
+    			fail : function(error){
+    				console.log(error);
+    			}
     		})
     	})
     	
     	$('#memPwd').on('keyup', function(){
     		if(($('#memPwd').val()!= "") && ($('#memPwd').val()==$('#memPwd2').val())){
-    			$('.memPwdImg').attr('src', 'https://i.postimg.cc/BvHMBStD/bluecheck.png');			
+    			$('.pwdCheck').hide();
+    			$('.memPwdImg').attr('src', 'https://i.postimg.cc/BvHMBStD/bluecheck.png');
+    			$('#insertFormButton').removeAttr("disabled");
     		} else{
-    			$('.memPwdImg').attr('src', 'https://i.postimg.cc/0j8WNTkS/graycheck.png');	  
+    			$('.pwdCheck').show();
+    			$('.memPwdImg').attr('src', 'https://i.postimg.cc/0j8WNTkS/graycheck.png');
+    			$('#insertFormButton').attr("disabled", true);
     		} 		
     	})
     	
     	$('#memPwd2').on('keyup', function(){
     		if(($('#memPwd').val()!= "") && ($('#memPwd').val()==$('#memPwd2').val())){
-    			$('.memPwdImg').attr('src', 'https://i.postimg.cc/BvHMBStD/bluecheck.png');	   			
+    			$('.pwdCheck').hide();
+    			$('.memPwdImg').attr('src', 'https://i.postimg.cc/BvHMBStD/bluecheck.png');
+    			$('#insertFormButton').removeAttr("disabled");
     		} else{
-    			$('.memPwdImg').attr('src', 'https://i.postimg.cc/0j8WNTkS/graycheck.png');	  
+    			$('.pwdCheck').show();
+    			$('.memPwdImg').attr('src', 'https://i.postimg.cc/0j8WNTkS/graycheck.png');
+    			$('#insertFormButton').attr("disabled", true);
     		}	
     	})
     
