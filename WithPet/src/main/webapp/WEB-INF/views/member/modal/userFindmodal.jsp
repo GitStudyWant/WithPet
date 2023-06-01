@@ -47,13 +47,13 @@
 	          	<table width="400" style="text-align:center">
 		          	<tr>
 		          		<td width="80"><p style="font-size:10px; color:gray; margin-top:12px">아이디 :</p></td>
-		          		<td width="200"><input type="text" style="width:100%; border:solid 1px lightgray" required placeholder="내용을 입력해주세요"></td>
+		          		<td width="200"><input type="text" style="width:100%; border:solid 1px lightgray" required placeholder="내용을 입력해주세요" name="memId"></td>
 						<td></td>
 		          	<tr>
 		          	<tr>
 			          	<td><p style="font-size:10px; color:gray; margin-top:12px">이메일 : </p></td>
-						<td><input type="text" style="width:100%; border:solid 1px lightgray" class="dis_inline" required placeholder="내용을 입력해주세요"></td>
-						<td><a class="btn_size btn_font btn btn-primary">인증번호 받기</a></td>
+						<td><input type="text" id="email" style="width:100%; border:solid 1px lightgray" class="dis_inline" required placeholder="내용을 입력해주세요" name="email"></td>
+						<td><a class="btn_size btn_font btn btn-primary" onclick="authenticationNumber();">인증번호 받기</a></td>
 		          	</tr>
 					  <tr>
 						<td><p style="font-size:10px; color:gray; margin-top:12px">인증번호 : </p></td>
@@ -66,6 +66,23 @@
 
 	          </form>
 		      
+		      <script>
+		      	function authenticationNumber(){
+		      		$ajax({
+		      			url : 'sendMail.bo',
+		      			data : $('#email').text(),
+		      			type : 'post',
+		      			success : function(num){
+		      				console.log(num);
+		      			},
+		      			error : function(){
+		      				console.log('메일 보내기 실패');
+		      			};
+		      			
+		      		});
+		      		
+		      	};
+		      </script>
 	        </div>
 	        
 	        <div class="modal-footer">
