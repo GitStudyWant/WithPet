@@ -7,6 +7,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -279,6 +281,38 @@ public class MemberController {
 		return userInfo;
 	}
 	
+	@RequestMapping(value="memberDiaryMain.me")
+	public ModelAndView Diary(ModelAndView mv){
+		
+		HashMap<String, Integer> test = new HashMap<String, Integer>();
+		test.put("1", 2);
+		
+		Date Today = new Date();
+		SimpleDateFormat S = new SimpleDateFormat("yyyyMM01");
+		Long TodayLong = Long.parseLong(S.format(Today));
+		Date TodayDate = new Date(TodayLong);
+		
+		SimpleDateFormat SDFM = new SimpleDateFormat("MM");
+		int TodayMonth = Integer.parseInt(SDFM.format(Today)); // 오늘의 달값
+
+		int endDay;
+		
+		if(TodayMonth == 12) {
+			Date NextDate = new Date(TodayLong + 8800);
+			endDay = (int)(NextDate.getTime() - TodayDate.getTime());
+		} else {
+			Date NextDate = new Date(TodayLong + 100); 
+			endDay = (int)(NextDate.getTime() - TodayDate.getTime());
+		}
+		
+		System.out.println(endDay);
+		
+		
+		mv.addObject("test", test);
+		mv.setViewName("member/diary/memberDiary");
+		
+		return mv;
+	}
 	
 	
 	

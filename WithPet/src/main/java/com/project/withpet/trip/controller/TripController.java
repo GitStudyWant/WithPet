@@ -91,12 +91,11 @@ public class TripController {
 		System.out.println(memId);
 		return tripService.checkMyCourse(memId);
 	}
-	
+	/*
 	@ResponseBody
 	@RequestMapping("saveMyCourse")
 	public String saveMyCourse(MyPlace myCourse, HttpSession session) {
-		   			
-		
+		   
 		//count 수 먼저 증가 
 		
 			int result1 = 0;
@@ -161,6 +160,7 @@ public class TripController {
 			} else {
 				return "S";
 			}
+			
 
 	}
 	
@@ -172,7 +172,7 @@ public class TripController {
 		
 		
 	}
-	
+	*/
 	
 }
 

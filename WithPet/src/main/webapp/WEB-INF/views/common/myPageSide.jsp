@@ -146,7 +146,7 @@
                         <th><a href="myPage">채팅</a></th>
                     </tr>
                     <tr>
-                        <th><a href="myPage">다이어리</a></th>
+                        <th><a href="memberDiaryMain.me">다이어리</a></th>
                     </tr>
                     <tr>
                         <th><a href="myPage">친구</a></th>
