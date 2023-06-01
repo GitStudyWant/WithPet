@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.project.withpet.trip.model.vo.MyPlace;
 import com.project.withpet.trip.model.vo.Place;
+import com.project.withpet.trip.model.vo.R_MyPlace;
 
 public interface TripService {
 	
@@ -13,7 +14,7 @@ public interface TripService {
 	
 	int checkMyCourse(String memId);
 	
-	int saveMyPlace(MyPlace place);
+	int saveMyCourse(R_MyPlace rMyPlace);
 	
 	int insertPlace(Place p);
 	

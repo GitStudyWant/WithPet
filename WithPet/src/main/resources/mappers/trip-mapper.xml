@@ -94,5 +94,42 @@
 	       ,#{placeFilePath}
 	         )
 	</insert>
+	
+	<select id="checkMyCourse" resultType="_int">
+		SELECT
+		      SUM
+		      (COURSE_SE)
+		  FROM
+		      (
+		       SELECT 
+		             COURSE_SE
+		        FROM
+		            MY_PLACE
+		        WHERE 
+		             MEM_ID = #{memId}       
+		        GROUP
+		          BY 
+		            COURSE_SE
+		      )
+	</select>
+	
+	<insert id="saveMyCourse" parameterType="R_myPlace">
+		INSERT
+		  INTO
+		      MY_PLACE
+		      (
+		       PLACE_NO
+		      ,COURSE_SE
+		      ,PLACE_SE
+		      ,MEM_ID
+		      )
+	     VALUES
+	           (
+	           #{placeNo}
+	          ,#{courseSe}
+	          ,SEQ_MY_pLACE_NO.NEXTVAL
+	          ,#{memId}    
+	           )
+	</insert>
 
 </mapper>
