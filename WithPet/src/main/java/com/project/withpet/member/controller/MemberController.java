@@ -18,6 +18,7 @@ import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -502,6 +503,16 @@ public class MemberController {
 	// 작성글 보기
 	
 	
+	// 메일 보내기
+	@Autowired
+	private JavaMailSenderImpl sender;
+	
+	@PostMapping("sendMail.bo")
+	public String sendMail(String email, HttpServletRequest request) {
+		
+		
+		
+	}
 	
 		
 }
