@@ -22,6 +22,6 @@ public class Member {
 	private int memReport;
 	private String memStaus;
 	private String memUpdate;
-	private int memKakaoId;
+	private String memKakaoId;
 
 }

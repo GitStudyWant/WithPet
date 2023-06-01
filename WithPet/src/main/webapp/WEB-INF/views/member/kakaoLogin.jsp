@@ -25,7 +25,7 @@
          	    	code : code,
          	    	},
          	    	success : function(result){
-         	    		console.log('${sessionScope.id}');
+         	    		console.log('${sessionScope.kakaoId}');
          	    		location.href = result;
          	    	},
                     error: function(xhr, type){

@@ -51,7 +51,7 @@
 	        
 	        <div class="modal-footer">
 	        <div style="margin:auto">
-	          <button type="button" class="btn btn-secondary" data-bs-target="#joinModal" data-bs-toggle="modal">회원가입</button>
+	          <button type="button" class="btn btn-secondary" data-bs-target="#joinModal" data-bs-toggle="modal" id="insertMember">회원가입</button>
 	          <button type="button" class="btn btn-secondary" data-bs-target="#idFind" data-bs-toggle="modal">아이디 찾기</button>
 	          <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#pwdFind">비밀번호 찾기</button>
 	        </div>
@@ -128,6 +128,7 @@
 		          		<td height="17"></td>
 		          		<td><p style="font-size:3px; color:gray; margin-bottom:0px; display:none;"></p></td>
 		          	<tr>
+		          	<input type="hidden" name="memKakaoId" value="${sessionScope.kakaoId}">
 	          	</table>
 	          	<button id="insertFormButton" type="submit" class="btn btn-primary" style="width:80%; display:block; margin:auto" disabled>회원 가입</button>
 	       		</form>
@@ -142,8 +143,31 @@
 	    </div>
 	  </div>
 	  
-	  <script>    
-	    function kakaoLogin(){
+	  <script>
+	  	$(function(){
+	    	
+	  		if('${sessionScope.kakaoId}' != ""){
+	  			$.ajax({
+ 		 	    	url : "kakaoLogin.me",
+ 		 	    	type : 'POST',
+ 		 	    	data : {kakaoId : '${sessionScope.kakaoId}'},
+ 		 	    	success : function(result){
+ 		 	    		if(result == "1"){
+ 		 	    			location.href = "http://localhost:8787/withpet";
+ 		 	    		} else{
+ 		 	    			$('#insertMember').click();
+ 		 	    		}
+ 		 	    	}
+ 		    	})
+	  		}
+	  	})
+	  	
+	  	$('.btn-close').on('click', function(){
+	  		location.href = "http://localhost:8787/withpet/deleteKakaoId"
+	  	})
+	  	
+	  	
+	    function kakaoLogin(){	    	
 	    	$.ajax({
 	 	    	url : "kakaoGetCodeUrl",
 	 	    	type : 'GET',
@@ -151,21 +175,8 @@
 	 	    	success : function(result){
 	 	    		location.href = result;
 	 	    	}
-	    	})
+	    	})	    	
 	 	};
-	    
-	    function logout(){
-	    	$.ajax({
-	    		url : "kakaoLogout",
-	    	    type: "GET",
-	    	    data: {
-	    	    	accessToken : '${sessionScope.accessToken}'
-	    	    },
-	    	    success : function(result){
-	 	    		location.href = result;
-	 	    	}
-	    	 })
-	    };
     </script>
     
     <script>

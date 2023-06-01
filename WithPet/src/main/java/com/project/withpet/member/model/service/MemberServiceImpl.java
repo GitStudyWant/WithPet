@@ -54,7 +54,16 @@ public class MemberServiceImpl implements MemberService {
 	public Member selectMember(Member member) {
 		return memberDao.selectMember(sqlSession, member);
 	}
-
+	
+	@Override
+	public int selectKakaoCount(String memKakaoId) {
+		return memberDao.selectKakaoCount(sqlSession, memKakaoId);
+	}
+	
+	@Override
+	public Member selectKakaoMember(String memKakaoId){
+		return memberDao.selectKakaoMember(sqlSession, memKakaoId);
+	}
 	@Override
 	public int selectMemoCount(String memId) {
 		return memberDao.selectMemoCount(sqlSession, memId);

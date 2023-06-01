@@ -91,6 +91,41 @@
 				MEM_STATUS = 'Y'
 	</select>
 	
+	<select id="selectKakaoMember" resultType="Member">
+		SELECT
+				MEM_ID memId
+				,MEM_NICK memNick
+				,MEM_PWD memPwd
+				,MEM_PHONE memPhone
+				,MEM_EMAIL memEmail
+				,MEM_PHOTO memPhoto
+				,MEM_PATH memPath
+				,MEM_INTRO memIntro
+				,MEM_GRADE memGrade
+				,MEM_DATE memDate
+				,MEM_MEMO memMemo
+				,MEM_POINT memPoint
+				,MEM_REPORT memReport
+				,MEM_STATUS memStatus
+				,MEM_UPDATE memUpdate
+				,MEM_KAKAOID memKakaoId
+		FROM
+				MEMBER
+		WHERE
+				MEM_KAKAOID = #{memKakaoId}
+		AND
+				MEM_STATUS = 'Y'
+	</select>
+	
+	<select id="selectKakaoCount" resultType="_int">
+		select
+				count(*)
+		from
+				member
+		where
+				MEM_KAKAOID = #{memKaKaoId}
+	</select>
+	
 	<select id="selectMemoCount" resultType="_int">
 		select
 				count(*)

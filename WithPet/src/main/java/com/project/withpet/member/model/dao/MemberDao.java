@@ -34,6 +34,14 @@ public class MemberDao {
 		return sqlSession.selectOne("memberMapper.selectMember", member);
 	}
 	
+	public int selectKakaoCount(SqlSession sqlSession, String memKakaoId) {
+		return sqlSession.selectOne("memberMapper.selectKakaoCount", memKakaoId);
+	}
+	
+	public Member selectKakaoMember(SqlSession sqlSession, String memKakaoId) {
+		return sqlSession.selectOne("memberMapper.selectKakaoMember", memKakaoId);
+	}
+	
 	public int selectMemoCount(SqlSession sqlSession, String memId) {
 		return sqlSession.selectOne("memberMapper.selectMemoCount", memId);
 	}

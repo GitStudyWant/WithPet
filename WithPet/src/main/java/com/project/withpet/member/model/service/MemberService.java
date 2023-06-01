@@ -30,6 +30,10 @@ public interface MemberService {
 	
 	public Member selectMember(Member member);
 	
+	public Member selectKakaoMember(String memKakaoId);
+	
+	public int selectKakaoCount(String memKakaoId);
+	
 	public int selectMemoCount(String memId);
 	
 	public ArrayList<Memo> selectGetMemo(String memId);

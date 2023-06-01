@@ -76,15 +76,16 @@ public class MemberController {
 	}
 	
 	@RequestMapping("insert.me")
-	public ModelAndView insertUser(Member member, ModelAndView mv) throws ServletException, IOException{
+	public ModelAndView insertUser(Member member, ModelAndView mv, HttpServletRequest request) throws ServletException, IOException{
 		
 		String encPwd = bcryptPasswordEncoder.encode(member.getMemPwd());
-
 		member.setMemPwd(encPwd);
 		
 		String email = member.getMemEmail().substring(0, member.getMemEmail().lastIndexOf("@")) + member.getMemEmail().substring(member.getMemEmail().lastIndexOf("@")).toLowerCase();
-		
 		member.setMemEmail(email);
+		
+		HttpSession session = request.getSession();
+		session.removeAttribute("kakaoId");
 		
 		if(memberService.insertMember(member) > 0) {
 			mv.setViewName("common/main");
@@ -101,17 +102,14 @@ public class MemberController {
 				
 		Member loginMember = memberService.selectMember(member);
 		int loginMemo = memberService.selectMemoCount(member.getMemId());
-
-		System.out.println(loginMember);
-		System.out.println(loginMemo);
 		
-		if(loginMember != null/* && bcryptPasswordEncoder.matches(member.getMemPwd(), loginMember.getMemPwd())*/) {
+		if(loginMember != null && (member.getMemPwd().equals(loginMember.getMemPwd())) /* && bcryptPasswordEncoder.matches(member.getMemPwd(), loginMember.getMemPwd())*/) {
 			session.setAttribute("loginMember", loginMember);
 			session.setAttribute("loginMemo", loginMemo);
 			mv.setViewName("redirect:/");
 		} else {
-			//mv.addObject("errorMsg", "응 안돼~");
-			mv.setViewName("common/errorPage");
+			mv.addObject("errorMsg", "응 안돼~");
+			mv.setViewName("common/main");
 		}
 		
 		return mv;
@@ -153,8 +151,29 @@ public class MemberController {
 		response.getWriter().print(getCodeUrl);
 	}
 	
+	@RequestMapping("kakaoLogin.me")
+	public void selectKakaoMember(String kakaoId, HttpServletResponse response, HttpSession session) throws ServletException, IOException {
+		
+		System.out.println("kakaoLogin 진입");
+		
+		Member TempMember = memberService.selectKakaoMember(kakaoId);
+		
+		if(TempMember != null) {
+			session.setAttribute("loginMember", TempMember);
+			session.setAttribute("loginMemo", memberService.selectMemoCount(TempMember.getMemId()));
+			session.removeAttribute("kakaoId");			
+			
+			response.setContentType("text/html; charset=UTF-8");
+			response.getWriter().print("1");
+		} else {
+			response.setContentType("text/html; charset=UTF-8");
+			response.getWriter().print("0");
+		}
+	}
+	
 	@RequestMapping("/kakaoLoginJump")
 	public String kakaoLoginJump() throws ServletException, IOException {
+		System.out.println("kakaoLoginJump 진입");
 		return "member/kakaoLogin";
 	}
 	
@@ -168,13 +187,24 @@ public class MemberController {
 		
 		HttpSession session = request.getSession();
 		session.setAttribute("accessToken", userInfo.get("accessToken"));
-		session.setAttribute("id", userInfo.get("id"));
+		session.setAttribute("kakaoId", userInfo.get("id"));
 		
-		System.out.println(userInfo.get("id"));
-        
+		if(memberService.selectKakaoCount((String)userInfo.get("id")) == 0){			
+			response.setContentType("text/html; charset=UTF-8");
+			response.getWriter().print("http://localhost:8787/withpet");
+		} else {
         response.setContentType("text/html; charset=UTF-8");
 		response.getWriter().print("http://localhost:8787/withpet");
+		}
 		
+	}
+	
+	@RequestMapping("deleteKakaoId")
+	public String deleteKakaoId(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		session.removeAttribute("kakaoId");
+		
+		return "common/main";
 	}
 	
 	public String getAccessToken(String code) throws ServletException, IOException, ParseException {
@@ -246,28 +276,6 @@ public class MemberController {
 		}
 		
 		return userInfo;
-	}
-	
-	@RequestMapping("kakaoLogout")
-	public void kakaoLogout(String accessToken, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ParseException {
-		
-		System.out.println("kakaoLogout 진입");
-		
-		String logoutUrl = "https://kapi.kakao.com/v1/user/logout";
-		
-		URL requestUrl = new URL(logoutUrl);
-		HttpURLConnection urlConnection = (HttpURLConnection)requestUrl.openConnection();
-		urlConnection.setRequestMethod("POST");
-		urlConnection.setDoOutput(true);
-		urlConnection.setRequestProperty("Authorization", "Bearer " + accessToken);		
-		
-		HttpSession session = request.getSession();
-		session.removeAttribute("accessToken");
-		session.removeAttribute("id");
-        
-		response.setContentType("text/html; charset=UTF-8");
-		response.getWriter().print("http://localhost:8787/withpet");
-		
 	}
 	
 	
