@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="tripMapper">
+
+	<resultMap id="placeResultSet" type="place">
+		<result column="place_no" property="placeNo"/>
+		<result column="place_type" property="placeType"/>
+		<result column="place_name" property="placeName"/>
+		<result column="place_location" property="placeLocation"/>
+		<result column="place_lng" property="placeLng"/>
+		<result column="place_lat" property="placeLat"/>
+		<result column="place_phone" property="placePhone"/>
+		<result column="place_info" property="placeInfo"/>
+		<result column="place_origin_name" property="placeOriginName"/>
+		<result column="place_change_name" property="placeChangeName"/>
+		<result column="place_file_path" property="placeFilePath"/>
+		<result column="place_count" property="placeCount"/>
+	</resultMap>
+	<select id="selectPlaceList" parameterType="place" resultMap="placeResultSet">
+		SELECT
+		      PLACE_NO 
+		      ,PLACE_TYPE
+		      ,PLACE_NAME
+		      ,PLACE_LOCATION
+		      ,PLACE_LNG
+		      ,PLACE_LAT
+		      ,PLACE_PHONE
+		      ,PLACE_INFO
+		      ,PLACE_ORIGIN_NAME
+		      ,PLACE_CHANGE_NAME
+		      ,PLACE_FILE_PATH
+		      ,PLACE_COUNT
+	     FROM
+	         PLACE
+	    WHERE
+	         PLACE_LOCATION LIKE '%'||#{placeLocation}||'%'
+	     AND
+	         PLACE_TYPE = #{placeType}
+	</select>
+
+	<select id="bestPlaceList" parameterType="place" resultMap="placeResultSet">
+		SELECT * FROM (select  ROWNUM RNUM, A.* FROM( SELECT 
+		      PLACE_NO 
+		      ,PLACE_TYPE
+		      ,PLACE_NAME
+		      ,PLACE_LOCATION
+		      ,PLACE_LNG
+		      ,PLACE_LAT
+		      ,PLACE_PHONE
+		      ,PLACE_INFO
+		      ,PLACE_ORIGIN_NAME
+		      ,PLACE_CHANGE_NAME
+		      ,PLACE_FILE_PATH
+		      ,PLACE_COUNT
+	    FROM PLACE 
+	    WHERE
+	         PLACE_LOCATION LIKE '%'||#{placeLocation}||'%'
+            AND PLACE_TYPE=#{placeType}
+        ORDER BY PLACE_COUNT DESC) A)
+        WHERE RNUM BETWEEN 1 AND 3
+	</select>
+	
+	<insert id="insertPlace" parameterType="place">
+	   INSERT
+	     INTO
+	         PLACE
+	         (
+	          PLACE_NO
+	         ,PLACE_TYPE
+	         ,PLACE_NAME
+	         ,PLACE_LOCATION
+	         ,PLACE_LAT
+	         ,PLACE_LNG
+	         ,PLACE_PHONE
+	         ,PLACE_INFO
+	         ,PLACE_ORIGIN_NAME
+	         ,PLACE_CHANGE_NAME
+	         ,PLACE_FILE_PATH
+	         )
+	   VALUES
+	        (
+	        SEQ_PLACE_NO.NEXTVAL
+	       ,#{placeType}
+	       ,#{placeName}
+	       ,#{placeLocation}
+	       ,#{placeLat}
+	       ,#{placeLng}
+	       ,#{placePhone}
+	       ,#{placeInfo}
+	       ,#{placeOriginName}
+	       ,#{placeChangeName}
+	       ,#{placeFilePath}
+	         )
+	</insert>
+
+</mapper>
