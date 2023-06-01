@@ -14,6 +14,7 @@
 		<typeAlias type="com.project.withpet.member.model.vo.Point" alias="point" />
 		<typeAlias type="com.project.withpet.member.model.vo.Schedule" alias="schedule" />
 		<typeAlias type="com.project.withpet.trip.model.vo.Place" alias="place" />
+		<typeAlias type="com.project.withpet.member.model.vo.CertVO" alias="cert" />
 	</typeAliases>
 	
 	<mappers>

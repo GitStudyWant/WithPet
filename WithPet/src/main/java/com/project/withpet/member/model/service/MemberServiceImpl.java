@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.withpet.board.model.vo.Board;
-import com.project.withpet.board.model.vo.Reply;
 import com.project.withpet.member.model.dao.MemberDao;
+import com.project.withpet.member.model.vo.CertVO;
 import com.project.withpet.member.model.vo.Member;
 import com.project.withpet.member.model.vo.Memo;
 import com.project.withpet.member.model.vo.Point;
@@ -219,7 +219,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public ArrayList<Reply> writingReply(String memId) {
+	public ArrayList writingReply(String memId) {
 		return null;
 	}
 
@@ -236,6 +236,11 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public ArrayList<Board> deletedBoard(String memId) {
 		return null;
+	}
+	
+	@Override
+	public int sendMail(CertVO certVo) {
+		return memberDao.sendMail(sqlSession, certVo);
 	}
 
 }

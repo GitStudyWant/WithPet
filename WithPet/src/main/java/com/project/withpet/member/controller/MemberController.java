@@ -5,8 +5,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DecimalFormat;
+import java.text.Format;
 import java.util.HashMap;
+import java.util.Random;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,14 +21,19 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.project.withpet.member.model.service.MemberService;
+import com.project.withpet.member.model.vo.CertVO;
 import com.project.withpet.member.model.vo.Member;
 
 @Controller
@@ -215,6 +225,375 @@ public class MemberController {
 		response.setContentType("text/html; charset=UTF-8");
 		response.getWriter().print("http://localhost:8787/withpet");
 		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// 박민성
+	
+	// 작성글 보기
+	
+	
+	// 메일 보내기
+	@Autowired
+	private JavaMailSenderImpl sender;
+	
+	@ResponseBody
+	@PostMapping("sendMail.bo")
+	public int sendMail(String email, HttpServletRequest request) throws MessagingException {
+		
+		MimeMessage message = sender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+		
+		String ip = request.getRemoteAddr();
+		String secret = generateSecret();
+		
+		CertVO certvo = CertVO.builder()
+				  .who(ip)
+				  .secret(secret)
+				  .build();
+		
+		int result = memberService.sendMail(certvo);
+		
+		helper.setTo(email);
+		helper.setSubject("인증번호 보내드립니다");
+		helper.setText("인증번호 : " + secret);
+		
+		sender.send(message);
+		
+		return result;
+		
+	}
+	
+	public String generateSecret() {
+	Random r = new Random();
+	int i = r.nextInt(100000);
+	Format f= new DecimalFormat("000000");
+	String secret = f.format(i);
+	
+	return secret;
 	}
 		
 }

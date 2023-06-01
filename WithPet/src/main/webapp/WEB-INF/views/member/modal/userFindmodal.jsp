@@ -4,11 +4,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>헤더</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <style>
 	.dis_inline{
 		display: inline-block;
@@ -29,7 +31,7 @@
 <body>
 
 	<!-- 아이디 찾기 1번 모달-->
-	<div class="modal" id="idFind">
+	<div class="modal fade" id="idFind" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
 	    <div class="modal-dialog">
 	      <div class="modal-content">
 	      
@@ -47,13 +49,13 @@
 	          	<table width="400" style="text-align:center">
 		          	<tr>
 		          		<td width="80"><p style="font-size:10px; color:gray; margin-top:12px">아이디 :</p></td>
-		          		<td width="200"><input type="text" style="width:100%; border:solid 1px lightgray" required placeholder="내용을 입력해주세요"></td>
+		          		<td width="200"><input type="text" style="width:100%; border:solid 1px lightgray" required placeholder="내용을 입력해주세요" name="memId"></td>
 						<td></td>
 		          	<tr>
 		          	<tr>
 			          	<td><p style="font-size:10px; color:gray; margin-top:12px">이메일 : </p></td>
-						<td><input type="text" style="width:100%; border:solid 1px lightgray" class="dis_inline" required placeholder="내용을 입력해주세요"></td>
-						<td><a class="btn_size btn_font btn btn-primary">인증번호 받기</a></td>
+						<td><input type="text" id="email" style="width:100%; border:solid 1px lightgray" class="dis_inline" required placeholder="내용을 입력해주세요" name="email"></td>
+						<td><a class="btn_size btn_font btn btn-primary" onclick="authenticationNumber();">인증번호 받기</a></td>
 		          	</tr>
 					  <tr>
 						<td><p style="font-size:10px; color:gray; margin-top:12px">인증번호 : </p></td>
@@ -66,6 +68,23 @@
 
 	          </form>
 		      
+		      <script>
+		      	function authenticationNumber(){
+		      		$ajax({
+		      			url : 'sendMail.bo',
+		      			data : $('#email').text(),
+		      			type : 'post',
+		      			success : function(num){
+		      				console.log(num);
+		      			},
+		      			error : function(){
+		      				console.log('메일 보내기 실패');
+		      			}
+		      			
+		      		});
+		      		
+		      	};
+		      </script>
 	        </div>
 	        
 	        <div class="modal-footer">

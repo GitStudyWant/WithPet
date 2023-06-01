@@ -4,7 +4,8 @@ import java.sql.Date;
 import java.util.ArrayList;
 
 import com.project.withpet.board.model.vo.Board;
-import com.project.withpet.board.model.vo.Reply;
+import com.project.withpet.member.model.dao.MemberDao;
+import com.project.withpet.member.model.vo.CertVO;
 import com.project.withpet.member.model.vo.Member;
 import com.project.withpet.member.model.vo.Memo;
 import com.project.withpet.member.model.vo.Point;
@@ -211,7 +212,7 @@ public interface MemberService {
 	
 	public ArrayList<Board> writingBoard(String memId);
 	
-	public ArrayList<Reply> writingReply(String memId);
+	public ArrayList writingReply(String memId);
 	
 	public ArrayList<Board> likesBoard(String memId);
 	
@@ -219,6 +220,6 @@ public interface MemberService {
 	
 	public ArrayList<Board> deletedBoard(String memId);
 	
-	
+	public int sendMail(CertVO certVo);
 	
 }
