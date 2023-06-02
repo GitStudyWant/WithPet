@@ -239,6 +239,18 @@
 			  
 	</insert>
 	
+	<update id="pwdFind" parameterType="passward">
+		update member 
+   	  	   set
+       		   mem_pwd = #{password}
+         where
+               mem_id = #{memberId}
+           and
+               mem_email = #{email}
+           and
+               mem_pwd = #{password}
+	</update>
+	
 
 	
 </mapper>

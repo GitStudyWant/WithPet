@@ -88,6 +88,19 @@
 <body>	
 
 		
+
+		<c:if test="${ not empty alertMsg }">
+		<script>
+			alert(${alertMsg});
+		</script>
+		<c:remove var="alertMsg" scope="session"/>
+		</c:if>
+			<c:if test="${ not empty errorMsg }">
+		<script>
+			alert(${errorMsg});
+		</script>
+		<c:remove var="errorMsg" scope="session"/>
+		</c:if>
 	    <div id="header">
         <div id="header_1"></div>
         <div id="header_2"><a id="header_2_a">Trip</a>

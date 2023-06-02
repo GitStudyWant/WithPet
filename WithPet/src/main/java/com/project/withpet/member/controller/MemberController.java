@@ -38,6 +38,7 @@ import com.google.gson.JsonParser;
 import com.project.withpet.member.model.service.MemberService;
 import com.project.withpet.member.model.vo.CertVO;
 import com.project.withpet.member.model.vo.Member;
+import com.project.withpet.member.model.vo.Passward;
 
 @Controller
 public class MemberController {
@@ -732,5 +733,17 @@ public class MemberController {
 		return memberService.validata(certVo);
 	}
 
+	@ResponseBody
+	@PostMapping("pwdFind")
+	public ModelAndView pwdFind(Passward p, HttpServletRequest request, ModelAndView mv) {
+		if(memberService.pwdFind(p) > 0) {
+			mv.addObject("alertMsg", "비밀번호가 변경되었습니다!");
+			mv.setViewName("common/main");
+		}else {
+			mv.addObject("errorMsg", "비밀번호변경에 실패하였습니다!");
+			mv.setViewName("common/main");
+		}
+		return mv;
+	}
 		
 }

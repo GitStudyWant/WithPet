@@ -30,6 +30,11 @@ public class BoardServiceImpl implements BoardService {
 	public int selectFrListCount() {
 		return boardDao.selectFrListCount(sqlSession);
 	}
+
+	@Override
+	public int insertFrBoard(Board b) {
+		return boardDao.insertFrBoard(sqlSession,b);
+	}
 	
 
 

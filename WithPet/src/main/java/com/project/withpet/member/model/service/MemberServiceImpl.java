@@ -13,6 +13,7 @@ import com.project.withpet.member.model.dao.MemberDao;
 import com.project.withpet.member.model.vo.CertVO;
 import com.project.withpet.member.model.vo.Member;
 import com.project.withpet.member.model.vo.Memo;
+import com.project.withpet.member.model.vo.Passward;
 import com.project.withpet.member.model.vo.Point;
 import com.project.withpet.member.model.vo.Schedule;
 
@@ -232,6 +233,11 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int pwdMail(CertVO certVo) {
 		return memberDao.sendMail(sqlSession, certVo);
+	}
+	
+	@Override
+	public int pwdFind(Passward p) {
+		return memberDao.pwdFind(sqlSession, p);
 	}
 
 }

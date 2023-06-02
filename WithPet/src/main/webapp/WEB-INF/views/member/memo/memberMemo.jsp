@@ -90,9 +90,9 @@
 </head>
 <body>
 
-	<jsp:include page="../common/header.jsp" />
+	<jsp:include page="../../common/header.jsp" />
 	<div id="body">
-			<div id="mainSi"><jsp:include page="../common/myPageSide.jsp" /></div>
+			<div id="mainSi"><jsp:include page="../../common/myPageSide.jsp" /></div>
 			<div id="mainmain">
 				<table id="naviTable">
 					<thead>
@@ -205,7 +205,7 @@
 	</div>		
 
 	
-	<jsp:include page="../common/footer.jsp" />
+	<jsp:include page="../../common/footer.jsp" />
 	
 </body>
 </html>

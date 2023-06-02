@@ -24,5 +24,9 @@ public class BoardDao {
 	public int selectFrListCount(SqlSessionTemplate sqlSession) {
 		return sqlSession.selectOne("boardMapper.selectFrListCount");
 	}
+
+	public int insertFrBoard(SqlSessionTemplate sqlSession, Board b) {
+		return sqlSession.insert("boardMapper.insertFrBoard", b);
+	}
 	
 }
