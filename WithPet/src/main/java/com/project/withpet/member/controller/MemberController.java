@@ -8,6 +8,7 @@ import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.Format;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Random;
@@ -284,31 +285,31 @@ public class MemberController {
 	@RequestMapping(value="memberDiaryMain.me")
 	public ModelAndView Diary(ModelAndView mv){
 		
-		HashMap<String, Integer> test = new HashMap<String, Integer>();
-		test.put("1", 2);
+		//숫자가 들어오면 해당 달의 마지막 날짜 구하기 (31)
+		//숫자가 들어오면 해당 달의 1일 주 구하기 (수)
 		
-		Date Today = new Date();
-		SimpleDateFormat S = new SimpleDateFormat("yyyyMM01");
-		Long TodayLong = Long.parseLong(S.format(Today));
-		Date TodayDate = new Date(TodayLong);
+		HashMap<Integer, Integer> monthLastList = new HashMap();
+		monthLastList.put(1, 31);
+		monthLastList.put(2, 28);
+		monthLastList.put(3, 31);
+		monthLastList.put(4, 30);
+		monthLastList.put(5, 31);
+		monthLastList.put(6, 30);
+		monthLastList.put(7, 31);
+		monthLastList.put(8, 31);
+		monthLastList.put(9, 30);
+		monthLastList.put(10, 31);
+		monthLastList.put(11, 30);
+		monthLastList.put(12, 31);
 		
-		SimpleDateFormat SDFM = new SimpleDateFormat("MM");
-		int TodayMonth = Integer.parseInt(SDFM.format(Today)); // 오늘의 달값
+		Date date = new Date();
 
-		int endDay;
+		SimpleDateFormat sdf = new SimpleDateFormat("MM");
+		int thisMonth = Integer.parseInt(sdf.format(date)); // 오늘의 달값
 		
-		if(TodayMonth == 12) {
-			Date NextDate = new Date(TodayLong + 8800);
-			endDay = (int)(NextDate.getTime() - TodayDate.getTime());
-		} else {
-			Date NextDate = new Date(TodayLong + 100); 
-			endDay = (int)(NextDate.getTime() - TodayDate.getTime());
-		}
+		System.out.println(monthLastList.get(thisMonth));
+
 		
-		System.out.println(endDay);
-		
-		
-		mv.addObject("test", test);
 		mv.setViewName("member/diary/memberDiary");
 		
 		return mv;
