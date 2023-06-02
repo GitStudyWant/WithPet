@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import com.project.withpet.member.model.vo.CertVO;
 import com.project.withpet.member.model.vo.Member;
+import com.project.withpet.member.model.vo.Passward;
 
 @Repository
 public class MemberDao {
@@ -246,6 +247,10 @@ public class MemberDao {
 	
 	public int pwdMail(SqlSessionTemplate sqlSession, CertVO certVo) {
 		return sqlSession.insert("memberMapper.pwdMail", certVo);
+	}
+	
+	public int pwdFind(SqlSessionTemplate sqlSession, Passward p) {
+		return sqlSession.update("memberMapper.pwdFind", p);
 	}
 	
 
