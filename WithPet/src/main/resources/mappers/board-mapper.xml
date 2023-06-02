@@ -43,4 +43,29 @@
 				BY
 					BOARD_NO DESC
 	</select>
+	
+	<select id="insertFrBoard" parameterType="board">
+		INSERT
+			INTO
+					BOARD
+					(
+					BOARD_NO
+					,BOARD_TITLE
+					,BOARD_CONTENT
+					,BOARD_WRITER
+					,ORIGIN_NAME
+					,CHANGE_NAME
+					,BOARD_NUM
+					)
+			VALUES
+					(
+					SEQ_BNO.NEXTVAL
+					,#{boardTitle}
+					,#{boardContent}
+					,#{boardWriter}
+					,#{originName}
+					,#{changeName}
+					,1
+					)		
+	</select>
 </mapper>

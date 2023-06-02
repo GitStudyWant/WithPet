@@ -153,7 +153,9 @@
             </form>
             <br><br><br>
             <label for="" id="board-head">Q&A게시판</label>
-            <a class="btn btn-secondary" style="float:right; margin-right: 100px; width: 150px;" href="enrollForm.bo">글쓰기</a>
+            <c:if test="${ not empty sessionScope.loginMember }">
+            <a class="btn btn-secondary" style="float:right; margin-right: 100px; width: 150px;" href="enrollForm.fr">글쓰기</a>
+            </c:if>
             <br>
             <label for="" id="board-subtext">각자 고민을 나눠봐요&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
             <label style="float: right; margin-right: 100px;">

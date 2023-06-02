@@ -162,7 +162,9 @@
             </form>
             <br><br><br>
             <label for="" id="board-head">리뷰게시판</label>
-            <a class="btn btn-secondary" style="float:right; margin-right: 100px; width: 150px;" href="enrollForm.bo">글쓰기</a>
+            <c:if test="${ not empty sessionScope.loginMember }">
+            <a class="btn btn-secondary" style="float:right; margin-right: 100px; width: 150px;" href="enrollForm.fr">글쓰기</a>
+            </c:if>
             <br>
             <label for="" id="board-subtext">고객님의 소중한 리뷰, 감사합니다.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
             <label style="float: right; margin-right: 100px;">
