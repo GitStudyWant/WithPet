@@ -179,7 +179,7 @@
             </label>
             <br><br>
             
-            <!--  
+            <!--   템플릿
             <div class="board-element">
                 <span id="boardTitle" >제목</span><span id="userImg"  >작성자프로필</span><span id="userId">작성자</span><span id="thumbnail" style="float: right;"> <img src="https://i.namu.wiki/i/uIt7OBpwNR2Cgk90eW_s_0iAZ6628xqGiRY1YyG5drpYaFwXo4ZAKKLltMDxLc2qPyky0s6D9bociJ770v2mwA.webp" alt=""></span>
                 <span id="boardContent">내용</span>
@@ -194,7 +194,7 @@
 </svg></span> <span id="commentCount">XXX</span><span id="create">작성일자 : </span><span id="createDate">XXXX-XX-XX</XXXX-XX-XX></span>    
             </div>
             -->
-            <c:forEach items="${ list }" var="b">
+            <c:forEach items="${ list }" var="b" >
 
                     		<div class="board-element">
                 <span id="boardTitle" >${ b.boardTitle }</span><span id="userImg"  >작성자프로필</span><span id="userId">${ b.boardWriter }</span><span id="thumbnail" style="float: right;"> <img src="https://i.namu.wiki/i/uIt7OBpwNR2Cgk90eW_s_0iAZ6628xqGiRY1YyG5drpYaFwXo4ZAKKLltMDxLc2qPyky0s6D9bociJ770v2mwA.webp" alt=""></span>
