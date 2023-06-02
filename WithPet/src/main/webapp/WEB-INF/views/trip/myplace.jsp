@@ -21,7 +21,7 @@
 		}
 		
 		#title_wrap{
-			height : 140px;
+			height : 110px;
 			width: 100%;
 			text-align: center;
 		}
@@ -425,7 +425,7 @@
 
 							<hr>
 
-							<b>[ 전체 목록 ]</b>
+							<b>[ 전체 목록  ]</b>
 							<table id="allList">
 								<thead>
 									<th width="70px"></th>
@@ -444,7 +444,7 @@
 						<button onclick="initTmap();">지도 조회</button>
 						<button id="addPlace"><a data-bs-toggle="modal" data-bs-target="#placeModal">새 장소 추가</a></button>
 						<br>
-						<b>[ 선택한 장소 ]</b>  
+						<b>[ 선택한 장소  ]</b>  
 						<table id="myChoiceList" align="center">
 							<thead>
 								<th width="70px">순번</th>
@@ -458,7 +458,7 @@
 								<tr id="my1">
 									<td><b>출발지 :</b></td>
 									<td id="pn1"></td>
-									<td></td>
+									<td class="placeName"></td>
 									<td><input type="hidden" value=""></td>
 									<td><input type="hidden" value=""></td>
 									<td><button onclick="deleteMyPlace1(1);">X</button></td>
@@ -466,7 +466,7 @@
 								<tr id="my2" class="mylist">
 									<td><b>2번 :</b></td>
 									<td id="pn2"></td>
-									<td></td>
+									<td class="placeName"></td>
 									<td><input type="hidden" value=""></td>
 									<td><input type="hidden" value=""></td>
 									<td><button onclick="deleteMyPlace1(2);">X</button></td>
@@ -474,7 +474,7 @@
 								<tr id="my3" class="mylist">
 									<td><b>3번 :</b></td>
 									<td id="pn3"></td>
-									<td></td>
+									<td class="placeName"></td>
 									<td><input type="hidden" value=""></td>
 									<td><input type="hidden" value=""></td>
 									<td><button onclick="deleteMyPlace1(3);">X</button></td>
@@ -482,7 +482,7 @@
 								<tr id="my4" class="mylist">
 									<td><b>4번 :</b></td>
 									<td id="pn4"></td>
-									<td></td>
+									<td class="placeName"></td>
 									<td><input type="hidden" value=""></td>
 									<td><input type="hidden" value=""></td>
 									<td><button onclick="deleteMyPlace1(4);">X</button></td>
@@ -490,7 +490,7 @@
 								<tr id="my5" class="mylist">
 									<td><b>도착지 :</b></td>
 									<td id="pn5"></td>
-									<td></td>
+									<td class="placeName"></td>
 									<td><input type="hidden" value=""></td>
 									<td><input type="hidden" value=""></td>
 									<td><button onclick="deleteMyPlace1(5);">X</button></td>
@@ -523,17 +523,19 @@
 							} else {}
 						}
 
-						//console.log(choice2);
-
 						$(choice).children().eq(1).text(pnum);
 						$(choice).children().eq(2).text(pname);
 						$(choice).children().eq(3).children().val(w);
 						$(choice).children().eq(4).children().val(g);
-
-						//console.log($(choice).children().eq(3).children().val());
-						//console.log($(choice).children().eq(4).children().val());
-
-
+						
+						if(pnum != ''){
+							$('.placeName').click(function(){
+								$('#placeDetailModal').modal("show");
+								var placeNo = $(this).prev().text();
+								console.log(placeNo);
+								placedetail(placeNo);
+							})
+						}
 					}
 
 					function deleteMyPlace1(num){
@@ -609,8 +611,6 @@
 
 						function selectList(){
 
-							//console.log('되나요?')
-
 							$.ajax({
 								url : "placeAllList",
 								data : { placeLocation : $('#location').val(),
@@ -625,14 +625,14 @@
 												+ '<td>'+'<input type="hidden" value="'+result[i].placeLat+'">'+'</td>'
 												+ '<td>' + '<input type="radio" name="pick">' + '</td>'
 												+ '<td>'+ result[i].placeNo+ '</td>'
-												+ '<td>'+ result[i].placeName + '<td>'
+												+ '<td class="placeName">'+ result[i].placeName + '<td>'
 												+ '</tr>'
 									}
 									$('#allList>tbody').html(placeList);
-									$('#allList>tbody>tr').click(function(){
+									$('#allList>tbody>tr>.placeName').click(function(){
 										$('#placeDetailModal').modal("show");
-										var placeNo = $(this).children().eq(3).text();
-										console.log(placeNo);
+										var placeNo = $(this).prev().text();
+										//console.log(placeNo);
 										placedetail(placeNo);
 									})
 								},
@@ -655,10 +655,16 @@
 												+ '<td>'+'<input type="hidden" value="'+result[i].placeLat+'">'+'</td>'
 												+ '<td>' + '<input type="radio" name="pick">' + '</td>'
 												+ '<td>'+ result[i].placeNo+ '</td>'
-												+ '<td>'+ result[i].placeName + '<td>'
+												+ '<td class="placeName">'+ result[i].placeName + '<td>'
 												+ '</tr>'
 									}
 									$('#bestlist>tbody').html(bestList);
+									$('.placeName').click(function(){
+										$('#placeDetailModal').modal("show");
+										var placeNo = $(this).prev().text();
+										console.log(placeNo);
+										placedetail(placeNo);
+									})
 								},
 								error : function(){
 									console.log('베스트 리스트 조회 실패');
@@ -676,8 +682,8 @@
 									success : function(result){
 										console.log(result);
 										if(result.changeName != null){
-											//value = '<img src="file:///D:/finalProject-workspace/WithPet/WithPet/src/main/webapp/' + result.changeName + '">';
-											//$('#photo').html(value);
+											value = '<img src="/withpet/' + result.changeName + '">';
+											$('#photo').html(value);
 										}
 										$('#placeName').text(result.placeName);
 										$('#placeCount').text(result.placeCount);
