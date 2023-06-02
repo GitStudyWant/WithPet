@@ -80,18 +80,20 @@
         #header_7 {text-align:center; line-height:60px; font-size:15px; padding-right:2%;}
         @media (max-width: 940px) { #header_7 { font-size: 10px; } }
         #header_7>a:hover {cursor:pointer;}
-        #header_2_detail_4>a{text-decoration:none; color:black;}
+        #header_2_detail a{text-decoration:none; color:black;}
         
     </style>
 
 </head>
 <body>	
+
+		
 	    <div id="header">
         <div id="header_1"></div>
         <div id="header_2"><a id="header_2_a">Trip</a>
             <div id="header_2_detail">
                 <div id="header_2_detail_1">내 주변 조회</div>
-                <div id="header_2_detail_2">교통 예약하기</div>
+                <div id="header_2_detail_2"><a href="transReservation">교통 예약하기</div>
                 <div id="header_2_detail_3">숙소 예약하기</div>
                 <div id="header_2_detail_4"><a href="placeList">여행코스 추천</a></div>
             </div>

@@ -6,7 +6,7 @@ import lombok.Data;
 public class Transportation {
 	
 	private int trNo;
-	private String trType;
+	private String trType1;
 	private String trType2;
 	private String trOriginName;
 	private String trChangeName;

@@ -166,5 +166,9 @@ public class TripController {
 		return new Gson().toJson(tripService.detailPlace(placeNo));
 	}
 	
+	@RequestMapping("transReservation")
+	public String transReservation() {
+		return "trip/tranReservation2";
+	}
 }
 
