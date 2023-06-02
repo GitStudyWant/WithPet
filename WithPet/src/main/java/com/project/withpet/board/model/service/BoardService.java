@@ -10,6 +10,8 @@ public interface BoardService {
 	ArrayList<Board> selectFrList(PageInfo pi);
 
 	int selectFrListCount();
+
+	int insertFrBoard(Board b);
 	
 
 	

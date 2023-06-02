@@ -1,17 +1,14 @@
 package com.project.withpet.member.model.service;
 
 import java.sql.Date;
-
 import java.util.ArrayList;
 
 import com.project.withpet.board.model.vo.Board;
-
 import com.project.withpet.board.model.vo.Comments;
-
-import com.project.withpet.member.model.dao.MemberDao;
 import com.project.withpet.member.model.vo.CertVO;
 import com.project.withpet.member.model.vo.Member;
 import com.project.withpet.member.model.vo.Memo;
+import com.project.withpet.member.model.vo.Passward;
 import com.project.withpet.member.model.vo.Point;
 import com.project.withpet.member.model.vo.Schedule;
 
@@ -236,4 +233,6 @@ public interface MemberService {
 	public Member idFind(String email);
 	
 	public int pwdMail(CertVO certVo);
+	
+	public int pwdFind(Passward p);
 }

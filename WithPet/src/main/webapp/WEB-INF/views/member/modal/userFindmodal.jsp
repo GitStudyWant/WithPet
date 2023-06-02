@@ -72,6 +72,7 @@
 		      
 		      <script>
 		      	function authenticationNumber(){
+					if($('#email').empty){
 		      		$.ajax({
 		      			url : 'sendMail.bo',
 		      			data : {email : $('#email').val()},
@@ -84,6 +85,9 @@
 		      			}
 		      			
 		      		});
+					} else{
+						alert('이메일을 입력해주세요!');
+					}
 		      		
 		      	};
 		      	
@@ -98,18 +102,16 @@
 		      					let result = httpRequest.response;
 		      					
 		      					console.log(result);
-		      					if(result == 0) {
-		      						
-		      						document.getElementById('notCode').innerText='인증번호가 일치하지 않습니다.';
-		      						document.getElementById('idNext').style.display='none';
-		      						//document.getElementsByClassName('btn-next').style.display = 'none';
-		      						console.log(document.getElementById('idNext').style);
-		      						
-		      					}
-		      					else{
-		      						document.getElementById('notCode').innerText='다음으로 넘어가주세요.';
-		      						document.getElementById('idNext').style.display='';
-		      					}
+									if(result == 0) {
+										
+										document.getElementById('notCode').innerText='인증번호가 일치하지 않습니다.';
+										document.getElementById('idNext').style.display='none';
+										
+									}
+									else{
+										document.getElementById('notCode').innerText='다음으로 넘어가주세요.';
+										document.getElementById('idNext').style.display='';
+									}
 		      				}
 		      			}
 		      		}
@@ -121,7 +123,6 @@
 		      	function idFind(){
 		      		
 		      		httpRequest = new XMLHttpRequest();
-		      		const name = document.getElementById('memberName').value;
 		      		const email = document.getElementById('email').value;
 		      		httpRequest.onreadystatechange = () =>{
 		      			if(httpRequest.readyState === XMLHttpRequest.DONE){
@@ -131,6 +132,8 @@
 									console.log(result.memId);
 									document.getElementById('resultId').innerText='아이디 : '+ result.memId+'';
 									document.getElementById('resultDate').innerText='가입일 : '+ result.memDate+'';
+								} else{
+									document.getElementById('resultId').innerText='아이디가 존재하지 않습니다.';
 								}
 		      				}
 		      			}
@@ -209,7 +212,7 @@
 	          	<table width="400" style="text-align:center">
 		          	<tr>
 			          	<td width="80"><p style="font-size:10px; color:gray; margin-top:12px">아이디 : </p></td>
-						<td width="200"><input type="text" style="width:100%; border:solid 1px lightgray" class="dis_inline" required placeholder="내용을 입력해주세요"></td>
+						<td width="200"><input type="text" id="memberId" style="width:100%; border:solid 1px lightgray" class="dis_inline" required placeholder="내용을 입력해주세요"></td>
 						<td></td>
 		          	</tr>
 		          	<tr>
@@ -226,76 +229,92 @@
 					</tr>
 	          	</table>
 	          	<a class="btn btn-primary idNext" id="pwdNext" style="width:80%; margin:35px 50px" data-bs-toggle="modal" data-bs-target="#pwdResult">다음	</a>
-	       
+			
 
 	          </form>
 		      <script>
-		      	function authenticationPwd(){
-		      		$.ajax({
-		      			url : 'pwdMail.bo',
-		      			data : {email : $('#pwdEmail').val()},
-		      			type : 'post',
-		      			success : function(num){
-		      				alert('메시지 전송 성공');
-		      			},
-		      			error : function(){
-		      				console.log('메일 보내기 실패');
-		      			}
-		      			
-		      		});
-		      		
-		      	};
-		      	
+				console.log(document.getElementById('pwdNext'));
+				console.log(document.getElementById('memberId'));
+
+				function authenticationPwd(){
+					if($('#pwdEmail').val() != ""){
+						$.ajax({
+							url : 'pwdMail.bo',
+							data : {email : $('#pwdEmail').val()},
+							type : 'post',
+							success : num=>{
+									alert('메시지 전송 성공');
+							},
+							error : ()=>{
+								alert('메일 보내기 실패');
+							}
+						});
+							
+					}else{
+						alert('이메일을 입력해주세요');
+					}
+
+				};
+	      	
 		      	function pwdCheck(){
+					if(document.getElementById('memberId').value != ""){
+						httpRequest = new XMLHttpRequest();
+						const code = document.getElementById('pwdCode').value;
+						httpRequest.onreadystatechange = () =>{
+							if(httpRequest.readyState === XMLHttpRequest.DONE){
+								if(httpRequest.status === 200){
+									
+									let result = httpRequest.response;
+									console.log(result);
+									
+									
+										if(result == 0) {
+											
+											document.getElementById('pwdCode').innerText='인증번호가 일치하지 않습니다.';
+											document.getElementById('pwdNext').style.display='none';
+											console.log(document.getElementById('pwdNext').style);
+											
+										}
+										else{
+											document.getElementById('pwdCode').innerText='다음으로 넘어가주세요.';
+											console.log(document.getElementById('pwdNext').style);
+											document.getElementById('pwdNext').style.display='block';
+											document.getElementById('findMemberPwd').innerText=document.getElementById('memberId').value;
+											document.getElementById('hiddenId').value=document.getElementById('memberId').value;
+											document.getElementById('hiddenEamil').value=document.getElementById('pwdEmail').value;
+
+										}
+								}
+							}
+						}
 		      		
-		      		httpRequest = new XMLHttpRequest();
-		      		const code = document.getElementById('pwdCode').value;
-		      		httpRequest.onreadystatechange = () =>{
-		      			if(httpRequest.readyState === XMLHttpRequest.DONE){
-		      				if(httpRequest.status === 200){
-		      					
-		      					let result = httpRequest.response;
-		      					
-		      					console.log(result);
-		      					if(result == 0) {
-		      						
-		      						document.getElementById('pwdCode').innerText='인증번호가 일치하지 않습니다.';
-		      						document.getElementById('pwdNext').style.display='none';
-		      						//document.getElementsByClassName('btn-next').style.display = 'none';
-		      						console.log(document.getElementById('idNext').style);
-		      						
-		      					}
-		      					else{
-		      						document.getElementById('pwdCode').innerText='다음으로 넘어가주세요.';
-		      						console.log(document.getElementById('pwdNext').style);
-		      						document.getElementById('pwdNext').style.display='';
-		      					}
-		      				}
-		      			}
-		      		}
 		      		httpRequest.open('POST', 'pwdCheck?code=' + code);
 		      		httpRequest.responseType = 'text/html';
 		      		httpRequest.send();
+					}else{
+		      			alert('아이디를 입력해주세요');
+		      			}
 		      	};
-		      	/*
-		      	function idFind(){
+		      	
+				/*
+		      	function pwdFind(){
 		      		
 		      		httpRequest = new XMLHttpRequest();
-		      		const name = document.getElementById('memberName').value;
-		      		const email = document.getElementById('email').value;
+		      		const id = document.getElementById('memberId').value;
+		      		const email = document.getElementById('pwdEmail').value;
+
+					const pwd = {'id' : id, 'email' : email};
 		      		httpRequest.onreadystatechange = () =>{
 		      			if(httpRequest.readyState === XMLHttpRequest.DONE){
 		      				if(httpRequest.status === 200){
 		      					let result = httpRequest.response;
 		      					if(result != null){
 									console.log(result.memId);
-									document.getElementById('resultId').innerText='아이디 : '+ result.memId+'';
-									document.getElementById('resultDate').innerText='가입일 : '+ result.memDate+'';
 								}
 		      				}
 		      			}
 		      		}
-		      		httpRequest.open('POST', 'idFind?email=' + email);
+		      		httpRequest.open('POST', 'pwdFind?pwd=' + pwd);
 		      		httpRequest.responseType = 'json';
 		      		httpRequest.send();
 		      	};
@@ -326,22 +345,25 @@
 	        
 	        
 	          <p class="modal-title" style="font-size:15px; text-align:center; margin-top:15px; margin-bottom:30px">비밀번호 찾기</p>
-	          <form action="login.me" method="get">
+	          <form action="pwdFind" method="Post">
 	          	<table width="400" style="text-align:center">
 					<tr>
 						<td width="90" align="right"><p style="font-size:10px; color:gray; margin-top:12px">아이디 :</p></td>
-						<td width="200" align="left"><b class="margin-Left5">user01</b></td>
+						<td width="200" align="left"><p class="margin-Left5" id="findMemberPwd">user01</p>
+						<input type="hidden" name="memberId" id="hiddenId">
+						<input type="hidden" name="email" id="hiddenEamil">	
+						</td>
 					  <td></td>
 					<tr>
 		          	<tr>
 		          		<td align="right"><p style="font-size:10px; color:gray; margin-top:12px">새 비밀번호 :</p></td>
-		          		<td align="left"><input type="text" class="margin-Left5" style="width:100%; border:solid 1px lightgray" required placeholder="내용을 입력해주세요"></td>
-						<td></td>
+		          		<td align="left"><input type="text" id="password" name="password" class="margin-Left5" style="width:100%; border:solid 1px lightgray" required placeholder="내용을 입력해주세요"></td>
+						<td id="pwChk"></td>
 		          	<tr>
 		          	<tr>
 			          	<td align="right"><p style="font-size:10px; color:gray; margin-top:12px">새 비밀번호 확인 : </p></td>
-						<td align="left"><input type="text" class="margin-Left5" style="width:100%; border:solid 1px lightgray" class="dis_inline" required placeholder="내용을 입력해주세요"></td>
-						<td></td>
+						<td align="left"><input type="text" id="password_check" name="passwordCheck" class="margin-Left5" style="width:100%; border:solid 1px lightgray" class="dis_inline" required placeholder="내용을 입력해주세요"></td>
+						<td id="pwChk2"></td>
 		          	</tr>
 					
 	          	</table>
@@ -349,7 +371,50 @@
 	       
 
 	          </form>
-		      
+		      <script>
+					$("#password_check").on("keyup", function() {
+			
+						let pwCheckVal = $(this).val();
+						let pwVal = $("#password").val();
+						
+						if(pwCheckVal === "") {
+							$(this).css("background", "pink");
+							$("#pwChk2").html("<b style='color:red;'>[패스워드 확인은 필수!]</b>");
+							chk3 = false;
+						} else if(pwCheckVal !== pwVal) {
+							$(this).css("background", "pink");
+							$("#pwChk2").html("<b style='color:red;'>[위에랑 똑같이 쓰세요!]</b>");
+							chk3 = false;
+						} else {
+							$(this).css("background", "aqua");
+							$("#pwChk2").html("<b style='color:green;'>[참 잘했어요!]</b>");
+							chk3 = true;
+						}
+						
+						
+					});
+
+		//패스워드 입력값 검증.
+					$('#password').on('keyup', function() {
+						//비밀번호 공백 확인
+						if($("#password").val() === ""){
+							$('#password').css("background-color", "pink");
+							$('#pwChk').html('<b style="color:red;">[패스워드는 필수정보에요!]</b>');
+							chk2 = false;
+						}		         
+						//비밀번호 유효성검사
+						else if(!getPwCheck.test($("#password").val()) || $("#password").val().length < 8){
+							$('#password').css("background-color", "pink");
+							$('#pwChk').html('<b style="color:red;">[특수문자 포함 8자이상으루다가~]</b>');
+							chk2 = false;
+						} else {
+							$('#password').css("background-color", "aqua");
+							$('#pwChk').html('<b style="color:green;">[참 잘했어요~♡]</b>');
+							chk2 = true;
+						}
+						
+					});
+			  </script>
 	        </div>
 	        
 	        <div class="modal-footer">
