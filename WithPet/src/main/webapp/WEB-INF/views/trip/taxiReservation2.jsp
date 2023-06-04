@@ -1,18 +1,75 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>simpleMap</title>
+<head>
+<meta charset="UTF-8">
+<title>택시 예약하기 화면 </title>
+<jsp:include page="../common/header.jsp"/>
+	
+	<style>
+		#total_wrap{
+			margin: auto;
+			width: 1200px;
+			border: 0.1px solid sandybrown;
+			box-sizing: border-box;
+			text-align: center;
+		}
 		
-	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-	<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	<script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=Rm43dtLQun6kAQemZuCPLaSlRZ1ikgy14nIZvshd"></script>
+		#title_wrap{
+			height : 80px;
+			width: 100%;
+			text-align: center;
+			margin: 0px;
+			border: 0.1px solid sandybrown;
+		}
+		
+		#content_wrap{
+			height : 200px;
+			width: 100%;
+			text-align: center;
+			border: 0.1px solid sandybrown;
+		}
+
+		#tmap_wrap{
+			height: 480px;
+			width: 100%;
+			border: 0.1px solid sandybrown;
+			text-align: center;
+			align : center;
+			margin: auto;
+		}
+		
+		#map_div{
+			
+			align : center;
+			margin-left : 270px;
+		}
+		
+			button{
+			background-color:rgb(73, 166, 112);
+			color: white;
+			border: 1px rgb(73, 166, 112);
+			font-size:small;
+			border-radius:7px;
+		}
+		
+		 input::placeholder { font-size: 90%; }
+		
+		
+	
+	</style>
+		
+		<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+		<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+		<!-- 티맵 api용 -->
+		<!-- <script	src="https://code.jquery.com/jquery-3.2.1.min.js"></script> -->
+		<script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=Rm43dtLQun6kAQemZuCPLaSlRZ1ikgy14nIZvshd"></script>
 		<script type="text/javascript">
 			var map;
 			var markerInfo;
@@ -27,42 +84,63 @@
 			var resultMarkerArr = [];
 		
 			function initTmap() {
+		
 				// 1. 지도 띄우기
 				map = new Tmapv2.Map("map_div", {
 					center : new Tmapv2.LatLng(37.49241689559544, 127.03171389453507),
-					width : "100%",
+					width : "70%",
 					height : "400px",
 					zoom : 11,
 					zoomControl : true,
 					scrollwheel : true
 				});
 		
-				// 2. 시작, 도착 심볼찍기
-				// 시작
-				marker_s = new Tmapv2.Marker(
-						{
-							position : new Tmapv2.LatLng(37.566567545861645,
-									126.9850380932383),
-							icon : "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_s.png",
-							iconSize : new Tmapv2.Size(24, 38),
-							map : map
-						});
-		
-				//도착
-				marker_e = new Tmapv2.Marker(
-						{
-							position : new Tmapv2.LatLng(37.403049076341794,
-									127.10331814639885),
-							icon : "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_e.png",
-							iconSize : new Tmapv2.Size(24, 38),
-							map : map
-						});
-		
 				// 3. 경로탐색 API 사용요청
 				$("#btn_select")
 						.click(
 								function() {
-		
+									
+									if($('#findS').val() == '' || $('#findE').val() == ''){
+										alert("출발지 도착지를 먼저 입력해주세요!");
+										return false;
+									}
+									
+									if($("#result").text() != ''){
+										if(confirm("이미 조회한 경로가 있습니다. 초기화 하시겠습니까?")){
+											location.href=location.href;
+										} else {
+											return false;
+										}
+									}
+									
+									if($('#findS').val() == $('#findE').val()){
+										alert("출발지 도착지를 동일하게 입력하셨습니다.");
+										return false;
+									}
+									
+									
+									
+									
+									marker_s = new Tmapv2.Marker(
+											{
+												position : new Tmapv2.LatLng($('#s_lat').val(),
+														$('#s_lng').val()),
+												icon : "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_s.png",
+												iconSize : new Tmapv2.Size(24, 38),
+												map : map
+											});
+							
+									//도착
+									marker_e = new Tmapv2.Marker(
+											{
+												position : new Tmapv2.LatLng($('#e_lat').val(),
+														$('#e_lng').val()),
+												icon : "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_e.png",
+												iconSize : new Tmapv2.Size(24, 38),
+												map : map
+											});
+									
+
 									//기존 맵에 있던 정보들 초기화
 									resettingMap();
 		
@@ -70,7 +148,7 @@
 		
 									var trafficInfochk = $("#year").val();
 									var headers = {}; 
-										headers["appKey"]="발급AppKey";
+										headers["appKey"]="Rm43dtLQun6kAQemZuCPLaSlRZ1ikgy14nIZvshd";
 
 									//JSON TYPE EDIT [S]
 									$.ajax({
@@ -79,10 +157,10 @@
 										url : "https://apis.openapi.sk.com/tmap/routes?version=1&format=json&callback=result&appKey=Rm43dtLQun6kAQemZuCPLaSlRZ1ikgy14nIZvshd",
 										async : false,
 										data : {
-											"startX" : "126.9850380932383",
-											"startY" : "37.566567545861645",
-											"endX" : "127.10331814639885",
-											"endY" : "37.403049076341794",
+											"startX" : $('#s_lng').val(),
+											"startY" : $('#s_lat').val(),
+											"endX" : $('#e_lng').val(),
+											"endY" : $('#e_lat').val(),
 											"reqCoordType" : "WGS84GEO",
 											"resCoordType" : "EPSG3857",
 											"searchOption" : searchOption,
@@ -106,7 +184,7 @@
 													+ "원";
 
 											$("#result").text(
-													tDistance + tTime + tFare
+													tDistance + tTime
 															+ taxiFare);
 
 											//교통정보 표출 옵션값을 체크
@@ -438,116 +516,186 @@
 				resultdrawArr = [];
 			}
 		</script>
-		<style>
-		#Twrap{
-			margin: auto;
-			height: 1200px;
-			width: 1200px;
-			border: 0.1px solid sandybrown;
-			box-sizing: border-box;
-			text-align: center;
-		}
-		
-		#title_wrap{
-			height : 110px;
-			width: 100%;
-			text-align: center;
-		}
-
-		#list{
-			height: 240px;
-			width: 100%;
-			border: 0.1px solid sandybrown;
-		}
-
-		#mapTtotal{
-			height: 480px;
-			width: 100%;
-			border: 0.1px solid sandybrown;
-		}
-		
-
-		button{
-			background-color:rgb(73, 166, 112);
-			color: white;
-			border: 1px rgb(73, 166, 112);
-			font-size: small;
-			border-radius: 5px;
-		}
-		 input::placeholder { font-size: 80%; }
-		
-		
-		</style>
-		</head>
-	<body>
-	<div id="Twrap">
-	
-	<div id="title_wrap"></div>
-		날짜 선택 : <input type="text" id="choiceDate">
+	</head>
+	<body onload="initTmap();">
+		<div id=Total_wrap>
+			<div id="title_wrap">
+			<p><h4 align="center">교통 예약하기</h4><p>
+			
+			</div>
+			<div id="content_wrap">
 			<br>
-			<button id="mapModal"><a data-bs-toggle="modal" data-bs-target="#goMapModal">모달띄워!</a></button>
-	
-	
-	<div id="list">
-	
-	</div>
-	<div id="mapTtotal">
-	  <div class="ft_area">
-			<div class="ft_select_wrap">
-				<div class="ft_select">
-					<select id="selectLevel">
-						<option value="0" selected="selected">교통최적+추천</option>
-						<option value="1">교통최적+무료우선</option>
-						<option value="2">교통최적+최소시간</option>
-						<option value="3">교통최적+초보</option>
-						<option value="4">교통최적+고속도로우선</option>
-						<option value="10">최단거리+유/무료</option>
-						<option value="12">이륜차도로우선</option>
-						<option value="19">교통최적+어린이보호구역 회피</option>
-					</select> <select id="year">
-						<option value="N" selected="selected">교통정보 표출 옵션</option>
-						<option value="Y">Y</option>
-						<option value="N">N</option>
-					</select>
-					<button id="btn_select">적용하기</button>
+		출발지 : <input type="text" id="findS" placeholder="예시 :서울시 중구 남대문로 120 대일빌딩" style="width:300px;"> <button class="findxy">확인</button>
+		<input type="hidden" id="s_lat">
+		<input type="hidden" id="s_lng"> <br>
+		도착지 : <input type="text" id="findE" placeholder="예시 :서울시 중구 남대문로 120 대일빌딩" style="width:300px;"> <button class="findxy">확인</button>
+		<input type="hidden" id="e_lat">
+		<input type="hidden" id="e_lng">
+		<br>
+		<br>
+		<button id="btn_select" disabled style="background-color : gray;">예상 거리 및 비용 확인 하기</button>
+		<button id="goReservation">예약 하기</button>
+		<button id="reset">새로 고침</button>
+		<br><br>
+			<p><b id="result"></b></p>
+			</div>
+			<div id="tmap_wrap">
+				<div class="ft_area">
+					<div class="ft_select_wrap">
+						<div class="ft_select">
+							<select id="selectLevel">
+								<option value="0" selected="selected">교통최적+추천</option>
+								<option value="1">교통최적+무료우선</option>
+								<option value="2">교통최적+최소시간</option>
+								<option value="3">교통최적+초보</option>
+								<option value="4">교통최적+고속도로우선</option>
+								<option value="10">최단거리+유/무료</option>
+								<option value="12">이륜차도로우선</option>
+								<option value="19">교통최적+어린이보호구역 회피</option>
+							</select> <select id="year">
+								<option value="N" selected="selected">교통정보 표출 옵션</option>
+								<option value="Y">Y</option>
+								<option value="N">N</option>
+							</select>
+						</div>
+					</div>
+					<div class="map_act_btn_wrap clear_box"></div>
+					<div class="clear"></div>
+				</div>
+			
+				<div id="map_wrap" class="map_wrap">
+					<div id="map_div"></div>
+				</div>
+				<div class="map_act_btn_wrap clear_box"></div>
+				
+				
+		
 				</div>
 			</div>
-			<div class="map_act_btn_wrap clear_box"></div>
-			<div class="clear"></div>
-		</div>
+			
+			
+<script>
+
+$(function(){
 	
-		<div id="map_wrap" class="map_wrap">
-			<div id="map_div"></div>
-		</div>
-		<div class="map_act_btn_wrap clear_box"></div>
-		<p id="result"></p>
-		<br />
-            <br>
-	</div>
-	</div>
-		<script>
-
-	$(function () {
-	    $("#datepicker").datepicker({ dateFormat: 'YYYY-MM-DD' });
-	});
-
-	$('#choiceDate').click(function(){
-		$('#choiceDate').datepicker();
-		var date1 = new Date($("#choiceDate").datepicker("getDate"));
-		console.log(date1);
-		//var date2 = new Date
-		//var choiceDate = $('#choiceDate').val();
+	
+})
+	
+	
+	$('.findxy').click(function(){
+		var clickbtn = $(this);
+	
+		$.ajax({
+			url : 'findXY',
+			data : {location : clickbtn.prev().val()},
+			success : function(result){
+				console.log('성공');
+				//console.log(result.results[0].geometry.location.lat);
+				//console.log(result.results[0].geometry.location.lng);
+				let lat = result.results[0].geometry.location.lat;
+				let lng = result.results[0].geometry.location.lng;
+				clickbtn.next().val(lat);
+				clickbtn.next().next().val(lng);
+				console.log($('#s_lat').val());
+				console.log($('#e_lat').val());
+				
+				if($('#s_lat').val() != '' && $('#e_lat').val() != ''){
+					
+					alert('출발지, 도착지 확인이 완료 되었습니다.');
+					$('#btn_select').attr('disabled',false).css('background-color','rgb(73, 166, 112)');
+					
+				} else {
+					
+					
+				}
+			},
+			errorr : function(){
+				consol.log('실패 ㅠㅠ')
+			}
+		})
 	})
 	
-	</script>
+	$('#reset').click(function(){
+		if(confirm('출발지, 도착지를 초기화 하시겠습니까?')){
+			$('#findS').val('');
+			$('#findE').val('');
+			$('#s_lat').val('');
+			$('#s_lng').val('');
+			$('#e_lat').val('');
+			$('#e_lng').val('');
+			
+			$('#btn_select').attr('disabled',true).css('background-color','gray');
+		}
+	})
+	
+	$('#goReservation').click(function(){
+		 $('#goResTaxi').modal("show");	
+			$('#findS2').val($('#findS').val());
+			$('#findE2').val($('#findE').val());
+		 
+	})
+</script>
 
+
+
+
+<script>
 	
-	<!-- <body.onload="initTmap();"> -->
+	$(function(){
+		$('#taxiRDate').click(function(){
+			$('#taxiRDate').datepicker({
+			});
+			var choiceDate = $('#taxiRDate').val();
+			//console.log('날짜?'+choiceDate);
+			
+		})
+		
+	
+		
+			$('#checkTR').click(function(){
+				
+				var choiceDate = $('#taxiRDate').val();
+				console.log(choiceDate);
+				console.log($('input[name=trType2]:checked').val());
+				console.log($('#taxiRTime').val());
+				if(choiceDate == ''){
+					alert('날짜를 선택해주세요!');
+					return false;
+				}
+				else{
+					
+				
+				$.ajax({
+						url : 'checkTReservation',
+						data : { 
+								 taxiRDate : choiceDate,
+								 trType2 : $('input[name=trType2]:checked').val(),
+								 taxiRTime : $('#taxiRTime').val()},
+						success : function(result){
+							//console.log(result);
+							if(result == "Yes"){
+								alert('예약이 가능합니다.');
+								$('#submitBtn').attr('disabled',false).css('background-color','rgb(73, 166, 112)')
+							} else {
+								alert('선택하신 차량은 해당 날짜와 시간에 이미 예약이 다 완료되었습니다.')
+							}
+						},
+						error : function(){
+							console.log('택시 예약 가능 시간 조회 실패ㅜㅡ ')
+						}
+					});
+				}
+	
+		})
+
+	})
 	
 	
-	<!-- 지도 모달창 -->
-	
-<div class="modal fade" id="goMapModal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+</script>
+
+
+	<!-- 모달 창 -->
+	<div class="modal fade" id="goResTaxi" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
    <div class="modal-dialog modal-dialog-centered">
      <div class="modal-content">
      
@@ -557,67 +705,75 @@
        </div>
        
        <div class="modal-body">
-            <p class="modal-title" style="font-size:15px; text-align:center; margin-top:15px; margin-bottom:5px"><b>상세 정보</b></p>
+            <p class="modal-title" style="font-size:15px; text-align:center; margin-top:15px; margin-bottom:5px"><b>예약하기</b></p>
             <br>
+            <form action="taxiReservation" method="POST">
+            <input type="hidden" name="memId" id="memId" value="${ loginMember.memId }">
              <table width="100%" style="text-align:center">
-             	 <tr>
-                    <td style="font-size:13px; color:gray; width: 30px; height: 10px;" colspan="2" id="photo">
-                    	
-                    </td>
-                 </tr>
                  <tr>
-                    <td style="font-size:13px; color:gray; width: 30px; height: 10px;">분류 : </td>
-                    <td id="placeType"></td>
+                    <td style="font-size:13px; color:gray; height: 10px; width: 50px">종류 선택 : </td> 
+                    <td style="font-size:13px; color:gray; width: 80%"><input type="radio" name="trType2" value="J" checked> 중형세단   
+                    	<input type="radio" name="trType2" value="D"> 대형 세단 <input type="radio" name="trType2" value="S"> SUV </td>
                  </tr>
                  <tr style="height: 10px;"></tr>
                  <tr style="margin-top:5px">
-                     <td width="80" height="25" style="font-size:13px; color:gray; width: 30px">장소명 : </td>
-                     <td width="100" id="placeName"></td>
+                     <td height="25" style="font-size:13px; color:gray; width: 50px">날짜 선택 : </td>
+                     <td width="100"><input type="text" name="taxiRDate" id="taxiRDate" style="width:80%; border:solid 1px lightgray"></td>
                 </tr>
                 <tr style="height: 10px;"></tr>
                 <tr style="margin-top:5px">
-                     <td width="80" height="25" style="font-size:13px; color:gray; width: 30px">저장된 수 : </td>
-                     <td width="100" id="placeCount"></td>
+                     <td height="25" style="font-size:13px; color:gray; width: 50px">시간 선택 : </td>
+                     <td width="100">
+                     	<select style="width:80%; border:solid 1px lightgray" name="taxiRTime" id="taxiRTime">
+                     		<option style="font-size:90%; color:gray;" value="1">06:00~07:00</option>  
+                     		<option style="font-size:90%; color:gray;" value="2">07:00~08:00</option>  
+                     		<option style="font-size:90%; color:gray;" value="3">08:00~09:00</option>  
+                     		<option style="font-size:90%; color:gray;" value="4">09:00~10:00</option>  
+                     		<option style="font-size:90%; color:gray;" value="5">10:00~11:00</option>  
+                     		<option style="font-size:90%; color:gray;" value="6">11:00~12:00</option>  
+                     		<option style="font-size:90%; color:gray;" value="7">12:00~13:00</option>  
+                     		<option style="font-size:90%; color:gray;" value="8">13:00~14:00</option>  
+                     		<option style="font-size:90%; color:gray;" value="9">14:00~15:00</option>  
+                     		<option style="font-size:90%; color:gray;" value="10">15:00~16:00</option>  
+                     		<option style="font-size:90%; color:gray;" value="11">16:00~17:00</option>  
+                     		<option style="font-size:90%; color:gray;" value="12">17:00~18:00</option>  
+                     		<option style="font-size:90%; color:gray;" value="13">18:00~19:00</option>  
+                     		<option style="font-size:90%; color:gray;" value="14">19:00~20:00</option>  
+                     		<option style="font-size:90%; color:gray;" value="15">20:00~21:00</option>  
+                     		<option style="font-size:90%; color:gray;" value="16">21:00~22:00</option>  
+                     		<option style="font-size:90%; color:gray;" value="17">22:00~23:00</option>  
+                     		<option style="font-size:90%; color:gray;" value="18">23:00~24:00</option>  	
+                     	</select>
+                     	
+                     </td>
                 </tr>
                  <tr style="height: 10px;"></tr>
                  <tr>
-                     <td style="font-size:13px; color:gray; width: 30px">주소 : </td>
-                     <td id="placeLocation"></td>
+                     <td style="font-size:13px; color:gray; width: 50px">출발지 : </td>
+                     <td><input type="text" readonly id="findS2" style="width:80%; border:solid 1px lightgray"></td>
                  </tr>
                  <tr style="height: 10px;"></tr>
                  <tr>
-                    <td style="font-size:13px; color:gray; width: 30px">연락처 : </td>
-                    <td id="placePhone"></td>
+                    <td style="font-size:13px; color:gray; width: 50px">도착지 : </td>
+                    <td><input type="text" readonly id="findeE2" style="width:80%; border:solid 1px lightgray"></td>
                 </tr>
                 <tr style="height: 10px;"></tr>
+                
                 <tr>
-                     <td style="font-size:13px; color:gray; width: 30px">상세 정보 : </td>
-                     <td>
-                        <textarea id="placeInfo" style="resize: none; border:solid 1px lightgray; width: 90%; height: 200px;" readonly></textarea>
-                    </td>
+                	<td style="width: 50px" colspan="2"><button type="button" id="checkTR">예약 가능 여부 조회하기 </button><td>
                 </tr>
-            
-             </table>
+                
+                </table>
+                
+                <p style="font-size:15px; text-align:center;">*배정 기사님이 미리 연락 드릴 예정입니다.
+                <p style="font-size:15px; text-align:center;">*예약취소는 예약일 1일전까지 가능 합니다.</p>
+              
+             <button type="submit" style="margin-left: 200px; background-color:gray" disabled id="submitBtn">예약하기</button>
+            </form>
        </div>
      </div>
    </div>
  </div>
-         		
- <script>
- $(function(){
-	 
-	 $('#mapModal').click(function(){
-		 $('#goMapModal').modal("show");
-		 initTmap();
-
-	 })
-	 
-
- })
- 
- 
- </script>
- </body>
- 
+	
+	</body>
 </html>
-

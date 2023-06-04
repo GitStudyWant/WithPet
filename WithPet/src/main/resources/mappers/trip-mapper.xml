@@ -157,5 +157,62 @@
 	   WHERE
 	        PLACE_NO = #{placeNo}
 	</select>
-
+	
+	<select id="checkTransportation" resultType="_int">
+		SELECT 
+		      COUNT(TR_NO)
+		  FROM
+		      TRANSPORTATION 
+		 WHERE 
+		      TR_TYPE = #{trType}
+	       AND
+	          TR_TYPE2 = #{trType2}
+	</select>
+	
+	<select id ="checkTReservation" resultType="_int">
+		SELECT
+		      COUNT(TR_NO)
+		  FROM
+		      TAXI_RESERVATION JOIN TRANSPORTATION USING(TR_NO)
+		 WHERE
+		      TR_TYPE2 = #{trType2}
+		   AND
+		      TAXI_RTIME = #{taxiRTime}
+		   AND 
+		      TAXI_RDATE = #{taxiRDate}
+	</select>
+	
+	<select id="findTaxiNo" resultType="_int">
+		SELECT NVL(MIN(TR_NO),0) TR_NO FROM TRANSPORTATION WHERE NOT TR_NO IN
+			(SELECT TR_NO FROM
+		 		(SELECT * FROM
+		 			(SELECT TR_NO, TR_TYPE, TR_tYPE2, TAXI_RDATE, TAXI_RTIME FROM TRANSPORTATION LEFT JOIN 
+		 			 TAXI_RESERVATION USING(TR_NO))
+		 			  WHERE TR_TYPE = 'T' AND TR_Type2 = #{trType2})
+		 			   	 WHERE TAXI_RDATE = #{taxiRDate} AND TAXI_RTIME = #{taxiRTime}) AND TR_TYPE= 'T' AND TR_TYPE2 = #{trType2}
+	</select>
+	
+	<insert id="taxiReservation" parameterType="taxiReservation">
+		INSERT 
+		  INTO 
+		      TAXI_RESERVATION
+		      (
+		      TAXI_RNO
+		     ,TR_NO
+		     ,TAXI_RDATE
+		     ,TAXI_RTIME
+		     ,STATUS
+		     ,MEM_ID
+		     )
+		VALUES
+		     (
+		     SEQ_TAXI_RNO.NEXTVAL
+		    ,#{trNo}
+		    ,#{taxiRDate}
+		    ,#{taxiRTime}
+		    ,DEFAULT
+		    ,#{memId}
+		    )
+	</insert>
+	
 </mapper>

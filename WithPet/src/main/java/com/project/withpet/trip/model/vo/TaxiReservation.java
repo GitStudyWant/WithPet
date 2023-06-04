@@ -5,11 +5,12 @@ import lombok.Data;
 @Data
 public class TaxiReservation {
 	
-	private String taxiRno;
-	private String trNo;
+	private int taxiRno;
+	private int trNo;
 	private String taxiRDate;
-	private String taxiRTime;
+	private int taxiRTime;
 	private String status;
 	private String memId;
+	private String trType2;
 
 }

@@ -91,13 +91,13 @@
 
 		<c:if test="${ not empty alertMsg }">
 		<script>
-			alert(${alertMsg});
+			alert('${alertMsg}');
 		</script>
 		<c:remove var="alertMsg" scope="session"/>
 		</c:if>
 			<c:if test="${ not empty errorMsg }">
 		<script>
-			alert(${errorMsg});
+			alert('${errorMsg}');
 		</script>
 		<c:remove var="errorMsg" scope="session"/>
 		</c:if>
@@ -190,13 +190,14 @@
     </script>
     
  
+ <!--  
     <c:if test="${ not empty alertMsg }">
 		<script>
 			alert('${alertMsg}');
 		</script>
 		<c:remove var="alertMsg" scope="session" />
 	</c:if>
-    
+   --> 
   
 
 </body>
