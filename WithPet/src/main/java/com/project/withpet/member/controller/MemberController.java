@@ -8,7 +8,6 @@ import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.Format;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Random;
@@ -107,6 +106,8 @@ public class MemberController {
 				
 		Member loginMember = memberService.selectMember(member);
 		int loginMemo = memberService.selectMemoCount(member.getMemId());
+		System.out.println(member.getMemId());
+		System.out.println(loginMemo);
 		
 		if(loginMember != null && (member.getMemPwd().equals(loginMember.getMemPwd())) /* && bcryptPasswordEncoder.matches(member.getMemPwd(), loginMember.getMemPwd())*/) {
 			session.setAttribute("loginMember", loginMember);
@@ -308,7 +309,7 @@ public class MemberController {
 		SimpleDateFormat sdf = new SimpleDateFormat("MM");
 		int thisMonth = Integer.parseInt(sdf.format(date)); // 오늘의 달값
 		
-		System.out.println(monthLastList.get(thisMonth));
+		//System.out.println(monthLastList.get(thisMonth));
 
 		
 		mv.setViewName("member/diary/memberDiary");

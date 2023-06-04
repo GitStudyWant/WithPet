@@ -8,12 +8,21 @@
 <title>메인</title>
 <style>
 
-
+	body{
+		padding: 0px! important;
+	}
+	
 	#body{
-	height: 1000px;
-	width: 100%;
-	background-color:white;
-	box-sizing: border-box;
+		height: 1000px;
+		width: 100%;
+		background-color:white;
+		box-sizing: border-box;
+		position:absolute;
+		margin-left:15%;
+	}
+	
+	#mypageFooter{
+		margin-top:1000px;
 	}
 
 	#mainSi{
@@ -90,9 +99,9 @@
 </head>
 <body>
 
-	<jsp:include page="../common/header.jsp" />
+	<jsp:include page="../common/myPageSide.jsp" />
+
 	<div id="body">
-			<div id="mainSi"><jsp:include page="../common/myPageSide.jsp" /></div>
 			<div id="mainmain">
 				<table id="naviTable">
 					<thead>
@@ -203,9 +212,8 @@
 				</table>
 			</div>
 	</div>		
-
 	
-	<jsp:include page="../common/footer.jsp" />
+	<div id="mypageFooter"><jsp:include page="../common/footer.jsp" /></div>
 	
 </body>
 </html>
