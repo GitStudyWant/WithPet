@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.mail.Session;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,8 @@ import com.project.withpet.trip.model.service.TripService;
 import com.project.withpet.trip.model.vo.MyPlace;
 import com.project.withpet.trip.model.vo.Place;
 import com.project.withpet.trip.model.vo.R_MyPlace;
+import com.project.withpet.trip.model.vo.TaxiReservation;
+import com.project.withpet.trip.model.vo.Transportation;
 
 @Controller
 public class TripController {
@@ -27,7 +30,7 @@ public class TripController {
 	
 	
 	@RequestMapping("placeList")
-	public String placeList() {
+	public String placeList(HttpSession session) {
 		return "trip/myplace";		
 	}
 	
@@ -168,7 +171,53 @@ public class TripController {
 	
 	@RequestMapping("transReservation")
 	public String transReservation() {
-		return "trip/tranReservation2";
+		return "trip/taxiReservation2";
 	}
+	
+	@ResponseBody
+	@RequestMapping("checkTReservation")
+	public String checkTReservation(TaxiReservation r){
+
+		Transportation t = new Transportation();
+		t.setTrType2(r.getTrType2());
+		t.setTrType("T");
+		
+		String taxiRDate2 = r.getTaxiRDate().substring(0,3);
+		String taxiRDate3 = r.getTaxiRDate().substring(3,6);
+		String taxiRDate4 = taxiRDate3+taxiRDate2 + "23";
+		r.setTaxiRDate(taxiRDate4);
+		//System.out.println(r);
+		int result1 = tripService.checkTransportation(t);
+		
+		int result2 = tripService.checkTReservation(r);
+		
+		//System.out.println(result1);
+		//System.out.println(result2);
+		if(result1 == result2) {
+			return "No";
+		} else {
+			return "Yes";
+		}
+	}
+	
+	@RequestMapping("taxiReservation")
+	public String taxiReservation(TaxiReservation r, HttpSession session) {
+		
+		String taxiRDate2 = r.getTaxiRDate().substring(0,3);
+		String taxiRDate3 = r.getTaxiRDate().substring(3,6);
+		String taxiRDate4 = taxiRDate3+taxiRDate2 + "23";
+		r.setTaxiRDate(taxiRDate4);
+		r.setTrNo(tripService.findTaxiNo(r));
+		
+		System.out.println(r);
+		if(tripService.taxiReservation(r)>0) {
+			session.setAttribute("alertMsg","택시 예약에 성공했습니다.");
+			return "redirect:transReservation";
+		} else {
+			session.setAttribute("alertMsg","택시 예약에 실패했습니다. 다시 시도해주세요");
+			return "redirect:transReservation";
+		}
+	}
+	
 }
 

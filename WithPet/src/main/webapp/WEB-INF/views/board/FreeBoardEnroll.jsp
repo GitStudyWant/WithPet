@@ -45,39 +45,6 @@
 	background-color:lightyellow;
 	}
 	
-	#searchForm {
-            width:80%;
-            margin:auto;
-        }
-	 #searchForm>* {
-            float:left;
-            margin:5px;
-            height: 38px;
-        }
-        .select {width:20%;}
-        .text {width:53%;}
-        .searchBtn {width:20%;}
-    .board-element{
-        border-top: 2px solid gray;
-        border-bottom: 1.5px solid gray;
-        float: left;
-        width: 100%;
-        height: 300px;
-    }
-    .board-element2{
-        border-bottom: 1.5px solid gray;
-        border-top: 1.5px solid gray;
-        float: left;
-        width: 100%;
-        height: 300px;
-    }
-    .board-element3{
-        border-bottom: 3px solid gray;
-        border-top: 1.5px solid gray;
-        float: left;
-        width: 100%;
-        height: 300px;
-    }
 
     #boardTitle{
         font-weight: bolder ;
@@ -128,7 +95,7 @@
 </style>
 </head>
 <body>
-	
+						
 	<script>
 		$(document).ready(function() {
 			  $('#summernote').summernote({
@@ -142,7 +109,7 @@
 		
 		
 	</script>
-			<!--  비로그인시 전 페이지로
+			<!--  비로그인으로 접근시 이전 페이지로
 	        <c:if test="${ empty sessionScope.loginMember }">
             <script>
             	window.alert('비정상적인 접근입니다. 로그인을 해주세요');
@@ -170,13 +137,16 @@
 					<input type="text" name="boardTitle" style="width: 40%;" placeholder="제목" required/>
 					<br><br> 
 					<input type="file" id="upfile" class="form-control-file border" name="upfile">
+					
 					<textarea id="summernote" name="boardContent">
 					</textarea>
+
+			        
 					<div align="center">
-					<br>
-                    <button type="submit" class="btn btn-primary">등록하기</button>
-                    <button type="reset" class="btn btn-danger" >취소하기</button>
-                </div>
+						<br><br><br>
+	                    <button type="submit" class="btn btn-primary">등록하기</button>
+	                    <button type="reset" class="btn btn-danger" >취소하기</button>
+                	</div>
 				</form>
 			</div>
 			<br>
@@ -184,5 +154,6 @@
 
         </div>
     </div>
+    
 </body>
 </html>

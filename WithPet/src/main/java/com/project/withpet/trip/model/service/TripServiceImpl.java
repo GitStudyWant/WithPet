@@ -10,6 +10,8 @@ import com.project.withpet.trip.model.dao.TripDao;
 import com.project.withpet.trip.model.vo.MyPlace;
 import com.project.withpet.trip.model.vo.Place;
 import com.project.withpet.trip.model.vo.R_MyPlace;
+import com.project.withpet.trip.model.vo.TaxiReservation;
+import com.project.withpet.trip.model.vo.Transportation;
 
 @Service
 public class TripServiceImpl implements TripService {
@@ -53,6 +55,26 @@ public class TripServiceImpl implements TripService {
 	@Override
 	public Place detailPlace(int placeNo) {
 		return tripdao.detailPlace(sqlSession, placeNo);
+	}
+	
+	@Override
+	public int checkTransportation(Transportation t) {
+		return tripdao.checkTransportation(sqlSession, t);
+	}
+
+	@Override
+	public int checkTReservation(TaxiReservation r) {
+		return tripdao.checkTReservation(sqlSession, r);
+	}
+
+	@Override
+	public int findTaxiNo(TaxiReservation r) {
+		return tripdao.findTaxiNo(sqlSession, r);
+	}
+
+	@Override
+	public int taxiReservation(TaxiReservation r) {
+		return tripdao.taxiReservation(sqlSession, r);
 	}
 
 
