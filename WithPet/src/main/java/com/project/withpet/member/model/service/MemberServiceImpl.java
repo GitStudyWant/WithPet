@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.project.withpet.board.common.model.vo.PageInfo;
 import com.project.withpet.board.model.vo.Board;
 import com.project.withpet.board.model.vo.Comments;
 import com.project.withpet.member.model.dao.MemberDao;
@@ -238,6 +239,46 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int pwdFind(Passward p) {
 		return memberDao.pwdFind(sqlSession, p);
+	}
+	
+	@Override
+	public ArrayList<Board> myPage(PageInfo pi){
+		return memberDao.myPage(sqlSession, pi);
+	}
+	
+	@Override
+	public int boardCount(String memberId) {
+		return memberDao.boardCount(sqlSession, memberId);
+	}
+
+	@Override
+	public int replyCount(String memberId) {
+		return memberDao.replyCount(sqlSession, memberId);
+	}
+
+	@Override
+	public ArrayList<Comments> myPageReply(PageInfo pi) {
+		return memberDao.myPageReply(sqlSession, pi);
+	}
+
+	@Override
+	public int likeCount(String memberId) {
+		return memberDao.likeCount(sqlSession, memberId);
+	}
+
+	@Override
+	public ArrayList<Board> myPageLike(PageInfo pi) {
+		return memberDao.myPageLike(sqlSession, pi);
+	}
+
+	@Override
+	public int deleteCount(String memberId) {
+		return memberDao.deleteCount(sqlSession, memberId);
+	}
+
+	@Override
+	public ArrayList<Board> myPageDelete(PageInfo pi) {
+		return memberDao.myPageDelete(sqlSession, pi);
 	}
 
 }

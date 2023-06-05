@@ -8,6 +8,7 @@ import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.Format;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Random;
@@ -27,14 +28,20 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import com.project.withpet.board.common.model.vo.PageInfo;
+import com.project.withpet.board.common.template.Pagination;
+import com.project.withpet.board.model.vo.Board;
+import com.project.withpet.board.model.vo.Comments;
 import com.project.withpet.member.model.service.MemberService;
 import com.project.withpet.member.model.vo.CertVO;
 import com.project.withpet.member.model.vo.Member;
@@ -132,14 +139,6 @@ public class MemberController {
 		
 	}
 	
-	@RequestMapping("myPage.me")
-	public ModelAndView myPageMember(String memId, ModelAndView mv, HttpSession session) throws ServletException, IOException{
-		
-		mv.setViewName("member/myPageMain");
-		
-		return mv;
-		
-	}
 	
 	@RequestMapping("kakaoGetCodeUrl")
 	public void kakaoGetCodeUrl(HttpServletResponse response) throws ServletException, IOException {
@@ -744,6 +743,79 @@ public class MemberController {
 			mv.setViewName("common/main");
 		}
 		return mv;
+	}
+	
+	@PostMapping("myPage")
+	public String myPage(@RequestParam(value="mPage", defaultValue="1") int currentPage, String memberId, HttpServletRequest request, Model m) {
+		
+		PageInfo pi = Pagination.getPageInfo(memberService.boardCount(memberId), currentPage, 10, 10);
+		pi.setMemberId(memberId);
+		ArrayList<Board> list = memberService.myPage(pi);
+		if(list.isEmpty()) {
+			m.addAttribute("errorMsg", "마이페이지를 불러오기에 실패하였습니다!");
+			return "common/main";
+
+		}else {
+			m.addAttribute("number", 1);
+			m.addAttribute("pi", pi);
+			m.addAttribute("boardList", list);
+			return "member/myPageMain";
+		}
+	}
+	
+	@PostMapping("myPageReply")
+	public String myPageReply(@RequestParam(value="mPage", defaultValue="1") int currentPage, String memberId, HttpServletRequest request, Model m) {
+		
+		PageInfo pi = Pagination.getPageInfo(memberService.replyCount(memberId), currentPage, 10, 10);
+		pi.setMemberId(memberId);
+		ArrayList<Comments> list = memberService.myPageReply(pi);
+		if(list.isEmpty()) {
+			m.addAttribute("errorMsg", "마이페이지를 불러오기에 실패하였습니다!");
+			return "common/main";
+
+		}else {
+			m.addAttribute("number", 2);
+			m.addAttribute("pi", pi);
+			m.addAttribute("ReplyList", list);
+			return "member/myPageMain";
+		}
+	}
+	@PostMapping("myPageLike")
+	public String myPageLike(@RequestParam(value="mPage", defaultValue="1") int currentPage, String memberId, HttpServletRequest request, Model m) {
+		
+		PageInfo pi = Pagination.getPageInfo(memberService.likeCount(memberId), currentPage, 10, 10);
+		pi.setMemberId(memberId);
+		ArrayList<Board> list = memberService.myPageLike(pi);
+		if(list.isEmpty()) {
+			m.addAttribute("errorMsg", "마이페이지를 불러오기에 실패하였습니다!");
+			return "common/main";
+
+		}else {
+			m.addAttribute("number", 3);
+			m.addAttribute("pi", pi);
+			m.addAttribute("boardList", list);
+			return "member/myPageMain";
+		}
+	}
+	
+	
+	@PostMapping("myPageDelete")
+	public String myPageDelete(@RequestParam(value="mPage", defaultValue="1") int currentPage, String memberId, HttpServletRequest request, Model m) {
+		
+		PageInfo pi = Pagination.getPageInfo(memberService.deleteCount(memberId), currentPage, 10, 10);
+		pi.setMemberId(memberId);
+		ArrayList<Board> list = memberService.myPageDelete(pi);
+		if(list.isEmpty()) {
+			m.addAttribute("errorMsg", "마이페이지를 불러오기에 실패하였습니다!");
+			return "common/main";
+
+		}else {
+			m.addAttribute("number", 5);
+			m.addAttribute("pi", pi);
+			m.addAttribute("boardList", list);
+			return "member/myPageMain";
+		}
+		
 	}
 		
 }

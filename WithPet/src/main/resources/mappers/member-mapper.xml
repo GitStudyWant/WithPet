@@ -4,6 +4,8 @@
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="memberMapper">
 
+	
+
 	<insert id="insertMember" parameterType="member">
 		INSERT
 		INTO
@@ -155,7 +157,17 @@
 	
 	
 	
-	
+	<resultMap id="boardResultSet" type="board">
+		<result column="BOARD_NO" 		property="boardNo"/>
+		<result column="BOARD_TITLE" 	property="boardTitle"/>
+		<result column="BOARD_WRITER" 	property="boardWriter"/>
+		<result column="VIEW_COUNT" 			property="viewCount"/>
+		<result column="ENROLLDATE" 	property="enrolldate"/>
+		<result column="RATING" 	property="rating"/>
+		<result column="STATUS" 	property="status"/>
+		<result column="BOARD_CONTENT" 	property="boardContent"/>
+		<result column="BOARD_NUM" 	property="boardNum"/>
+	</resultMap>
 	
 	
 	
@@ -251,6 +263,146 @@
                mem_pwd = #{password}
 	</update>
 	
+	<select id="myPage" resultType="board" parameterType="pageInfo">
+		SELECT
+		        BOARD_NO boardNo
+				,BOARD_TITLE boardTitle
+				,BOARD_WRITER boardWriter
+				,BOARD_CONTENT boardContent
+				,ENROLLDATE enrolldate
+				,VIEW_COUNT viewCount
+				,STATUS status
+				,RATING rating
+				,BOARD_NUM boardNum
+		  FROM
+		       board
+		 WHERE
+		       board_writer = #{memberId}
+		   AND 
+		   	   status = 'Y'
+		 order
+		    by
+		       board_no desc
+	</select>
+	
+	<select id="boardCount" resultType="_int" parameterType="string">
+		SELECT 
+			   COUNT(*)
+		  FROM
+		       BOARD
+		 WHERE
+		       BOARD_WRITER = #{memberId}
+		   and
+		       status = 'Y'
+	</select>
+	
+	<select id="replyCount" resultType="_int" parameterType="string">
+		SELECT
+			   COUNT(*)
+		  FROM
+		       COMMENTS
+		 WHERE
+		       COMMENT_WRITER = #{memberId}
+	</select>
+	
+	<select id="myPageReply" resultType="comments" parameterType="pageInfo">
+		SELECT 
+			   COMMENT_NO commentNo
+			   ,BOARD_NO boardNo
+			   ,COMMENT_WRITER commentWriter
+			   ,COMMENT_TEXT commentText
+			   ,COMMENT_STATUS commentStatus
+			   ,COMMENT_GROUP commentGroup
+			   ,COMMENT_LEVEL commentLevel
+			   ,REG_DATE regDate
+		  FROM
+		       COMMENTS
+		 WHERE
+		 	   COMMENT_WRITER = #{memberId}    
+		   AND
+		   	   COMMENT_STATUS = 'Y'
+		 ORDER
+		    BY 
+		       COMMENT_NO DESC 
+	</select>
+	
+	<select id="likeCount" resultType="_int" parameterType="string">
+		SELECT 
+			   COUNT(*)
+		  FROM
+		       LIKES
+		 WHERE
+		       LIKE_ID = #{memberId}
+	</select>
+	
+	<select id="myPageLike" resultType="board"  parameterType="pageInfo">
+		SELECT
+		        BOARD_NO boardNo
+				,BOARD_TITLE boardTitle
+				,BOARD_WRITER boardWriter
+				,BOARD_CONTENT boardContent
+				,ENROLLDATE enrolldate
+				,VIEW_COUNT viewCount
+				,STATUS status
+				,RATING rating
+				,BOARD_NUM boardNum
+		  FROM
+		        BOARD
+		  JOIN  
+		  	    LIKES ON(BOARD_WRITER = LIKE_ID)
+		 WHERE
+		 	    LIKE_ID = #{memberId}
+		   and
+		        status = 'Y'
+		   and
+		        like_no = board_no
+		 GROUP 
+		    BY 
+		 		BOARD_NO
+				,BOARD_TITLE
+				,BOARD_WRITER
+				,BOARD_CONTENT
+				,ENROLLDATE
+				,VIEW_COUNT
+				,STATUS
+				,RATING
+				,BOARD_NUM
+		 order
+		    by
+		        board_no desc
+	</select>
+	
+	<select id="deleteCount" resultType="_int" parameterType="string">
+		select
+		      count(*)
+		  from
+		      board
+		 where
+		      board_writer = #{memberId}
+		   and
+		      status = 'N'
+	</select>
 
+	<select id="myPageDelete" resultType="board" parameterType="pageInfo">
+		select
+		      	BOARD_NO boardNo
+				,BOARD_TITLE boardTitle
+				,BOARD_WRITER boardWriter
+				,BOARD_CONTENT boardContent
+				,ENROLLDATE enrolldate
+				,VIEW_COUNT viewCount
+				,STATUS status
+				,RATING rating
+				,BOARD_NUM boardNum
+		  from
+		        board
+		 where
+		        board_writer = #{memberId}
+		   and
+		        status = 'N'
+		 order
+		    by
+		        board_no desc
+	</select>
 	
 </mapper>
