@@ -132,7 +132,6 @@
         		<a data-bs-toggle="modal" data-bs-target="#loginModal">Login</a>
         	</c:when>
         	<c:otherwise>
-        		<a href="logout.me">Logout</a> / <a id="myPage" onclick="myPage();">MyPage</a>
         		<c:choose>
         			<c:when test="${ loginMemo == 0 }">
         			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bell" viewBox="0 0 16 16">
@@ -151,7 +150,7 @@
 					</button>
 					</c:otherwise>
 				</c:choose>
-        		<a href="logout.me">Logout</a> / <a href="myPage.me">MyPage</a>
+        		<a href="logout.me">Logout</a> / <a id="myPage" onclick="myPage();">MyPage</a>
         	</c:otherwise>        	
         </c:choose>
         
