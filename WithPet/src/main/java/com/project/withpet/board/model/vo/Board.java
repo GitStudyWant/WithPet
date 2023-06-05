@@ -16,6 +16,8 @@ public class Board {
 	private String status;//STATUS	VARCHAR2(10 BYTE)
 	private int rating;//RATING	NUMBER
 	private int boardNum;//BOARD_NUM	NUMBER
+	private String originName;
+	private String changeName;
 	
 	
 }

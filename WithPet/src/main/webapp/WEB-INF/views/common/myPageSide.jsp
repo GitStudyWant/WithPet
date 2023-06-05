@@ -9,25 +9,25 @@
 <style>
 
     #myPageSide{
-        width: 296px;
+        width: 15%;
         height: 1000px;
-        border-right : 4px solid rgb(229, 221, 221);
+        border-right : 2px solid rgb(229, 221, 221);
         display : inline-block;
         box-sizing: border-box;
+        position:absolute;
+        z-index:1;
     }
 
     #myPagePropile{
         width : 100%;
         height : 30%;
-        border-bottom : 4px solid rgb(229, 221, 221);
+        border-bottom : 2px solid rgb(229, 221, 221);
     }
 
     #myPageMenu{
         width : 100%;
         height : 70%;
     }
-
-
 
     #userImg{
         width : 150px;
@@ -61,12 +61,12 @@
         list-style: none;
     }
 
-
     #pro{
-    width: 100%;
-    height: 30%;
-    border-bottom : 4px solid rgb(229, 221, 221);
+	    width: 100%;
+	    height: 30%;
+	    border-bottom : 2px solid rgb(229, 221, 221);
     }
+    
     #mune{
         width: 100%;
         height: 69%;
@@ -81,16 +81,20 @@
     }
 
     #memberimg{
-        width: 150px;
-        height : 150px;
+        width: 50%;
+        height : 50%;
         border-radius: 100px;
-        margin-top: 30px;
+        margin-top: 60px;
     }
+    
+    #pro b{ font-size:20px;}
+    @media (max-width: 770px) { #pro b { font-size: 12px; } }
 
     #memberoption{
-        width: 50px;
-        height : 50px;
+        width: 10%;
+        height : 10%;
         border-radius: 100px;
+        padding-bottom : 10px;
     }
 
     #sideMenu{
@@ -110,18 +114,18 @@
     }
 
     #sideMenu a{
-        font-size : 30px;
+        font-size : 20px;
         color : rgb(73, 166, 112);
         text-decoration: none;
     }
-
-
-    
-
+    @media (max-width: 770px) { #sideMenu a { font-size: 12px; } }
 
 </style>
 </head>
 <body>
+	
+	<jsp:include page="../common/header.jsp" />
+
     <div id="myPageSide">
         <div id="pro">
             <div align="center">
@@ -129,15 +133,15 @@
             </div>
             <br>
             <div align="center">
+            	<img id="memberoption" src="resources/myPage/option.png" alt="">
                 <b>닉네임</b>
             </div>
-            <img id="memberoption" src="resources/myPage/option.png" alt="">
         </div>
         <div id="mune">
             <table id="sideMenu">
                 <thead align="center">
                     <tr>
-                        <th><a href="myPage">내 활동</a></th>
+                        <th><a href="myPage.me">내 활동</a></th>
                     </tr>
                     <tr>
                         <th><a href="myPage">쪽지</a></th>
