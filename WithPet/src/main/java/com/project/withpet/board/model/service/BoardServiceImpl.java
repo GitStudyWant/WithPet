@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.project.withpet.board.common.model.vo.PageInfo;
 import com.project.withpet.board.model.dao.BoardDao;
 import com.project.withpet.board.model.vo.Board;
+import com.project.withpet.board.model.vo.Comments;
 
 
 @Service
@@ -34,6 +35,31 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public int insertFrBoard(Board b) {
 		return boardDao.insertFrBoard(sqlSession,b);
+	}
+
+	@Override
+	public int increaseCount(int boardNo) {
+		return boardDao.increaseCount(sqlSession,boardNo);
+	}
+
+	@Override
+	public Board selectBoard(int boardNo) {
+		return boardDao.selectBoard(sqlSession,boardNo);
+	}
+
+	@Override
+	public int deleteBoard(int boardNo) {
+		return boardDao.deleteBoard(sqlSession,boardNo);
+	}
+
+	@Override
+	public ArrayList<Board> selectCommentsList(int boardNo) {
+		return boardDao.selectCommentsList(sqlSession,boardNo);
+	}
+
+	@Override
+	public int insertComments(Comments c) {
+		return boardDao.insertComments(sqlSession,c);
 	}
 	
 

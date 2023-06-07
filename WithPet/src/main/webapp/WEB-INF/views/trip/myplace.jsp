@@ -36,6 +36,7 @@
 			height: 480px;
 			width: 100%;
 			border: 0.1px solid sandybrown;
+			margin-left : 200px;
 		}
 		
 		
@@ -54,6 +55,8 @@
 			font-size: small;
 			border-radius: 5px;
 		}
+		
+
 		
 </style>
 
@@ -681,10 +684,16 @@
 									data : { placeNo : placeNo },
 									success : function(result){
 										console.log(result);
-										if(result.changeName != null){
-											value = '<img src="/withpet/' + result.changeName + '">';
+										if(result.placeChangeName != null){
+											value = '<img src="'+result.placeChangeName +'">';
 											$('#photo').html(value);
 										}
+										if(result.placeType == 'A'){
+											var type = '식당/카페';
+										} else if(result.placeType == 'B'){
+											var type = '숙박';
+										} else { var type = '야외시설';} 
+										$('#placeType').text(type);
 										$('#placeName').text(result.placeName);
 										$('#placeCount').text(result.placeCount);
 										$('#placeLocation').text(result.placeLocation);

@@ -28,17 +28,24 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import com.project.withpet.board.common.model.vo.PageInfo;
+import com.project.withpet.board.common.template.Pagination;
+import com.project.withpet.board.model.vo.Board;
+import com.project.withpet.board.model.vo.Comments;
 import com.project.withpet.member.model.service.MemberService;
 import com.project.withpet.member.model.vo.CertVO;
+import com.project.withpet.member.model.vo.Friend;
 import com.project.withpet.member.model.vo.Member;
 import com.project.withpet.member.model.vo.Passward;
 import com.project.withpet.member.model.vo.Schedule;
@@ -135,14 +142,6 @@ public class MemberController {
 		
 	}
 	
-	@RequestMapping("myPage.me")
-	public ModelAndView myPageMember(String memId, ModelAndView mv, HttpSession session) throws ServletException, IOException{
-		
-		mv.setViewName("member/myPageMain");
-		
-		return mv;
-		
-	}
 	
 	@RequestMapping("kakaoGetCodeUrl")
 	public void kakaoGetCodeUrl(HttpServletResponse response) throws ServletException, IOException {
@@ -749,5 +748,98 @@ public class MemberController {
 		}
 		return mv;
 	}
+	
+	@PostMapping("myPage")
+	public String myPage(@RequestParam(value="mPage", defaultValue="1") int currentPage, String memberId, HttpServletRequest request, Model m) {
 		
+		PageInfo pi = Pagination.getPageInfo(memberService.boardCount(memberId), currentPage, 10, 10);
+		pi.setMemberId(memberId);
+		ArrayList<Board> list = memberService.myPage(pi);
+		if(list.isEmpty()) {
+			m.addAttribute("boardList", list);
+			return "member/myPageMain";
+
+		}else {
+			m.addAttribute("number", 1);
+			m.addAttribute("pi", pi);
+			m.addAttribute("boardList", list);
+			return "member/myPageMain";
+		}
+	}
+	
+	@PostMapping("myPageReply")
+	public String myPageReply(@RequestParam(value="mPage", defaultValue="1") int currentPage, String memberId, HttpServletRequest request, Model m) {
+		
+		PageInfo pi = Pagination.getPageInfo(memberService.replyCount(memberId), currentPage, 10, 10);
+		pi.setMemberId(memberId);
+		ArrayList<Comments> list = memberService.myPageReply(pi);
+		if(list.isEmpty()) {
+			m.addAttribute("boardList", list);
+			return "member/myPageMain";
+
+		}else {
+			m.addAttribute("number", 2);
+			m.addAttribute("pi", pi);
+			m.addAttribute("ReplyList", list);
+			return "member/myPageMain";
+		}
+	}
+	@PostMapping("myPageLike")
+	public String myPageLike(@RequestParam(value="mPage", defaultValue="1") int currentPage, String memberId, HttpServletRequest request, Model m) {
+		
+		PageInfo pi = Pagination.getPageInfo(memberService.likeCount(memberId), currentPage, 10, 10);
+		pi.setMemberId(memberId);
+		ArrayList<Board> list = memberService.myPageLike(pi);
+		if(list.isEmpty()) {
+			m.addAttribute("boardList", list);
+			return "member/myPageMain";
+
+		}else {
+			m.addAttribute("number", 3);
+			m.addAttribute("pi", pi);
+			m.addAttribute("boardList", list);
+			return "member/myPageMain";
+		}
+	}
+	
+	
+	@PostMapping("myPageDelete")
+	public String myPageDelete(@RequestParam(value="mPage", defaultValue="1") int currentPage, String memberId, HttpServletRequest request, Model m) {
+		
+		PageInfo pi = Pagination.getPageInfo(memberService.deleteCount(memberId), currentPage, 10, 10);
+		pi.setMemberId(memberId);
+		ArrayList<Board> list = memberService.myPageDelete(pi);
+		if(list.isEmpty()) {
+			m.addAttribute("boardList", list);
+			return "member/myPageMain";
+
+		}else {
+			m.addAttribute("number", 5);
+			m.addAttribute("pi", pi);
+			m.addAttribute("boardList", list);
+			return "member/myPageMain";
+		}
+		
+	}
+	
+	@RequestMapping("myPageFriend.me")
+	public String myPageFriend(@RequestParam(value="mPage", defaultValue="1") int currentPage, HttpServletRequest request, Model m) {
+		HttpSession session = request.getSession();
+		String memberId = (String)((Member)session.getAttribute("loginMember")).getMemId();
+		PageInfo pi = Pagination.getPageInfo(memberService.friendCount(memberId), currentPage, 6, 10);
+		pi.setMemberId(memberId);
+		
+		ArrayList<Member> list = memberService.myPageFriend(pi);
+		
+		if(list.isEmpty()) {
+			m.addAttribute("friendList", list);
+			return "member/friend/myPageFriend";
+
+		}else {
+			m.addAttribute("pi", pi);
+			m.addAttribute("friendList", list);
+			return "member/friend/myPageFriend";
+		}
+	}
+	
 }

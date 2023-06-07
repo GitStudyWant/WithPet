@@ -49,7 +49,7 @@
 
 	#naviTable{
 		width : 100%;
-		height : 150px;
+		height : 100px;
 	}
 
 	#naviTable td{
@@ -92,6 +92,35 @@
 		height: 20px;
 		margin-right: 40px;
 	}
+	
+	.thWidth{
+		width: 50%;
+	}
+	
+	.marginLeft400px{
+		margin-left : 400px;
+	}
+	
+	.marginLeft40px{
+		margin-left : 40px;
+	}
+	
+	.marginTop30px{
+		margin-top : 30px;
+	}
+	
+	.memberProfile{
+		background-color : #dee2e6;
+		border-radius: 100px;
+	}
+	
+	.marginTop0px{
+		margin-top : 0px;
+	}
+	
+	.marginBotton20px{
+		margin-bottom : 20px;
+	}
 
 
 
@@ -100,59 +129,58 @@
 </head>
 <body>
 
-	<jsp:include page="../common/myPageSide.jsp" />
+	<jsp:include page="../../common/myPageSide.jsp" />
 
 	<div id="body">
 			<div id="mainmain">
 				
 				<table id="naviTable">
-						<thead>
-							<tr>
-								<th class="width10"></th>
-								<th class="thHigh" onclick="boardMenu(1);">작성글 확인</th>
-								<th class="thHigh" onclick="boardMenu(2);">작성 댓글 확인</th>
-								<th class="thHigh" onclick="boardMenu(3);">좋아요한 글</th>
-								<th class="thHigh" onclick="boardMenu(4);">출석하기</th>
-								<th class="thHigh"></th>
-							</tr>
-							<tr>
-								<td colspan="5" onclick="boardMenu(5);">삭제한 게시글 조회</td>
-								
-							</tr>
-							
-						</thead>
-						
-					</table>
+					<tr>
+						<th class="thWidth"><h2 class="marginLeft40px marginTop30px">친구 목록</h3></th>
+						<th class="thWidth" align="right"><button class="marginLeft400px marginTop30px btn btn-success">친구추가</button></th>
+					</tr>
+				</table>						
 					<br>
 					<c:choose>
-						<c:when test="${ not empty boardList }">
+						<c:when test="${ not empty friendList }">
 							<table class="table table-hover" id="mainTable">
 	
-								<thead>
-									<tr align="center">
-									<th scope="col"><p>선택</p></th>
-									<th scope="col"><p>제목</p></th>
-									<th scope="col"><p>작성일</p></th>
-									<th scope="col"><p>조회수</p></th>
-									</tr>
-								  </thead>
 								  <tbody align="center">
-								  
-								  	<c:forEach items="${boardList}" var="i">
+								  	
 										<tr>
-										<th scope="row"><p><input type="checkbox"/></p></th>
-										<td><p>${ i.boardTitle }</p></td>
-										<td><p>${ i.enrolldate }</p></td>
-										<td><p>${ i.viewCount }</p></td>
+										<th scope="row">
+											<c:forEach items="${friendList}" var="i">
+											<td>
+												<div class="memberProfile">
+													<img id="memberimg" src="resources/myPage/user.png" alt="">
+													<p class="marginTop0px">아이디 : ${ i.memId }</p>
+													<p class="marginTop0px">닉네임 : ${ i.memNick }</p>
+													<table>
+														<tr align="center">
+															<td><button class="btn btn-success marginBotton20px">쪽지</button></td>
+													 		<td><button class="btn btn-success marginBotton20px">채팅</button></td>
+													 	</tr>
+														<tr>
+															<td><button class="btn btn-success">일정공유</button></td>
+															<td><button class="btn btn-success">친구 삭제</button></td>
+															
+														</tr>
+													</table>
+													<br>
+														<input type="hidden" id="${i.memId}" name="friend" value="${i.memId}" />	
+												</div>
+											</td>
+											</c:forEach>
+										</th>
+										
 										</tr>
-									</c:forEach>
+									
 								  </tbody>
 						</table>
 	
 						<table id="foogg">
 							<thead>
 								<tr align="center">
-									<th style="width : 30%;"><input class="inCheck" type="checkbox"/><button class="btn btn-success">전체 선택</button></th>
 									<th style="width : 50%;">
 										<c:choose>
 		                					<c:when test="${ pi.currentPage eq 1 }">
@@ -173,69 +201,18 @@
 					                			<button class="btn btn-success" onclick="memberBoard('${pi.currentPage+1}');">&gt</button>
 					                		</c:otherwise>
 					                	</c:choose>
-					    					
-									</th>
-									<th style="width : 10%;"><button class="btn btn-success">선택 삭제</button></th>
-									<th style="width : 10%;" ><button class="btn btn-success">글쓰기</button></th>
-								</tr>
+					                </th>
+					                <th>
+					                	<form action="friendSearch" method="post">
+					                		친구 검색 : <input	type="text" name="friendSearch" />  <button class="btn btn-success">검색</button>
+					                		<input type="hidden" name="memberId" value="${loginMember.memId}" />
+					                	</form>
+					                </th>
+					            </tr>
 							</thead>
 						</table>
 					</c:when>
-					<c:when test="${ not empty ReplyList }">
-							<table class="table table-hover" id="mainTable">
-	
-								<thead>
-									<tr align="center">
-									<th scope="col"><p>선택</p></th>
-									<th scope="col"><p>내용</p></th>
-									<th scope="col"><p>작성일</p></th>
-									<th scope="col"><p>게시글 번호</p></th>
-									</tr>
-								  </thead>
-								  <tbody align="center">
-								  
-								  	<c:forEach items="${ReplyList}" var="i">
-										<tr>
-										<th scope="row"><p><input type="checkbox"/></p></th>
-										<td><p>${ i.commentText }</p></td>
-										<td><p>${ i.regDate }</p></td>
-										<td><p>${ i.boardNo }</p></td>
-										</tr>
-									</c:forEach>
-								  </tbody>
-						</table>
-	
-						<table id="foogg">
-							<thead>
-								<tr align="center">
-									<th style="width : 30%;"><input class="inCheck" type="checkbox"/><button class="btn btn-success">전체 선택</button></th>
-									<th style="width : 50%;">
-										<c:choose>
-		                					<c:when test="${ pi.currentPage eq 1 }">
-		                   						<button class="btn btn-success">&lt</button>
-		                					</c:when>
-		                					<c:otherwise>
-		                						<button class="btn btn-success" onclick="memberBoard('${pi.currentPage-1}');">&lt</button>
-		                					</c:otherwise>
-			                				</c:choose>
-			                   				<c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
-			                   					 <button class="btn btn-success" onclick="memberBoard('${p}');">${ p }</button>
-			                    			</c:forEach>
-			                    			<c:choose>
-		                					<c:when test="${ pi.currentPage eq pi.maxPage }">
-		                   						<button class="btn btn-success">&gt</button>
-				                			</c:when>
-					                		<c:otherwise>
-					                			<button class="btn btn-success" onclick="memberBoard('${pi.currentPage+1}');">&gt</button>
-					                		</c:otherwise>
-					                	</c:choose>
-									</th>
-									<th style="width : 10%;"><button class="btn btn-success">선택 삭제</button></th>
-									<th style="width : 10%;" ><button class="btn btn-success">글쓰기</button></th>
-								</tr>
-							</thead>
-						</table>
-					</c:when>
+					
 				</c:choose>
 				
 				<form action="" method="post" id="boardPostForm">
@@ -273,7 +250,7 @@
 			</div>
 	</div>		
 	
-	<div id="mypageFooter"><jsp:include page="../common/footer.jsp" /></div>
+	<div id="mypageFooter"><jsp:include page="../../common/footer.jsp" /></div>
 	
 </body>
 </html>

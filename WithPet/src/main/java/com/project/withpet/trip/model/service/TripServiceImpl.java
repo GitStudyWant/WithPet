@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.withpet.trip.model.dao.TripDao;
+import com.project.withpet.trip.model.vo.CarReservation;
 import com.project.withpet.trip.model.vo.MyPlace;
 import com.project.withpet.trip.model.vo.Place;
 import com.project.withpet.trip.model.vo.R_MyPlace;
@@ -77,5 +78,26 @@ public class TripServiceImpl implements TripService {
 		return tripdao.taxiReservation(sqlSession, r);
 	}
 
+	@Override
+	public int checkCReservation(CarReservation c) {
+		return tripdao.checkCReservation(sqlSession, c);
+	}
+
+	@Override
+	public int findCarNo(CarReservation c) {
+		return tripdao.findCarNo(sqlSession, c);
+	}
+
+	@Override
+	public int checkFee(int trNo) {
+		return tripdao.checkFee(sqlSession, trNo);
+	}
+
+	@Override
+	public int carReservation(CarReservation c) {
+		return tripdao.carReservation(sqlSession, c);
+	}
+	
+	
 
 }

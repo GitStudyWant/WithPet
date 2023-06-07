@@ -3,9 +3,11 @@ package com.project.withpet.member.model.service;
 import java.sql.Date;
 import java.util.ArrayList;
 
+import com.project.withpet.board.common.model.vo.PageInfo;
 import com.project.withpet.board.model.vo.Board;
 import com.project.withpet.board.model.vo.Comments;
 import com.project.withpet.member.model.vo.CertVO;
+import com.project.withpet.member.model.vo.Friend;
 import com.project.withpet.member.model.vo.Member;
 import com.project.withpet.member.model.vo.Memo;
 import com.project.withpet.member.model.vo.Passward;
@@ -233,4 +235,24 @@ public interface MemberService {
 	public int pwdMail(CertVO certVo);
 	
 	public int pwdFind(Passward p);
+	
+	public ArrayList<Board> myPage(PageInfo pi);
+	
+	public int boardCount(String memberId);
+	
+	public int replyCount(String memberId);
+	
+	public ArrayList<Comments> myPageReply(PageInfo pi);
+	
+	public int likeCount(String memberId);
+	
+	public ArrayList<Board> myPageLike(PageInfo pi);
+	
+	public int deleteCount(String memberId);
+	
+	public ArrayList<Board> myPageDelete(PageInfo pi);
+	
+	public int friendCount(String memberId);
+	
+	public ArrayList<Member> myPageFriend(PageInfo pi);
 }

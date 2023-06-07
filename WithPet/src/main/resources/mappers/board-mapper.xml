@@ -68,4 +68,76 @@
 					,1
 					)		
 	</select>
+	<update id="increaseCount">
+		UPDATE
+				BOARD
+		SET
+				VIEW_COUNT = VIEW_COUNT + 1
+		WHERE
+				BOARD_NO = #{boardNo}
+		AND
+				STATUS = 'Y'						
+	</update>
+	
+	<select id="selectBoard" resultMap="boardResultSet">
+		SELECT
+				BOARD_NO
+				,BOARD_TITLE
+				,BOARD_WRITER
+				,BOARD_CONTENT
+				,ORIGIN_NAME
+				,CHANGE_NAME
+				,VIEW_COUNT
+				,TO_CHAR(ENROLLDATE, 'YYYY-MM-DD') AS "ENROLLDATE"
+		FROM
+				BOARD
+		WHERE
+				STATUS = 'Y'
+		AND
+				BOARD_NO = #{boardNo}				
+	</select>
+	
+	<update id="deleteBoard" parameterType="board">
+			UPDATE
+					BOARD
+				SET
+					STATUS = 'N'
+			WHERE
+					BOARD_NO=#{boardNo}			
+	</update>
+	<select id="selectCommentsList" resultType="comments">
+		SELECT
+				COMMENT_NO commentNo,
+				COMMENT_WRITER commentWriter,
+				COMMENT_TEXT commentText,
+				TO_CHAR(REG_DATE, 'YYYY-MM-DD') AS "regDate"
+			FROM
+				COMMENTS
+			WHERE
+					COMMENT_STATUS = 'Y'
+			AND
+					BOARD_NO = #{boardNo}
+			ORDER
+			BY
+					COMMENT_NO DESC						
+	</select>
+	
+	<insert id="insertComments" parameterType="comments">
+		INSERT
+			INTO
+				COMMENTS
+				(
+				COMMENT_NO
+				,COMMENT_TEXT
+				,COMMENT_WRITER
+				,BOARD_NO
+				)
+			VALUES
+				(
+				SEQ_C_NO.NEXTVAL
+				,#{commentText}
+				,#{commentWriter}
+				,#{boardNo}
+				)
+	</insert>
 </mapper>

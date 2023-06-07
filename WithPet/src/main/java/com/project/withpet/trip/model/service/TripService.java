@@ -2,6 +2,7 @@ package com.project.withpet.trip.model.service;
 
 import java.util.ArrayList;
 
+import com.project.withpet.trip.model.vo.CarReservation;
 import com.project.withpet.trip.model.vo.Place;
 import com.project.withpet.trip.model.vo.R_MyPlace;
 import com.project.withpet.trip.model.vo.TaxiReservation;
@@ -30,4 +31,12 @@ public interface TripService {
 	int findTaxiNo(TaxiReservation r);
 	
 	int taxiReservation(TaxiReservation r);
+	
+	int checkCReservation (CarReservation c);
+	
+	int findCarNo(CarReservation c);
+	
+	int checkFee(int trNo);
+	
+	int carReservation(CarReservation c);
 }

@@ -534,7 +534,8 @@
 		<br>
 		<br>
 		<button id="btn_select" disabled style="background-color : gray;">예상 거리 및 비용 확인 하기</button>
-		<button id="goReservation">예약 하기</button>
+		<button id="goTReservation">택시 예약 하기</button>
+		<button id="goCReservation">렌터카 예약 하기</button>
 		<button id="reset">새로 고침</button>
 		<br><br>
 			<p><b id="result"></b></p>
@@ -628,12 +629,18 @@ $(function(){
 		}
 	})
 	
-	$('#goReservation').click(function(){
+	$('#goTReservation').click(function(){
 		 $('#goResTaxi').modal("show");	
 			$('#findS2').val($('#findS').val());
 			$('#findE2').val($('#findE').val());
 		 
 	})
+	
+	$('#goCReservation').click(function(){
+		$('#goResCar').modal("show");
+		
+	})
+	
 </script>
 
 
@@ -650,51 +657,138 @@ $(function(){
 			
 		})
 		
-	
+		$('#startDate').click(function(){
+			$('#startDate').datepicker({
+			});
+			var startDate = $('#startDate').val();
+		})
 		
-			$('#checkTR').click(function(){
+		$('#endDate').click(function(){
+			$('#endDate').datepicker({
+			});
+			var endDate = $('#endDate').val();
+		})
+		
+		$('#checkTR').click(function(){
+			
+			var choiceDate = $('#taxiRDate').val();
+			console.log(choiceDate);
+			console.log($('input[name=trType2]:checked').val());
+			console.log($('#taxiRTime').val());
+			if(choiceDate == ''){
+				alert('날짜를 선택해주세요!');
+				return false;
+			}
+			else{
 				
-				var choiceDate = $('#taxiRDate').val();
-				console.log(choiceDate);
-				console.log($('input[name=trType2]:checked').val());
-				console.log($('#taxiRTime').val());
-				if(choiceDate == ''){
-					alert('날짜를 선택해주세요!');
-					return false;
-				}
-				else{
-					
-				
-				$.ajax({
-						url : 'checkTReservation',
-						data : { 
-								 taxiRDate : choiceDate,
-								 trType2 : $('input[name=trType2]:checked').val(),
-								 taxiRTime : $('#taxiRTime').val()},
-						success : function(result){
-							//console.log(result);
-							if(result == "Yes"){
-								alert('예약이 가능합니다.');
-								$('#submitBtn').attr('disabled',false).css('background-color','rgb(73, 166, 112)')
-							} else {
-								alert('선택하신 차량은 해당 날짜와 시간에 이미 예약이 다 완료되었습니다.')
-							}
-						},
-						error : function(){
-							console.log('택시 예약 가능 시간 조회 실패ㅜㅡ ')
+			
+			$.ajax({
+					url : 'checkTReservation',
+					data : { 
+							 taxiRDate : choiceDate,
+							 trType2 : $('input[name=trType2]:checked').val(),
+							 taxiRTime : $('#taxiRTime').val()},
+					success : function(result){
+						//console.log(result);
+						if(result == "Yes"){
+							alert('예약이 가능합니다.');
+							$('#submitBtn').attr('disabled',false).css('background-color','rgb(73, 166, 112)')
+						} else {
+							alert('선택하신 차량은 해당 날짜와 시간에 이미 예약이 다 완료되었습니다.')
 						}
-					});
-				}
-	
+					},
+					error : function(){
+						console.log('택시 예약 가능 시간 조회 실패ㅜㅡ ')
+					}
+				});
+			}
+
 		})
 
-	})
+		
+		$('#checkCR').click(function(){
+			
+			var startDate = $('#startDate').val();
+			var endDate = $('#endDate').val();
+			//console.log(startDate);
+			//console.log(endDate);
+			//console.log($('input[name=trType2]:checked').val());
+			var value = '';
+			
+			var date1 = new Date($("#startDate").datepicker("getDate"));
+		    var date2 = new Date($("#endDate").datepicker("getDate"));
+		    var date3 = date2.getDate() - date1.getDate();
+		    //console.log(date4);
+		    //var date4 = new Date(date1.)
+		    //console.log(date3);
+			//console.log(date1);
+			//console.log(date2);
+			if(date2 - date1 < 0){
+				alert('종료 날짜는 시작 날짜보다 이전일 수 없습니다. 올바른 날짜를 선택 해 주세요.');
+				return false;
+			} else {
+				
+				$.ajax({
+					
+					url : 'checkCReservation',
+					data : { 
+							 startDate : startDate,
+							 endDate : endDate,
+							 trType2 : $('input[name=trType2]:checked').val()
+							},
+					success : function(result){
+						console.log(result);
+						if(result.trFee == 0){
+							alert('선택하신 차량은 해당 날짜에 이미 예약이 다 완료되었습니다.');
+						} else {
+							alert('예약이 가능 합니다.');
+							$('#submitBtn2').attr('disabled',false).css('background-color','rgb(73, 166, 112)');
+							value += '<p style="font-size: 13px;">'+'<b>'+'1일 렌트 비용은 ' + result.trFee +'원, 총 비용은' + (result.trFee)*(date3) + '원 입니다.' +'</b>'+'</p>';
+							$('#paymentChk').html(value);
+							$('#trNo').val(result.trNo);
+							console.log(value);
+							console.log($('#trNo').val());
+						}
+					},
+					error : function(){
+						console.log('렌터카 예약 가능 여부 조회 실패ㅜㅡ ');
+					}
+				});
+				
+			}
+		
+		})
 	
+	})
+		
+		function validate_1(){
+			
+			var regExp1 = /^[0-9]{16}$/;
+			var regExp2 = /^[1-3][0-9][2][3-9]$/;
+			var cardNo = $('#trCardNo').val();
+			console.log(cardNo);
+			var expireDay = $('#expireDay').val();
+			console.log(expireDay);
+			
+			if(!regExp1.test(cardNo)){
+				alert('카드번호 16자리를 올바르게 입력해주세요.');
+				return false;
+			}
+			
+			else if(!regExp2.test(expireDay)){
+				alert('유효기간 4자리를 올바르게 입력해주세요 (월연도)');
+				return false;
+			} else {
+				return true;
+			}
+	
+		}
+
 	
 </script>
 
 
-	<!-- 모달 창 -->
+	<!-- 택시 모달 창 -->
 	<div class="modal fade" id="goResTaxi" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
    <div class="modal-dialog modal-dialog-centered">
      <div class="modal-content">
@@ -705,26 +799,26 @@ $(function(){
        </div>
        
        <div class="modal-body">
-            <p class="modal-title" style="font-size:15px; text-align:center; margin-top:15px; margin-bottom:5px"><b>예약하기</b></p>
+            <p class="modal-title" style="font-size:15px; text-align:center; margin-top:15px; margin-bottom:5px"><b>택시 예약하기</b></p>
             <br>
             <form action="taxiReservation" method="POST">
             <input type="hidden" name="memId" id="memId" value="${ loginMember.memId }">
              <table width="100%" style="text-align:center">
                  <tr>
-                    <td style="font-size:13px; color:gray; height: 10px; width: 50px">종류 선택 : </td> 
-                    <td style="font-size:13px; color:gray; width: 80%"><input type="radio" name="trType2" value="J" checked> 중형세단   
+                    <td style="font-size:13px; color:gray; height: 10px; width: 70px">종류 선택 : </td> 
+                    <td style="font-size:13px; color:gray; width: 75%"><input type="radio" name="trType2" value="J" checked> 중형세단   
                     	<input type="radio" name="trType2" value="D"> 대형 세단 <input type="radio" name="trType2" value="S"> SUV </td>
                  </tr>
                  <tr style="height: 10px;"></tr>
                  <tr style="margin-top:5px">
-                     <td height="25" style="font-size:13px; color:gray; width: 50px">날짜 선택 : </td>
-                     <td width="100"><input type="text" name="taxiRDate" id="taxiRDate" style="width:80%; border:solid 1px lightgray"></td>
+                     <td height="25" style="font-size:13px; color:gray; width: 70px">날짜 선택 : </td>
+                     <td width="100"><input type="text" name="taxiRDate" id="taxiRDate" style="width:75%; border:solid 1px lightgray"></td>
                 </tr>
                 <tr style="height: 10px;"></tr>
                 <tr style="margin-top:5px">
-                     <td height="25" style="font-size:13px; color:gray; width: 50px">시간 선택 : </td>
+                     <td height="25" style="font-size:13px; color:gray; width: 70px">시간 선택 : </td>
                      <td width="100">
-                     	<select style="width:80%; border:solid 1px lightgray" name="taxiRTime" id="taxiRTime">
+                     	<select style="width:75%; border:solid 1px lightgray" name="taxiRTime" id="taxiRTime">
                      		<option style="font-size:90%; color:gray;" value="1">06:00~07:00</option>  
                      		<option style="font-size:90%; color:gray;" value="2">07:00~08:00</option>  
                      		<option style="font-size:90%; color:gray;" value="3">08:00~09:00</option>  
@@ -749,13 +843,13 @@ $(function(){
                 </tr>
                  <tr style="height: 10px;"></tr>
                  <tr>
-                     <td style="font-size:13px; color:gray; width: 50px">출발지 : </td>
-                     <td><input type="text" readonly id="findS2" style="width:80%; border:solid 1px lightgray"></td>
+                     <td style="font-size:13px; color:gray; width: 70px">출발지 : </td>
+                     <td><input type="text" readonly id="findS2" style="width:75%; border:solid 1px lightgray"></td>
                  </tr>
                  <tr style="height: 10px;"></tr>
                  <tr>
-                    <td style="font-size:13px; color:gray; width: 50px">도착지 : </td>
-                    <td><input type="text" readonly id="findeE2" style="width:80%; border:solid 1px lightgray"></td>
+                    <td style="font-size:13px; color:gray; width: 70px">도착지 : </td>
+                    <td><input type="text" readonly id="findE2" style="width:75%; border:solid 1px lightgray"></td>
                 </tr>
                 <tr style="height: 10px;"></tr>
                 
@@ -775,5 +869,68 @@ $(function(){
    </div>
  </div>
 	
-	</body>
+	
+	<!-- 렌터카 모달 창 -->
+	<div class="modal fade" id="goResCar" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+   <div class="modal-dialog modal-dialog-centered">
+     <div class="modal-content">
+     
+       <div class="modal-header" style="height:15px; background-color:lightgray">
+         <h5 class="modal-title"></h5>
+         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+       </div>
+       
+       <div class="modal-body">
+            <p class="modal-title" style="font-size:15px; text-align:center; margin-top:15px; margin-bottom:5px"><b>렌터카 예약하기</b></p>
+            <br>
+            <form action="carReservation" method="POST">
+            <input type="hidden" name="memId" id="memId" value="${ loginMember.memId }">
+            <input type="hidden" name="trNo" id="trNo">
+             <table width="100%" style="text-align:center">
+                 <tr>
+                    <td style="font-size:13px; color:gray; height: 10px; width:70px">종류 선택 : </td> 
+                    <td style="font-size:13px; color:gray; width: 75%;"><input type="radio" name="trType2" value="J" checked> 중형세단   
+                    	<input type="radio" name="trType2" value="D"> 대형 세단 <input type="radio" name="trType2" value="S"> SUV </td>
+                 </tr>
+                 <tr style="height: 10px;"></tr>
+                 <tr style="margin-top:5px">
+                     <td height="25" style="font-size:13px; color:gray; width:70px">시작 날짜  : </td>
+                     <td><input type="text" name="startDate" id="startDate" style="width:75%; border:solid 1px lightgray"></td>
+                </tr>
+                <tr style="height: 10px;"></tr>
+                 <tr style="margin-top:5px">
+                     <td height="25" style="font-size:13px; color:gray; width:70px">종료 날짜 : </td>
+                     <td><input type="text" name="endDate" id="endDate" style="width:75%; border:solid 1px lightgray"></td>
+                </tr>
+                 <tr style="height: 10px;"></tr>    
+                <tr>
+                	<td style="width: 50px" colspan="2"><button type="button" id="checkCR" style="margin-left: 50px;">예약 가능 여부 조회하기 </button><td>
+                </tr>
+                <tr style="height: 10px;"></tr>
+                <tr>
+                	<td style="width: 50px" colspan="2" id="paymentChk"><td>
+                </tr>
+                <tr style="margin-top:5px">
+                	<td height="25" style="font-size:13px; color:gray; width:70px">카드번호  : </td>
+                    <td><input type="text" name="trCardNo" id="trCardNo" style="width:75%; border:solid 1px lightgray" placeholder="예시 : 1234111122223333"></td>
+                </tr>
+                <tr style="height: 10px;"></tr>
+                <tr style="margin-top:5px">
+                	<td height="25" style="font-size:13px; color:gray; width:70px">유효기간 : </td>
+                    <td><input type="text" id="expireDay" style="width:75%; border:solid 1px lightgray" placeholder="예시 : 0924 (월연도)"></td>
+                </tr>
+                <tr style="height: 10px;"></tr>
+                </table>
+                
+                <p style="font-size:15px; text-align:center;">*미리 관련 내용 안내드릴 예정입니다.
+                <p style="font-size:15px; text-align:center;">*예약취소는 예약일 1일전까지 가능 합니다.</p>
+              
+             <button type="submit" style="margin-left: 200px; background-color:gray" disabled id="submitBtn2" onclick= "return validate_1();">예약하기</button>
+            </form>
+       </div>
+     </div>
+   </div>
+ </div>
+ 
+</body>
 </html>

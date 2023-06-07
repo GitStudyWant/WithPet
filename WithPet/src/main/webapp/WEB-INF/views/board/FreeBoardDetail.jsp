@@ -171,30 +171,8 @@
             <br>
             <label for="" id="board-subtext">자유롭게 이야기해봐요~&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
         
-            <label style="float: right; margin-right: 100px;">
-                <input type="radio" id="new" name="order" value="N">
-                <label for="radioF">최신순</label>&nbsp;&nbsp;&nbsp;
-                <input type="radio" id="popular" name="order" value="P">
-                <label for="radioF">인기순</label>
-            </label>
             <br><br>
             
-            <!--   템플릿
-            <div class="board-element">
-                <span id="boardTitle" >제목</span><span id="userImg"  >작성자프로필</span><span id="userId">작성자</span><span id="thumbnail" style="float: right;"> <img src="https://i.namu.wiki/i/uIt7OBpwNR2Cgk90eW_s_0iAZ6628xqGiRY1YyG5drpYaFwXo4ZAKKLltMDxLc2qPyky0s6D9bociJ770v2mwA.webp" alt=""></span>
-                <span id="boardContent">내용</span>
-                <span id="tag1">태그1</span>
-                <span id="tag2">태그2</span>
-                <span id="tag3">태그3</span>
-                <br>
-                <span id="heart"><img src="https://media.istockphoto.com/id/1294470271/ko/%EB%B2%A1%ED%84%B0/%EC%8B%AC%EC%9E%A5-%EC%8B%AC%ED%94%8C%ED%95%98%EA%B3%A0-%EA%B9%A8%EB%81%97%ED%95%9C-%EB%B9%88-%ED%95%98%ED%8A%B8-%EB%AA%A8%EC%96%91-%EB%82%99%EC%84%9C-%EC%8A%A4%ED%83%80%EC%9D%BC-%EC%86%90%EC%9C%BC%EB%A1%9C-%EA%B7%B8%EB%A6%B0-%EB%B2%A1%ED%84%B0.jpg?s=612x612&w=0&k=20&c=kOhcsR7-s7nt3m83Y4LrfJm_rjmJ8dqhVpCpJDEoy_k=" alt=""></span>
-                <span id="heartCount">좋아요개수</span>
-                <span id="comment"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chat-right" viewBox="0 0 16 16">
-  <path d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z"/>
-</svg></span> <span id="commentCount">XXX</span><span id="create">작성일자 : </span><span id="createDate">XXXX-XX-XX</XXXX-XX-XX></span>    
-            </div>
-            -->
-            <c:forEach items="${ list }" var="b" >
 
                     		<div class="board-element" id="board-element" data-bno="${b.boardNo}">
                 <span id="boardTitle" >${ b.boardTitle }</span><span id="userImg"  >작성자프로필</span><span id="userId">${ b.boardWriter }</span><span id="thumbnail" style="float: right;"> <img src="https://i.namu.wiki/i/uIt7OBpwNR2Cgk90eW_s_0iAZ6628xqGiRY1YyG5drpYaFwXo4ZAKKLltMDxLc2qPyky0s6D9bociJ770v2mwA.webp" alt=""></span>
@@ -209,43 +187,7 @@
   <path d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z"/>
 </svg></span> <span id="commentCount">XXX</span><span id="create">작성일자 : </span><span id="createDate">${ b.enrolldate }</XXXX-XX-XX></span>    
             </div>
-                    		
-                    		
-                    </c:forEach>
             
-            
-            
-			<br>
-            
-        <div id="pagingArea">
-                <ul class="pagination">
-                	
-                	<c:choose>
-                		<c:when test="${ pi.currentPage eq 1 }">
-                		<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-                		</c:when>
-                		<c:otherwise>
-                		<li class="page-item"><a class="page-link" href="list.free?cPage=${pi.currentPage-1 }">Previous</a></li>
-                		</c:otherwise>
-                	</c:choose>
-                	
-                    
-					
-					<c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
-						<li class="page-item"><a class="page-link" href="list.free?cPage=${p }">${p}</a></li>
-					</c:forEach>
-					
-                    <c:choose>
-                		<c:when test="${ pi.currentPage eq pi.maxPage }">
-                		<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
-                		</c:when>
-                		<c:otherwise>
-                		<li class="page-item"><a class="page-link" href="list.free?cPage=${pi.currentPage+1 }">Next</a></li>
-                		</c:otherwise>
-                	</c:choose>
-                    
-                </ul>
-            </div>
 
            
         </div>
