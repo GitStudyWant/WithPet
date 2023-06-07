@@ -36,6 +36,7 @@
 			height: 480px;
 			width: 100%;
 			border: 0.1px solid sandybrown;
+			margin-left : 200px;
 		}
 		
 		
@@ -54,6 +55,8 @@
 			font-size: small;
 			border-radius: 5px;
 		}
+		
+
 		
 </style>
 

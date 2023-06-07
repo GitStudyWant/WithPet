@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.mail.Session;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
 import com.project.withpet.trip.model.service.TripService;
+import com.project.withpet.trip.model.vo.CarReservation;
 import com.project.withpet.trip.model.vo.MyPlace;
 import com.project.withpet.trip.model.vo.Place;
 import com.project.withpet.trip.model.vo.R_MyPlace;
@@ -53,7 +53,7 @@ public class TripController {
 			                   HttpSession session) {
 		 
 		if(!upfile.getOriginalFilename().equals("")) {
-			System.out.println(saveFile(upfile, session));
+			//System.out.println(saveFile(upfile, session));
 			p.setPlaceOriginName(upfile.getOriginalFilename());
 			p.setPlaceChangeName("resources/uploadFiles/place/" + saveFile(upfile, session));
 		}
@@ -128,6 +128,7 @@ public class TripController {
 			
 			int result3 = 1;
 			int result4 = 1;
+			System.out.println("result1:" + result1 + "result2:" + result2 + "result5:" + result5);
 			
 			if(!myCourse.getPlaceNo3().equals("") && !myCourse.getPlaceNo4().equals("")) {
 				
@@ -157,9 +158,9 @@ public class TripController {
 			}
 			
 			if(result1 * result2 * result3 * result4 * result5 != 0) {
-				return "F";
-			} else {
 				return "S";
+			} else {
+				return "F";
 			}
 	}
 	
@@ -218,6 +219,69 @@ public class TripController {
 			return "redirect:transReservation";
 		}
 	}
+	
+	@ResponseBody
+	@RequestMapping(value="checkCReservation",produces="application/json; charset=UTF-8")
+	public String checkCReservation(CarReservation c) {
+		
+		Transportation t = new Transportation();
+		t.setTrType2(c.getTrType2());
+		t.setTrType("C");
+		
+		String startDate2 = c.getStartDate().substring(0,3);
+		String startDate3 = c.getStartDate().substring(3,6);
+		String startDate4 = startDate3+startDate2 + "23";
+		c.setStartDate(startDate4);
+		
+		String endDate2 = c.getEndDate().substring(0,3);
+		String endDate3 = c.getEndDate().substring(3,6);
+		String endDate4 = endDate3+endDate2 + "23";
+		c.setEndDate(endDate4);
+		c.setTrNo(tripService.findCarNo(c));
+		System.out.println(c);
+		
+		int result1 = tripService.checkTransportation(t);
+		
+		int result2 = tripService.checkCReservation(c);
+		
+		
+		System.out.println(result1);
+		System.out.println(result2);
+		
+		if(result1 == result2) {
+			c.setTrFee(0);
+			return new Gson().toJson(c);
+		} else {
+			c.setTrFee(tripService.checkFee(tripService.findCarNo(c)));
+			return new Gson().toJson(c);
+		}
+	}
+	
+	@RequestMapping("carReservation")
+	public String carReservation(CarReservation c, HttpSession session) {
+		
+		String startDate2 = c.getStartDate().substring(0,3);
+		String startDate3 = c.getStartDate().substring(3,6);
+		String startDate4 = startDate3+startDate2 + "23";
+		c.setStartDate(startDate4);
+		
+		String endDate2 = c.getEndDate().substring(0,3);
+		String endDate3 = c.getEndDate().substring(3,6);
+		String endDate4 = endDate3+endDate2 + "23";
+		c.setEndDate(endDate4);
+		
+		int result = tripService.carReservation(c);
+		
+		if(result > 0) {
+			session.setAttribute("alertMsg","렌터카 예약에 성공했습니다.");
+			return "redirect:transReservation";
+		} else {
+			session.setAttribute("alertMsg","렌터카 예약에 실패했습니다. 다시 시도해주세요");
+			return "redirect:transReservation";
+		}
+		
+	}
+	
 	
 }
 
