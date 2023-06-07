@@ -4,7 +4,16 @@
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="memberMapper">
 
-	
+	<resultMap id="scheduleResultSet" type="schedule">
+		<result column="mem_id" 			property="memId" />
+		<result column="schedule_no" 		property="scheduleNo" />
+		<result column="schedule_cate" 		property="scheduleCate" />
+		<result column="schedule_start"		property="scheduleStart" />
+		<result column="schedule_end" 		property="scheduleEnd" />
+		<result column="schedule_content" 	property="scheduleContent" />
+		<result column="schedule_color" 	property="scheduleColor" />
+		<result column="schedule_date" 		property="scheduleDate" />
+	</resultMap>
 
 	<insert id="insertMember" parameterType="member">
 		INSERT
@@ -135,6 +144,35 @@
 				memo
 		where
 				MEMO_RECEIVER = #{memId}
+	</select>
+	
+	
+	<insert id="insertSchedule" parameterType="schedule">
+		INSERT
+		INTO
+				SCHEDULE
+		VALUES
+				(
+				#{memId}
+				,SEQ_SCHEDULE_NO.NEXTVAL
+				,#{scheduleCate}
+				,#{scheduleStart}
+				,#{scheduleEnd}
+				,#{scheduleContent}
+				,#{scheduleColor}
+				,sysdate
+				)
+	</insert>
+	
+	<select id="selectSchedules" resultMap="scheduleResultSet">
+		SELECT
+				*
+		FROM
+				schedule
+		WHERE
+				mem_id = #{memId}
+		AND
+				schedule_start BETWEEN #{scheduleStart} and #{scheduleEnd}
 	</select>
 	
 	
@@ -404,5 +442,42 @@
 		    by
 		        board_no desc
 	</select>
+	
+	<select id="friendCount" resultType="_int" parameterType="string">
+		select
+			   count(*)
+		  from
+		       friend
+		 where
+		       friend_sender = #{memberId}	
+	</select>
+	
+	<select id="myPageFriend" resultType="member" parameterType="pageInfo">
+		select
+			   	MEM_ID memId
+				,MEM_NICK memNick
+				,MEM_PWD memPwd
+				,MEM_PHONE memPhone
+				,MEM_EMAIL memEmail
+				,MEM_PHOTO memPhoto
+				,MEM_PATH memPath
+				,MEM_INTRO memIntro
+				,MEM_GRADE memGrade
+				,MEM_DATE memDate
+				,MEM_MEMO memMemo
+				,MEM_POINT memPoint
+				,MEM_REPORT memReport
+				,MEM_STATUS memStatus
+				,MEM_UPDATE memUpdate
+				,MEM_KAKAOID memKakaoId
+		   from
+		       member
+		 where
+		       mem_id in(select friend_receiver from friend where friend_sender = #{memberId})
+		 order
+		    by
+		       mem_id desc
+	</select>
+	
 	
 </mapper>

@@ -84,7 +84,7 @@
         width: 50%;
         height : 50%;
         border-radius: 100px;
-        margin-top: 60px;
+        margin-top: 30px;
     }
     
     #pro b{ font-size:20px;}
@@ -153,13 +153,19 @@
                         <th><a href="memberDiaryMain.me">다이어리</a></th>
                     </tr>
                     <tr>
-                        <th><a href="myPage">친구</a></th>
+                        <th><a href="myPageFriend.me">친구</a></th>
                     </tr>
                     <tr>
                         <th><a href="myPage">포인트</a></th>
                     </tr>
                     <tr>
                         <th><a href="myPage">문의사항</a></th>
+                    </tr>
+                    <tr>
+                        <th><a href="myPage">내 코스</a></th>
+                    </tr>
+                    <tr>
+                        <th><a href="myPage">내 예약</a></th>
                     </tr>
                 </thead>
             </table>

@@ -12,6 +12,7 @@ import com.project.withpet.board.model.vo.Board;
 import com.project.withpet.board.model.vo.Comments;
 import com.project.withpet.member.model.dao.MemberDao;
 import com.project.withpet.member.model.vo.CertVO;
+import com.project.withpet.member.model.vo.Friend;
 import com.project.withpet.member.model.vo.Member;
 import com.project.withpet.member.model.vo.Memo;
 import com.project.withpet.member.model.vo.Passward;
@@ -66,21 +67,17 @@ public class MemberServiceImpl implements MemberService {
 	public Member selectKakaoMember(String memKakaoId){
 		return memberDao.selectKakaoMember(sqlSession, memKakaoId);
 	}
-	@Override
-	public int selectMemoCount(String memId) {
-		return memberDao.selectMemoCount(sqlSession, memId);
-	}
-
-	@Override
-	public ArrayList<Memo> selectGetMemo(String memId) {
-		return null;
-	}
-
+	
 	@Override
 	public int updateMember(Member member) {
 		return 0;
 	}
 
+	@Override
+	public int selectMemoCount(String memId) {
+		return memberDao.selectMemoCount(sqlSession, memId);
+	}
+	
 	@Override
 	public ArrayList<Memo> selectMemoGet(String memId) {
 		return null;
@@ -117,8 +114,13 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public ArrayList<Schedule> selectSchedule(String memId) {
-		return null;
+	public int insertSchedule(Schedule schedule) {
+		return memberDao.insertSchedule(sqlSession, schedule);
+	}
+	
+	@Override
+	public ArrayList<Schedule> selectSchedules(Schedule schedule) {
+		return memberDao.selectSchedules(sqlSession, schedule);
 	}
 
 	@Override
@@ -129,11 +131,6 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public Schedule selectScheduleDetail(int scheduleNo) {
 		return null;
-	}
-
-	@Override
-	public int insertSchedule(Schedule schedule) {
-		return 0;
 	}
 
 	@Override
@@ -279,6 +276,16 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public ArrayList<Board> myPageDelete(PageInfo pi) {
 		return memberDao.myPageDelete(sqlSession, pi);
+	}
+	
+	@Override
+	public int friendCount(String memberId) {
+		return memberDao.friendCount(sqlSession, memberId);
+	}
+	
+	@Override
+	public ArrayList<Member> myPageFriend(PageInfo pi){
+		return memberDao.myPageFriend(sqlSession, pi);
 	}
 
 }

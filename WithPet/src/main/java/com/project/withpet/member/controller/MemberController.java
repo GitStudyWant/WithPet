@@ -30,6 +30,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -44,8 +45,10 @@ import com.project.withpet.board.model.vo.Board;
 import com.project.withpet.board.model.vo.Comments;
 import com.project.withpet.member.model.service.MemberService;
 import com.project.withpet.member.model.vo.CertVO;
+import com.project.withpet.member.model.vo.Friend;
 import com.project.withpet.member.model.vo.Member;
 import com.project.withpet.member.model.vo.Passward;
+import com.project.withpet.member.model.vo.Schedule;
 
 @Controller
 public class MemberController {
@@ -113,8 +116,6 @@ public class MemberController {
 				
 		Member loginMember = memberService.selectMember(member);
 		int loginMemo = memberService.selectMemoCount(member.getMemId());
-		System.out.println(member.getMemId());
-		System.out.println(loginMemo);
 		
 		if(loginMember != null && (member.getMemPwd().equals(loginMember.getMemPwd())) /* && bcryptPasswordEncoder.matches(member.getMemPwd(), loginMember.getMemPwd())*/) {
 			session.setAttribute("loginMember", loginMember);
@@ -284,36 +285,37 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value="memberDiaryMain.me")
-	public ModelAndView Diary(ModelAndView mv){
-		
-		//숫자가 들어오면 해당 달의 마지막 날짜 구하기 (31)
-		//숫자가 들어오면 해당 달의 1일 주 구하기 (수)
-		
-		HashMap<Integer, Integer> monthLastList = new HashMap();
-		monthLastList.put(1, 31);
-		monthLastList.put(2, 28);
-		monthLastList.put(3, 31);
-		monthLastList.put(4, 30);
-		monthLastList.put(5, 31);
-		monthLastList.put(6, 30);
-		monthLastList.put(7, 31);
-		monthLastList.put(8, 31);
-		monthLastList.put(9, 30);
-		monthLastList.put(10, 31);
-		monthLastList.put(11, 30);
-		monthLastList.put(12, 31);
-		
-		Date date = new Date();
-
-		SimpleDateFormat sdf = new SimpleDateFormat("MM");
-		int thisMonth = Integer.parseInt(sdf.format(date)); // 오늘의 달값
-		
-		//System.out.println(monthLastList.get(thisMonth));
-
+	public ModelAndView memberDiaryMain(Schedule schedule, ModelAndView mv){
 		
 		mv.setViewName("member/diary/memberDiary");
 		
 		return mv;
+	}
+	
+	@RequestMapping(value="insertSchedule.me")
+	public ModelAndView insertSchedule(Schedule schedule, ModelAndView mv){
+		
+		int schedulecount = memberService.insertSchedule(schedule);
+
+		mv.setViewName("member/diary/memberDiary");
+		
+		return mv;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="selectSchedules.me", produces="application/json; charset=UTF-8")
+	public String selectSchedules(Schedule schedule, ModelAndView mv){
+
+		ArrayList<Schedule> schedules = memberService.selectSchedules(schedule); 
+		
+		System.out.println(schedule);
+		System.out.println(schedules);
+		System.out.println(new Gson().toJson(schedules));
+		
+		//mv.addAttribute("schedules", new Gson().toJson(schedules));
+		//mv.setViewName("member/diary/memberDiary");
+		
+		return new Gson().toJson(schedules);
 	}
 	
 	
@@ -754,8 +756,8 @@ public class MemberController {
 		pi.setMemberId(memberId);
 		ArrayList<Board> list = memberService.myPage(pi);
 		if(list.isEmpty()) {
-			m.addAttribute("errorMsg", "마이페이지를 불러오기에 실패하였습니다!");
-			return "common/main";
+			m.addAttribute("boardList", list);
+			return "member/myPageMain";
 
 		}else {
 			m.addAttribute("number", 1);
@@ -772,8 +774,8 @@ public class MemberController {
 		pi.setMemberId(memberId);
 		ArrayList<Comments> list = memberService.myPageReply(pi);
 		if(list.isEmpty()) {
-			m.addAttribute("errorMsg", "마이페이지를 불러오기에 실패하였습니다!");
-			return "common/main";
+			m.addAttribute("boardList", list);
+			return "member/myPageMain";
 
 		}else {
 			m.addAttribute("number", 2);
@@ -789,8 +791,8 @@ public class MemberController {
 		pi.setMemberId(memberId);
 		ArrayList<Board> list = memberService.myPageLike(pi);
 		if(list.isEmpty()) {
-			m.addAttribute("errorMsg", "마이페이지를 불러오기에 실패하였습니다!");
-			return "common/main";
+			m.addAttribute("boardList", list);
+			return "member/myPageMain";
 
 		}else {
 			m.addAttribute("number", 3);
@@ -808,8 +810,8 @@ public class MemberController {
 		pi.setMemberId(memberId);
 		ArrayList<Board> list = memberService.myPageDelete(pi);
 		if(list.isEmpty()) {
-			m.addAttribute("errorMsg", "마이페이지를 불러오기에 실패하였습니다!");
-			return "common/main";
+			m.addAttribute("boardList", list);
+			return "member/myPageMain";
 
 		}else {
 			m.addAttribute("number", 5);
@@ -819,5 +821,25 @@ public class MemberController {
 		}
 		
 	}
+	
+	@RequestMapping("myPageFriend.me")
+	public String myPageFriend(@RequestParam(value="mPage", defaultValue="1") int currentPage, HttpServletRequest request, Model m) {
+		HttpSession session = request.getSession();
+		String memberId = (String)((Member)session.getAttribute("loginMember")).getMemId();
+		PageInfo pi = Pagination.getPageInfo(memberService.friendCount(memberId), currentPage, 6, 10);
+		pi.setMemberId(memberId);
 		
+		ArrayList<Member> list = memberService.myPageFriend(pi);
+		
+		if(list.isEmpty()) {
+			m.addAttribute("friendList", list);
+			return "member/friend/myPageFriend";
+
+		}else {
+			m.addAttribute("pi", pi);
+			m.addAttribute("friendList", list);
+			return "member/friend/myPageFriend";
+		}
+	}
+	
 }
