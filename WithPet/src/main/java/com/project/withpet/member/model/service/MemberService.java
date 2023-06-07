@@ -32,14 +32,12 @@ public interface MemberService {
 	public Member selectKakaoMember(String memKakaoId);
 	
 	public int selectKakaoCount(String memKakaoId);
-	
-	public int selectMemoCount(String memId);
-	
-	public ArrayList<Memo> selectGetMemo(String memId);
 
 	public int updateMember(Member member);
 	
 	// 硫붾え
+	public int selectMemoCount(String memId);
+	
 	public ArrayList<Memo> selectMemoGet(String memId);
 	
 	public int updateMemoCheck(int memoNo);
@@ -55,13 +53,13 @@ public interface MemberService {
 	public int insertMemo(Memo memo);
 	
 	// �뒪耳�伊�
-	public ArrayList<Schedule> selectSchedule(String memId);
+	public int insertSchedule(Schedule schedule);
+	
+	public ArrayList<Schedule> selectSchedules(Schedule schedule);
 	
 	public ArrayList<Schedule> selectScheduleDetails(Date day);
 	
 	public Schedule selectScheduleDetail(int scheduleNo);
-	
-	public int insertSchedule(Schedule schedule);
 	
 	public int deleteSchedule(int scheduleNo);
 	

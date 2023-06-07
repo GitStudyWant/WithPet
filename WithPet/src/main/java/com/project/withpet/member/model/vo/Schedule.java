@@ -1,6 +1,6 @@
 package com.project.withpet.member.model.vo;
 
-import java.sql.Date;
+import java.util.Date;
 
 import lombok.Data;
 
@@ -10,8 +10,10 @@ public class Schedule {
 	private String memId;
 	private int scheduleNo;
 	private String scheduleCate;
-	private Date scheduleStart;
-	private Date scheduleEnd;
+	private String scheduleStart;
+	private String scheduleEnd;
+	private String scheduleContent;
+	private String scheduleColor;
 	private Date scheduleDate;
 	
 }
