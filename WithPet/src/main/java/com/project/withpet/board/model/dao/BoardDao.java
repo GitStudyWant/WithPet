@@ -42,7 +42,7 @@ public class BoardDao {
 		return sqlSession.update("boardMapper.deleteBoard", boardNo);
 	}
 
-	public ArrayList<Board> selectCommentsList(SqlSessionTemplate sqlSession, int boardNo) {
+	public ArrayList<Comments> selectCommentsList(SqlSessionTemplate sqlSession, int boardNo) {
 		return (ArrayList)sqlSession.selectList("boardMapper.selectCommentsList", boardNo);
 	}
 
