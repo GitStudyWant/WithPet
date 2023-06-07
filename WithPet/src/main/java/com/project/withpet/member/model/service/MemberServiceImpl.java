@@ -12,6 +12,7 @@ import com.project.withpet.board.model.vo.Board;
 import com.project.withpet.board.model.vo.Comments;
 import com.project.withpet.member.model.dao.MemberDao;
 import com.project.withpet.member.model.vo.CertVO;
+import com.project.withpet.member.model.vo.Friend;
 import com.project.withpet.member.model.vo.Member;
 import com.project.withpet.member.model.vo.Memo;
 import com.project.withpet.member.model.vo.Passward;
@@ -279,6 +280,16 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public ArrayList<Board> myPageDelete(PageInfo pi) {
 		return memberDao.myPageDelete(sqlSession, pi);
+	}
+	
+	@Override
+	public int friendCount(String memberId) {
+		return memberDao.friendCount(sqlSession, memberId);
+	}
+	
+	@Override
+	public ArrayList<Member> myPageFriend(PageInfo pi){
+		return memberDao.myPageFriend(sqlSession, pi);
 	}
 
 }

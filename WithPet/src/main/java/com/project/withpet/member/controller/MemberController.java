@@ -44,6 +44,7 @@ import com.project.withpet.board.model.vo.Board;
 import com.project.withpet.board.model.vo.Comments;
 import com.project.withpet.member.model.service.MemberService;
 import com.project.withpet.member.model.vo.CertVO;
+import com.project.withpet.member.model.vo.Friend;
 import com.project.withpet.member.model.vo.Member;
 import com.project.withpet.member.model.vo.Passward;
 
@@ -754,8 +755,8 @@ public class MemberController {
 		pi.setMemberId(memberId);
 		ArrayList<Board> list = memberService.myPage(pi);
 		if(list.isEmpty()) {
-			m.addAttribute("errorMsg", "마이페이지를 불러오기에 실패하였습니다!");
-			return "common/main";
+			m.addAttribute("boardList", list);
+			return "member/myPageMain";
 
 		}else {
 			m.addAttribute("number", 1);
@@ -772,8 +773,8 @@ public class MemberController {
 		pi.setMemberId(memberId);
 		ArrayList<Comments> list = memberService.myPageReply(pi);
 		if(list.isEmpty()) {
-			m.addAttribute("errorMsg", "마이페이지를 불러오기에 실패하였습니다!");
-			return "common/main";
+			m.addAttribute("boardList", list);
+			return "member/myPageMain";
 
 		}else {
 			m.addAttribute("number", 2);
@@ -789,8 +790,8 @@ public class MemberController {
 		pi.setMemberId(memberId);
 		ArrayList<Board> list = memberService.myPageLike(pi);
 		if(list.isEmpty()) {
-			m.addAttribute("errorMsg", "마이페이지를 불러오기에 실패하였습니다!");
-			return "common/main";
+			m.addAttribute("boardList", list);
+			return "member/myPageMain";
 
 		}else {
 			m.addAttribute("number", 3);
@@ -808,8 +809,8 @@ public class MemberController {
 		pi.setMemberId(memberId);
 		ArrayList<Board> list = memberService.myPageDelete(pi);
 		if(list.isEmpty()) {
-			m.addAttribute("errorMsg", "마이페이지를 불러오기에 실패하였습니다!");
-			return "common/main";
+			m.addAttribute("boardList", list);
+			return "member/myPageMain";
 
 		}else {
 			m.addAttribute("number", 5);
@@ -819,5 +820,25 @@ public class MemberController {
 		}
 		
 	}
+	
+	@RequestMapping("myPageFriend.me")
+	public String myPageFriend(@RequestParam(value="mPage", defaultValue="1") int currentPage, HttpServletRequest request, Model m) {
+		HttpSession session = request.getSession();
+		String memberId = (String)((Member)session.getAttribute("loginMember")).getMemId();
+		PageInfo pi = Pagination.getPageInfo(memberService.friendCount(memberId), currentPage, 6, 10);
+		pi.setMemberId(memberId);
 		
+		ArrayList<Member> list = memberService.myPageFriend(pi);
+		
+		if(list.isEmpty()) {
+			m.addAttribute("friendList", list);
+			return "member/friend/myPageFriend";
+
+		}else {
+			m.addAttribute("pi", pi);
+			m.addAttribute("friendList", list);
+			return "member/friend/myPageFriend";
+		}
+	}
+	
 }

@@ -405,4 +405,41 @@
 		        board_no desc
 	</select>
 	
+	<select id="friendCount" resultType="_int" parameterType="string">
+		select
+			   count(*)
+		  from
+		       friend
+		 where
+		       friend_sender = #{memberId}	
+	</select>
+	
+	<select id="myPageFriend" resultType="member" parameterType="pageInfo">
+		select
+			   	MEM_ID memId
+				,MEM_NICK memNick
+				,MEM_PWD memPwd
+				,MEM_PHONE memPhone
+				,MEM_EMAIL memEmail
+				,MEM_PHOTO memPhoto
+				,MEM_PATH memPath
+				,MEM_INTRO memIntro
+				,MEM_GRADE memGrade
+				,MEM_DATE memDate
+				,MEM_MEMO memMemo
+				,MEM_POINT memPoint
+				,MEM_REPORT memReport
+				,MEM_STATUS memStatus
+				,MEM_UPDATE memUpdate
+				,MEM_KAKAOID memKakaoId
+		   from
+		       member
+		 where
+		       mem_id in(select friend_receiver from friend where friend_sender = #{memberId})
+		 order
+		    by
+		       mem_id desc
+	</select>
+	
+	
 </mapper>
