@@ -170,6 +170,8 @@
 		FROM
 				schedule
 		WHERE
+				mem_id = #{memId}
+		AND
 				schedule_start BETWEEN #{scheduleStart} and #{scheduleEnd}
 	</select>
 	

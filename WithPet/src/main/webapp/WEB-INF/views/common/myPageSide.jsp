@@ -161,6 +161,12 @@
                     <tr>
                         <th><a href="myPage">문의사항</a></th>
                     </tr>
+                    <tr>
+                        <th><a href="myPage">내 코스</a></th>
+                    </tr>
+                    <tr>
+                        <th><a href="myPage">내 예약</a></th>
+                    </tr>
                 </thead>
             </table>
             <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>

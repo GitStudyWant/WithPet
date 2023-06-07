@@ -304,7 +304,7 @@ public class MemberController {
 	
 	@ResponseBody
 	@RequestMapping(value="selectSchedules.me", produces="application/json; charset=UTF-8")
-	public ModelAndView selectSchedules(Schedule schedule, ModelAndView mv){
+	public String selectSchedules(Schedule schedule, ModelAndView mv){
 
 		ArrayList<Schedule> schedules = memberService.selectSchedules(schedule); 
 		
@@ -312,10 +312,10 @@ public class MemberController {
 		System.out.println(schedules);
 		System.out.println(new Gson().toJson(schedules));
 		
-		mv.addObject("schedules", new Gson().toJson(schedules));
-		mv.setViewName("member/diary/memberDiary");
+		//mv.addAttribute("schedules", new Gson().toJson(schedules));
+		//mv.setViewName("member/diary/memberDiary");
 		
-		return mv;
+		return new Gson().toJson(schedules);
 	}
 	
 	
