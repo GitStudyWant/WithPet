@@ -150,10 +150,13 @@
 					</button>
 					</c:otherwise>
 				</c:choose>
-        		<a href="logout.me">Logout</a> / <a href="myPage.me">MyPage</a>
+        		<a href="logout.me">Logout</a> / <a id="myPage" onclick="myPage();">MyPage</a>
         	</c:otherwise>        	
         </c:choose>
         
+        <form action="" method="post" id="postForm">
+        	<input type="hidden" name="memberId" value="${ loginMember.memId }"/>
+        </form>
         
         <p id="token-result"></p>
         </div>
@@ -162,6 +165,10 @@
     <jsp:include page="../member/modal/memberModal.jsp" />
 	<jsp:include page="../member/modal/userFindmodal.jsp"/>
     <script>
+  	function myPage(){
+		$('#postForm').attr("action", 'myPage').submit();
+  	};
+    
         $('#header a').on({'mouseenter' : function(){
             var tag = $(this).text();
             var tagcompare = {'Trip' : '여행', 'Community' : '커뮤니티', 'Creator' : '크리에이터', 'Share' : '공유', 'Notice' : '공지'};
