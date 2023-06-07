@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.project.withpet.trip.model.vo.CarReservation;
 import com.project.withpet.trip.model.vo.MyPlace;
 import com.project.withpet.trip.model.vo.Place;
 import com.project.withpet.trip.model.vo.R_MyPlace;
@@ -56,6 +57,22 @@ public class TripDao {
 
 	public int taxiReservation(SqlSessionTemplate sqlSession, TaxiReservation r) {
 		return sqlSession.insert("tripMapper.taxiReservation", r);
+	}
+
+	public int checkCReservation(SqlSessionTemplate sqlSession, CarReservation c) {
+		return sqlSession.selectOne("tripMapper.checkCReservation", c);
+	}
+
+	public int findCarNo(SqlSessionTemplate sqlSession, CarReservation c) {
+		return sqlSession.selectOne("tripMapper.findCarNo", c);
+	}
+
+	public int checkFee(SqlSessionTemplate sqlSession, int trNo) {
+		return sqlSession.selectOne("tripMapper.checkFee", trNo);
+	}
+
+	public int carReservation(SqlSessionTemplate sqlSession, CarReservation c) {
+		return sqlSession.insert("tripMapper.carReservation", c);
 	}
 
 }

@@ -183,13 +183,35 @@
 	</select>
 	
 	<select id="findTaxiNo" resultType="_int">
-		SELECT NVL(MIN(TR_NO),0) TR_NO FROM TRANSPORTATION WHERE NOT TR_NO IN
-			(SELECT TR_NO FROM
-		 		(SELECT * FROM
-		 			(SELECT TR_NO, TR_TYPE, TR_tYPE2, TAXI_RDATE, TAXI_RTIME FROM TRANSPORTATION LEFT JOIN 
-		 			 TAXI_RESERVATION USING(TR_NO))
-		 			  WHERE TR_TYPE = 'T' AND TR_Type2 = #{trType2})
-		 			   	 WHERE TAXI_RDATE = #{taxiRDate} AND TAXI_RTIME = #{taxiRTime}) AND TR_TYPE= 'T' AND TR_TYPE2 = #{trType2}
+		SELECT 
+		      NVL(MIN(TR_NO),0)TR_NO 
+		 FROM 
+		      TRANSPORTATION 
+		WHERE 
+		      NOT TR_NO IN
+				(SELECT 
+				       TR_NO 
+				   FROM
+		 				(SELECT 
+		 				       * 
+		 				   FROM
+		 						(SELECT 
+		 						       TR_NO
+		 						      ,TR_TYPE
+		 						      ,TR_tYPE2
+		 						      ,TAXI_RDATE
+		 						      ,TAXI_RTIME 
+		 						  FROM 
+		 						       TRANSPORTATION LEFT JOIN 
+		 			 			  	   TAXI_RESERVATION USING(TR_NO))
+		 			  			 WHERE 
+		 			  				   TR_TYPE = 'T' AND 
+		 			  				   TR_Type2 = #{trType2})
+		 			   	 			   WHERE 
+		 			   	 			         TAXI_RDATE = #{taxiRDate} AND 
+		 			   	 			         TAXI_RTIME = #{taxiRTime}) AND 
+		 			   	 			         TR_TYPE= 'T' AND 
+		 			   	 			         TR_TYPE2 = #{trType2}
 	</select>
 	
 	<insert id="taxiReservation" parameterType="taxiReservation">
@@ -214,5 +236,92 @@
 		    ,#{memId}
 		    )
 	</insert>
+	
+	<select id="checkCReservation" resultType="_int">
+		SELECT
+		      COUNT(TR_NO)
+		  FROM
+		      (SELECT 
+		             TR_NO
+		         FROM
+		             CAR_RESERVATION JOIN TRANSPORTATION USING(TR_NO)
+		        WHERE
+		             TR_TYPE2 = #{trType2}
+		          AND
+		             END_DATE >= #{startDate} 
+		       GROUP
+		          BY
+		            TR_NO)
+	</select>
+	
+	<select id="findCarNo" resultType="_int">
+		SELECT 
+		      NVL(MIN(TR_NO),0)TR_NO 
+		  FROM 
+		      TRANSPORTATION 
+		 WHERE 
+		      NOT TR_NO IN                     
+ 				(SELECT 
+ 				       TR_NO 
+ 				   FROM                        
+						(SELECT 
+						       * 
+						   FROM  
+							    (SELECT 
+							           TR_NO
+							          ,TR_TYPE
+							          ,TR_TYPE2
+							          ,START_DATE
+							          ,END_DATE 
+							      FROM 
+							          TRANSPORTATION LEFT JOIN 
+		 			 			  CAR_RESERVATION USING(TR_NO)) 
+		 			 			  WHERE 
+		 			 			       TR_TYPE='C' AND 
+		 			 			       TR_TYPE2 = #{trType2}) 
+		 			 			  WHERE 
+		 			 			       END_DATE >= #{startDate}) AND 
+		 			 			       TR_TYPE='C' AND 
+		 			 			       TR_TYPE2 = #{trType2}
+	</select>
+	
+	<select id="checkFee" resultType="_int">
+		SELECT 
+		      TR_FEE
+		 FROM
+		      TRANSPORTATION 
+		 WHERE
+		      TR_NO = #{trNo}
+	</select>
+	
+	<insert id="carReservation" parameterType="carReservation">
+		INSERT
+		  INTO
+		      CAR_RESERVATION
+		      (
+		      CAR_RNO
+		     ,TR_NO
+		     ,START_DATE
+		     ,END_DATE
+		     ,STATUS
+		     ,MEM_ID
+		     ,TR_PAYMENT_NO
+		     ,TR_PAYMENT_DATE
+		     ,TR_CARD_NO
+		      )
+	    VALUES 
+	          (
+	          SEQ_CAR_RNO.NEXTVAL
+	         ,#{trNo}
+	         ,#{startDate}
+	         ,#{endDate}
+	         ,'Y'
+	         ,#{memId}
+	         ,SEQ_TR_PAYNO.NEXTVAL
+	         ,SYSDATE
+	         ,SUBSTR(#{trCardNo},-4,4)
+	          )
+	</insert>
+
 	
 </mapper>

@@ -19,6 +19,7 @@
 		<typeAlias type="com.project.withpet.member.model.vo.CertVO" alias="cert" />
 		<typeAlias type="com.project.withpet.member.model.vo.Passward" alias="passward" />
 		<typeAlias type="com.project.withpet.trip.model.vo.TaxiReservation" alias="taxiReservation" />
+		<typeAlias type="com.project.withpet.trip.model.vo.CarReservation" alias="carReservation" />
 
 	</typeAliases>
 	
