@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 <style>
 
-    #myPageSide{
+    #adminMyPageSide{
         width: 15%;
         height: 1000px;
         border-right : 2px solid rgb(229, 221, 221);
@@ -126,7 +126,7 @@
 	
 	<jsp:include page="../common/header.jsp" />
 
-    <div id="myPageSide">
+    <div id="adminMyPageSide">
         <div id="pro">
             <div align="center">
             <img id="memberimg" src="resources/myPage/user.png" alt="">
@@ -141,32 +141,33 @@
             <table id="sideMenu">
                 <thead align="center">
                     <tr>
-                        <th><a href="myPage.me">내 활동</a></th>
+                        <th><a href="#">회원 관리</a></th>
                     </tr>
                     <tr>
-                        <th><a href="#">내 예약</a></th>
+                        <th><a href="#">문의사항 관리</a></th>
                     </tr>
                     <tr>
-                        <th><a href="#">내 코스</a></th>
+                        <th><a href="#">신고 관리</a></th>
                     </tr>
                     <tr>
-                        <th><a href="myPage">쪽지</a></th>
+                        <th><a href="#">금칙어 관리</a></th>
                     </tr>
                     <tr>
-                        <th><a href="myPage">채팅</a></th>
+                        <th><a href="adminTransportation">교통수단 관리</a></th>
                     </tr>
                     <tr>
-                        <th><a href="memberDiaryMain.me">다이어리</a></th>
+                        <th><a href="#">교통예약 관리</a></th>
                     </tr>
                     <tr>
-                        <th><a href="myPageFriend.me">친구</a></th>
+                        <th><a href="#">숙소예약 관리</a></th>
                     </tr>
                     <tr>
-                        <th><a href="myPage">포인트</a></th>
+                        <th><a href="#">숙소 관리</a></th>
                     </tr>
                     <tr>
-                        <th><a href="myPage">문의사항</a></th>
+                        <th><a href="#">코스 장소 관리</a></th>
                     </tr>
+                    
                 </thead>
             </table>
             <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
