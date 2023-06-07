@@ -1,5 +1,6 @@
 package com.project.withpet.board.controller;
 
+import java.io.Console;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -15,13 +16,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.project.withpet.board.common.model.vo.PageInfo;
 import com.project.withpet.board.common.template.Pagination;
 import com.project.withpet.board.model.service.BoardService;
 import com.project.withpet.board.model.vo.Board;
 import com.project.withpet.board.model.vo.BoardAttachment;
+import com.project.withpet.board.model.vo.Comments;
 
 @Controller
 public class BoardController {
@@ -91,7 +96,33 @@ public class BoardController {
 					return changeName;
 	}		
 	
+	@RequestMapping("detail.fr")
+	public ModelAndView selectBoard(ModelAndView mv,int bno) {
+		
+		if(boardService.increaseCount(bno)>0) {
+			mv.addObject("b",boardService.selectBoard(bno)).setViewName("board/FreeBoardDetail");
+		}else {
+			mv.addObject("errorMsg","상세조회실패~").setViewName("common/errorPage");
+		}
+		return mv;
+	}
 	
+	@RequestMapping("delete.fr")
+	public String deleteBoard(int bno, String filePath,HttpSession session) {
+		
+		if(boardService.deleteBoard(bno)> 0) { // 삭제성공
+			
+			if(filePath.equals("")) { 
+				new File(session.getServletContext().getRealPath(filePath)).delete();
+			
+		}
+		session.setAttribute("alertMsg", "삭제 성공");
+		return "redirect:list.free";
+	}else {
+		session.setAttribute("errorMsg", "삭제 성공");
+		return "common/errorPage";
+	}
+	}
 	
 	@RequestMapping("list.qna")
 	public String selectQnList() {
@@ -123,5 +154,17 @@ public class BoardController {
 		
 		
 		return "board/Notice";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="rlist.bo", produces="application/json; charset=UTF-8")
+	public String ajaxSelectCommentsList(int bno) {
+		return new Gson().toJson(boardService.selectCommentsList(bno));
+	}
+	
+	@ResponseBody
+	@RequestMapping("rinsert.bo")
+	public String ajaxInsertComments(Comments c) {
+		return boardService.insertComments(c) > 0 ? "success" : "fail";	
 	}
 }
