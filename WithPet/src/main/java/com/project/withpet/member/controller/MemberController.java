@@ -8,6 +8,7 @@ import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.Format;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Random;
@@ -28,6 +29,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -39,6 +41,7 @@ import com.project.withpet.member.model.service.MemberService;
 import com.project.withpet.member.model.vo.CertVO;
 import com.project.withpet.member.model.vo.Member;
 import com.project.withpet.member.model.vo.Passward;
+import com.project.withpet.member.model.vo.Schedule;
 
 @Controller
 public class MemberController {
@@ -106,8 +109,6 @@ public class MemberController {
 				
 		Member loginMember = memberService.selectMember(member);
 		int loginMemo = memberService.selectMemoCount(member.getMemId());
-		System.out.println(member.getMemId());
-		System.out.println(loginMemo);
 		
 		if(loginMember != null && (member.getMemPwd().equals(loginMember.getMemPwd())) /* && bcryptPasswordEncoder.matches(member.getMemPwd(), loginMember.getMemPwd())*/) {
 			session.setAttribute("loginMember", loginMember);
@@ -285,33 +286,34 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value="memberDiaryMain.me")
-	public ModelAndView Diary(ModelAndView mv){
+	public ModelAndView memberDiaryMain(Schedule schedule, ModelAndView mv){
 		
-		//숫자가 들어오면 해당 달의 마지막 날짜 구하기 (31)
-		//숫자가 들어오면 해당 달의 1일 주 구하기 (수)
+		mv.setViewName("member/diary/memberDiary");
 		
-		HashMap<Integer, Integer> monthLastList = new HashMap();
-		monthLastList.put(1, 31);
-		monthLastList.put(2, 28);
-		monthLastList.put(3, 31);
-		monthLastList.put(4, 30);
-		monthLastList.put(5, 31);
-		monthLastList.put(6, 30);
-		monthLastList.put(7, 31);
-		monthLastList.put(8, 31);
-		monthLastList.put(9, 30);
-		monthLastList.put(10, 31);
-		monthLastList.put(11, 30);
-		monthLastList.put(12, 31);
+		return mv;
+	}
+	
+	@RequestMapping(value="insertSchedule.me")
+	public ModelAndView insertSchedule(Schedule schedule, ModelAndView mv){
 		
-		Date date = new Date();
+		int schedulecount = memberService.insertSchedule(schedule);
 
-		SimpleDateFormat sdf = new SimpleDateFormat("MM");
-		int thisMonth = Integer.parseInt(sdf.format(date)); // 오늘의 달값
+		mv.setViewName("member/diary/memberDiary");
 		
-		//System.out.println(monthLastList.get(thisMonth));
+		return mv;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="selectSchedules.me", produces="application/json; charset=UTF-8")
+	public ModelAndView selectSchedules(Schedule schedule, ModelAndView mv){
 
+		ArrayList<Schedule> schedules = memberService.selectSchedules(schedule); 
 		
+		System.out.println(schedule);
+		System.out.println(schedules);
+		System.out.println(new Gson().toJson(schedules));
+		
+		mv.addObject("schedules", new Gson().toJson(schedules));
 		mv.setViewName("member/diary/memberDiary");
 		
 		return mv;

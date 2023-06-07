@@ -65,21 +65,17 @@ public class MemberServiceImpl implements MemberService {
 	public Member selectKakaoMember(String memKakaoId){
 		return memberDao.selectKakaoMember(sqlSession, memKakaoId);
 	}
-	@Override
-	public int selectMemoCount(String memId) {
-		return memberDao.selectMemoCount(sqlSession, memId);
-	}
-
-	@Override
-	public ArrayList<Memo> selectGetMemo(String memId) {
-		return null;
-	}
-
+	
 	@Override
 	public int updateMember(Member member) {
 		return 0;
 	}
 
+	@Override
+	public int selectMemoCount(String memId) {
+		return memberDao.selectMemoCount(sqlSession, memId);
+	}
+	
 	@Override
 	public ArrayList<Memo> selectMemoGet(String memId) {
 		return null;
@@ -116,8 +112,13 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public ArrayList<Schedule> selectSchedule(String memId) {
-		return null;
+	public int insertSchedule(Schedule schedule) {
+		return memberDao.insertSchedule(sqlSession, schedule);
+	}
+	
+	@Override
+	public ArrayList<Schedule> selectSchedules(Schedule schedule) {
+		return memberDao.selectSchedules(sqlSession, schedule);
 	}
 
 	@Override
@@ -128,11 +129,6 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public Schedule selectScheduleDetail(int scheduleNo) {
 		return null;
-	}
-
-	@Override
-	public int insertSchedule(Schedule schedule) {
-		return 0;
 	}
 
 	@Override

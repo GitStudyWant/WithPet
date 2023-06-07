@@ -37,7 +37,7 @@
 		          	<tr>
 		          	<tr>
 			          	<td><p style="font-size:10px; color:gray; margin-top:12px">Password</p></td>
-			          	<td><input type="text" name="memPwd" style="width:100%; border:solid 1px lightgray"></td>
+			          	<td><input type="password" name="memPwd" style="width:100%; border:solid 1px lightgray"></td>
 		          	</tr>
 	          	</table>
 	          	<button type="submit" class="btn btn-primary" style="width:80%; margin:35px 50px">로그인</button>

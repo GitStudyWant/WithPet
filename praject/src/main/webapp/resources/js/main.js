@@ -1,13 +1,12 @@
 var draggedEventIsAllDay;
 var activeInactiveWeekends = true;
-console.log("SAdfasdf");
+
 var calendar = $('#calendar').fullCalendar({
 
  /** ******************
    *  OPTIONS
    * *******************/
-  locale                    : 'ko', 
-  height					: 800,
+  locale                    : 'ko',    
   timezone                  : "local", 
   nextDayThreshold          : "09:00:00",
   allDaySlot                : true,
@@ -19,11 +18,11 @@ var calendar = $('#calendar').fullCalendar({
   weekNumberCalculation     : "ISO",
   eventLimit                : true,
   views                     : { 
-                                month : { eventLimit : 4 } // 한 날짜에 최대 이벤트 12개, 나머지는 + 처리됨
+                                month : { eventLimit : 12 } // 한 날짜에 최대 이벤트 12개, 나머지는 + 처리됨
                               },
   eventLimitClick           : 'week', //popover
   navLinks                  : true,
-  defaultDate               : moment(), //실제 사용시 현재 날짜로 수정
+  defaultDate               : moment('2019-05'), //실제 사용시 현재 날짜로 수정
   timeFormat                : 'HH:mm',
   defaultTimedEventDuration : '01:00:00',
   editable                  : true,
@@ -38,9 +37,8 @@ var calendar = $('#calendar').fullCalendar({
   selectLongPressDelay      : 0,  
   header                    : {
                                 left   : 'today, prevYear, nextYear, viewWeekends',
-                                center : 'month, listWeek',
-                                right  : 'prev, title, next'
-                                
+                                center : 'prev, title, next',
+                                right  : 'month, agendaWeek, agendaDay, listWeek'
                               },
   views                     : {
                                 month : {
@@ -100,20 +98,20 @@ var calendar = $('#calendar').fullCalendar({
     });
 
     return filtering(event);
-	
+
   },
 
- /* ****************
+  /* ****************
    *  일정 받아옴 
-   * ************** 
+   * ************** */
   events: function (start, end, timezone, callback) {
     $.ajax({
       type: "get",
       url: "data.json",
       data: {
         // 화면이 바뀌면 Date 객체인 start, end 가 들어옴
-        startDate : moment(start).format('YYYY-MM-DD'),
-        endDate   : moment(end).format('YYYY-MM-DD')
+        //startDate : moment(start).format('YYYY-MM-DD'),
+        //endDate   : moment(end).format('YYYY-MM-DD')
       },
       success: function (response) {
         var fixedDate = response.map(function (array) {
@@ -126,15 +124,6 @@ var calendar = $('#calendar').fullCalendar({
       }
     });
   },
-  
-  */
-  events: [
-    {
-      id: 'a',
-      title: 'my event',
-      start: '2023-06-05'
-    }
-  ],
 
   eventAfterAllRender: function (view) {
     if (view.name == "month") $(".fc-content").css('height', 'auto');

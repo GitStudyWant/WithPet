@@ -4,6 +4,17 @@
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="memberMapper">
 
+	<resultMap id="scheduleResultSet" type="schedule">
+		<result column="mem_id" 			property="memId" />
+		<result column="schedule_no" 		property="scheduleNo" />
+		<result column="schedule_cate" 		property="scheduleCate" />
+		<result column="schedule_start"		property="scheduleStart" />
+		<result column="schedule_end" 		property="scheduleEnd" />
+		<result column="schedule_content" 	property="scheduleContent" />
+		<result column="schedule_color" 	property="scheduleColor" />
+		<result column="schedule_date" 		property="scheduleDate" />
+	</resultMap>
+
 	<insert id="insertMember" parameterType="member">
 		INSERT
 		INTO
@@ -133,6 +144,33 @@
 				memo
 		where
 				MEMO_RECEIVER = #{memId}
+	</select>
+	
+	
+	<insert id="insertSchedule" parameterType="schedule">
+		INSERT
+		INTO
+				SCHEDULE
+		VALUES
+				(
+				#{memId}
+				,SEQ_SCHEDULE_NO.NEXTVAL
+				,#{scheduleCate}
+				,#{scheduleStart}
+				,#{scheduleEnd}
+				,#{scheduleContent}
+				,#{scheduleColor}
+				,sysdate
+				)
+	</insert>
+	
+	<select id="selectSchedules" resultMap="scheduleResultSet">
+		SELECT
+				*
+		FROM
+				schedule
+		WHERE
+				schedule_start BETWEEN #{scheduleStart} and #{scheduleEnd}
 	</select>
 	
 	

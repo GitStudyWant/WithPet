@@ -1,5 +1,7 @@
 package com.project.withpet.member.model.dao;
 
+import java.util.ArrayList;
+
 import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -7,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.project.withpet.member.model.vo.CertVO;
 import com.project.withpet.member.model.vo.Member;
 import com.project.withpet.member.model.vo.Passward;
+import com.project.withpet.member.model.vo.Schedule;
 
 @Repository
 public class MemberDao {
@@ -47,7 +50,13 @@ public class MemberDao {
 		return sqlSession.selectOne("memberMapper.selectMemoCount", memId);
 	}
 	
+	public int insertSchedule(SqlSession sqlSession, Schedule schedule) {
+		return sqlSession.insert("memberMapper.insertSchedule", schedule);
+	}
 	
+	public ArrayList<Schedule> selectSchedules(SqlSession sqlSession, Schedule schedule) {
+		return (ArrayList)sqlSession.selectList("memberMapper.selectSchedules", schedule);
+	}
 	
 	
 	
