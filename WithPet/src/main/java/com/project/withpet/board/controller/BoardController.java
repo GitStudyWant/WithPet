@@ -3,8 +3,10 @@ package com.project.withpet.board.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.servlet.http.HttpSession;
@@ -13,6 +15,8 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -26,6 +30,9 @@ import com.project.withpet.board.model.service.BoardService;
 import com.project.withpet.board.model.vo.Board;
 import com.project.withpet.board.model.vo.BoardAttachment;
 import com.project.withpet.board.model.vo.Comments;
+import com.project.withpet.board.model.vo.Tag;
+
+import oracle.jdbc.proxy.annotation.Post;
 
 @Controller
 public class BoardController {
@@ -166,4 +173,21 @@ public class BoardController {
 	public String ajaxInsertComments(Comments c) {
 		return boardService.insertComments(c) > 0 ? "success" : "fail";	
 	}
+	
+	@ResponseBody
+	@RequestMapping("addtag.bo")
+	public String addTag(String tagName) {
+		System.out.println(tagName);
+	    return boardService.addTag(tagName) > 0 ? "success" : "fail";
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "removetag.bo", produces = "application/json; charset=UTF-8")
+	public String removeTag(@RequestBody Map<String, String> requestData) {
+	    String tagName = requestData.get("tagName");
+	    System.out.println(tagName);
+	    return boardService.removeTag(tagName) > 0 ? "success" : "fail";
+	}
+	
+	
 }

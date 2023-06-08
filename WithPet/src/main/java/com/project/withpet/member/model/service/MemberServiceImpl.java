@@ -112,11 +112,6 @@ public class MemberServiceImpl implements MemberService {
 	public int insertMemo(Memo memo) {
 		return 0;
 	}
-
-	@Override
-	public int insertSchedule(Schedule schedule) {
-		return memberDao.insertSchedule(sqlSession, schedule);
-	}
 	
 	@Override
 	public ArrayList<Schedule> selectSchedules(Schedule schedule) {
@@ -124,18 +119,18 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public ArrayList<Schedule> selectScheduleDetails(Date day) {
-		return null;
+	public int insertSchedule(Schedule schedule) {
+		return memberDao.insertSchedule(sqlSession, schedule);
 	}
-
+	
 	@Override
-	public Schedule selectScheduleDetail(int scheduleNo) {
-		return null;
+	public int updateSchedule(Schedule schedule) {
+		return memberDao.updateSchedule(sqlSession, schedule);
 	}
-
+	
 	@Override
 	public int deleteSchedule(int scheduleNo) {
-		return 0;
+		return memberDao.deleteSchedule(sqlSession, scheduleNo);
 	}
 
 	@Override
@@ -287,5 +282,27 @@ public class MemberServiceImpl implements MemberService {
 	public ArrayList<Member> myPageFriend(PageInfo pi){
 		return memberDao.myPageFriend(sqlSession, pi);
 	}
+	
+	@Override
+	public int friendDelete(Friend fri) {
+		return memberDao.friendDelete(sqlSession, fri);
+	}
+	
+	@Override
+	public int freindSharing(Friend fri) {
+		return memberDao.freindSharing(sqlSession, fri);
+	}
+	
+	@Override
+	public int sharingCancellation(Friend fri) {
+		return memberDao.sharingCancellation(sqlSession, fri);
+	}
+	
+	@Override
+	public Member friendSearch(Friend fri) {
+		return memberDao.friendSearch(sqlSession, fri);
+	}
+	
+
 
 }

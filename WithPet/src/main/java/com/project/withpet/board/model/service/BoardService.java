@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.project.withpet.board.common.model.vo.PageInfo;
 import com.project.withpet.board.model.vo.Board;
 import com.project.withpet.board.model.vo.Comments;
+import com.project.withpet.board.model.vo.Tag;
 
 public interface BoardService {
 
@@ -23,6 +24,10 @@ public interface BoardService {
 	ArrayList<Comments> selectCommentsList(int boardNo);
 
 	int insertComments(Comments c);
+
+	int addTag(String tagName);
+
+	int removeTag(String tagName);
 	
 
 	

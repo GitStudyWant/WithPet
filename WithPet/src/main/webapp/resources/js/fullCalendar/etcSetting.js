@@ -1,5 +1,5 @@
 //SELECT 색 변경
-$('#edit-color').change(function () {
+$('#editColor').change(function () {
     $(this).css('color', $(this).val());
 });
 
@@ -11,9 +11,4 @@ $('.filter').on('change', function () {
 $("#type_filter").select2({
     placeholder: "선택..",
     allowClear: true
-});
-
-//datetimepicker
-$("#edit-start, #edit-end").datetimepicker({
-    format: 'YYYY-MM-DD HH:mm'
 });
