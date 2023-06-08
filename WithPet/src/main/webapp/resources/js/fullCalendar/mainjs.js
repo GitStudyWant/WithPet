@@ -108,19 +108,3 @@ var draggedEventIsAllDay;
 	        });
 	    }
 	})
-	
-	function getDisplayEventDate(event) {
-
-		  var displayEventDate;
-
-		  if (event.allDay == false) {
-		    var startTimeEventInfo = moment(event.start).format('HH:mm');
-		    var endTimeEventInfo = moment(event.end).format('HH:mm');
-		    displayEventDate = startTimeEventInfo + " - " + endTimeEventInfo;
-		  } else {
-		    displayEventDate = "하루종일";
-		  }
-
-		  return displayEventDate;
-		}
-	

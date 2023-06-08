@@ -71,7 +71,7 @@
 <body>
 	
 	<div id="diarySide"><jsp:include page="../../common/myPageSide.jsp" /></div>
-	<div id="diarySide"><jsp:include page="../../common/sendBack.jsp" /></div>
+	<div id="diarySendback"><jsp:include page="../../common/sendBack.jsp" /></div>
 	
 	<div id="body">	
 		    <p>다이어리</p>

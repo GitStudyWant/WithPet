@@ -60,9 +60,8 @@ public class MemberDao {
 	   }
 	   
 	public ArrayList<Schedule> selectSchedules(SqlSession sqlSession, Schedule schedule) {
-	      return (ArrayList)sqlSession.selectList("memberMapper.selectSchedules", schedule);
-	   }
-	   
+		return (ArrayList)sqlSession.selectList("memberMapper.selectSchedules", schedule);
+	}
 	
 	
 	
