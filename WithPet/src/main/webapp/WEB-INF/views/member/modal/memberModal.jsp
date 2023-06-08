@@ -30,14 +30,14 @@
 	        
 	          <p class="modal-title" style="font-size:15px; text-align:center; margin-top:15px; margin-bottom:30px">회원 로그인</p>
 	          <form action="login.me" method="POST">
-	          	<table width="100%" style="text-align:center">
+	          	<table width="80%" style="text-align:center; margin:auto">
 		          	<tr>
-		          		<td width="80"><p style="font-size:10px; color:gray; margin-top:12px">ID</p></td>
-		          		<td width="100"><input type="text" name="memId" style="width:100%; border:solid 1px lightgray"></td>
+		          		<td width="30"><p style="font-size:10px; color:gray; margin-top:12px">ID</p></td>
+		          		<td width="80"><input type="text" name="memId" style="width:100%; border:solid 1px lightgray"></td>
 		          	<tr>
 		          	<tr>
 			          	<td><p style="font-size:10px; color:gray; margin-top:12px">Password</p></td>
-			          	<td><input type="text" name="memPwd" style="width:100%; border:solid 1px lightgray"></td>
+			          	<td><input type="password" name="memPwd" style="width:100%; border:solid 1px lightgray"></td>
 		          	</tr>
 	          	</table>
 	          	<button type="submit" class="btn btn-primary" style="width:80%; margin:35px 50px">로그인</button>
@@ -136,7 +136,7 @@
 	        
 	        <div class="modal-footer">
 	        <div style="margin:auto">
-	          <button type="button" class="btn btn-secondary"data-bs-target="#loginModal" data-bs-toggle="modal">로그인 창으로</button>
+	          <button type="button" class="btn btn-secondary" data-bs-target="#loginModal" data-bs-toggle="modal">로그인 창으로</button>
 	        </div>
 	        </div>
 	      </div>

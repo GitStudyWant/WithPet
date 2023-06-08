@@ -1,4 +1,4 @@
-var eventModal = $('#eventModal');
+var eventModal = $('#schUpdate');
 
 var modalTitle = $('.modal-title');
 var editAllDay = $('#edit-allDay');

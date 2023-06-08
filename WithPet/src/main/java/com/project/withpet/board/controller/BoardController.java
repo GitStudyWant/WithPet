@@ -1,6 +1,6 @@
 package com.project.withpet.board.controller;
 
-import java.io.Console;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,7 +38,7 @@ public class BoardController {
 	public String selectFrList(@RequestParam(value="cPage", defaultValue = "1") int currentPage,
 								Model model) {
 		
-		PageInfo pi = Pagination.getPageInfo(boardService.selectFrListCount(), currentPage, 5, 10);
+		PageInfo pi = Pagination.getPageInfo(boardService.selectFrListCount(), currentPage, 3, 10);
 		model.addAttribute("pi", pi);
 		model.addAttribute("list", boardService.selectFrList(pi));
 		return "board/FreeBoard";
@@ -108,9 +107,9 @@ public class BoardController {
 	}
 	
 	@RequestMapping("delete.fr")
-	public String deleteBoard(int bno, String filePath,HttpSession session) {
+	public String deleteBoard(Integer bno, String filePath,HttpSession session) {
 		
-		if(boardService.deleteBoard(bno)> 0) { // 삭제성공
+		if(boardService.deleteBoard(bno)> 0) {
 			
 			if(filePath.equals("")) { 
 				new File(session.getServletContext().getRealPath(filePath)).delete();
@@ -119,7 +118,7 @@ public class BoardController {
 		session.setAttribute("alertMsg", "삭제 성공");
 		return "redirect:list.free";
 	}else {
-		session.setAttribute("errorMsg", "삭제 성공");
+		session.setAttribute("errorMsg", "삭제 실패");
 		return "common/errorPage";
 	}
 	}

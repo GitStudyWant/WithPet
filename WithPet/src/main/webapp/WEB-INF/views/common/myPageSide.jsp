@@ -165,6 +165,12 @@
                     <tr>
                         <th><a onclick="myPage();">문의사항</a></th>
                     </tr>
+                    <tr>
+                        <th><a onclick="myPage();">내 코스</a></th>
+                    </tr>
+                    <tr>
+                        <th><a onclick="myPage();">내 예약</a></th>
+                    </tr>
                 </thead>
             </table>
             <script>

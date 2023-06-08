@@ -150,7 +150,15 @@
 					</button>
 					</c:otherwise>
 				</c:choose>
-        		<a href="logout.me">Logout</a> / <a id="myPage" onclick="myPage();">MyPage</a>
+				<c:choose>
+					<c:when test="${ loginMember.memGrade eq 'ADMIN'}">
+						<a href="logout.me">Logout</a> / <a href="adminPage">AdminPage</a>
+        			</c:when>
+        			<c:otherwise>
+        				<a href="logout.me">Logout</a> / <a id="myPage" onclick="myPage();">MyPage</a>
+        			</c:otherwise>
+				</c:choose>
+        		
         	</c:otherwise>        	
         </c:choose>
         
@@ -166,7 +174,7 @@
 	<jsp:include page="../member/modal/userFindmodal.jsp"/>
     <script>
   	function myPage(){
-		$('#postForm').attr("action", 'myPage').submit();
+		$('#postForm').attr("action", 'memberDiaryMain.me').submit();
   	};
     
         $('#header a').on({'mouseenter' : function(){

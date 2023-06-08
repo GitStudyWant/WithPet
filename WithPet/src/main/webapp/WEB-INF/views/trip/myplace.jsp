@@ -36,7 +36,7 @@
 			height: 480px;
 			width: 100%;
 			border: 0.1px solid sandybrown;
-			margin-left : 200px;
+			margin-left : 100px;
 		}
 		
 		
