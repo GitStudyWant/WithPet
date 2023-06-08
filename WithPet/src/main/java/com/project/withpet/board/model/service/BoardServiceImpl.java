@@ -53,7 +53,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public ArrayList<Board> selectCommentsList(int boardNo) {
+	public ArrayList<Comments> selectCommentsList(int boardNo) {
 		return boardDao.selectCommentsList(sqlSession,boardNo);
 	}
 

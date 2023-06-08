@@ -20,7 +20,7 @@ public interface BoardService {
 
 	int deleteBoard(int boardNo);
 
-	ArrayList<Board> selectCommentsList(int boardNo);
+	ArrayList<Comments> selectCommentsList(int boardNo);
 
 	int insertComments(Comments c);
 	
