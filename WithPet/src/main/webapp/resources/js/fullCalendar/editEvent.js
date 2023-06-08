@@ -1,39 +1,45 @@
+var schUpdate = $('#schUpdate');
+
+var editStart = $('#editStart');
+var editEnd = $('#editEnd');
+var editCate = $('#editCate');
+var editContent = $('#editContent');
+var editColor = $('#editColor');
+
+var modifyBtnContainer = $('.modalBtnContainer-modifyEvent');
+
+
+
 /* ****************
  *  일정 편집
  * ************** */
 var editEvent = function (event, element, view) {
 
+	
     $('#deleteEvent').data('id', event._id); //클릭한 이벤트 ID
 
     $('.popover.fade.top').remove();
     $(element).popover("hide");
 
-    if (event.allDay === true) {
-        editAllDay.prop('checked', true);
-    } else {
-        editAllDay.prop('checked', false);
-    }
-
     if (event.end === null) {
         event.end = event.start;
     }
-
-    if (event.allDay === true && event.end !== event.start) {
+	
+    if (event.end !== event.start) {
         editEnd.val(moment(event.end).subtract(1, 'days').format('YYYY-MM-DD HH:mm'))
     } else {
         editEnd.val(event.end.format('YYYY-MM-DD HH:mm'));
     }
+    
+    console.log(event);
 
-    modalTitle.html('일정 수정');
-    editTitle.val(event.title);
     editStart.val(event.start.format('YYYY-MM-DD HH:mm'));
-    editType.val(event.type);
-    editDesc.val(event.description);
+    editCate.val(event.title);
+    editContent.val(event.content);
     editColor.val(event.backgroundColor).css('color', event.backgroundColor);
 
-    addBtnContainer.hide();
     modifyBtnContainer.show();
-    eventModal.modal('show');
+    schUpdate.modal('show');
 
     //업데이트 버튼 클릭시
     $('#updateEvent').unbind();
@@ -66,7 +72,7 @@ var editEvent = function (event, element, view) {
             displayDate = endDate;
         }
 
-        eventModal.modal('hide');
+        schUpdate.modal('hide');
 
         event.allDay = statusAllDay;
         event.title = editTitle.val();
@@ -98,7 +104,7 @@ $('#deleteEvent').on('click', function () {
     
     $('#deleteEvent').unbind();
     $("#calendar").fullCalendar('removeEvents', $(this).data('id'));
-    eventModal.modal('hide');
+    schUpdate.modal('hide');
 
     //삭제시
     $.ajax({

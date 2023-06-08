@@ -59,6 +59,12 @@ public class MemberController {
 	@Autowired
 	private BCryptPasswordEncoder bcryptPasswordEncoder;
 	
+	@RequestMapping("sendBack.me")
+	public void sendBack(HttpServletResponse response) throws IOException {
+		response.setContentType("text/html; charset=UTF-8");
+		response.getWriter().print("http://localhost:8787/withpet");
+	}
+	
 	@RequestMapping(value="idCheck.me", produces="application/json; charset=UTF-8")
 	public void idCheck(String checkId, HttpServletResponse response) throws ServletException, IOException {
 		
@@ -300,6 +306,7 @@ public class MemberController {
 		mv.setViewName("member/diary/memberDiary");
 		
 		return mv;
+		
 	}
 	
 	@ResponseBody
@@ -307,13 +314,6 @@ public class MemberController {
 	public String selectSchedules(Schedule schedule, ModelAndView mv){
 
 		ArrayList<Schedule> schedules = memberService.selectSchedules(schedule); 
-		
-		System.out.println(schedule);
-		System.out.println(schedules);
-		System.out.println(new Gson().toJson(schedules));
-		
-		//mv.addAttribute("schedules", new Gson().toJson(schedules));
-		//mv.setViewName("member/diary/memberDiary");
 		
 		return new Gson().toJson(schedules);
 	}

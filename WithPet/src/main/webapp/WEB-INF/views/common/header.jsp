@@ -163,10 +163,10 @@
              
     </div>
     <jsp:include page="../member/modal/memberModal.jsp" />
-	<!--<jsp:include page="../member/modal/userFindmodal.jsp"/> -->
+	<jsp:include page="../member/modal/userFindmodal.jsp"/>
     <script>
   	function myPage(){
-		$('#postForm').attr("action", 'myPage').submit();
+		$('#postForm').attr("action", 'memberDiaryMain.me').submit();
   	};
     
         $('#header a').on({'mouseenter' : function(){
