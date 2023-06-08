@@ -7,19 +7,18 @@
 <title>Insert title here</title>
 </head>
 <body>
-
-	<c:if test="${ empty loginMember }">
-		<script>
-			$.ajax({
-				url : "sendBack.me",
-				type : "get",
-				data : {},
-				success : function(result){
-					location.href = result;
-				}
-			})
-		</script>
-	</c:if>
+	<script>
+	if('${loginMember}' == ''){
+		$.ajax({
+			url : "sendBack.me",
+			type : "get",
+			data : {},
+			success : function(result){
+				location.href = result;
+			}
+		})
+	}
+	</script>
 
 </body>
 </html>
