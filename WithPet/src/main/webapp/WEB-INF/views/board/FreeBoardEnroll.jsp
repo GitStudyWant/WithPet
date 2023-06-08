@@ -80,17 +80,17 @@
         width: 80%; height: 150px;
     }    
 
-    #tag1, #tag2, #tag3, #tag4, #tag5{
-        display:inline-block;
-        margin-top: 5px;
-        margin-left: 10px;
-        height: 40px;
-        line-height: 40px;
-        text-align: center;
-        color: white;
-        font-weight: bolder;
-        background-color: rgb(73, 166, 112);
-    }
+     .tag {
+            display: inline-block;
+            margin-top: 5px;
+            margin-left: 10px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            color: white;
+            font-weight: bolder;
+            background-color: rgb(73, 166, 112);
+        }
 
 </style>
 </head>
@@ -107,6 +107,15 @@
 			  });
 			});
 		
+		function addTag() {
+            var newTag = $('#newTag').val();
+            if (newTag) {
+                var tagElement = '<span class="tag">' + newTag + '</span>';
+                $('#tagContainer').append(tagElement);
+                $('#tagModal').modal('hide');
+                $('#newTag').val('');
+            }
+        }
 		
 	</script>
 			<!--  비로그인으로 접근시 이전 페이지로
@@ -143,7 +152,9 @@
 
 			        
 					<div align="center">
-						<br><br><br>
+						<br>
+						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tagModal">태그추가</button>
+						<br><br>
 	                    <button type="submit" class="btn btn-primary">등록하기</button>
 	                    <button type="reset" class="btn btn-danger" >취소하기</button>
                 	</div>
@@ -154,6 +165,85 @@
 
         </div>
     </div>
+    
+    <!-- Modal -->
+    <div class="modal fade" id="tagModal" tabindex="-1" role="dialog" aria-labelledby="tagModalLabel" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="tagModalLabel">태그 추가</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="newTag" class="form-control" placeholder="태그를 입력하세요">
+                </div>
+                <div class="tag-list">
+                	
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" data-backdrop="false">닫기</button>
+                    <button type="button" class="btn btn-primary" onclick="addTag()">추가</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+    function addTag() {
+        if ($('#newTag').val().trim() !== '') {
+            $.ajax({
+                url: 'addtag.bo',
+                type: 'POST',
+                data: {
+                	tagName : $('#newTag').val()
+                },
+                success: function(result){
+					console.log(result);
+					
+					if(result === 'success'){
+						var tagName = $('#newTag').val();
+						var tagItem = '<span class="tag-item">' + tagName + '<span class="close-btn">&times;</span></span>';
+		                    $('.tag-list').append(tagItem);
+		                    $('#newTag').val('');
+					}
+				},
+                error: function() {
+                	console.log('실패');
+                    alert('태그추가가 실패하였습니다.');
+				}
+        });
+     }
+    }
+    $(document).on('click', '.close-btn', function() {
+        var $tagItem = $(this).closest('.tag-item');
+        var tagtext = $tagItem.text().trim();
+        console.log(tagtext);
+        
+        $.ajax({
+            url: 'removetag.bo',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                tagName: tagtext
+            }),
+            success: function(result) {
+                console.log(result);
+                console.log(tagtext);
+                console.log($tagItem.text());
+                if (result === 'success') {
+                    $tagItem.remove();
+                }
+            },
+            error: function() {
+                console.log('실패');
+                console.log(tagtext);
+                console.log($tagItem.text());
+                alert('태그 삭제에 실패하였습니다.');
+            }
+        });
+    });
+        
+
+</script>
     
 </body>
 </html>
