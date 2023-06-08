@@ -54,16 +54,22 @@ public class MemberDao {
 	public int selectMemoCount(SqlSession sqlSession, String memId) {
 		return sqlSession.selectOne("memberMapper.selectMemoCount", memId);
 	}
-	
-	public int insertSchedule(SqlSession sqlSession, Schedule schedule) {
-	      return sqlSession.insert("memberMapper.insertSchedule", schedule);
-	   }
 	   
 	public ArrayList<Schedule> selectSchedules(SqlSession sqlSession, Schedule schedule) {
 		return (ArrayList)sqlSession.selectList("memberMapper.selectSchedules", schedule);
 	}
 	
+	public int insertSchedule(SqlSession sqlSession, Schedule schedule) {
+	      return sqlSession.insert("memberMapper.insertSchedule", schedule);
+	}
 	
+	public int updateSchedule(SqlSession sqlSession, Schedule schedule) {
+	      return sqlSession.update("memberMapper.updateSchedule", schedule);
+	}
+	
+	public int deleteSchedule(SqlSession sqlSession, int scheduleNo) {
+	      return sqlSession.delete("memberMapper.deleteSchedule", scheduleNo);
+	}
 	
 	
 	

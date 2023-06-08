@@ -146,6 +146,16 @@
 				MEMO_RECEIVER = #{memId}
 	</select>
 	
+	<select id="selectSchedules" resultMap="scheduleResultSet">
+		SELECT
+				*
+		FROM
+				schedule
+		WHERE
+				mem_id = #{memId}
+		AND
+				schedule_start BETWEEN #{scheduleStart} and #{scheduleEnd}
+	</select>
 	
 	<insert id="insertSchedule" parameterType="schedule">
 		INSERT
@@ -164,18 +174,26 @@
 				)
 	</insert>
 	
-	<select id="selectSchedules" resultMap="scheduleResultSet">
-		SELECT
-				*
-		FROM
-				schedule
+	<update id="updateSchedule" parameterType="schedule">
+		UPDATE
+				SCHEDULE
+		SET
+				schedule_cate = #{scheduleCate}
+				,schedule_start = #{scheduleStart}
+				,schedule_end = #{scheduleEnd}
+				,schedule_content = #{scheduleContent}
+				,schedule_color = #{scheduleColor}
+				,schedule_date = sysdate
 		WHERE
-				mem_id = #{memId}
-		AND
-				schedule_start BETWEEN #{scheduleStart} and #{scheduleEnd}
-	</select>
+				schedule_no = #{scheduleNo}
+	</update>
 	
-	
+	<delete id="deleteSchedule" parameterType="_int">
+		DELETE
+				SCHEDULE
+		WHERE
+				schedule_no = #{scheduleNo}
+	</delete>
 	
 	
 	

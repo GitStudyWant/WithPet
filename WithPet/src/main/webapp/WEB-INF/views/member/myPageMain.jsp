@@ -297,8 +297,6 @@
 			    <script>
 					var menuNum = ${number};	
 			    
-			    	function boardMenu(num){
-			    		console.log(num);
 			    		switch(num){
 							case 1 :  $('#boardPostForm').attr('action', 'myPage').submit(); break;
 							case 2 :  $('#boardPostForm').attr('action', 'myPageReply').submit(); break;

@@ -6,17 +6,16 @@
 <head>
 <meta charset="UTF-8">
 <title>메인</title>
+
     
 	<link rel="stylesheet" href="resources/css/fullCalendar/main.css">
 	
     <link rel="stylesheet" href="resources/css/fullCalendar/vendor/fullcalendar.min.css" />
     <link rel="stylesheet" href='resources/css/fullCalendar/vendor/bootstrap2.min.css' />
     <link rel="stylesheet" href='resources/css/fullCalendar/vendor/select2.min.css' />
-    <link rel="stylesheet" href='resources/css/fullCalendar/vendor/bootstrap-datetimepicker.min.css' />
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,500,600">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    
 
 <style>
 
@@ -69,15 +68,19 @@
 </style>
 </head>
 <body>
-	
 	<div id="diarySide"><jsp:include page="../../common/myPageSide.jsp" /></div>
+	
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+ 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+ 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	
 	<div id="diarySendback"><jsp:include page="../../common/sendBack.jsp" /></div>
 	
 	<div id="body">	
-		    <p>다이어리</p>
 		    <div id="schedulemain">
+		    <p style="margin:auto;">[${ loginMember.memNick }] 님의 다이어리</p>
 		    <div class="container" style="width:75%;">
-
+				
 		        <div id="wrapper">
 		            <div id="loading"></div>
 		            <div id="calendar"></div>
@@ -96,7 +99,7 @@
 				        <div class="modal-body">
 				        
 				          <p class="modal-title" style="font-size:15px; text-align:center; margin-top:15px; margin-bottom:30px">일정 등록</p>
-				          <form action="insertSchedule.me" method="GET">
+				          <form action="insertSchedule.me" method="POST">
 				          <input type="hidden" value="${ loginMember.memId }" name="memId">
 				          	<table width="80%" style="text-align:center; margin:auto">
 					          	<tr>
@@ -112,11 +115,11 @@
 					          	<tr>
 					          	<tr>
 						          	<td><p style="font-size:10px; color:gray; margin-top:12px">시작일</p></td>
-						          	<td><input type="text" name="scheduleStart" style="width:100%; border:solid 1px lightgray"></td>
+						          	<td><input autocomplete="off" type="text" class="dateChoice" name="scheduleStart" style="width:100%; border:solid 1px lightgray"></td>
 					          	</tr>
 					          	<tr>
 					          		<td><p style="font-size:10px; color:gray; margin-top:12px">종료일</p></td>
-					          		<td><input type="text" name="scheduleEnd" style="width:100%; border:solid 1px lightgray"></td>
+					          		<td><input autocomplete="off" type="text" class="dateChoice" name="scheduleEnd" style="width:100%; border:solid 1px lightgray"></td>
 					          	</tr>
 					          	<tr>
 					          		<td><p style="font-size:10px; color:gray; margin-top:12px">일정내용</p></td>
@@ -159,8 +162,8 @@
 				        <div class="modal-body">
 				        
 				          <p class="modal-title" style="font-size:15px; text-align:center; margin-top:15px; margin-bottom:30px">일정 확인</p>
-				          <form action="insertSchedule.me" method="GET">
-				          <input type="hidden" value="${ loginMember.memId }" name="memId">
+				          <form action="updateSchedule.me" method="POST">
+				          <input id="hidden" type="hidden" value="${ loginMember.memId }" name="updateId">
 				          	<table width="80%" style="text-align:center; margin:auto">
 					          	<tr>
 					          		<td width="30"><p style="font-size:10px; color:gray; margin-top:12px">카테고리</p></td>
@@ -176,13 +179,13 @@
 					          	<tr>
 						          	<td><p style="font-size:10px; color:gray; margin-top:12px">시작일</p></td>
 						          	<td>
-						          	<input class="inputModal" type="text" name="editStart" id="editStart" style="width:100%; border:solid 1px lightgray">
+						          	<input autocomplete="off" type="text" class="dateChoice" name="editStart" id="editStart" style="width:100%; border:solid 1px lightgray">
 						          	</td>
 					          	</tr>
 					          	<tr>
 					          		<td><p style="font-size:10px; color:gray; margin-top:12px">종료일</p></td>
 					          		<td>
-					          		<input class="inputModal" type="text" name="editEnd" id="editEnd" style="width:100%; border:solid 1px lightgray">
+					          		<input autocomplete="off" type="text" class="dateChoice" name="editEnd" id="editEnd" style="width:100%; border:solid 1px lightgray">
 					          		</td>
 					          	</tr>
 					          	<tr>
@@ -222,24 +225,21 @@
 		          
 		    </div>
 		    
-		    
 		   
 		    
 		    <!-- /.container -->
-		    <script src="resources/js/fullCalendar/vendor/jquery.min.js"></script>
 		    <script src="resources/js/fullCalendar/vendor/bootstrap.min.js"></script>
 		    <script src="resources/js/fullCalendar/vendor/moment.min.js"></script>
 		    <script src="resources/js/fullCalendar/vendor/fullcalendar.min.js"></script>
 		    <script src="resources/js/fullCalendar/vendor/ko.js"></script>
 		    <script src="resources/js/fullCalendar/vendor/select2.min.js"></script>
-		    <script src="resources/js/fullCalendar/vendor/bootstrap-datetimepicker.min.js"></script>
 		    <!-- <script src="resources/js/fullCalendar/mainjs.js"></script>  -->
 		    <script src="resources/js/fullCalendar/editEvent.js"></script>
 		    <script src="resources/js/fullCalendar/etcSetting.js"></script>
-				    
+		    
+		   
 		  </div>
-		  
-		  <div class="containerInput "><button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#schInsert">일정추가</button></div>
+		  <div class="containerInput" style="margin-top:60px"><button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#schInsert" style="width:70%; height:20%; font-size:15px;">일정추가</button></div>
 	</div>
 	
 	<div id="diaryFooter"><jsp:include page="../../common/footer.jsp" /></div>
@@ -248,19 +248,16 @@
 	
 	var draggedEventIsAllDay;
 	var activeInactiveWeekends = true;
-	
+		
 	$('#calendar').fullCalendar({
 	    locale: 'ko',
 	    height: 800,
 	    timezone: "local",
 	    nextDayThreshold: "09:00:00",
-	    allDaySlot: true,
-	    displayEventTime: true,
-	    displayEventEnd: true,
-	    firstDay: 0, //월요일이 먼저 오게 하려면 1
-	    weekNumbers: false,
+	    displayEventTime: false,
+	    displayEventEnd: false,
+	    firstDay: 0,
 	    selectable: true,
-	    weekNumberCalculation: "ISO",
 	    eventLimit: true,
 	    views: {
 	        month: { eventLimit: 4 }
@@ -269,11 +266,7 @@
 	    navLinks: true,
 	    defaultDate: moment(),
 	    timeFormat: 'HH:mm',
-	    defaultTimedEventDuration: '01:00:00',
 	    editable: true,
-	    minTime: '00:00:00',
-	    maxTime: '24:00:00',
-	    slotLabelFormat: 'HH:mm',
 	    weekends: true,
 	    nowIndicator: true,
 	    dayPopoverFormat: 'MM/DD dddd',
@@ -286,23 +279,6 @@
 	        center: 'month, listWeek',
 	        right: 'prev, title, next'
 
-	    },
-	    views: {
-	        month: {
-	            columnFormat: 'dddd'
-	        },
-	        agendaWeek: {
-	            columnFormat: 'M/D ddd',
-	            titleFormat: 'YYYY년 M월 D일',
-	            eventLimit: false
-	        },
-	        agendaDay: {
-	            columnFormat: 'dddd',
-	            eventLimit: false
-	        },
-	        listWeek: {
-	            columnFormat: ''
-	        }
 	    },
 	    
 	    customButtons: {
@@ -338,7 +314,9 @@
 	                    }
 
 	                    var event = {
-	                        title: response[i].scheduleCate,
+	                    	title : response[i].scheduleCate,
+	                    	id : response[i].scheduleNo,
+	                        cate: response[i].scheduleCate,
 	                        start: response[i].scheduleStart,
 	                        end: scheduleEndReal,
 	                        content: response[i].scheduleContent,
@@ -360,6 +338,18 @@
 	    }
 	})
 	
+	</script>
+	
+	
+	<script>
+	$(function() {
+		$(".dateChoice").datepicker({
+            dateFormat: 'yy-mm-dd'
+        });
+		$('.dateChoice').click(function(){
+			$('.dateChoice').datepicker();
+		});
+    });
 	</script>
 </body>
 </html>

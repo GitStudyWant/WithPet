@@ -148,7 +148,6 @@ public class MemberController {
 		
 	}
 	
-	
 	@RequestMapping("kakaoGetCodeUrl")
 	public void kakaoGetCodeUrl(HttpServletResponse response) throws ServletException, IOException {
 		
@@ -298,17 +297,6 @@ public class MemberController {
 		return mv;
 	}
 	
-	@RequestMapping(value="insertSchedule.me")
-	public ModelAndView insertSchedule(Schedule schedule, ModelAndView mv){
-		
-		int schedulecount = memberService.insertSchedule(schedule);
-
-		mv.setViewName("member/diary/memberDiary");
-		
-		return mv;
-		
-	}
-	
 	@ResponseBody
 	@RequestMapping(value="selectSchedules.me", produces="application/json; charset=UTF-8")
 	public String selectSchedules(Schedule schedule, ModelAndView mv){
@@ -318,16 +306,29 @@ public class MemberController {
 		return new Gson().toJson(schedules);
 	}
 	
+	@RequestMapping(value="insertSchedule.me")
+	public String insertSchedule(Schedule schedule){
+		
+		int schedulecount = memberService.insertSchedule(schedule);
+
+		return "redirect:/memberDiaryMain.me";
+	}
 	
+	@RequestMapping(value="updateSchedule.me")
+	public String updateSchedule(Schedule schedule){
+		
+		int schedulecount = memberService.updateSchedule(schedule);
+
+		return "redirect:/memberDiaryMain.me";
+	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
+	@RequestMapping(value="deleteSchedule.me")
+	public String deleteSchedule(int scheduleNo){
+		
+		int schedulecount = memberService.deleteSchedule(scheduleNo);
+
+		return "redirect:/memberDiaryMain.me";
+	}
 	
 	
 	

@@ -53,13 +53,11 @@ public interface MemberService {
 	public int insertMemo(Memo memo);
 	
 	// �뒪耳�伊�
-	public int insertSchedule(Schedule schedule);
-	
 	public ArrayList<Schedule> selectSchedules(Schedule schedule);
 	
-	public ArrayList<Schedule> selectScheduleDetails(Date day);
+	public int insertSchedule(Schedule schedule);
 	
-	public Schedule selectScheduleDetail(int scheduleNo);
+	public int updateSchedule(Schedule schedule);
 	
 	public int deleteSchedule(int scheduleNo);
 	

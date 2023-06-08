@@ -112,11 +112,6 @@ public class MemberServiceImpl implements MemberService {
 	public int insertMemo(Memo memo) {
 		return 0;
 	}
-
-	@Override
-	public int insertSchedule(Schedule schedule) {
-		return memberDao.insertSchedule(sqlSession, schedule);
-	}
 	
 	@Override
 	public ArrayList<Schedule> selectSchedules(Schedule schedule) {
@@ -124,18 +119,18 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public ArrayList<Schedule> selectScheduleDetails(Date day) {
-		return null;
+	public int insertSchedule(Schedule schedule) {
+		return memberDao.insertSchedule(sqlSession, schedule);
 	}
-
+	
 	@Override
-	public Schedule selectScheduleDetail(int scheduleNo) {
-		return null;
+	public int updateSchedule(Schedule schedule) {
+		return memberDao.updateSchedule(sqlSession, schedule);
 	}
-
+	
 	@Override
 	public int deleteSchedule(int scheduleNo) {
-		return 0;
+		return memberDao.deleteSchedule(sqlSession, scheduleNo);
 	}
 
 	@Override

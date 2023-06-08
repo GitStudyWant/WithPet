@@ -134,7 +134,7 @@
             <br>
             <div align="center">
             	<img id="memberoption" src="resources/myPage/option.png" alt="">
-                <b>닉네임</b>
+                <b>${ loginMember.memNick }</b>
             </div>
         </div>
 
