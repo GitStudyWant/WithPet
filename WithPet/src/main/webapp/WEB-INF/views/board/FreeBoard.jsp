@@ -133,7 +133,7 @@
 	 .pagination {
 		 width:fit-content;
 		 margin:auto;
-		 display: inline-block;
+		 display: inline-block;	
 		 padding-top: 50px;
 	}
 	 

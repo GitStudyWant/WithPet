@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.project.withpet.board.common.model.vo.PageInfo;
 import com.project.withpet.board.model.vo.Board;
 import com.project.withpet.board.model.vo.Comments;
+import com.project.withpet.board.model.vo.Tag;
 
 @Repository
 public class BoardDao {
@@ -48,6 +49,14 @@ public class BoardDao {
 
 	public int insertComments(SqlSessionTemplate sqlSession, Comments c) {
 		return sqlSession.insert("boardMapper.insertComments", c);
+	}
+
+	public int addTag(SqlSessionTemplate sqlSession, String tagName) {
+		return sqlSession.insert("boardMapper.addTag",tagName);
+	}
+
+	public int removeTag(SqlSessionTemplate sqlSession, String tagName) {
+		return sqlSession.delete("boardMapper.removeTag",tagName);
 	}
 	
 }

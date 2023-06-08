@@ -140,4 +140,26 @@
 				,#{boardNo}
 				)
 	</insert>
+	<insert id="addTag" parameterType="tag">
+		INSERT
+			INTO
+				TAG
+				(
+				TAG_ID
+				,TAG_NAME
+				)
+			VALUES
+				(
+				SEQ_TNO.NEXTVAL
+				,#{tagName}
+				)
+	</insert>
+	<delete id="removeTag" parameterType="tag">
+		DELETE
+		FROM	
+				TAG
+		WHERE
+				TAG_NAME=#{tagName}		 
+			
+	</delete>
 </mapper>

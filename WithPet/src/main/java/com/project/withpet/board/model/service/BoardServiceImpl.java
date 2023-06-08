@@ -11,6 +11,7 @@ import com.project.withpet.board.common.model.vo.PageInfo;
 import com.project.withpet.board.model.dao.BoardDao;
 import com.project.withpet.board.model.vo.Board;
 import com.project.withpet.board.model.vo.Comments;
+import com.project.withpet.board.model.vo.Tag;
 
 
 @Service
@@ -60,6 +61,16 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public int insertComments(Comments c) {
 		return boardDao.insertComments(sqlSession,c);
+	}
+
+	@Override
+	public int addTag(String tagName) {
+		return boardDao.addTag(sqlSession,tagName);
+	}
+
+	@Override
+	public int removeTag(String tagName) {
+		return boardDao.removeTag(sqlSession,tagName);
 	}
 	
 
