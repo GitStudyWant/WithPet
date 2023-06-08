@@ -84,7 +84,7 @@
         width: 50%;
         height : 50%;
         border-radius: 100px;
-        margin-top: 30px;
+        margin-top: 60px;
     }
     
     #pro b{ font-size:20px;}
@@ -137,23 +137,21 @@
                 <b>닉네임</b>
             </div>
         </div>
+
+        <form action="" method="post" id="postForm">
+        	<input type="hidden" name="memberId" value="${ loginMember.memId }"/>
+        </form>
         <div id="mune">
             <table id="sideMenu">
                 <thead align="center">
                     <tr>
-                        <th><a href="myPage.me">내 활동</a></th>
+                        <th><a onclick="myPage();">내 활동</a></th>
                     </tr>
                     <tr>
-                        <th><a href="#">내 예약</a></th>
+                        <th><a onclick="myPage();">쪽지</a></th>
                     </tr>
                     <tr>
-                        <th><a href="#">내 코스</a></th>
-                    </tr>
-                    <tr>
-                        <th><a href="myPage">쪽지</a></th>
-                    </tr>
-                    <tr>
-                        <th><a href="myPage">채팅</a></th>
+                        <th><a onclick="myPage();">채팅</a></th>
                     </tr>
                     <tr>
                         <th><a href="memberDiaryMain.me">다이어리</a></th>
@@ -162,19 +160,24 @@
                         <th><a href="myPageFriend.me">친구</a></th>
                     </tr>
                     <tr>
-                        <th><a href="myPage">포인트</a></th>
+                        <th><a onclick="myPage();">포인트</a></th>
                     </tr>
                     <tr>
-                        <th><a href="myPage">문의사항</a></th>
+                        <th><a onclick="myPage();">문의사항</a></th>
                     </tr>
                     <tr>
-                        <th><a href="myPage">내 코스</a></th>
+                        <th><a onclick="myPage();">내 코스</a></th>
                     </tr>
                     <tr>
-                        <th><a href="myPage">내 예약</a></th>
+                        <th><a onclick="myPage();">내 예약</a></th>
                     </tr>
                 </thead>
             </table>
+            <script>
+                function myPage(){
+                    $('#postForm').attr("action", 'myPage').submit();
+                };
+            </script>
             <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
         </div>
     </div>

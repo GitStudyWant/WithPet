@@ -23,5 +23,6 @@ public class Member {
 	private String memStaus;
 	private String memUpdate;
 	private String memKakaoId;
-
+	private int friendShare;
+	private int resultSearch;
 }
