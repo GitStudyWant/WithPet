@@ -33,6 +33,7 @@
 	}
 
 	#mainmain{
+		
 		width : 75%;
 		height : 1000px;
 		display: inline-block;	
@@ -41,6 +42,8 @@
 
 	#mainTable{
 		border-top: 1px solid #dee2e6;
+		height : 900px;
+		position : relative;
 	}
 
 	#mainTable p{
@@ -81,6 +84,10 @@
 	#foogg{
 		width : 100%;
         height : 65px;
+        margin-top :30px;
+        border-top : 1px soild #dee2e6;
+	
+        
 	}
 
     #foogg>thead>tr{
@@ -97,9 +104,6 @@
 		width: 50%;
 	}
 	
-	.marginLeft400px{
-		margin-left : 400px;
-	}
 	
 	.marginLeft40px{
 		margin-left : 40px;
@@ -110,8 +114,14 @@
 	}
 	
 	.memberProfile{
+		width : 25%;
+		height : 40%;
 		background-color : #dee2e6;
+
 		border-radius: 100px;
+		display : inline-block;
+		margin-left : 40px;
+		margin-top : 20px;
 	}
 	
 	.marginTop0px{
@@ -120,6 +130,32 @@
 	
 	.marginBotton20px{
 		margin-bottom : 20px;
+	}
+	
+	 #friendImg{
+        width: 30%;
+        height : 30%;
+        border-radius: 100px;
+        margin-top: 30px;
+    }
+
+	#buttonTable tbody{
+		border-bottom: 0px;
+	}
+	
+	#resultSearch{
+		width : 400px;
+		height : 500px;
+		border-radius : 10px;
+		background-color : #dee2e6;
+		z-index: 100;
+		top : 0px;
+		left : 0px;
+		right : 0px;
+		bottom : 0px;
+		margin : auto;
+		position: absolute;		
+		
 	}
 
 
@@ -136,77 +172,70 @@
 				
 				<table id="naviTable">
 					<tr>
-						<th class="thWidth"><h2 class="marginLeft40px marginTop30px">친구 목록</h3></th>
-						<th class="thWidth" align="right"><button class="marginLeft400px marginTop30px btn btn-success">친구추가</button></th>
+						<td class="thWidth"><h2 class="marginLeft40px marginTop30px" align="left">친구 목록</h3></td>
+						<td class="thWidth" align="right"><button class="marginTop30px btn btn-success">친구추가</button></td>
 					</tr>
 				</table>						
 					<br>
 					<c:choose>
 						<c:when test="${ not empty friendList }">
-							<table class="table table-hover" id="mainTable">
-	
-								  <tbody align="center">
-								  	
-										<tr>
-										<th scope="row">
-											<c:forEach items="${friendList}" var="i">
-											<td>
-												<div class="memberProfile">
-													<img id="memberimg" src="resources/myPage/user.png" alt="">
-													<p class="marginTop0px">아이디 : ${ i.memId }</p>
-													<p class="marginTop0px">닉네임 : ${ i.memNick }</p>
-													<table>
-														<tr align="center">
-															<td><button class="btn btn-success marginBotton20px">쪽지</button></td>
-													 		<td><button class="btn btn-success marginBotton20px">채팅</button></td>
-													 	</tr>
-														<tr>
-															<td><button class="btn btn-success">일정공유</button></td>
-															<td><button class="btn btn-success">친구 삭제</button></td>
-															
-														</tr>
-													</table>
-													<br>
-														<input type="hidden" id="${i.memId}" name="friend" value="${i.memId}" />	
-												</div>
-											</td>
-											</c:forEach>
-										</th>
-										
+							<div class="table table-hover" id="mainTable" align="center">
+								<div id="result"></div>
+							<c:forEach items="${friendList}" var="i">
+								<div class="memberProfile" align="center">
+									<img id="friendImg" src="resources/myPage/user.png" alt="">
+									<p class="marginTop0px">아이디 : ${ i.memId }</p>
+									<p class="marginTop0px">닉네임 : ${ i.memNick }</p>
+									<table id="buttonTable">
+										<tr align="center">
+											<td><button class="btn btn-success marginBotton20px">쪽지</button></td>
+											<td></td>
+											<td><button class="btn btn-success marginBotton20px">채팅</button></td>
 										</tr>
-									
-								  </tbody>
-						</table>
-	
+										<tr>
+											<c:choose>
+											<c:when test="${i.friendShare eq 1 }">
+												<td><button class="btn btn-success" onclick="sharingCancellation('${i.memId}');">공유중</button></td>
+											</c:when>
+											<c:otherwise>
+												<td><button class="btn btn-success" onclick="freindSharing('${i.memId}');">일정공유</button></td>
+											</c:otherwise>
+											</c:choose>
+											<td></td>
+											<td><button class="btn btn-success" onclick="friendDelete('${i.memId}');">친구 삭제</button></td>
+											
+										</tr>
+									</table>
+									<br>
+								</div>
+							</c:forEach>
+						
 						<table id="foogg">
 							<thead>
-								<tr align="center">
+								<tr align="right">
 									<th style="width : 50%;">
 										<c:choose>
 		                					<c:when test="${ pi.currentPage eq 1 }">
 		                   						<button class="btn btn-success">&lt</button>
 		                					</c:when>
 		                					<c:otherwise>
-		                						<button class="btn btn-success" onclick="memberBoard('${pi.currentPage-1}');">&lt</button>
+		                						<button class="btn btn-success" onclick="friendPage(${pi.currentPage-1});">&lt</button>
 		                					</c:otherwise>
 			                				</c:choose>
 			                   				<c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
-			                   					 <button class="btn btn-success" onclick="memberBoard('${p}');">${ p }</button>
+			                   					 <button class="btn btn-success" onclick="friendPage(${p});">${ p }</button>
 			                    			</c:forEach>
 			                    			<c:choose>
 		                					<c:when test="${ pi.currentPage eq pi.maxPage }">
 		                   						<button class="btn btn-success">&gt</button>
 				                			</c:when>
 					                		<c:otherwise>
-					                			<button class="btn btn-success" onclick="memberBoard('${pi.currentPage+1}');">&gt</button>
+					                			<button class="btn btn-success" onclick="friendPage(${pi.currentPage+1});">&gt</button>
 					                		</c:otherwise>
 					                	</c:choose>
 					                </th>
 					                <th>
-					                	<form action="friendSearch" method="post">
-					                		친구 검색 : <input	type="text" name="friendSearch" />  <button class="btn btn-success">검색</button>
-					                		<input type="hidden" name="memberId" value="${loginMember.memId}" />
-					                	</form>
+					                		친구 검색 : <input	type="text" id="friendSearch" name="friendSearch" />  <button class="btn btn-success" onclick="friendSearch('${loginMember.memId}');">검색</button>
 					                </th>
 					            </tr>
 							</thead>
@@ -214,38 +243,102 @@
 					</c:when>
 					
 				</c:choose>
-				
-				<form action="" method="post" id="boardPostForm">
-			         <input type="hidden" name="memberId" value="${ loginMember.memId }"/>
+				</div>
+				<form action="" method="post" id="friendForm">
+			         <input type="hidden" id="memberId" name="memberId" value="${ loginMember.memId }"/>
 			         <input id="hidden-page" type="hidden" name="mPage" value="1"/>
-			          <input id="menuPage" type="hidden" name="menuPage" value=""/>
+			          <input id="friendId" type="hidden" name="friendId" value=""/>
 			    </form>
 			    
-			   
+			 
 			    
 			    <script>
-					var menuNum = ${number};	
-			    
-			    	function boardMenu(num){
-			    		console.log(num);
-			    		switch(num){
-							case 1 :  $('#boardPostForm').attr('action', 'myPage').submit(); break;
-							case 2 :  $('#boardPostForm').attr('action', 'myPageReply').submit(); break;
-							case 3 :  $('#boardPostForm').attr('action', 'myPageLike').submit(); break;
-							case 4 :  $('#boardPostForm').attr('action', 'myPage').submit(); break;
-							case 5 :  $('#boardPostForm').attr('action', 'myPageDelete').submit(); break;
-						};
-			    	};
-			    
-					function memberBoard(num){
-						switch(menuNum){
-							case 1 :$('#hidden-page').val(num); $('#boardPostForm').attr('action', 'myPage').submit(); break;
-							case 2 :$('#hidden-page').val(num); $('#boardPostForm').attr('action', 'myPageReply').submit(); break;
-							case 3 :$('#hidden-page').val(num); $('#boardPostForm').attr('action', 'myPageLike').submit(); break;
-							case 4 :$('#hidden-page').val(num); $('#boardPostForm').attr('action', 'myPage').submit(); break;
-							case 5 :$('#hidden-page').val(num); $('#boardPostForm').attr('action', 'myPageDelete').submit(); break;
-						};
+			    	
+			    	
+					function friendPage(num){
+							console.log(num);
+							$('#hidden-page').val(num); $('#friendForm').attr('action', 'myPageFriend.me').submit();
 					};
+					
+					function friendSearch(memId){
+						$.ajax({
+							url : 'friendSearch.me',
+							data : {
+								memberId : memId,
+								friendSearch : $('#friendSearch').val()
+							},
+							type : 'post',
+							success : function(result){
+								console.log(result);
+								if(result === '없음'){
+									alert('검색하신 친구가 존재하지 않습니다!');
+								} else{
+									var btn = '';
+									if(result.friendShare > 0){
+										btn = '<td><button class="btn btn-success" id="share" onclick="sharingCancellation('+ result.memId + ');">공유중</button></td>';
+									} else{
+										btn = '<td><button class="btn btn-success" id="noShare" onclick="freindSharing('+ result.memId + ');">일정공유</button></td>';
+									}
+									var value = '';
+									value += '<div id="resultSearch">'
+										 + '<div align="right"><b onclick="searchCancel();">X</b></div>' 
+										 + '<img id="friendImg" src="resources/myPage/user.png" alt="">'
+									 	 + '<p class="marginTop0px" id="searchId">아이디 : '+ result.memId +'</p>'
+									     + '<p class="marginTop0px" id="searchNick">닉네임 : '+ result.memNick +'</p>'
+									     + '<table id="buttonTable">'
+										 + '<tr align="center">'
+										 +	'<td><button class="btn btn-success marginBotton20px">쪽지</button></td>'
+										 +	'<td></td>'
+										 + '<td><button class="btn btn-success marginBotton20px">채팅</button></td>'
+										 + '</tr>'
+										 + '<tr>'
+										 + btn
+										 + '<td></td>'
+										 + '<td><button class="btn btn-success" onclick="friendDelete('+ result.memId + ');">친구 삭제</button></td>'
+										 + '</tr>'
+									     + '</table>'
+									     + '<br>'
+									     + '</div>'	;
+									$('#result').html(value);
+								}
+							},
+							error : function(){
+								console.log("실패");
+							}
+						});
+					};
+
+					function searchCancel(){
+						location.href = location.href;
+					}
+					
+					function freindSharing(memId){
+						if(window.confirm('일정을 공유하시겠습니까?')){
+							$('#friendId').val(memId); $('#friendForm').attr('action', 'freindSharing.me').submit();
+						} else{
+							alert('취소하셨습니다.');
+						}
+					}
+					
+					function sharingCancellation(memId){
+						if(window.confirm('일정을 공유를 취소하시겠습니까?')){
+							$('#friendId').val(memId); $('#friendForm').attr('action', 'sharingCancellation.me').submit();
+						} else{
+							alert('취소하셨습니다.');
+						}
+					}
+					
+					function friendDelete(memId){
+						const friDelete = window.prompt('친구를 삭제하시려면 "삭제하겠습니다." ""안에 있는 문자를 똑같이 입력해주세요.');
+						if(friDelete === '삭제하겠습니다.'){
+							$('#friendId').val(memId); $('#friendForm').attr('action', 'friendDelete.me').submit();
+						} else{
+							alert('잘못 입력하셨습니다.');
+						}
+			
+					}
+					
+					
 				</script>
 			</div>
 	</div>		

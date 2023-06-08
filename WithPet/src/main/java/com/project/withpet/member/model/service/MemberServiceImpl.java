@@ -291,5 +291,27 @@ public class MemberServiceImpl implements MemberService {
 	public ArrayList<Member> myPageFriend(PageInfo pi){
 		return memberDao.myPageFriend(sqlSession, pi);
 	}
+	
+	@Override
+	public int friendDelete(Friend fri) {
+		return memberDao.friendDelete(sqlSession, fri);
+	}
+	
+	@Override
+	public int freindSharing(Friend fri) {
+		return memberDao.freindSharing(sqlSession, fri);
+	}
+	
+	@Override
+	public int sharingCancellation(Friend fri) {
+		return memberDao.sharingCancellation(sqlSession, fri);
+	}
+	
+	@Override
+	public Member friendSearch(Friend fri) {
+		return memberDao.friendSearch(sqlSession, fri);
+	}
+	
+
 
 }

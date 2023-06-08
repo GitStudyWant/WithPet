@@ -432,8 +432,10 @@
 				,MEM_STATUS memStatus
 				,MEM_UPDATE memUpdate
 				,MEM_KAKAOID memKakaoId
+				,(select count(*) from diary_share where share_sender = #{memberId} and share_receiver = member.mem_id) friendShare
 		   from
 		       member
+		   Left join  diary_share on(mem_id = share_sender)
 		 where
 		       mem_id in(select friend_receiver from friend where friend_sender = #{memberId})
 		 order
@@ -441,5 +443,69 @@
 		       mem_id desc
 	</select>
 	
+	<delete id="friendDelete" parameterType="friend">
+		delete
+		  from
+		       friend
+		 where
+		       friend_sender = #{friendSender}
+		   and
+		       friend_receiver = #{friendReceiver}
+	</delete>
 	
-</mapper>
+	<insert id="freindSharing" parameterType="friend">
+		insert
+		  into
+		       diary_share
+		VALUES
+			   (
+			   #{friendSender}
+			   ,#{friendReceiver}
+			   )
+	</insert>
+	
+	<delete id="sharingCancellation" parameterType="friend">
+		delete
+		  from
+		       diary_share
+		 where
+		       share_sender = #{friendSender}
+		   and
+		       share_receiver = #{friendReceiver}
+	</delete>
+	
+	<select id="friendSearch" resultType="member" parameterType="friend">
+		select
+		      MEM_ID memId
+				,MEM_NICK memNick
+				,MEM_PWD memPwd
+				,MEM_PHONE memPhone
+				,MEM_EMAIL memEmail
+				,MEM_PHOTO memPhoto
+				,MEM_PATH memPath
+				,MEM_INTRO memIntro
+				,MEM_GRADE memGrade
+				,MEM_DATE memDate
+				,MEM_MEMO memMemo
+				,MEM_POINT memPoint
+				,MEM_REPORT memReport
+				,MEM_STATUS memStatus
+				,MEM_UPDATE memUpdate
+				,MEM_KAKAOID memKakaoId
+				,(select count(*) from diary_share where share_sender = #{friendSender} and share_receiver = member.mem_id) friendShare
+				,(select count(*) from friend where friend_sender = #{friendSender} and friend_receiver = #{friendReceiver}) "resultSearch"
+		  from
+		        member
+		 where
+		        mem_id = #{friendReceiver}
+				  
+		        
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	</mapper>

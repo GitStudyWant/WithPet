@@ -310,8 +310,21 @@ public class MemberDao {
 		return (ArrayList)sqlSession.selectList("memberMapper.myPageFriend", pi, rowBounds);
 	}
 
-
+	public int friendDelete(SqlSessionTemplate sqlSession, Friend fri) {
+		return sqlSession.delete("memberMapper.friendDelete", fri);
+	}
 	
+	public int freindSharing(SqlSessionTemplate sqlSession, Friend fri) {
+		return sqlSession.insert("memberMapper.freindSharing", fri);
+	}
+	
+	public int sharingCancellation(SqlSessionTemplate sqlSession, Friend fri) {
+		return sqlSession.delete("memberMapper.sharingCancellation", fri);
+	}
+	
+	public Member friendSearch(SqlSessionTemplate sqlSession, Friend fri) {
+		return sqlSession.selectOne("memberMapper.friendSearch", fri);
+	}
 	
 	
 	
