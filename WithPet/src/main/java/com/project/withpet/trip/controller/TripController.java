@@ -55,7 +55,7 @@ public class TripController {
 		if(!upfile.getOriginalFilename().equals("")) {
 			//System.out.println(saveFile(upfile, session));
 			p.setPlaceOriginName(upfile.getOriginalFilename());
-			p.setPlaceChangeName("resources/uploadFiles/place/" + saveFile(upfile, session));
+			p.setPlaceChangeName("resources/uploadFiles/places/" + saveFile(upfile, session));
 		}
 		if(tripService.insertPlace(p)>0) {
 			session.setAttribute("alertMsg","장소 추가에 성공했습니다.");
@@ -281,6 +281,7 @@ public class TripController {
 		}
 		
 	}
+	
 	
 	
 }

@@ -42,4 +42,106 @@
 		 WHERE
 		     TR_NO = #{trNo}
 	</delete>
+	
+	<select id="taxiReservationList" resultType="taxiReservation">
+		SELECT 
+		      TAXI_RNO taxiRno
+		     ,TR_NO    trNo
+		     ,TO_CHAR(TAXI_RDATE,'YY/MM/DD') taxiRDate
+		     ,TAXI_RTIME taxiRTime
+		     ,STATUS status
+		     ,MEM_ID memId
+		     ,TR_TYPE2 trType2
+	    FROM
+	         TAXI_RESERVATION JOIN TRANSPORTATION 
+	         USING(TR_NO)
+	    ORDER
+	       BY
+	         TAXI_RNO
+	</select>
+	
+	<select id="carReservationList" resultType="carReservation">
+		SELECT 
+		      CAR_RNO carRno
+		     ,TR_NO trNo
+		     ,TO_CHAR(START_DATE,'YY-MM-DD') startDate
+		     ,TO_CHAR(END_DATE,'YY-MM-DD') endDate
+		     ,STATUS status
+		     ,MEM_ID memId
+		     ,TR_PAYMENT_NO trPaymentNo
+		     ,TO_CHAR(TR_PAYMENT_DATE, 'YY-MM-DD') trPaymentDate
+		     ,TR_CARD_NO trCardNo
+			 ,TR_TYPE2 trType2
+        FROM
+            CAR_RESERVATION JOIN TRANSPORTATION USING(TR_NO)
+        ORDER
+           BY
+             CAR_RNO
+	</select>
+	
+	<update id="deleteTReservation" parameterType="String">
+		UPDATE
+		      TAXI_RESERVATION
+		   SET
+		      STATUS = 'N'
+		WHERE
+		     TAXI_RNO = #{resNo}
+	</update>
+	
+	<update id="deleteCReservation" parameterType="String">
+		UPDATE
+		      CAR_RESERVATION
+		   SET
+		      STATUS = 'N'
+		WHERE
+		     CAR_RNO = #{resNo}
+	</update>
+	
+	<select id="adminPlaceList" resultType="place">
+		SELECT 
+		      PLACE_NO placeNo
+		     ,PLACE_TYPE placeType
+		     ,PLACE_NAME placeName
+		     ,PLACE_LOCATION placeLocation
+		     ,PLACE_PHONE placePhone
+		     ,PLACE_INFO placeInfo
+		     ,PLACE_CHANGE_NAME placeChangeName
+		     ,PLACE_COUNT placeCount
+		 FROM
+		     PLACE
+		ORDER
+		   BY
+		     PLACE_NO DESC
+	</select>
+	
+	<delete id="deletePlace" parameterType="_int">
+		DELETE 
+		      PLACE
+		 WHERE
+		      PLACE_NO = ${placeNo}
+	</delete>
+	
+	<select id="countPlaceList" resultType="_int">
+		SELECT
+		      COUNT(PLACE_NO)
+		  FROM
+		      PLACE
+	</select>
+	
+	<update id="modifyPlace" parameterType="place">
+		UPDATE 
+		      PLACE
+		   SET
+		      PLACE_TYPE = #{placeType}
+		     ,PLACE_NAME = #{placeName}
+		     ,PLACE_LOCATION = #{placeLocation}
+		     ,PLACE_LAT = #{placeLat}
+		     ,PLACE_LNG = #{placeLng}
+		     ,PLACE_PHONE = #{placePhone}
+		     ,PLACE_INFO = #{placeInfo}
+		     ,PLACE_ORIGIN_NAME = #{placeOriginName}
+		     ,PLACE_CHANGE_NAME = #{placeChangeName}
+		WHERE
+		     PLACE_NO = #{placeNo}    
+	</update>
 </mapper>

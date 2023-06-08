@@ -66,7 +66,6 @@
  	$(function(){
  		
  		console.log('$(this).children().eq(3).text()');
- 		console.log(진입성공?);
  		
 	 	$.ajax({
 				url : 'detail.place',

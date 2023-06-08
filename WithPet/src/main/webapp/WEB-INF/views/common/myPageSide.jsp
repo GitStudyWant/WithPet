@@ -144,7 +144,7 @@
                         <th><a href="myPage.me">내 활동</a></th>
                     </tr>
                     <tr>
-                        <th><a href="#">내 예약</a></th>
+                        <th><a href="myReservation">내 예약</a></th>
                     </tr>
                     <tr>
                         <th><a href="#">내 코스</a></th>
