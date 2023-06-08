@@ -59,6 +59,12 @@ public class MemberController {
 	@Autowired
 	private BCryptPasswordEncoder bcryptPasswordEncoder;
 	
+	@RequestMapping("sendBack.me")
+	public void sendBack(HttpServletResponse response) throws IOException {
+		response.setContentType("text/html; charset=UTF-8");
+		response.getWriter().print("http://localhost:8787/withpet");
+	}
+	
 	@RequestMapping(value="idCheck.me", produces="application/json; charset=UTF-8")
 	public void idCheck(String checkId, HttpServletResponse response) throws ServletException, IOException {
 		
@@ -300,6 +306,7 @@ public class MemberController {
 		mv.setViewName("member/diary/memberDiary");
 		
 		return mv;
+		
 	}
 	
 	@ResponseBody
@@ -307,13 +314,6 @@ public class MemberController {
 	public String selectSchedules(Schedule schedule, ModelAndView mv){
 
 		ArrayList<Schedule> schedules = memberService.selectSchedules(schedule); 
-		
-		System.out.println(schedule);
-		System.out.println(schedules);
-		System.out.println(new Gson().toJson(schedules));
-		
-		//mv.addAttribute("schedules", new Gson().toJson(schedules));
-		//mv.setViewName("member/diary/memberDiary");
 		
 		return new Gson().toJson(schedules);
 	}
@@ -830,7 +830,6 @@ public class MemberController {
 		pi.setMemberId(memberId);
 		
 		ArrayList<Member> list = memberService.myPageFriend(pi);
-		
 		if(list.isEmpty()) {
 			m.addAttribute("friendList", list);
 			return "member/friend/myPageFriend";
@@ -839,6 +838,58 @@ public class MemberController {
 			m.addAttribute("pi", pi);
 			m.addAttribute("friendList", list);
 			return "member/friend/myPageFriend";
+		}
+	}
+	
+	@PostMapping("friendDelete.me")
+	public String friendDelete(String memberId, String friendId, Model m){
+		Friend fri = new Friend(memberId, friendId);
+		
+		if(memberService.friendDelete(fri) > 0) {
+			m.addAttribute("alertMsg", "친구 삭제에 성공하셨습니다.");
+			return "redirect:myPageFriend.me";
+		}else {
+			m.addAttribute("alertMsg", "친구 삭제에 실패하셨습니다.");
+			return "redirect:myPageFriend.me";
+		}
+	}
+	
+	@PostMapping("freindSharing.me")
+	public String freindSharing(String memberId, String friendId, Model m) {
+		Friend fri = new Friend(memberId, friendId);
+		
+		if(memberService.freindSharing(fri) > 0) {
+			m.addAttribute("alertMsg", "친구 일정 공유에 성공하셨습니다.");
+			return "redirect:myPageFriend.me";
+		} else {
+			m.addAttribute("alertMsg", "친구 일정 공유에 실패하셨습니다.");
+			return "redirect:myPageFriend.me";
+		}
+	}
+	
+	@PostMapping("sharingCancellation.me")
+	public String sharingCancellation(String memberId, String friendId, Model m) {
+		Friend fri = new Friend(memberId, friendId);
+		
+		if(memberService.sharingCancellation(fri) > 0) {
+			m.addAttribute("alertMsg", "친구 일정 공유 취소에 성공하셨습니다.");
+			return "redirect:myPageFriend.me";
+		} else {
+			m.addAttribute("alertMsg", "친구 일정 공유 취소에 실패하셨습니다.");
+			return "redirect:myPageFriend.me";
+		}
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="friendSearch.me", produces="application/json; charset=UTF-8")
+	public String friendSearch(String friendSearch, String memberId, Model m) {
+		Friend fri = new Friend(memberId, friendSearch);
+		Member member = memberService.friendSearch(fri);
+		System.out.println(member);
+		if(member != null) {
+			return new Gson().toJson(member);
+		}else {
+			return new Gson().toJson("없음");
 		}
 	}
 	

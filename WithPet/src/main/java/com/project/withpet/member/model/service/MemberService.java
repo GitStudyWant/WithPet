@@ -218,7 +218,6 @@ public interface MemberService {
 	public ArrayList<Board> writingBoard(String memId);
 
 	public ArrayList<Comments> writingReply(String memId);
-
 	
 	public ArrayList<Board> likesBoard(String memId);
 	
@@ -255,4 +254,13 @@ public interface MemberService {
 	public int friendCount(String memberId);
 	
 	public ArrayList<Member> myPageFriend(PageInfo pi);
+	
+	public int friendDelete(Friend fri);
+	
+	public int freindSharing(Friend fri);
+	
+	public int sharingCancellation(Friend fri);
+	
+	public Member friendSearch(Friend fri);
+	
 }
