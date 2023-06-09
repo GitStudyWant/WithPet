@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.project.withpet.admin.model.dao.AdminDao;
 import com.project.withpet.board.common.model.vo.PageInfo;
+import com.project.withpet.member.model.vo.Member;
 import com.project.withpet.trip.model.vo.CarReservation;
 import com.project.withpet.trip.model.vo.Place;
 import com.project.withpet.trip.model.vo.TaxiReservation;
@@ -93,6 +94,16 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public int countTrRes(Transportation t) {
 		return adminDao.countTrRes(sqlSession, t);
+	}
+
+	@Override
+	public ArrayList<Member> adminMemberList(PageInfo pi) {
+		return adminDao.adminMemberList(sqlSession, pi);
+	}
+
+	@Override
+	public int adminMemberListCount() {
+		return adminDao.adminMemberListCount(sqlSession);
 	}
 
 

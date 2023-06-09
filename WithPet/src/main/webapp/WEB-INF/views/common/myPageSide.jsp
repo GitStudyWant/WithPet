@@ -148,13 +148,13 @@
                         <th><a onclick="myPage();">내 활동</a></th>
                     </tr>
                     <tr>
-                        <th><a href="memberMemoMain.me">쪽지</a></th>
+                        <th><a href="receiveMemo">쪽지</a></th>
                     </tr>
                     <tr>
                         <th><a onclick="myPage();">채팅</a></th>
                     </tr>
                     <tr>
-                        <th><a href="memberDiaryMain.me">다이어리</a></th>
+                        <th><a href="memberDiaryMain">다이어리</a></th>
                     </tr>
                     <tr>
                         <th><a href="myPageFriend.me">친구</a></th>

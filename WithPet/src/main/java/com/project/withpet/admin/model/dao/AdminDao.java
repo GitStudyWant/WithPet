@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.project.withpet.board.common.model.vo.PageInfo;
+import com.project.withpet.member.model.vo.Member;
 import com.project.withpet.trip.model.vo.CarReservation;
 import com.project.withpet.trip.model.vo.Place;
 import com.project.withpet.trip.model.vo.TaxiReservation;
@@ -63,6 +64,16 @@ public class AdminDao {
 
 	public int modifyPlace(SqlSessionTemplate sqlSession, Place p) {
 		return sqlSession.update("adminMapper.modifyPlace", p);
+	}
+	
+	public ArrayList<Member> adminMemberList(SqlSessionTemplate sqlSession, PageInfo pi){
+		int offset = (pi.getCurrentPage() - 1)* pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("adminMapper.adminMemberList",null,rowBounds);
+	}
+	
+	public int adminMemberListCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("adminMapper.adminMemberListCount");
 	}
 
 
