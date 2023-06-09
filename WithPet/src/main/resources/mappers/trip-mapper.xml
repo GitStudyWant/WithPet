@@ -180,6 +180,8 @@
 		      TAXI_RTIME = #{taxiRTime}
 		   AND 
 		      TAXI_RDATE = #{taxiRDate}
+		   AND 
+		      STATUS = 'Y'
 	</select>
 	
 	<select id="findTaxiNo" resultType="_int">
@@ -211,7 +213,8 @@
 		 			   	 			         TAXI_RDATE = #{taxiRDate} AND 
 		 			   	 			         TAXI_RTIME = #{taxiRTime}) AND 
 		 			   	 			         TR_TYPE= 'T' AND 
-		 			   	 			         TR_TYPE2 = #{trType2}
+		 			   	 			         TR_TYPE2 = #{trType2} AND
+		 			   	 			         STATUS = 'Y'
 	</select>
 	
 	<insert id="taxiReservation" parameterType="taxiReservation">
@@ -249,6 +252,8 @@
 		             TR_TYPE2 = #{trType2}
 		          AND
 		             END_DATE >= #{startDate} 
+		          AND
+		             STATUS = 'Y'
 		       GROUP
 		          BY
 		            TR_NO)
@@ -282,7 +287,8 @@
 		 			 			  WHERE 
 		 			 			       END_DATE >= #{startDate}) AND 
 		 			 			       TR_TYPE='C' AND 
-		 			 			       TR_TYPE2 = #{trType2}
+		 			 			       TR_TYPE2 = #{trType2} AND
+		 			 			       STATUS = 'Y'
 	</select>
 	
 	<select id="checkFee" resultType="_int">

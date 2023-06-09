@@ -1,6 +1,10 @@
 package com.project.withpet.admin.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 
 import javax.servlet.http.HttpSession;
 
@@ -8,9 +12,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.google.gson.Gson;
 import com.project.withpet.admin.model.service.AdminService;
+import com.project.withpet.board.common.model.vo.PageInfo;
+import com.project.withpet.board.common.template.Pagination;
+import com.project.withpet.trip.model.vo.Place;
+import com.project.withpet.trip.model.vo.TaxiReservation;
 import com.project.withpet.trip.model.vo.Transportation;
 
 @Controller
@@ -53,12 +64,119 @@ public class AdminController {
 	public String deleteTr(int trNo) {
 		System.out.println(trNo);
 		if(adminService.deleteTr(trNo) > 0) {
-			System.out.println("0보다 크다" +adminService.deleteTr(trNo));
 			return "Y";
 		}else {
-			System.out.println("아님.." +adminService.deleteTr(trNo));
 			return "N";
 		}
 	}
+	
+	
 
+	@RequestMapping("transReservationList")
+	public String taxiReservationList(Model m) {
+		
+		ArrayList<TaxiReservation> tList = adminService.taxiReservationList();
+		m.addAttribute("tList", tList);
+		
+		return "admin/transReservationList";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="carReservationList",produces="application/json; charset=UTF-8")
+	public String carReservationList() {
+		return new Gson().toJson(adminService.carReservationList());
+	}
+	
+	@ResponseBody
+	@RequestMapping("deleteTReservation")
+	public String deleteTReservation(String resNo, String trType) {
+		int result = 0;
+		
+		if(trType.equals("T")) {
+			result = adminService.deleteTReservation(resNo);
+		} else {
+			result= adminService.deleteCReservation(resNo);
+		}
+	
+		if(result > 0) {
+			return "Y";
+		} else {
+			return "N";
+		}
+	}
+	
+	@RequestMapping("adminPlaceList")
+	public String placeList(@RequestParam(value="cPage", defaultValue="1") int currentPage, Model m) {
+		
+		PageInfo pi = Pagination.getPageInfo(adminService.countPlaceList(), currentPage, 10, 5);
+		
+		ArrayList<Place> pList = adminService.adminPlaceList(pi);
+		m.addAttribute("pi", pi);
+		m.addAttribute("pList",pList);
+		return "admin/adminPlaceList";
+	}
+	
+	@ResponseBody
+	@RequestMapping("deletePlace")
+	public String deletePlace(int placeNo) {
+		if(adminService.deletePlace(placeNo) > 0) {
+			return "Y";
+		} else {
+			return "N";
+		}
+	}
+	
+	@RequestMapping("modifyPlace")
+	public String modifyPlace(Place p, MultipartFile upfile, HttpSession session) {
+		
+		switch(p.getPlaceType()){
+			case "식당/카페": p.setPlaceType("A"); break;
+			case "숙박": p.setPlaceType("B"); break;
+			default : p.setPlaceType("C");
+		}
+		
+		if(!upfile.getOriginalFilename().equals("")) {
+			
+			if(!p.getPlaceChangeName().equals("")) {
+				new File(session.getServletContext().getRealPath(p.getPlaceChangeName())).delete();
+				p.setPlaceOriginName(upfile.getOriginalFilename());
+				p.setPlaceChangeName("resources/uploadFiles/places/" + saveFile(upfile, session));
+			} else {
+				p.setPlaceOriginName(upfile.getOriginalFilename());
+				p.setPlaceChangeName("resources/uploadFiles/places/" + saveFile(upfile, session));
+			}
+			
+		}
+		
+		System.out.println(p);
+		
+		if(adminService.modifyPlace(p) > 0) {
+			session.setAttribute("alertMsg","수정에 성공했습니다.");
+			return "redirect:adminPlaceList";
+		} else {
+			session.setAttribute("alertMsg","수정에 실패했습니다.");
+			return "redirect:adminPlaceList";
+		}
+	}
+	
+	
+	public String saveFile(MultipartFile upfile, 
+			 HttpSession session) {
+	
+		String originName = upfile.getOriginalFilename();
+		String currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+		int ranNum = (int)(Math.random() * 90000 + 10000);
+		String ext = originName.substring(originName.lastIndexOf("."));
+		String changeName = "WITHPET"+currentTime + ranNum + ext;
+		String savePath = session.getServletContext().getRealPath("/resources/uploadFiles/places/");
+		
+		try {
+			upfile.transferTo(new File(savePath + changeName));
+			} catch (IllegalStateException | IOException e) {
+			e.printStackTrace();
+			}
+		
+		return changeName;
+		
+		}
 }

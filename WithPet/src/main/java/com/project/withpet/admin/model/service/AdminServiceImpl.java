@@ -7,6 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.withpet.admin.model.dao.AdminDao;
+import com.project.withpet.board.common.model.vo.PageInfo;
+import com.project.withpet.trip.model.vo.CarReservation;
+import com.project.withpet.trip.model.vo.Place;
+import com.project.withpet.trip.model.vo.TaxiReservation;
 import com.project.withpet.trip.model.vo.Transportation;
 
 @Service
@@ -35,8 +39,56 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public int deleteTr(int trNo) {
-		System.out.println("서비스 결과 : " + adminDao.deleteTr(sqlSession, trNo));
 		return adminDao.deleteTr(sqlSession, trNo);
 	}
 
+
+	@Override
+	public ArrayList<TaxiReservation> taxiReservationList() {
+		return adminDao.taxiReservationList(sqlSession);
+	}
+
+
+	@Override
+	public ArrayList<CarReservation> carReservationList() {
+		return adminDao.carReservationList(sqlSession);
+	}
+
+
+	@Override
+	public int deleteTReservation(String resNo) {
+		return adminDao.deleteTReservation(sqlSession, resNo);
+	}
+
+
+	@Override
+	public int deleteCReservation(String resNo) {
+		return adminDao.deleteCReservation(sqlSession, resNo);
+	}
+
+
+	@Override
+	public int deletePlace(int placeNo) {
+		return adminDao.deletePlace(sqlSession, placeNo);
+	}
+
+	@Override
+	public int countPlaceList() {
+		return adminDao.countPlaceList(sqlSession);
+	}
+
+
+	@Override
+	public ArrayList<Place> adminPlaceList(PageInfo pi) {
+		return adminDao.adminPlaceList(sqlSession, pi);
+	}
+
+
+	@Override
+	public int modifyPlace(Place p) {
+		return adminDao.modifyPlace(sqlSession, p);
+	}
+
+
+	
 }

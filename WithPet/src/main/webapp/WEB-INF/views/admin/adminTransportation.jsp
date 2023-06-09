@@ -63,40 +63,8 @@
 		text-align: center;
 	}
 	
-	.thHigh:hover{
-		color:rgb(73, 166, 112);
-	}
-
-	.width10{
-		width : 10%;
-	}
-	#boardList{
-		border-top : 1px solid #dee2e6;
-	}
-	#boardList tr{
-		height : 60px;
-	}
-	#boardList>tbody p{
-		margin-bottom: 0px;
-		margin-top : 10px;
-	}
-
-	#foogg{
-		width : 100%;
-        height : 65px;
-	}
-
-    #foogg>thead>tr{
-        width: 25%;
-    }
-
-	.inCheck{
-		width :20px;
-		height: 20px;
-		margin-right: 40px;
-	}
 	
-	button{
+	.btnn{
 	
 		font-size: small;
 		border-radius: 5px;
@@ -105,7 +73,6 @@
 		border: 1px rgb(73, 166, 112);
 		
 	}
-
 
 
 </style>
@@ -117,10 +84,10 @@
 	<div id="body">
 		<div id="mainmain">
 			<br>
-			<h3 style="text-align:center;">교통 예약 관리</h1>	
+			<h3 style="text-align:center;">교통 수단 관리</h1>	
 			<hr>
-			<button style="margin-left:800px" id="addBtn">추가</button>
-			<button id="deleteBtn">삭제</button>
+			<button style="margin-left:800px" id="addBtn" class="btnn">추가</button>
+			<button id="deleteBtn" class="btnn">삭제</button>
 			<table id="naviTable" align="center" style="margin-left:50px">
 				<thead>
 					<tr>
@@ -255,7 +222,7 @@
                  </tr>
                 <tr style="height: 10px;"></tr>
                 </table>
-             <button type="submit" style="margin-left: 200px;" id="submitBtn2" onclick="return goAdd();">추가하기</button>
+             <button type="submit" style="margin-left: 200px;" id="submitBtn2" onclick="return goAdd();" class="btnn">추가하기</button>
             </form>
        </div>
      </div>
