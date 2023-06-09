@@ -29,27 +29,35 @@
 		text-align:center;
 		font-size:35px;
 	}
+	
+	#mypageFooter{
+		margin-top:1000px;
+	}
 
 
 
 </style>
 </head>
 <body>
-<jsp:include page="../../common/myPageSide.jsp" /></div>
+<jsp:include page="../../common/myPageSide.jsp" />
 	
 	<div id="body">	
 		    <p>내 예약 조회</p>
+		    <hr>
 		    <div id="myReservationmain">
 		    <div class="container" style="width:75%;">
 
 		        <div id="wrapper">
 		         
 		        </div>
-		
-			
+			</div>
+		</div>
+	</div>
 	
 	
-	<div id="diaryFooter"><jsp:include page="../../common/footer.jsp" /></div>
+	
+
+<div id="mypageFooter"><jsp:include page="../../common/footer.jsp" /></div>
 
 </body>
 </html>
