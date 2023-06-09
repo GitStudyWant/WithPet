@@ -110,7 +110,7 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Override
 	public ArrayList<Memo> selectMemoSend(String memId, PageInfo pi) {
-		return memberDao.selectMemoGet(sqlSession, memId, pi);
+		return memberDao.selectMemoSend(sqlSession, memId, pi);
 	}
 
 	@Override
@@ -173,8 +173,11 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	
-	
-	
+	@Override
+	public int deleteCourse(MyPlace m) {
+		return memberDao.deleteCourse(sqlSession, m);
+	}
+
 	
 	
 	
@@ -309,6 +312,9 @@ public class MemberServiceImpl implements MemberService {
 	public Member friendSearch(Friend fri) {
 		return memberDao.friendSearch(sqlSession, fri);
 	}
+
+	
+	
 
 
 

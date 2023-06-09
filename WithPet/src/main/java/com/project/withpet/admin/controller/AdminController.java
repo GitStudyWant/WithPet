@@ -33,8 +33,13 @@ public class AdminController {
 	
 	
 	@RequestMapping("adminPage")
-	public String adminPage() {
-		return "admin/adminMyPageMain";
+	public String adminPage(HttpSession session) {
+		if(session.getAttribute("loginMember") == null) {
+			session.setAttribute("alertMsg","로그인 후 이용해주세요~");
+			return "common/main";
+		} else {
+			return "admin/adminMyPageMain";
+		}
 	}
 	
 	@RequestMapping("adminTransportation")
@@ -62,17 +67,19 @@ public class AdminController {
 	
 	@ResponseBody
 	@RequestMapping("deleteTr")
-	public String deleteTr(int trNo) {
-		System.out.println(trNo);
-		if(adminService.deleteTr(trNo) > 0) {
-			return "Y";
-		}else {
-			return "N";
+	public String deleteTr(Transportation t) {
+		int result = adminService.countTrRes(t);
+		if(result == 0) {
+			if(adminService.deleteTr(t.getTrNo()) > 0) {
+				return "Y";
+			}else {
+				return "N";
+			}
+		} else {
+			return "NN";
 		}
 	}
 	
-	
-
 	@RequestMapping("transReservationList")
 	public String taxiReservationList(Model m) {
 		

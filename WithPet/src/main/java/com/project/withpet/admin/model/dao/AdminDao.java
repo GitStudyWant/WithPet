@@ -24,6 +24,10 @@ public class AdminDao {
 		return sqlSession.insert("adminMapper.addTransportation", t);
 	}
 
+	public int countTrRes(SqlSessionTemplate sqlSession, Transportation t) {
+		return sqlSession.selectOne("adminMapper.countTrRes", t);
+	}
+	
 	public int deleteTr(SqlSessionTemplate sqlSession, int trNo) {
 		return sqlSession.delete("adminMapper.deleteTr", trNo);
 	}
@@ -71,5 +75,6 @@ public class AdminDao {
 	public int adminMemberListCount(SqlSessionTemplate sqlSession) {
 		return sqlSession.selectOne("adminMapper.adminMemberListCount");
 	}
+
 
 }

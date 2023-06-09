@@ -16,6 +16,7 @@ import com.project.withpet.member.model.vo.Member;
 import com.project.withpet.member.model.vo.Memo;
 import com.project.withpet.member.model.vo.Passward;
 import com.project.withpet.member.model.vo.Schedule;
+import com.project.withpet.trip.model.vo.MyPlace;
 import com.project.withpet.trip.model.vo.Place;
 
 @Repository
@@ -358,6 +359,10 @@ public class MemberDao {
 
 	public ArrayList<Place> myCourse(SqlSessionTemplate sqlSession, String memId) {
 		return (ArrayList)sqlSession.selectList("memberMapper.myCourse", memId);
+	}
+
+	public int deleteCourse(SqlSessionTemplate sqlSession, MyPlace m) {
+		return sqlSession.delete("memberMapper.deleteCourse", m);
 	}
 	
 	

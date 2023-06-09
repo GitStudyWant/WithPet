@@ -12,6 +12,7 @@ import com.project.withpet.member.model.vo.Memo;
 import com.project.withpet.member.model.vo.Passward;
 import com.project.withpet.member.model.vo.Point;
 import com.project.withpet.member.model.vo.Schedule;
+import com.project.withpet.trip.model.vo.MyPlace;
 import com.project.withpet.trip.model.vo.Place;
 
 public interface MemberService {
@@ -75,6 +76,7 @@ public interface MemberService {
 	
 	public ArrayList<Place> myCourse(String memId);
 	
+	public int deleteCourse(MyPlace m);
 	
 	
 	
