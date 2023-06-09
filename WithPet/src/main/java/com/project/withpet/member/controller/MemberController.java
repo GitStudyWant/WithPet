@@ -46,6 +46,7 @@ import com.project.withpet.member.model.vo.Friend;
 import com.project.withpet.member.model.vo.Member;
 import com.project.withpet.member.model.vo.Passward;
 import com.project.withpet.member.model.vo.Schedule;
+import com.project.withpet.trip.model.vo.Place;
 
 @Controller
 public class MemberController {
@@ -347,6 +348,103 @@ public class MemberController {
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// 마이페이지 trip관련 조회 메뉴 추가 
+	
+	@RequestMapping("myReservation")
+	public String myReservation(Model m) {
+		return "member/reservation/myReservation";
+	}
+	
+	@RequestMapping("myCourse")
+	public String myCourse(Model m, HttpSession session) {
+		
+		if(session.getAttribute("loginMember") == null) {
+			session.setAttribute("alertMsg","로그인 후 이용해주세요~");
+			return "common/main";
+		} else {
+			
+		String memId = ((Member)session.getAttribute("loginMember")).getMemId();
+		ArrayList<Place> myCourse = memberService.myCourse(memId);
+		System.out.println(myCourse);
+		m.addAttribute("myCourse", myCourse);
+		return "member/course/myCourse";
+		
+		}
+	}
 	
 	
 	

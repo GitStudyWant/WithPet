@@ -12,5 +12,6 @@ public class MyPlace {
 	private String placeNo3;
 	private String placeNo4;
 	private String placeNo5;
-
+	
+	
 }

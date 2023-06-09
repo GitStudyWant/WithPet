@@ -558,7 +558,22 @@
 		        
 	</select>
 	
-	
+	<select id="myCourse" resultType="Place">
+		SELECT
+		      COURSE_SE courseSe
+		     ,PLACE_SE placeSe
+		     ,PLACE_NO placeNo
+		     ,PLACE_TYPE placeType
+		     ,PLACE_NAME placeName
+		     ,PLACE_LOCATION placeLocation
+		 FROM
+		      MY_PLACE JOIN PLACE USING(PLACE_NO)
+		 WHERE
+		      MEM_ID = #{memId}
+		 ORDER
+		    BY
+		      COURSE_SE, PLACE_SE
+	</select>
 	
 	
 	
