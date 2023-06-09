@@ -43,6 +43,23 @@
 		     TR_NO = #{trNo}
 	</delete>
 	
+	<select id="countTrRes" parameterType="transportation" resultType="_int">
+		SELECT 
+		      COUNT(TR_NO)
+		 <if test='trType == "T"'>
+		 FROM 
+		     TAXI_RESERVATION
+		 </if>
+		 <if test='trType == "C"'>
+		 FROM
+		     CAR_RESERVATION
+		 </if>
+		 WHERE
+		      TR_NO = #{trNo} AND 
+		      STATUS = 'Y'
+	</select>
+
+	
 	<select id="taxiReservationList" resultType="taxiReservation">
 		SELECT 
 		      TAXI_RNO taxiRno

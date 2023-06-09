@@ -446,6 +446,7 @@
 						<button onclick="saveMyCourse();">코스 저장</button>
 						<button onclick="initTmap();">지도 조회</button>
 						<button id="addPlace"><a data-bs-toggle="modal" data-bs-target="#placeModal">새 장소 추가</a></button>
+						<button onclick="resetMyCourse();">선택장소 초기화</button>
 						<br>
 						<b>[ 선택한 장소  ]</b>  
 						<table id="myChoiceList" align="center">
@@ -461,41 +462,41 @@
 								<tr id="my1">
 									<td><b>출발지 :</b></td>
 									<td id="pn1"></td>
-									<td class="placeName"></td>
-									<td><input type="hidden" value=""></td>
-									<td><input type="hidden" value=""></td>
+									<td class="placeName" id="1pname"></td>
+									<td><input type="hidden" value="" id="1w"></td>
+									<td><input type="hidden" value="" id="1g"></td>
 									<td><button onclick="deleteMyPlace1(1);">X</button></td>
 								</tr>
 								<tr id="my2" class="mylist">
 									<td><b>2번 :</b></td>
 									<td id="pn2"></td>
-									<td class="placeName"></td>
-									<td><input type="hidden" value=""></td>
-									<td><input type="hidden" value=""></td>
+									<td class="placeName" id="2pname"></td>
+									<td><input type="hidden" value="" id="2w"></td>
+									<td><input type="hidden" value="" id="2g"></td>
 									<td><button onclick="deleteMyPlace1(2);">X</button></td>
 								</tr>
 								<tr id="my3" class="mylist">
 									<td><b>3번 :</b></td>
 									<td id="pn3"></td>
-									<td class="placeName"></td>
-									<td><input type="hidden" value=""></td>
-									<td><input type="hidden" value=""></td>
+									<td class="placeName" id="3pname"></td>
+									<td><input type="hidden" value="" id="3w"></td>
+									<td><input type="hidden" value="" id="3g"></td>
 									<td><button onclick="deleteMyPlace1(3);">X</button></td>
 								</tr>
 								<tr id="my4" class="mylist">
 									<td><b>4번 :</b></td>
 									<td id="pn4"></td>
-									<td class="placeName"></td>
-									<td><input type="hidden" value=""></td>
-									<td><input type="hidden" value=""></td>
+									<td class="placeName" id="4pname"></td>
+									<td><input type="hidden" value="" id="4w"></td>
+									<td><input type="hidden" value="" id="4g"></td>
 									<td><button onclick="deleteMyPlace1(4);">X</button></td>
 								</tr>
 								<tr id="my5" class="mylist">
 									<td><b>도착지 :</b></td>
 									<td id="pn5"></td>
-									<td class="placeName"></td>
-									<td><input type="hidden" value=""></td>
-									<td><input type="hidden" value=""></td>
+									<td class="placeName" id="5pname"></td>
+									<td><input type="hidden" value="" id="5w"></td>
+									<td><input type="hidden" value="" id="5g"></td>
 									<td><button onclick="deleteMyPlace1(5);">X</button></td>
 								</tr>
 							</tbody>
@@ -508,17 +509,12 @@
 
 					function addMyPlace1(num){
 						var checkbox = $("input[name=pick]:checked");
-						var pnum = checkbox.parent().parent().children().eq(3).text();
-						var pname = checkbox.parent().parent().children().eq(4).text();
-						var w = checkbox.parent().parent().children().eq(0).children().val();
-						var g = checkbox.parent().parent().children().eq(1).children().val();
+						var pnum = $("input[name=pick]:checked").val();
+						var pname = $('#'+pnum+'placeName').text();
+						var w = $('#'+pnum+'placeLng').val();
+						var g = $('#'+pnum+'placeLat').val();
 						var choice = '#my'+num;
 						var choice2 = '#my'+(num-1);
-						//console.log(w);
-						//console.log(g);
-						//console.log(pnum);
-						//console.log(pname);
-						//console.log(choice);
 
 						if(pnum !='' && pnum == $(choice2).children().eq(1).text()){
 							if(!confirm("이전 장소가 추가하려는 장소와 동일합니다. 계속 하시겠습니까?")){
@@ -526,10 +522,10 @@
 							} else {}
 						}
 
-						$(choice).children().eq(1).text(pnum);
-						$(choice).children().eq(2).text(pname);
-						$(choice).children().eq(3).children().val(w);
-						$(choice).children().eq(4).children().val(g);
+						$('#pn'+num).text(pnum);
+						$('#'+num+'pname').text(pname);
+						$('#'+num+'w').val(w);
+						$('#'+num+'g').val(g);
 						
 						if(pnum != ''){
 							$('.placeName').click(function(){
@@ -542,13 +538,23 @@
 					}
 
 					function deleteMyPlace1(num){
-
+						
 						var choice = '#my'+num;
-						$(choice).children().eq(1).text('');
-						$(choice).children().eq(2).text('');
-						$(choice).children().eq(3).children().text('');
-						$(choice).children().eq(4).children().text('');
-
+						$('#pn'+num).text('');
+						$('#'+num+'pname').text('');
+						$('#'+num+'w').val('');
+						$('#'+num+'g').val('');
+						
+					}
+					
+					function resetMyCourse(){
+						
+						deleteMyPlace1(1);
+						deleteMyPlace1(2);
+						deleteMyPlace1(3);
+						deleteMyPlace1(4);
+						deleteMyPlace1(5);
+						
 					}
 
 					function saveMyCourse(){
@@ -559,12 +565,12 @@
 							url :'checkMyCourse',
 							data : { memId : '${loginMember.memId}'},
 							success : function(result){
-								console.log(result);
-								console.log($('#pn1').val());
-								console.log($('#pn2').val());
-								console.log($('#pn3').val());
-								console.log($('#pn4').val());
-								console.log($('#pn5').val());
+								//console.log(result);
+								//console.log($('#pn1').val());
+								//console.log($('#pn2').val());
+								//console.log($('#pn3').val());
+								//console.log($('#pn4').val());
+								//console.log($('#pn5').val());
 								
 								if(result == 9){
 									if(confirm('이미 3개의 코스를 저장하셨습니다. 내 코스 페이지로 이동하시겠습니까?')){
@@ -593,8 +599,8 @@
 											console.log(result);
 											if(result == 'S'){
 												alert('코스 저장에 성공했습니다.');
-												$('#myChoice'>tbody>tr).children().eq(1).text('');
-												$('#myChoice'>tbody>tr).children().eq(1).text('');
+												$('#myChoice>tbody>tr').children().eq(1).text('');
+												$('#myChoice>tbody>tr').children().eq(1).text('');
 											} else {
 												alert('코스 저장에 실패했습니다.');
 											}
@@ -624,12 +630,12 @@
 									let placeList ='';
 									for(let i in result){
 										placeList+= '<tr>'
-												+ '<td>'+'<input type="hidden" value="'+result[i].placeLng+'">'+'</td>'
-												+ '<td>'+'<input type="hidden" value="'+result[i].placeLat+'">'+'</td>'
-												+ '<td>' + '<input type="radio" name="pick">' + '</td>'
-												+ '<td>'+ result[i].placeNo+ '</td>'
-												+ '<td class="placeName">'+ result[i].placeName + '<td>'
-												+ '</tr>'
+												 + '<td>'+'<input type="hidden" value="'+result[i].placeLng+'" id="'+result[i].placeNo+'placeLng">'+'</td>'
+												 + '<td>'+'<input type="hidden" value="'+result[i].placeLat+'" id="'+result[i].placeNo+'placeLat">'+'</td>'
+												 + '<td>' + '<input type="radio" name="pick" value="'+result[i].placeNo+'"></td>'
+												 + '<td>'+ result[i].placeNo+ '</td>'
+												 + '<td class="placeName" id="'+result[i].placeNo+'placeName">'+ result[i].placeName + '<td>'
+												 + '</tr>'
 									}
 									$('#allList>tbody').html(placeList);
 									$('#allList>tbody>tr>.placeName').click(function(){
@@ -654,12 +660,12 @@
 									console.log('베스트도 성공');
 									for(let i in result){	
 										bestList += '<tr>'
-												+ '<td>'+'<input type="hidden" value="'+result[i].placeLng+'">'+'</td>'
-												+ '<td>'+'<input type="hidden" value="'+result[i].placeLat+'">'+'</td>'
-												+ '<td>' + '<input type="radio" name="pick">' + '</td>'
-												+ '<td>'+ result[i].placeNo+ '</td>'
-												+ '<td class="placeName">'+ result[i].placeName + '<td>'
-												+ '</tr>'
+											     + '<td>'+'<input type="hidden" value="'+result[i].placeLng+'" id="'+result[i].placeNo+'placeLng">'+'</td>'
+											     + '<td>'+'<input type="hidden" value="'+result[i].placeLat+'" id="'+result[i].placeNo+'placeLat">'+'</td>'
+											     + '<td>' + '<input type="radio" name="pick" value="'+result[i].placeNo+'"></td>'
+											     + '<td>'+ result[i].placeNo+ '</td>'
+											     + '<td class="placeName" id="'+result[i].placeNo+'placeName">'+ result[i].placeName + '<td>'
+											     + '</tr>'
 									}
 									$('#bestlist>tbody').html(bestList);
 									$('.placeName').click(function(){

@@ -575,6 +575,15 @@
 		      COURSE_SE, PLACE_SE
 	</select>
 	
+	<delete id="deleteCourse" parameterType="MyPlace">
+		DELETE 
+		  FROM
+		      MY_PLACE
+		 WHERE
+		      MEM_ID = #{memId} AND
+		      COURSE_SE = #{courseSe}
+	</delete>
+	
 	
 	
 	

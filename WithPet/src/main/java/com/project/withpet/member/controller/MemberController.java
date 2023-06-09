@@ -46,6 +46,7 @@ import com.project.withpet.member.model.vo.Friend;
 import com.project.withpet.member.model.vo.Member;
 import com.project.withpet.member.model.vo.Passward;
 import com.project.withpet.member.model.vo.Schedule;
+import com.project.withpet.trip.model.vo.MyPlace;
 import com.project.withpet.trip.model.vo.Place;
 
 @Controller
@@ -446,6 +447,16 @@ public class MemberController {
 		}
 	}
 	
+	@ResponseBody
+	@RequestMapping("deleteCourse")
+	public String deleteCourse(MyPlace m) {
+		System.out.println(m);
+		if(memberService.deleteCourse(m) > 0) {
+			return "Y";
+		} else {
+			return "N";
+		}
+	}
 	
 	
 	

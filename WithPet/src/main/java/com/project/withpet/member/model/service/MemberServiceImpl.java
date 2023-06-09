@@ -170,8 +170,11 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	
-	
-	
+	@Override
+	public int deleteCourse(MyPlace m) {
+		return memberDao.deleteCourse(sqlSession, m);
+	}
+
 	
 	
 	
@@ -306,6 +309,9 @@ public class MemberServiceImpl implements MemberService {
 	public Member friendSearch(Friend fri) {
 		return memberDao.friendSearch(sqlSession, fri);
 	}
+
+	
+	
 
 
 

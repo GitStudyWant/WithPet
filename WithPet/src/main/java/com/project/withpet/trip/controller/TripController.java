@@ -31,7 +31,12 @@ public class TripController {
 	
 	@RequestMapping("placeList")
 	public String placeList(HttpSession session) {
-		return "trip/myplace";		
+		if(session.getAttribute("loginMember") == null) {
+			session.setAttribute("alertMsg","로그인 후 이용해주세요~");
+			return "common/main";
+		} else {
+			return "trip/myplace";		
+		}
 	}
 	
 	
@@ -171,52 +176,66 @@ public class TripController {
 	}
 	
 	@RequestMapping("transReservation")
-	public String transReservation() {
-		return "trip/taxiReservation2";
+	public String transReservation(HttpSession session) {
+		if(session.getAttribute("loginMember") == null) {
+			session.setAttribute("alertMsg","로그인 후 이용해주세요~");
+			return "common/main";
+		} else {
+			return "trip/taxiReservation2";
+		}
 	}
 	
 	@ResponseBody
 	@RequestMapping("checkTReservation")
-	public String checkTReservation(TaxiReservation r){
-
-		Transportation t = new Transportation();
-		t.setTrType2(r.getTrType2());
-		t.setTrType("T");
-		
-		String taxiRDate2 = r.getTaxiRDate().substring(0,3);
-		String taxiRDate3 = r.getTaxiRDate().substring(3,6);
-		String taxiRDate4 = taxiRDate3+taxiRDate2 + "23";
-		r.setTaxiRDate(taxiRDate4);
-		//System.out.println(r);
-		int result1 = tripService.checkTransportation(t);
-		
-		int result2 = tripService.checkTReservation(r);
-		
-		//System.out.println(result1);
-		//System.out.println(result2);
-		if(result1 == result2) {
-			return "No";
+	public String checkTReservation(TaxiReservation r, HttpSession session){
+		if(session.getAttribute("loginMember") == null) {
+			session.setAttribute("alertMsg","로그인 후 이용해주세요~");
+			return "common/main";
 		} else {
-			return "Yes";
+			Transportation t = new Transportation();
+			t.setTrType2(r.getTrType2());
+			t.setTrType("T");
+			
+			String taxiRDate2 = r.getTaxiRDate().substring(0,3);
+			String taxiRDate3 = r.getTaxiRDate().substring(3,6);
+			String taxiRDate4 = taxiRDate3+taxiRDate2 + "23";
+			r.setTaxiRDate(taxiRDate4);
+			//System.out.println(r);
+			int result1 = tripService.checkTransportation(t);
+			
+			int result2 = tripService.checkTReservation(r);
+			
+			//System.out.println(result1);
+			//System.out.println(result2);
+			if(result1 == result2) {
+				return "No";
+			} else {
+				return "Yes";
+			}
 		}
 	}
 	
 	@RequestMapping("taxiReservation")
 	public String taxiReservation(TaxiReservation r, HttpSession session) {
 		
-		String taxiRDate2 = r.getTaxiRDate().substring(0,3);
-		String taxiRDate3 = r.getTaxiRDate().substring(3,6);
-		String taxiRDate4 = taxiRDate3+taxiRDate2 + "23";
-		r.setTaxiRDate(taxiRDate4);
-		r.setTrNo(tripService.findTaxiNo(r));
-		
-		System.out.println(r);
-		if(tripService.taxiReservation(r)>0) {
-			session.setAttribute("alertMsg","택시 예약에 성공했습니다.");
-			return "redirect:transReservation";
+		if(session.getAttribute("loginMember") == null) {
+			session.setAttribute("alertMsg","로그인 후 이용해주세요~");
+			return "common/main";
 		} else {
-			session.setAttribute("alertMsg","택시 예약에 실패했습니다. 다시 시도해주세요");
-			return "redirect:transReservation";
+			String taxiRDate2 = r.getTaxiRDate().substring(0,3);
+			String taxiRDate3 = r.getTaxiRDate().substring(3,6);
+			String taxiRDate4 = taxiRDate3+taxiRDate2 + "23";
+			r.setTaxiRDate(taxiRDate4);
+			r.setTrNo(tripService.findTaxiNo(r));
+			
+			System.out.println(r);
+			if(tripService.taxiReservation(r)>0) {
+				session.setAttribute("alertMsg","택시 예약에 성공했습니다.");
+				return "redirect:transReservation";
+			} else {
+				session.setAttribute("alertMsg","택시 예약에 실패했습니다. 다시 시도해주세요");
+				return "redirect:transReservation";
+			}
 		}
 	}
 	
@@ -260,28 +279,32 @@ public class TripController {
 	@RequestMapping("carReservation")
 	public String carReservation(CarReservation c, HttpSession session) {
 		
-		String startDate2 = c.getStartDate().substring(0,3);
-		String startDate3 = c.getStartDate().substring(3,6);
-		String startDate4 = startDate3+startDate2 + "23";
-		c.setStartDate(startDate4);
-		
-		String endDate2 = c.getEndDate().substring(0,3);
-		String endDate3 = c.getEndDate().substring(3,6);
-		String endDate4 = endDate3+endDate2 + "23";
-		c.setEndDate(endDate4);
-		
-		int result = tripService.carReservation(c);
-		
-		if(result > 0) {
-			session.setAttribute("alertMsg","렌터카 예약에 성공했습니다.");
-			return "redirect:transReservation";
+		if(session.getAttribute("loginMember") == null) {
+			session.setAttribute("alertMsg","로그인 후 이용해주세요~");
+			return "common/main";
 		} else {
-			session.setAttribute("alertMsg","렌터카 예약에 실패했습니다. 다시 시도해주세요");
-			return "redirect:transReservation";
+			String startDate2 = c.getStartDate().substring(0,3);
+			String startDate3 = c.getStartDate().substring(3,6);
+			String startDate4 = startDate3+startDate2 + "23";
+			c.setStartDate(startDate4);
+			
+			String endDate2 = c.getEndDate().substring(0,3);
+			String endDate3 = c.getEndDate().substring(3,6);
+			String endDate4 = endDate3+endDate2 + "23";
+			c.setEndDate(endDate4);
+			
+			int result = tripService.carReservation(c);
+			
+			if(result > 0) {
+				session.setAttribute("alertMsg","렌터카 예약에 성공했습니다.");
+				return "redirect:transReservation";
+			} else {
+				session.setAttribute("alertMsg","렌터카 예약에 실패했습니다. 다시 시도해주세요");
+				return "redirect:transReservation";
+			}
 		}
-		
+			
 	}
-	
 	
 	
 }

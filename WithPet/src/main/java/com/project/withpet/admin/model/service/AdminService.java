@@ -14,6 +14,8 @@ public interface AdminService {
 	
 	int addTransportation(Transportation t);
 	
+	int countTrRes(Transportation t);
+	
 	int deleteTr(int trNo);
 	
 	ArrayList<TaxiReservation> taxiReservationList();

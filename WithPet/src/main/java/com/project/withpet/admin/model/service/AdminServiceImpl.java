@@ -90,5 +90,11 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 
+	@Override
+	public int countTrRes(Transportation t) {
+		return adminDao.countTrRes(sqlSession, t);
+	}
+
+
 	
 }
