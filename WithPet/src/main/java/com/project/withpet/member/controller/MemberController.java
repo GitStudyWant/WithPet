@@ -642,12 +642,6 @@ public class MemberController {
 	
 	
 	
-	
-	
-	
-	
-	
-	
 	// 諛뺣�쇱꽦
 	
 	// �옉�꽦湲� 蹂닿린
