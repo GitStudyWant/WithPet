@@ -144,4 +144,42 @@
 		WHERE
 		     PLACE_NO = #{placeNo}    
 	</update>
+	
+	<select id="adminMemberListCount" resultType="_int">
+		SELECT
+		      COUNT(*)
+		  FROM
+		      MEMBER    
+	</select>
+	
+	<select id="adminMemberList" resultType="Member">
+		select
+		      mem_id
+		     ,mem_nick
+		     ,mem_grade
+		     ,to_char(mem_date, 'YYYY-MM-DD') as "mem_date"
+		     ,mem_point
+		     ,mem_report
+		     ,mem_status
+		 from
+		     member
+		order
+		   by
+		     mem_id desc		     
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 </mapper>
