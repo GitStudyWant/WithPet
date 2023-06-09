@@ -152,7 +152,7 @@
 		      MEMBER    
 	</select>
 	
-	<select id="adminMemberList" resultType="Member">
+	<select id="adminMemberList" resultType="member">
 		select
 		      mem_id
 		     ,mem_nick
