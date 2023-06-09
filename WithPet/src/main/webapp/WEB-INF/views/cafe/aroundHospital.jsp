@@ -67,15 +67,6 @@
     </div>
 </div>
 
-<h1>키워드를 통하여 검색 해주세요!</h1>
-<h4>ex) 동물병원,애견카페</h4>
-
-
-
-
-
-
-
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9149bcfe95ecd1041b2ea25398bf8190&libraries=services"></script>
 <script>
@@ -88,7 +79,10 @@ var mapContainer = document.getElementById('map'), // 지도를 표시할 div
         level: 3 // 지도의 확대 레벨
     };  
 
-// 지도를 생성합니다    
+// 지도를 생성합니다   
+console.log("11");
+console.log(new kakao.maps.Map(mapContainer, mapOption));
+console.log("11");
 var map = new kakao.maps.Map(mapContainer, mapOption); 
 
 // 장소 검색 객체를 생성합니다
@@ -295,6 +289,8 @@ function removeAllChildNods(el) {
         el.removeChild (el.lastChild);
     }
 }
+
+ 
 </script>
 </body>
 </html>

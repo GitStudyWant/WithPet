@@ -1,6 +1,5 @@
 package com.project.withpet.member.model.service;
 
-import java.sql.Date;
 import java.util.ArrayList;
 
 import com.project.withpet.board.common.model.vo.PageInfo;
@@ -13,6 +12,7 @@ import com.project.withpet.member.model.vo.Memo;
 import com.project.withpet.member.model.vo.Passward;
 import com.project.withpet.member.model.vo.Point;
 import com.project.withpet.member.model.vo.Schedule;
+import com.project.withpet.trip.model.vo.Place;
 
 public interface MemberService {
 	
@@ -73,7 +73,7 @@ public interface MemberService {
 	// 결제
 	
 	
-	
+	public ArrayList<Place> myCourse(String memId);
 	
 	
 	

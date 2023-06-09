@@ -46,6 +46,7 @@ import com.project.withpet.member.model.vo.Friend;
 import com.project.withpet.member.model.vo.Member;
 import com.project.withpet.member.model.vo.Passward;
 import com.project.withpet.member.model.vo.Schedule;
+import com.project.withpet.trip.model.vo.Place;
 
 @Controller
 public class MemberController {
@@ -109,7 +110,7 @@ public class MemberController {
 		if(memberService.insertMember(member) > 0) {
 			mv.setViewName("common/main");
 		} else { 
-			mv.addObject("errorMsg", "에러 발생").setViewName("common/errorPage");
+			mv.addObject("errorMsg", "�뿉�윭 諛쒖깮").setViewName("common/errorPage");
 		}
 		
 		return mv;
@@ -128,7 +129,7 @@ public class MemberController {
 			session.setAttribute("loginMemo", loginMemo);
 			mv.setViewName("redirect:/");
 		} else {
-			mv.addObject("errorMsg", "응 안돼~");
+			mv.addObject("errorMsg", "�쓳 �븞�뤌~");
 			mv.setViewName("common/main");
 		}
 		
@@ -151,7 +152,7 @@ public class MemberController {
 	@RequestMapping("kakaoGetCodeUrl")
 	public void kakaoGetCodeUrl(HttpServletResponse response) throws ServletException, IOException {
 		
-		System.out.println("kakaoGetCodeUrl 진입");
+		System.out.println("kakaoGetCodeUrl 吏꾩엯");
 		
 		String getCodeUrl = "https://kauth.kakao.com/oauth/authorize"
 				        + "?client_id=" + "261f64346cb2da405692b542c232a7d3&"
@@ -165,7 +166,7 @@ public class MemberController {
 	@RequestMapping("kakaoLogin.me")
 	public void selectKakaoMember(String kakaoId, HttpServletResponse response, HttpSession session) throws ServletException, IOException {
 		
-		System.out.println("kakaoLogin 진입");
+		System.out.println("kakaoLogin 吏꾩엯");
 		
 		Member TempMember = memberService.selectKakaoMember(kakaoId);
 		
@@ -184,14 +185,14 @@ public class MemberController {
 	
 	@RequestMapping("/kakaoLoginJump")
 	public String kakaoLoginJump() throws ServletException, IOException {
-		System.out.println("kakaoLoginJump 진입");
+		System.out.println("kakaoLoginJump 吏꾩엯");
 		return "member/kakaoLogin";
 	}
 	
 	@RequestMapping("kakaoGetTokenUser")
 	public void kakaoGetTokenUser(String code, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ParseException {
 		
-		System.out.println("kakaoGetTokenUser 진입");
+		System.out.println("kakaoGetTokenUser 吏꾩엯");
 		
 		String accessToken = getAccessToken(code);
 		HashMap<String, Object> userInfo = getUserInfo(accessToken);
@@ -220,7 +221,7 @@ public class MemberController {
 	
 	public String getAccessToken(String code) throws ServletException, IOException, ParseException {
 		
-		System.out.println("getAccessToken 진입");
+		System.out.println("getAccessToken 吏꾩엯");
 		
 		String GetTokenUrl = "https://kauth.kakao.com/oauth/token?grant_type=authorization_code"
 				   + "&client_id=" + "261f64346cb2da405692b542c232a7d3&"
@@ -257,7 +258,7 @@ public class MemberController {
 	
 	public HashMap<String, Object> getUserInfo(String accessToken) throws ServletException, IOException, ParseException {
 	
-		System.out.println("getUserInfo 진입");
+		System.out.println("getUserInfo 吏꾩엯");
 		
 		HashMap<String, Object> userInfo = new HashMap<String, Object>();
 		String getUserURL = "https://kapi.kakao.com/v2/user/me";
@@ -349,6 +350,132 @@ public class MemberController {
 		
 		return "member/memo/receiveMemo";
 		
+	}
+	
+	@RequestMapping("sendMemo")
+	public String sendMemo(@RequestParam(value="cPage", defaultValue="1") int currentPage, HttpServletRequest request, Model model) {
+		
+		HttpSession session = request.getSession();
+		
+		String memId = (String)((Member)session.getAttribute("loginMember")).getMemId();
+						
+		int listCount = memberService.selectMemoCount(memId);
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 10);
+		
+		model.addAttribute("pi", pi);
+		model.addAttribute("list", memberService.selectMemoSend(memId, pi));
+		
+		return "member/memo/sendMemo";
+	}
+	
+	@RequestMapping("newMemo")
+	public String newMemo() {
+		return "member/memo/newMemo";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// 마이페이지 trip관련 조회 메뉴 추가 
+	
+	@RequestMapping("myReservation")
+	public String myReservation(Model m) {
+		return "member/reservation/myReservation";
+	}
+	
+	@RequestMapping("myCourse")
+	public String myCourse(Model m, HttpSession session) {
+		
+		if(session.getAttribute("loginMember") == null) {
+			session.setAttribute("alertMsg","로그인 후 이용해주세요~");
+			return "common/main";
+		} else {
+			
+		String memId = ((Member)session.getAttribute("loginMember")).getMemId();
+		ArrayList<Place> myCourse = memberService.myCourse(memId);
+		System.out.println(myCourse);
+		m.addAttribute("myCourse", myCourse);
+		return "member/course/myCourse";
+		
+		}
 	}
 	
 	@RequestMapping("sendMemo")
@@ -666,32 +793,19 @@ public class MemberController {
 	
 	
 	
+	// 諛뺣�쇱꽦
+	
+	// �옉�꽦湲� 蹂닿린
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	// 박민성
-	
-	// 작성글 보기
-	
-	
-	// 메일 보내기
+	// 硫붿씪 蹂대궡湲�
 	@Autowired
 	private JavaMailSenderImpl sender;
 	
 	@ResponseBody
 	@PostMapping("sendMail.bo")
 	public int sendMail(String email, HttpServletRequest request) throws MessagingException {
-		System.out.println("오냐?");
+		System.out.println("�삤�깘?");
 		System.out.println(email);
 		MimeMessage message = sender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
@@ -707,8 +821,8 @@ public class MemberController {
 		int result = memberService.sendMail(certvo);
 		
 		helper.setTo(email);
-		helper.setSubject("인증번호 보내드립니다");
-		helper.setText("인증번호 : " + secret);
+		helper.setSubject("�씤利앸쾲�샇 蹂대궡�뱶由쎈땲�떎");
+		helper.setText("�씤利앸쾲�샇 : " + secret);
 		
 		sender.send(message);
 		
@@ -742,7 +856,7 @@ public class MemberController {
 	@ResponseBody
 	@PostMapping("pwdMail.bo")
 	public int pwdMail(String email, HttpServletRequest request) throws MessagingException {
-		System.out.println("오냐?");
+		System.out.println("�삤�깘?");
 		System.out.println(email);
 		MimeMessage message = sender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
@@ -758,8 +872,8 @@ public class MemberController {
 		int result = memberService.sendMail(certvo);
 		
 		helper.setTo(email);
-		helper.setSubject("인증번호 보내드립니다");
-		helper.setText("인증번호 : " + secret);
+		helper.setSubject("�씤利앸쾲�샇 蹂대궡�뱶由쎈땲�떎");
+		helper.setText("�씤利앸쾲�샇 : " + secret);
 		
 		sender.send(message);
 		
@@ -778,10 +892,10 @@ public class MemberController {
 	@PostMapping("pwdFind")
 	public ModelAndView pwdFind(Passward p, HttpServletRequest request, ModelAndView mv) {
 		if(memberService.pwdFind(p) > 0) {
-			mv.addObject("alertMsg", "비밀번호가 변경되었습니다!");
+			mv.addObject("alertMsg", "鍮꾨�踰덊샇媛� 蹂�寃쎈릺�뿀�뒿�땲�떎!");
 			mv.setViewName("common/main");
 		}else {
-			mv.addObject("errorMsg", "비밀번호변경에 실패하였습니다!");
+			mv.addObject("errorMsg", "鍮꾨�踰덊샇蹂�寃쎌뿉 �떎�뙣�븯���뒿�땲�떎!");
 			mv.setViewName("common/main");
 		}
 		return mv;
@@ -884,10 +998,10 @@ public class MemberController {
 		Friend fri = new Friend(memberId, friendId);
 		
 		if(memberService.friendDelete(fri) > 0) {
-			m.addAttribute("alertMsg", "친구 삭제에 성공하셨습니다.");
+			m.addAttribute("alertMsg", "移쒓뎄 �궘�젣�뿉 �꽦怨듯븯�뀲�뒿�땲�떎.");
 			return "redirect:myPageFriend.me";
 		}else {
-			m.addAttribute("alertMsg", "친구 삭제에 실패하셨습니다.");
+			m.addAttribute("alertMsg", "移쒓뎄 �궘�젣�뿉 �떎�뙣�븯�뀲�뒿�땲�떎.");
 			return "redirect:myPageFriend.me";
 		}
 	}
@@ -897,10 +1011,10 @@ public class MemberController {
 		Friend fri = new Friend(memberId, friendId);
 		
 		if(memberService.freindSharing(fri) > 0) {
-			m.addAttribute("alertMsg", "친구 일정 공유에 성공하셨습니다.");
+			m.addAttribute("alertMsg", "移쒓뎄 �씪�젙 怨듭쑀�뿉 �꽦怨듯븯�뀲�뒿�땲�떎.");
 			return "redirect:myPageFriend.me";
 		} else {
-			m.addAttribute("alertMsg", "친구 일정 공유에 실패하셨습니다.");
+			m.addAttribute("alertMsg", "移쒓뎄 �씪�젙 怨듭쑀�뿉 �떎�뙣�븯�뀲�뒿�땲�떎.");
 			return "redirect:myPageFriend.me";
 		}
 	}
@@ -910,10 +1024,10 @@ public class MemberController {
 		Friend fri = new Friend(memberId, friendId);
 		
 		if(memberService.sharingCancellation(fri) > 0) {
-			m.addAttribute("alertMsg", "친구 일정 공유 취소에 성공하셨습니다.");
+			m.addAttribute("alertMsg", "移쒓뎄 �씪�젙 怨듭쑀 痍⑥냼�뿉 �꽦怨듯븯�뀲�뒿�땲�떎.");
 			return "redirect:myPageFriend.me";
 		} else {
-			m.addAttribute("alertMsg", "친구 일정 공유 취소에 실패하셨습니다.");
+			m.addAttribute("alertMsg", "移쒓뎄 �씪�젙 怨듭쑀 痍⑥냼�뿉 �떎�뙣�븯�뀲�뒿�땲�떎.");
 			return "redirect:myPageFriend.me";
 		}
 	}
@@ -927,7 +1041,7 @@ public class MemberController {
 		if(member != null) {
 			return new Gson().toJson(member);
 		}else {
-			return new Gson().toJson("없음");
+			return new Gson().toJson("�뾾�쓬");
 		}
 	}
 	

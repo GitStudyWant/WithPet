@@ -16,6 +16,7 @@ import com.project.withpet.member.model.vo.Member;
 import com.project.withpet.member.model.vo.Memo;
 import com.project.withpet.member.model.vo.Passward;
 import com.project.withpet.member.model.vo.Schedule;
+import com.project.withpet.trip.model.vo.Place;
 
 @Repository
 public class MemberDao {
@@ -353,6 +354,10 @@ public class MemberDao {
 	
 	public Member friendSearch(SqlSessionTemplate sqlSession, Friend fri) {
 		return sqlSession.selectOne("memberMapper.friendSearch", fri);
+	}
+
+	public ArrayList<Place> myCourse(SqlSessionTemplate sqlSession, String memId) {
+		return (ArrayList)sqlSession.selectList("memberMapper.myCourse", memId);
 	}
 	
 	

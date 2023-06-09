@@ -18,6 +18,8 @@ import com.project.withpet.member.model.vo.Memo;
 import com.project.withpet.member.model.vo.Passward;
 import com.project.withpet.member.model.vo.Point;
 import com.project.withpet.member.model.vo.Schedule;
+import com.project.withpet.trip.model.vo.MyPlace;
+import com.project.withpet.trip.model.vo.Place;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -164,9 +166,11 @@ public class MemberServiceImpl implements MemberService {
 	
 	
 	
-	
-	
-	
+
+	@Override
+	public ArrayList<Place> myCourse(String memId) {
+		return memberDao.myCourse(sqlSession, memId);
+	}
 	
 	
 	
@@ -305,6 +309,9 @@ public class MemberServiceImpl implements MemberService {
 	public Member friendSearch(Friend fri) {
 		return memberDao.friendSearch(sqlSession, fri);
 	}
+
+
+
 	
 
 
