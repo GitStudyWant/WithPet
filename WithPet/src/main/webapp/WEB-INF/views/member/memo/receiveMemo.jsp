@@ -107,7 +107,7 @@
 		    <table id="memolist" >
 		    	<tr>
 		    		<th class="memolisthead"><input type="checkbox"></th>
-		    		<th class="memolisthead">받은사람</th>
+		    		<th class="memolisthead">보낸사람</th>
 		    		<th class="memolisthead">제목</th>
 		    		<th class="memolisthead">발송시간</th>
 		    		<th class="memolisthead">수신확인</th>
@@ -122,7 +122,7 @@
 			    	<c:forEach items="${list}" var="memos">
 			    	<tr>
 			    		<td class="memotd"><input type="checkbox"></td>
-			    		<td class="memotd">${memos.memoReceiver}</td>
+			    		<td class="memotd">${memos.memoSender}</td>
 			    		<td class="memotd">${memos.memoTitle}</td>   	
 			    		<td class="memotd">${memos.memoDate}</td>   	
 			    		<td class="memotd">

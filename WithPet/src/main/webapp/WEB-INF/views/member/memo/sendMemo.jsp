@@ -122,7 +122,7 @@
 			    	<c:forEach items="${list}" var="memos">
 			    	<tr>
 			    		<td class="memotd"><input type="checkbox"></td>
-			    		<td class="memotd">${memos.memoSender}</td>
+			    		<td class="memotd">${memos.memoReceiver}</td>
 			    		<td class="memotd">${memos.memoTitle}</td>   	
 			    		<td class="memotd">${memos.memoDate}</td>   	
 			    		<td class="memotd">
