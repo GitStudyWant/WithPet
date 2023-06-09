@@ -79,7 +79,10 @@ var mapContainer = document.getElementById('map'), // 지도를 표시할 div
         level: 3 // 지도의 확대 레벨
     };  
 
-// 지도를 생성합니다    
+// 지도를 생성합니다   
+console.log("11");
+console.log(new kakao.maps.Map(mapContainer, mapOption));
+console.log("11");
 var map = new kakao.maps.Map(mapContainer, mapOption); 
 
 // 장소 검색 객체를 생성합니다
@@ -286,6 +289,8 @@ function removeAllChildNods(el) {
         el.removeChild (el.lastChild);
     }
 }
+
+ 
 </script>
 </body>
 </html>
