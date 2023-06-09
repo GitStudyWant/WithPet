@@ -341,7 +341,7 @@ public class MemberController {
 		return mv;
 	}
 	
-	
+	/*
 	@RequestMapping("memberMemoMain.me")
 	public String memberMemoMain(@RequestParam(value="cPage", defaultValue="1") int currentPage, Model model) {
 		PageInfo pi = Pagenation.getPageInfo(boardService.selectMemoCount(), currentPage, 5, 10);
@@ -350,7 +350,7 @@ public class MemberController {
 		
 		return "board/boardListView";
 		
-	}
+	}*/
 	
 	
 	
