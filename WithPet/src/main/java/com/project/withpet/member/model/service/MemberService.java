@@ -16,7 +16,7 @@ import com.project.withpet.trip.model.vo.Place;
 
 public interface MemberService {
 	
-	// 硫ㅻ쾭
+	// 멤버
 	public int insertMember(Member member);
 	
 	public int idCheck(String checkId);
@@ -35,24 +35,7 @@ public interface MemberService {
 
 	public int updateMember(Member member);
 	
-	// 硫붾え
-	public int selectMemoCount(String memId);
-	
-	public ArrayList<Memo> selectMemoGet(String memId);
-	
-	public int updateMemoCheck(int memoNo);
-	
-	public Memo selectMemoDetail(int memNo);
-	
-	public int deleteMemo(int memNo);
-	
-	public int deleteMemos(Memo[] memNos);
-	
-	public ArrayList<Memo> selectMemoSend(String memId);
-	
-	public int insertMemo(Memo memo);
-	
-	// �뒪耳�伊�
+	// 스케쥴
 	public ArrayList<Schedule> selectSchedules(Schedule schedule);
 	
 	public int insertSchedule(Schedule schedule);
@@ -61,16 +44,33 @@ public interface MemberService {
 	
 	public int deleteSchedule(int scheduleNo);
 	
-	// �룷�씤�듃
+	// 메모
+	public int selectMemoCount(String memId);
+		
+	public ArrayList<Memo> selectMemoGet(String memId, PageInfo pi);
+	
+	public ArrayList<Memo> selectMemoSend(String memId, PageInfo pi);
+		
+	public int updateMemoCheck(int memoNo);
+		
+	public Memo selectMemoDetail(int memNo);
+		
+	public int deleteMemo(int memNo);
+		
+	public int deleteMemos(Memo[] memNos);
+		
+	public int insertMemo(Memo memo);
+	
+	// 포인트
 	public ArrayList<Point> selectPoint(String memId);
 	
 	public ArrayList<Point> selectPointPlus(String memId);
 	
 	public ArrayList<Point> selectPointMinus(String memId);
 	
-	// 肄붿뒪
-	// �삁�빟
-	// 寃곗젣
+	// 코스
+	// 예약
+	// 결제
 	
 	
 	public ArrayList<Place> myCourse(String memId);

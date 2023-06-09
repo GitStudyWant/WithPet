@@ -20,7 +20,7 @@ public class Member {
 	private int memMemo;
 	private int memPoint;
 	private int memReport;
-	private String memStaus;
+	private String memStatus;
 	private String memUpdate;
 	private String memKakaoId;
 	private int friendShare;

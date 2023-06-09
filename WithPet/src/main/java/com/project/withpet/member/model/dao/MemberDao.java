@@ -13,6 +13,7 @@ import com.project.withpet.board.model.vo.Comments;
 import com.project.withpet.member.model.vo.CertVO;
 import com.project.withpet.member.model.vo.Friend;
 import com.project.withpet.member.model.vo.Member;
+import com.project.withpet.member.model.vo.Memo;
 import com.project.withpet.member.model.vo.Passward;
 import com.project.withpet.member.model.vo.Schedule;
 import com.project.withpet.trip.model.vo.Place;
@@ -51,27 +52,42 @@ public class MemberDao {
 	public Member selectKakaoMember(SqlSession sqlSession, String memKakaoId) {
 		return sqlSession.selectOne("memberMapper.selectKakaoMember", memKakaoId);
 	}
-	
-	public int selectMemoCount(SqlSession sqlSession, String memId) {
-		return sqlSession.selectOne("memberMapper.selectMemoCount", memId);
-	}
 	   
 	public ArrayList<Schedule> selectSchedules(SqlSession sqlSession, Schedule schedule) {
 		return (ArrayList)sqlSession.selectList("memberMapper.selectSchedules", schedule);
 	}
 	
 	public int insertSchedule(SqlSession sqlSession, Schedule schedule) {
-	      return sqlSession.insert("memberMapper.insertSchedule", schedule);
+	    return sqlSession.insert("memberMapper.insertSchedule", schedule);
 	}
 	
 	public int updateSchedule(SqlSession sqlSession, Schedule schedule) {
-	      return sqlSession.update("memberMapper.updateSchedule", schedule);
+	    return sqlSession.update("memberMapper.updateSchedule", schedule);
 	}
 	
 	public int deleteSchedule(SqlSession sqlSession, int scheduleNo) {
-	      return sqlSession.delete("memberMapper.deleteSchedule", scheduleNo);
+	    return sqlSession.delete("memberMapper.deleteSchedule", scheduleNo);
 	}
 	
+	public int selectMemoCount(SqlSession sqlSession, String memId) {
+		return sqlSession.selectOne("memberMapper.selectMemoCount", memId);
+	}
+	
+	public ArrayList<Memo> selectMemoGet(SqlSession sqlSession, String memId, PageInfo pi){
+		
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return (ArrayList)sqlSession.selectList("memberMapper.selectMemoGet", memId, rowBounds);
+	}
+	
+	public ArrayList<Memo> selectMemoSend(SqlSession sqlSession, String memId, PageInfo pi){
+		
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return (ArrayList)sqlSession.selectList("memberMapper.selectMemoSend", memId, rowBounds);
+	}
 	
 	
 	

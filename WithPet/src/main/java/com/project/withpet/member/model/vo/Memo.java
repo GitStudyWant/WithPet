@@ -13,7 +13,7 @@ public class Memo {
 	private String memoContent;
 	private Date memoDate;
 	private Date memoDate2;
-	private String memocheck;
-	private String memoStaus;
+	private String memoCheck;
+	private String memoStatus;
 
 }

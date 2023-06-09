@@ -53,7 +53,7 @@
 	
 	#schedulemain p{
 		font-size:25px;
-		margin-left:60px;
+		margin-left:4%;
 	}
 	
 	#schedulemain a{
@@ -96,7 +96,7 @@
 				        <div class="modal-body">
 				        
 				          <p class="modal-title" style="font-size:15px; text-align:center; margin-top:15px; margin-bottom:30px">일정 등록</p>
-				          <form action="insertSchedule.me" method="POST">
+				          <form action="insertSchedule" method="POST">
 				          <input type="hidden" value="${ loginMember.memId }" name="memId">
 				          	<table width="80%" style="text-align:center; margin:auto">
 					          	<tr>
@@ -159,7 +159,7 @@
 				        <div class="modal-body">
 				        
 				          <p class="modal-title" style="font-size:15px; text-align:center; margin-top:15px; margin-bottom:30px">일정 확인</p>
-				          <form action="updateSchedule.me" method="POST">
+				          <form action="updateSchedule" method="POST">
 				          <input id="hidden" type="hidden" value="${ loginMember.memId }" name="updateId">
 				          	<table width="80%" style="text-align:center; margin:auto">
 					          	<tr>
@@ -249,6 +249,7 @@
 	$('#calendar').fullCalendar({
 	    locale: 'ko',
 	    height: 800,
+	    timezone: "local", 
 	    nextDayThreshold: "09:00:00",
 	    displayEventTime: false,
 	    displayEventEnd: false,
@@ -289,10 +290,10 @@
 	        }
 	    },
 	    
-	    events: function (start, end, callback) {
+	    events: function (start, end, timezone, callback) {
 	        $.ajax({
 	            type: "get",
-	            url: "selectSchedules.me",
+	            url: "selectSchedules",
 	            data: {
 	                memId: '${loginMember.memId}',
 	                scheduleStart: moment(start).format('YYYY-MM-DD'),
@@ -319,6 +320,9 @@
 	                        backgroundColor: response[i].scheduleColor,
 	                        textColor: "#ffffff"
 	                    };
+	                    
+	                    console.log(event);
+	                    
 	                    events.push(event);
 	                }
 
