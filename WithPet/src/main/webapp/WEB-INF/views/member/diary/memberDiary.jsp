@@ -52,8 +52,8 @@
 	}
 	
 	#schedulemain p{
-		font-size:30px;
-		text-align:center;
+		font-size:25px;
+		margin-left:60px;
 	}
 	
 	#schedulemain a{
@@ -62,7 +62,7 @@
 	
 	.containerInput{
 		width : 15%;
-		float:left;
+		float : left;
 	}
 
 </style>
@@ -78,15 +78,12 @@
 	
 	<div id="body">	
 		    <div id="schedulemain">
-		    <p style="margin:auto;">[${ loginMember.memNick }] 님의 다이어리</p>
+		    <br>
+		    <p>[${ loginMember.memNick }] 님의 다이어리</p>
 		    <div class="container" style="width:75%;">
-				
-		        <div id="wrapper">
-		            <div id="loading"></div>
-		            <div id="calendar"></div>
-		        </div>
-		
-				
+				<br><br><br>
+		        <div id="calendar"></div>
+		        
 		        <div class="modal fade" id="schInsert" aria-hidden="true" aria-labelledby="exampleModalLabel" data-bs-backdrop="static" tabindex="-1">
 			 	   <div class="modal-dialog modal-dialog-centered">
 				      <div class="modal-content">
@@ -233,13 +230,13 @@
 		    <script src="resources/js/fullCalendar/vendor/fullcalendar.min.js"></script>
 		    <script src="resources/js/fullCalendar/vendor/ko.js"></script>
 		    <script src="resources/js/fullCalendar/vendor/select2.min.js"></script>
-		    <!-- <script src="resources/js/fullCalendar/mainjs.js"></script>  -->
+		    <!-- <script src="resources/js/fullCalendar/main.js"></script>  -->
 		    <script src="resources/js/fullCalendar/editEvent.js"></script>
 		    <script src="resources/js/fullCalendar/etcSetting.js"></script>
 		    
 		   
 		  </div>
-		  <div class="containerInput" style="margin-top:60px"><button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#schInsert" style="width:70%; height:20%; font-size:15px;">일정추가</button></div>
+		  <div class="containerInput" style="margin-top:60px"><button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#schInsert" style="width:70%; height:20%; font-size:15px; margin-top:90px">일정추가</button></div>
 	</div>
 	
 	<div id="diaryFooter"><jsp:include page="../../common/footer.jsp" /></div>
@@ -252,7 +249,6 @@
 	$('#calendar').fullCalendar({
 	    locale: 'ko',
 	    height: 800,
-	    timezone: "local",
 	    nextDayThreshold: "09:00:00",
 	    displayEventTime: false,
 	    displayEventEnd: false,
@@ -293,7 +289,7 @@
 	        }
 	    },
 	    
-	    events: function (start, end, timezone, callback) {
+	    events: function (start, end, callback) {
 	        $.ajax({
 	            type: "get",
 	            url: "selectSchedules.me",

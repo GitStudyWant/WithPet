@@ -6,206 +6,132 @@
 <head>
 <meta charset="UTF-8">
 <title>메인</title>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,500,600">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
 <style>
 
-
+	body{
+		padding: 0px! important;
+	}
+	
 	#body{
-	height: 1000px;
-	width: 100%;
-	background-color:white;
-	box-sizing: border-box;
+		width: 85%;
+		height: 1000px;
+		background-color:white;
+		box-sizing: border-box;
+		position:absolute;
+		float:left;
+		margin-left:15%;
+		
+	}
+	
+	#diaryFooter{
+		margin-top:1000px;
+	}
+	
+	#body>p{
+		margin-top:15px;
+		text-align:center;
+		font-size:35px;
 	}
 
-	#mainSi{
+	#schedulemain{
+		width : 100%;
 		height : 1000px;
-		display: inline-block;	
+		padding-top : 15px;
 		float:left;
 	}
-
-	#mainmain{
-		width : 75%;
-		height : 1000px;
-		display: inline-block;	
-		float:left;
+	
+	#memomain p{
+		font-size:25px;
+		margin-left:60px;
 	}
-
-	#mainTable{
-		border-top: 1px solid #dee2e6;
+	
+	#memomain a{
+		color:black;
+		text-decoration:none;
 	}
-
-	#mainTable p{
-		margin-top: 10px;
-	}
-
-	#naviTable{
+	
+	#memokind{
 		width : 100%;
-		height : 150px;
+		text-align : center;
+		font-size  : 20px;
 	}
-
-	#naviTable td{
-		text-align: right;
+	
+	#memokind td{
+		border-left :  1px silver solid; 
+		border-right : 1px silver solid; 
 	}
-
-	.thHigh{
-		height : 120px;
-		font-size: 25px;
+	
+	#memolist{
+		width : 95%;
+		text-align : center;
+		margin : auto;
 	}
-	.thHigh:hover{
-		color:rgb(73, 166, 112);
+	
+	td[class="memolisthead"]{
+		background-color : lightgray;
+		border : 1px solid silver;
 	}
-
-	.width10{
-		width : 10%;
+	
+	#memoetc{
+		width : 95%;
+		margin : auto;
 	}
-	#boardList{
-		border-top : 1px solid #dee2e6;
-	}
-	#boardList tr{
-		height : 60px;
-	}
-	#boardList>tbody p{
-		margin-bottom: 0px;
-		margin-top : 10px;
-	}
-
-	#foogg{
-		width : 100%;
-        height : 100px;
-	}
-
-    #foogg>thead>tr{
-        width: 25%;
-    }
-
-	.inCheck{
-		width :20px;
-		height: 20px;
-		margin-right: 40px;
-	}
-
-
-
 
 </style>
 </head>
 <body>
-
-	<jsp:include page="../../common/header.jsp" />
-	<div id="body">
-			<div id="mainSi"><jsp:include page="../../common/myPageSide.jsp" /></div>
-			<div id="mainmain">
-				<table id="naviTable">
-					<thead>
-						<tr>
-							<th class="width10"></th>
-							<th class="thHigh">작성글 확인</th>
-							<th class="thHigh">작성 댓글 확인</th>
-							<th class="thHigh">스크랩한 글</th>
-							<th class="thHigh">출석하기</th>
-							<th class="thHigh"></th>
-						</tr>
-						<tr>
-							<td colspan="5">삭제한 게시글 조회</td>
-						</tr>
-					</thead>
-				</table>
-				<br>
-				<table class="table table-hover" id="mainTable">
-					<thead>
-						<tr align="center">
-						<th scope="col"><p>선택</p></th>
-						<th scope="col"><p>제목</p></th>
-						<th scope="col"><p>작성일</p></th>
-						<th scope="col"><p>조회수</p></th>
-						</tr>
-					  </thead>
-					  <tbody align="center">
-						<tr>
-						<th scope="row"><p><input type="checkbox"/></p></th>
-						<td><p>제목1</p></td>
-						<td><p>작성일</p></td>
-						<td><p>1</p></td>
-						</tr>
-						<tr>
-						<th scope="row"><p><input type="checkbox"/></p></th>
-						<td><p>제목1</p></td>
-						<td><p>작성일</p></td>
-						<td><p>1</p></td>
-						</tr>
-						<tr>
-						<th scope="row"><p><input type="checkbox"/></p></th>
-						<td><p>제목1</p></td>
-						<td><p>작성일</p></td>
-						<td><p>1</p></td>
-						</tr>
-						<tr>
-							<th scope="row"><p><input type="checkbox"/></p></th>
-							<td><p>제목1</p></td>
-							<td><p>작성일</p></td>
-							<td><p>1</p></td>
-						</tr>
-						<tr>
-							<th scope="row"><p><input type="checkbox"/></p></th>
-							<td><p>제목1</p></td>
-							<td><p>작성일</p></td>
-							<td><p>1</p></td>
-						</tr>
-						<tr>
-							<th scope="row"><p><input type="checkbox"/></p></th>
-							<td><p>제목1</p></td>
-							<td><p>작성일</p></td>
-							<td><p>1</p></td>
-						</tr>
-						<tr>
-							<th scope="row"><p><input type="checkbox"/></p></th>
-							<td><p>제목1</p></td>
-							<td><p>작성일</p></td>
-							<td><p>1</p></td>
-						</tr>
-						<tr>
-						   <th scope="row"><p><input type="checkbox"/></p></th>
-							<td><p>제목1</p></td>
-							<td><p>작성일</p></td>
-							<td><p>1</p></td>
-							</tr>
-						<tr>
-							<th scope="row"><p><input type="checkbox"/></p></th>
-							<td><p>제목1</p></td>
-							<td><p>작성일</p></td>
-							<td><p>1</p></td>
-						</tr>
-						<tr>
-							 <th scope="row"><p><input type="checkbox"/></p></th>
-							<td><p>제목1</p></td>
-							<td><p>작성일</p></td>
-							<td><p>1</p></td>
-						</tr>
-					  </tbody>
-				 </table>
+	<div id="memoSide"><jsp:include page="../../common/myPageSide.jsp" /></div>
+	<div id="memoSendback"><jsp:include page="../../common/sendBack.jsp" /></div>
 	
-				<table id="foogg">
-					<thead>
-						<tr align="center">
-							<th style="width : 30%;"><input class="inCheck" type="checkbox"/><button class="btn btn-success">선택 삭제</button></th>
-							<th style="width : 50%;">
-								<button class="btn btn-success">&lt</button>
-								<button class="btn btn-success">1</button>
-								<button class="btn btn-success">2</button>
-								<button class="btn btn-success">3</button>
-								<button class="btn btn-success">4</button>
-								<button class="btn btn-success">&gt</button>
-							
-							</th>
-							<th style="width : 10%;"><button class="btn btn-success">삭제</button></th>
-							<th style="width : 10%;" ><button class="btn btn-success">글쓰기</button></th>
-						</tr>
-					</thead>
-				</table>
-			</div>
-	</div>		
-
-	
-	<jsp:include page="../../common/footer.jsp" />
+	<div id="body">	
+		    <div id="memomain">
+		    <br>
+		    <p>[${ loginMember.memNick }] 님의 쪽지</p>
+		    <br><br><br>
+		    
+		    <hr>
+		    <table id="memokind">
+		    	<tr>
+		    		<td><a href="asd">받은쪽지함</a></td>
+		    		<td><a href="asd">보낸쪽지함</a></td>
+		    		<td><a href="asd">새 쪽지</a></td>
+		    	</tr>
+		    </table>
+		    <hr>
+		    <br><br>
+		    
+		    <table id="memolist" >
+		    	<th>
+		    		<td class="memolisthead"><input type="checkbox"></td>
+		    		<td class="memolisthead">보낸사람</td>
+		    		<td class="memolisthead">제목</td>
+		    		<td class="memolisthead">발송시간</td>
+		    		<td class="memolisthead">읽음확인</td>
+		    	</th>
+		    </table>
+		    
+		    <br><br>
+		    
+		    <table id="memoetc">
+		    	<tr>
+		    		<td colspan="3">
+		    		<button class="btn btn-danger" style="width:8%; height:30px; display:flex; align-items: center; justify-content: center;">삭제</button>
+		    		</td>
+		    	</tr>
+		    	<tr>
+		    		<td width="30%" align="center">제목</td>
+		    		<td width="30%" align="center">발송시간</td>
+		    		<td width="30%" align="center">읽음확인</td>
+		    	</tr>
+		    </table>
+		
+		        
+		    
+	<div id="diaryFooter"><jsp:include page="../../common/footer.jsp" /></div>
 	
 </body>
 </html>

@@ -7,9 +7,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.Format;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -30,7 +28,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -64,6 +61,8 @@ public class MemberController {
 		response.setContentType("text/html; charset=UTF-8");
 		response.getWriter().print("http://localhost:8787/withpet");
 	}
+	
+	
 	
 	@RequestMapping(value="idCheck.me", produces="application/json; charset=UTF-8")
 	public void idCheck(String checkId, HttpServletResponse response) throws ServletException, IOException {
@@ -289,6 +288,8 @@ public class MemberController {
 		return userInfo;
 	}
 	
+	
+	
 	@RequestMapping(value="memberDiaryMain.me")
 	public ModelAndView memberDiaryMain(Schedule schedule, ModelAndView mv){
 		
@@ -332,8 +333,24 @@ public class MemberController {
 	
 	
 	
+	@RequestMapping(value="memberMemoMain.me")
+	public ModelAndView memberMemoMain(Schedule schedule, ModelAndView mv){
+		
+		mv.setViewName("member/memo/memberMemo");
+		
+		return mv;
+	}
 	
 	
+	@RequestMapping("memberMemoMain.me")
+	public String memberMemoMain(@RequestParam(value="cPage", defaultValue="1") int currentPage, Model model) {
+		PageInfo pi = Pagenation.getPageInfo(boardService.selectMemoCount(), currentPage, 5, 10);
+		model.addAttribute("pi", pi);
+		model.addAttribute("list", boardService.selectList(pi));
+		
+		return "board/boardListView";
+		
+	}
 	
 	
 	

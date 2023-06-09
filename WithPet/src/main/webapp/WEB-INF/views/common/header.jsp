@@ -170,7 +170,7 @@
         </div>
              
     </div>
-    <jsp:include page="../member/modal/memberModal.jsp" />
+    <jsp:include page="../member/modal/memberLoginModal.jsp" />
 	<jsp:include page="../member/modal/userFindmodal.jsp"/>
     <script>
   	function myPage(){
