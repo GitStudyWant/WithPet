@@ -25,7 +25,15 @@
 		<typeAlias type="com.project.withpet.board.model.vo.Comments" alias="comments"/>
 		<typeAlias type="com.project.withpet.trip.model.vo.TaxiReservation" alias="taxiReservation" />
 		<typeAlias type="com.project.withpet.member.model.vo.Friend" alias="friend" />
+
 		<typeAlias type="com.project.withpet.trip.model.vo.MyPlace" alias="myPlace" />
+
+		<typeAlias type="com.project.withpet.cafe.model.vo.Cafe" alias="cafe" />
+		<typeAlias type="com.project.withpet.cafe.model.vo.CafePicture" alias="cafepicture" />
+		<typeAlias type="com.project.withpet.cafe.model.vo.CafeRes" alias="caferes" />
+
+		
+
 		<typeAlias type="com.project.withpet.trip.model.vo.CarReservation" alias="carReservation" />
 		<typeAlias type="com.project.withpet.trip.model.vo.Transportation" alias="transportation" />
 		
@@ -36,7 +44,7 @@
 		<mapper resource="/mappers/trip-mapper.xml" />
 		<mapper resource="/mappers/board-mapper.xml" />
 		<mapper resource="/mappers/admin-mapper.xml" />
-				
+		<mapper resource="/mappers/cafe-mapper.xml" />		
 	</mappers>
 
 
