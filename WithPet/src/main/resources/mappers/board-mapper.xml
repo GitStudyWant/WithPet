@@ -158,7 +158,7 @@
 		DELETE
 		FROM	
 				TAG
-		WHERE
+		WHERE	
 				TAG_NAME=#{tagName}		 
 			
 	</delete>
