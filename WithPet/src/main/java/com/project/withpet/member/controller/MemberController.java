@@ -118,10 +118,11 @@ public class MemberController {
 	
 	@RequestMapping("login.me")
 	public ModelAndView selectMember(Member member, ModelAndView mv, HttpSession session) throws ServletException, IOException{
-				
+
 		Member loginMember = memberService.selectMember(member);
+
 		int loginMemo = memberService.selectMemoCount(member.getMemId());
-		
+
 		if(loginMember != null && (member.getMemPwd().equals(loginMember.getMemPwd())) /* && bcryptPasswordEncoder.matches(member.getMemPwd(), loginMember.getMemPwd())*/) {
 			session.setAttribute("loginMember", loginMember);
 			session.setAttribute("loginMemo", loginMemo);
@@ -290,7 +291,7 @@ public class MemberController {
 	
 	
 	
-	@RequestMapping(value="memberDiaryMain.me")
+	@RequestMapping(value="memberDiaryMain")
 	public ModelAndView memberDiaryMain(Schedule schedule, ModelAndView mv){
 		
 		mv.setViewName("member/diary/memberDiary");
@@ -299,7 +300,7 @@ public class MemberController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="selectSchedules.me", produces="application/json; charset=UTF-8")
+	@RequestMapping(value="selectSchedules", produces="application/json; charset=UTF-8")
 	public String selectSchedules(Schedule schedule, ModelAndView mv){
 
 		ArrayList<Schedule> schedules = memberService.selectSchedules(schedule); 
@@ -307,51 +308,70 @@ public class MemberController {
 		return new Gson().toJson(schedules);
 	}
 	
-	@RequestMapping(value="insertSchedule.me")
+	@RequestMapping(value="insertSchedule")
 	public String insertSchedule(Schedule schedule){
 		
 		int schedulecount = memberService.insertSchedule(schedule);
 
-		return "redirect:/memberDiaryMain.me";
+		return "redirect:/memberDiaryMain";
 	}
 	
-	@RequestMapping(value="updateSchedule.me")
+	@RequestMapping(value="updateSchedule")
 	public String updateSchedule(Schedule schedule){
 		
 		int schedulecount = memberService.updateSchedule(schedule);
 
-		return "redirect:/memberDiaryMain.me";
+		return "redirect:/memberDiaryMain";
 	}
 	
-	@RequestMapping(value="deleteSchedule.me")
+	@RequestMapping(value="deleteSchedule")
 	public String deleteSchedule(int scheduleNo){
 		
 		int schedulecount = memberService.deleteSchedule(scheduleNo);
 
-		return "redirect:/memberDiaryMain.me";
+		return "redirect:/memberDiaryMain";
 	}
 	
 	
-	
-	@RequestMapping(value="memberMemoMain.me")
-	public ModelAndView memberMemoMain(Schedule schedule, ModelAndView mv){
+	@RequestMapping("receiveMemo")
+	public String receiveMemo(@RequestParam(value="cPage", defaultValue="1") int currentPage, HttpServletRequest request, Model model) {
 		
-		mv.setViewName("member/memo/memberMemo");
+		HttpSession session = request.getSession();
 		
-		return mv;
-	}
-	
-	/*
-	@RequestMapping("memberMemoMain.me")
-	public String memberMemoMain(@RequestParam(value="cPage", defaultValue="1") int currentPage, Model model) {
-		PageInfo pi = Pagenation.getPageInfo(boardService.selectMemoCount(), currentPage, 5, 10);
+		String memId = (String)((Member)session.getAttribute("loginMember")).getMemId();
+						
+		int listCount = memberService.selectMemoCount(memId);
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 10);
+		
 		model.addAttribute("pi", pi);
-		model.addAttribute("list", boardService.selectList(pi));
+		model.addAttribute("list", memberService.selectMemoGet(memId, pi));
 		
-		return "board/boardListView";
+		return "member/memo/receiveMemo";
 		
-	}*/
+	}
 	
+	@RequestMapping("sendMemo")
+	public String sendMemo(@RequestParam(value="cPage", defaultValue="1") int currentPage, HttpServletRequest request, Model model) {
+		
+		HttpSession session = request.getSession();
+		
+		String memId = (String)((Member)session.getAttribute("loginMember")).getMemId();
+						
+		int listCount = memberService.selectMemoCount(memId);
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 10);
+		
+		model.addAttribute("pi", pi);
+		model.addAttribute("list", memberService.selectMemoSend(memId, pi));
+		
+		return "member/memo/sendMemo";
+	}
+	
+	@RequestMapping("newMemo")
+	public String newMemo() {
+		return "member/memo/newMemo";
+	}
 	
 	
 	

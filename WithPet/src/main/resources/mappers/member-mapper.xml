@@ -14,6 +14,18 @@
 		<result column="schedule_color" 	property="scheduleColor" />
 		<result column="schedule_date" 		property="scheduleDate" />
 	</resultMap>
+	
+	<resultMap id="memoResultSet" type="memo">
+		<result column="memo_no" 			property="memoNo" />
+		<result column="memo_sender" 		property="memoSender" />
+		<result column="memo_receiver" 		property="memoReceiver" />
+		<result column="memo_title"			property="memoTitle" />
+		<result column="memo_content" 		property="memoContent" />
+		<result column="memo_date" 			property="memoDate" />
+		<result column="memo_date2" 		property="memoDate2" />
+		<result column="memo_check" 		property="memoCheck" />
+		<result column="memo_status" 		property="memoStatus" />
+	</resultMap>
 
 	<insert id="insertMember" parameterType="member">
 		INSERT
@@ -137,15 +149,6 @@
 				MEM_KAKAOID = #{memKaKaoId}
 	</select>
 	
-	<select id="selectMemoCount" resultType="_int">
-		select
-				count(*)
-		from
-				memo
-		where
-				MEMO_RECEIVER = #{memId}
-	</select>
-	
 	<select id="selectSchedules" resultMap="scheduleResultSet">
 		SELECT
 				*
@@ -194,6 +197,39 @@
 		WHERE
 				schedule_no = #{scheduleNo}
 	</delete>
+	
+	<select id="selectMemoCount" resultType="_int">
+		select
+				count(*)
+		from
+				memo
+		where
+				MEMO_RECEIVER = #{memId}
+	</select>
+	
+	<select id="selectMemoGet" resultMap="memoResultSet">
+		SELECT
+				*
+		FROM
+				memo
+		WHERE
+				memo_receiver = #{memId}
+		ORDER
+		   BY
+		        memo_no desc
+	</select>
+	
+	<select id="selectMemoSend" resultMap="memoResultSet">
+		SELECT
+				*
+		FROM
+				memo
+		WHERE
+				memo_sender = #{memId}
+		ORDER
+		   BY
+		        memo_no desc
+	</select>
 	
 	
 	
