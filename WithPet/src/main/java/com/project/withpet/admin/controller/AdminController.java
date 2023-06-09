@@ -1,10 +1,10 @@
 package com.project.withpet.admin.controller;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 
 import javax.servlet.http.HttpSession;
 
@@ -20,6 +20,7 @@ import com.google.gson.Gson;
 import com.project.withpet.admin.model.service.AdminService;
 import com.project.withpet.board.common.model.vo.PageInfo;
 import com.project.withpet.board.common.template.Pagination;
+import com.project.withpet.member.model.vo.Member;
 import com.project.withpet.trip.model.vo.Place;
 import com.project.withpet.trip.model.vo.TaxiReservation;
 import com.project.withpet.trip.model.vo.Transportation;
@@ -180,7 +181,12 @@ public class AdminController {
 		
 		}
 	
-
+	@RequestMapping("adminMemberList")
+	public String adminMemberList(Member m, Model model){
+		
+		
+		
+	}
 	
 	
 	

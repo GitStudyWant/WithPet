@@ -151,8 +151,8 @@
             <tr>
                 <td colspan="7">
                     <select id="search" name="search">
-                        <option name="search" value="memberId">아이디</option>
-                        <option name="search" value="nickname">닉네임</option>
+                        <option name="search" value="memId">아이디</option>
+                        <option name="search" value="memNick">닉네임</option>
                     </select> : <input type="text" name="Skeyword" id="searchGo" onclick="noSearch();">
                     <button class="actBtn" type="submit">검색</button>
                 </td>
@@ -164,7 +164,6 @@
             <tr></tr>
             <tr height="20"></tr>
             <tr>
-                <th>회원번호</th>
                 <th width="100px;">아이디</th>
                 <th>닉네임</th>
                 <th width="250px;">활동정보<br>(가입일자/작성글 수/댓글 수)</th>
@@ -182,25 +181,24 @@
                     <c:otherwise>
                              <c:forEach var="m" items="${memberList}">
                              <tr>
-                            <td>${m.memNo}</td>
                             <td>${m.memId}</td>
                             <td>${m.memNick}</td>
 				   			<td>(${m.memDate} / ${m.boardCount}/ ${m.replyCount})</td>
 				    		<td>${m.memPoint}</td>
-				    		<td class="member${m.memNo}">
+				    		<td class="member${m.memId}">
                        			 <select name="memStaus">
 	                                <option value="A">정상</option>
 	                                <option value="B">정지</option>
                             	</select> 
                             </td>				    		
-				    		<td class="member${m.memNo}">
+				    		<td class="member${m.memId}">
                        			 <select name="memGrade">
 	                                <option value="A">ADMIN</option>
 	                                <option value="B">NORMAL</option>
 	                                <option value="C">CREATOR</option>
                             	</select> 
                             </td>
-                    <td><input type="checkbox" name="memStaus" value="${m.memberNo}"></td>
+                    <td><input type="checkbox" name="memStaus" value="${m.memId}"></td>
                 	</tr>
                              </c:forEach>
                     </c:otherwise>
@@ -225,6 +223,20 @@
 				
 		</div>
 	</div>		
+	<script>
+    function noSearch(){
+        
+        var result = $('#search option:selected').val();
+        console.log(result);
+        if (result == 'report') {
+            $('#searchGo').attr('readonly', true).val("검색 없이 조회 됩니다.").css('background-color','#C2E5F2');
+            
+                } else {
+                    $('#searchGo').removeAttr('readonly');
+                    $('#searchGo').css('background-color','white').val('').focus;
+                }
+    	}
+	</script>
 	
 	<div id="mypageFooter"><jsp:include page="../common/footer.jsp" /></div>
 	
