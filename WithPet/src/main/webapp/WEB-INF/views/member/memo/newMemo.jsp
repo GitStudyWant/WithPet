@@ -102,7 +102,7 @@
 		    <hr>
 		    <br><br><br>
 		    
-		    <form action="newMemo" method="POST">
+		    <form action="newMemoSubmit" method="POST">
 		    <table id="newMemoTable" style="margin:auto">
 		    		<input class="newMemoIssue" id="newMemoSender" name="memoSender" type="hidden">
 				    <tr><td><p>수신인</p><td></tr>

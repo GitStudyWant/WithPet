@@ -363,7 +363,7 @@ public class MemberController {
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 10);
 		
 		model.addAttribute("pi", pi);
-		model.addAttribute("list", memberService.selectMemoGet(memId, pi));
+		model.addAttribute("list", memberService.selectMemoSend(memId, pi));
 		
 		return "member/memo/sendMemo";
 	}
@@ -372,6 +372,7 @@ public class MemberController {
 	public String newMemo() {
 		return "member/memo/newMemo";
 	}
+	
 	
 	
 	

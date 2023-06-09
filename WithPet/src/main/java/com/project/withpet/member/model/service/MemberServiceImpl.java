@@ -110,7 +110,7 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Override
 	public ArrayList<Memo> selectMemoSend(String memId, PageInfo pi) {
-		return memberDao.selectMemoGet(sqlSession, memId, pi);
+		return memberDao.selectMemoSend(sqlSession, memId, pi);
 	}
 
 	@Override
