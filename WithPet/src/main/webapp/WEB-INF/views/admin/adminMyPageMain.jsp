@@ -105,8 +105,67 @@
 	<div id="body">
 			<div id="mainmain">
 				<h1>회원 관리</h1>	
-				리스트 뿌려주기~~~~~~
-				
+    <hr>
+    <br><br>
+    <form action="adminMemberList" method="post">
+        <table id="memberlist" align="center">
+           <thead>
+            <tr>
+                <td colspan="7">
+                    <select id="search" name="search">
+                        <option name="search" value="memberId">아이디</option>
+                        <option name="search" value="nickname">닉네임</option>
+                        <option name="search" value="report">누적신고수 높은순</option>
+                    </select> : <input type="text" name="Skeyword" id="searchGo" onclick="noSearch();">
+                    <button class="actBtn" type="submit">검색</button>
+                </td>
+            </tr>
+            <tr>
+                <th colspan="5" style="color:#052159;"><b></b></th>
+                <th><button class="actBtn" onclick="updateMemType();">상태 변경</button></th>
+            </tr>
+            <tr></tr>
+            <tr height="20"></tr>
+            <tr>
+                <th>회원번호</th>
+                <th width="100px;">아이디</th>
+                <th>닉네임</th>
+                <th width="250px;">활동정보<br>(가입일자/작성글 수/댓글 수/대댓글 수)</th>
+                <th width="90px;">보유 포인트</th>
+                <th width="90px;">누적신고 수</th>
+                <th width="90px;">회원상태</th>
+                <th>선택</th>
+            </tr>
+           </thead>
+           </tbody>
+                <c:choose>
+                    <c:when test="${ empty memberList }">
+                        <tr><td colspan="3">회원이 없습니다.</td></tr>
+                    </c:when>
+                    <c:otherwise>
+                             <c:forEach var="m" items="${memberList}">
+                             <tr>
+                            <td>${m.memberNo}</td>
+                            <td>${m.memberId}</td>
+                            <td>${m.nickname}</td>
+				   			<td>(${m.enrollDate} / ${m.boardCount}/ ${m.replyCount}/  ${m.reReplyCount})</td>
+				    		<td>${m.pointSum}</td>
+				    		<td>${m.reportNo}</td>
+				    		<td class="member${m.memberNo}">
+                       			 <select name="memType">
+	                                <option value="A">일반 회원</option>
+	                                <option value="B">사업자 회원</option>
+	                                <option value="C">정지 회원</option>
+	                                <option value="D">관리자 회원</option>
+                            	</select> 
+                            </td>
+                    <td><input type="checkbox" name="memberType" value="${m.memberNo}"></td>
+                	</tr>
+                             </c:forEach>
+                    </c:otherwise>
+                </c:choose>
+                </tbody>
+            </table>				
 			   
 				
 			</div>
