@@ -67,15 +67,6 @@
     </div>
 </div>
 
-<h1>키워드를 통하여 검색 해주세요!</h1>
-<h4>ex) 동물병원,애견카페</h4>
-
-
-
-
-
-
-
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9149bcfe95ecd1041b2ea25398bf8190&libraries=services"></script>
 <script>
