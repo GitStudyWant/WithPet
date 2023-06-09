@@ -186,8 +186,11 @@ public class AdminController {
 								  Model model) {
 		PageInfo pi = Pagination.getPageInfo(adminService.adminMemberListCount(), currentPage, 5, 10);
 		
+		ArrayList<Member> memberList = adminService.adminMemberList(pi);
+		
 		model.addAttribute("pi", pi);
-		model.addAttribute("list", adminService.adminMemberList(pi));
+		model.addAttribute("memberList", memberList);
+		System.out.println(memberList);
 		
 		return "admin/adminMyPageMain";
 	}

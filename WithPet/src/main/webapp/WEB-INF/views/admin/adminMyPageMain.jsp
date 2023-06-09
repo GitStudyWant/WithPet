@@ -166,7 +166,7 @@
             <tr>
                 <th width="100px;">아이디</th>
                 <th>닉네임</th>
-                <th width="250px;">활동정보<br>(가입일자/작성글 수/댓글 수)</th>
+                <th width="250px;">활동정보<br>(가입일자/작성글)</th>
                 <th width="90px;">보유 포인트</th>
                 <th width="90px;">회원상태</th>
                 <th width="90px;">회원등급</th>
@@ -175,15 +175,15 @@
            </thead>
            </tbody>
                 <c:choose>
-                    <c:when test="${ empty memberList }">
+                    <c:when test="${ empty list }">
                         <tr><td colspan="8">회원이 없습니다.</td></tr>
                     </c:when>
                     <c:otherwise>
-                             <c:forEach var="m" items="${memberList}">
+                             <c:forEach var="m" items="${list}">
                              <tr>
                             <td>${m.memId}</td>
                             <td>${m.memNick}</td>
-				   			<td>(${m.memDate} / ${m.boardCount}/ ${m.replyCount})</td>
+				   			<td>(${m.memDate} / ${m.boardNo})</td>
 				    		<td>${m.memPoint}</td>
 				    		<td class="member${m.memId}">
                        			 <select name="memStaus">
