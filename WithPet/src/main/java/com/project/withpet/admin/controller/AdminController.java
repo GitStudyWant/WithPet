@@ -191,18 +191,26 @@ public class AdminController {
 	@RequestMapping("adminMemberList")
 	public String adminMemberList(@RequestParam(value="cPage", defaultValue="1") int currentPage,
 								  Model model) {
-		PageInfo pi = Pagination.getPageInfo(adminService.adminMemberListCount(), currentPage, 10, 10);
+		PageInfo pi = Pagination.getPageInfo(adminService.adminMemberListCount(), currentPage, 25, 10);
 		ArrayList<Member> list  = adminService.adminMemberList(pi);
-		System.out.println(pi);
-		System.out.println(list);
 		model.addAttribute("pi", pi);
 		model.addAttribute("list", list);
-		System.out.println(pi);
-		System.out.println(list);
 		
 		return "admin/adminMyPageMain";
 	}
 	
+	@RequestMapping("adminGradeUpdate")
+	public String adminGradeUpdate(Member m, HttpSession session) {
+		
+		if(adminService.adminGradeUpdate(m) > 0) {
+			System.out.println(m);
+			session.setAttribute("alertMsg","성공");
+			return "redirect:adminMyPageMain";
+		} else {
+			session.setAttribute("alertMsg","실패");
+			return "redirect:adminMyPageMain";
+		}		
+	}
 	
 	
 	

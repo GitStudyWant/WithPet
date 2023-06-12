@@ -107,5 +107,11 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 
+	@Override
+	public int adminGradeUpdate(Member m) {
+		return adminDao.adminGradeUpdate(sqlSession, m);
+	}
+
+
 	
 }

@@ -38,4 +38,6 @@ public interface AdminService {
 	ArrayList<Member> adminMemberList(PageInfo pi);
 	
 	int adminMemberListCount();
+	
+	int adminGradeUpdate(Member m);
 }

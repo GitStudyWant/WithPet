@@ -189,7 +189,14 @@
 		     mem_id desc		     
 	</select>
 	
-	
+	<update id="adminGradeUpdate" parameterType="member">
+      UPDATE 
+            MEMBER
+         SET 
+           MEM_GRADE = #{memGrade}
+       WHERE 
+            MEM_ID = #{memberId}
+	</update>
 	
 	
 	

@@ -76,5 +76,8 @@ public class AdminDao {
 		return sqlSession.selectOne("adminMapper.adminMemberListCount");
 	}
 
+	public int adminGradeUpdate(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.update("adminMapper.adminGradeUpdate", m);
+	}
 
 }
