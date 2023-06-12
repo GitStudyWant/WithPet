@@ -215,7 +215,7 @@
 				          	<br>
 				          	<div class="modal-footer modalBtnContainer-modifyEvent">
 				          	<button type="button" class="btn btn-danger" id="deleteEvent">삭제</button>
-				          	<button type="button" class="btn btn-primary" id="updateEvent" disabled>저장</button>
+				          	<button type="button" class="btn btn-primary" id="updateEvent">저장</button>
 				          	</div>
 				       		</form>
 				        </div>

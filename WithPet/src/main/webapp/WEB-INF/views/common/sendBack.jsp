@@ -9,6 +9,7 @@
 <body>
 	<script>
 	if('${loginMember}' == ''){
+		console.log("샌드백 실행");
 		$.ajax({
 			url : "sendBack.me",
 			type : "get",

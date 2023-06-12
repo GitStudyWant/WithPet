@@ -92,8 +92,17 @@ public class MemberDao {
 		return (ArrayList)sqlSession.selectList("memberMapper.selectMemoSend", memId, rowBounds);
 	}
 	
+	public int updateMemoCheck(SqlSession sqlSession, int memoNo) {
+	    return sqlSession.update("memberMapper.updateMemoCheck", memoNo);
+	}
 	
+	public int updateMemoCheckDate(SqlSession sqlSession, int memoNo) {
+	    return sqlSession.update("memberMapper.updateMemoCheckDate", memoNo);
+	}
 	
+	public Memo selectMemoDetail(SqlSession sqlSession, int memoNo) {
+	    return sqlSession.selectOne("memberMapper.selectMemoDetail", memoNo);
+	}
 	
 	
 	

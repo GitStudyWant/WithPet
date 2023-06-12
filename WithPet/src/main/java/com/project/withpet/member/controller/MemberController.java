@@ -44,6 +44,7 @@ import com.project.withpet.member.model.service.MemberService;
 import com.project.withpet.member.model.vo.CertVO;
 import com.project.withpet.member.model.vo.Friend;
 import com.project.withpet.member.model.vo.Member;
+import com.project.withpet.member.model.vo.Memo;
 import com.project.withpet.member.model.vo.Passward;
 import com.project.withpet.member.model.vo.Schedule;
 import com.project.withpet.trip.model.vo.CarReservation;
@@ -478,6 +479,8 @@ public class MemberController {
 		model.addAttribute("pi", pi);
 		model.addAttribute("list", memberService.selectMemoGet(memId, pi));
 		
+		System.out.println(memberService.selectMemoGet(memId, pi));
+		
 		return "member/memo/receiveMemo";
 	}
 	
@@ -503,6 +506,25 @@ public class MemberController {
 		return "member/memo/newMemo";
 	}
 	
+	@RequestMapping("updateMemoCheck")
+	public void updateMemoCheck(int memoNo, HttpServletResponse response) throws IOException {
+		
+		if (memberService.updateMemoCheck(memoNo) == 1) {
+			memberService.updateMemoCheckDate(memoNo);
+		}
+		
+		response.setContentType("text/html; charset=UTF-8");
+		response.getWriter().print("");
+	}
+	
+	@RequestMapping("selectMemoDetail")
+	public void selectMemoDetail(int memoNo, HttpServletResponse response) throws IOException {
+		
+		Memo memo = memberService.selectMemoDetail(memoNo);
+		
+		response.setContentType("application/json; charset=UTF-8");
+		response.getWriter().print(new Gson().toJson(memo));
+	}
 	
 	
 	

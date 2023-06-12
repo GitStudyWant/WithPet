@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.project.withpet.admin.model.dao.AdminDao;
 import com.project.withpet.board.common.model.vo.PageInfo;
+import com.project.withpet.cafe.model.vo.CafeRes;
 import com.project.withpet.member.model.vo.Member;
 import com.project.withpet.trip.model.vo.CarReservation;
 import com.project.withpet.trip.model.vo.Place;
@@ -104,6 +105,24 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public int adminMemberListCount() {
 		return adminDao.adminMemberListCount(sqlSession);
+	}
+
+
+	@Override
+	public int adminGradeUpdate(Member m) {
+		return adminDao.adminGradeUpdate(sqlSession, m);
+	}
+
+
+	@Override
+	public ArrayList<CafeRes> cafeResManagement() {
+		return adminDao.cafeResManagement(sqlSession);
+	}
+
+
+	@Override
+	public int deleteCr(int cafeResNo) {
+		return adminDao.deleteCr(sqlSession, cafeResNo);
 	}
 
 

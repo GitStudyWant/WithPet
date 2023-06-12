@@ -117,12 +117,17 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public int updateMemoCheck(int memoNo) {
-		return 0;
+		return memberDao.updateMemoCheck(sqlSession, memoNo);
 	}
 
 	@Override
-	public Memo selectMemoDetail(int memNo) {
-		return null;
+	public int updateMemoCheckDate(int memoNo) {
+		return memberDao.updateMemoCheckDate(sqlSession, memoNo);
+	}
+	
+	@Override
+	public Memo selectMemoDetail(int memoNo) {
+		return memberDao.selectMemoDetail(sqlSession, memoNo);
 	}
 
 	@Override

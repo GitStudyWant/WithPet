@@ -3,6 +3,7 @@ package com.project.withpet.admin.model.service;
 import java.util.ArrayList;
 
 import com.project.withpet.board.common.model.vo.PageInfo;
+import com.project.withpet.cafe.model.vo.CafeRes;
 import com.project.withpet.member.model.vo.Member;
 import com.project.withpet.trip.model.vo.CarReservation;
 import com.project.withpet.trip.model.vo.Place;
@@ -38,4 +39,10 @@ public interface AdminService {
 	ArrayList<Member> adminMemberList(PageInfo pi);
 	
 	int adminMemberListCount();
+	
+	int adminGradeUpdate(Member m);
+	
+	ArrayList<CafeRes> cafeResManagement();
+	
+	int deleteCr(int cafeResNo);
 }

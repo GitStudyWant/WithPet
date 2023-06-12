@@ -55,7 +55,9 @@ public interface MemberService {
 	public ArrayList<Memo> selectMemoSend(String memId, PageInfo pi);
 		
 	public int updateMemoCheck(int memoNo);
-		
+	
+	public int updateMemoCheckDate(int memoNo);
+	
 	public Memo selectMemoDetail(int memNo);
 		
 	public int deleteMemo(int memNo);

@@ -98,7 +98,7 @@
 		    	<tr>
 		    		<td><a href="receiveMemo">받은쪽지함</a></td>
 		    		<td><a href="sendMemo">보낸쪽지함</a></td>
-		    		<td><a href="newMemo">새 쪽지</td>
+		    		<td><a href="newMemo">새 쪽지</a></td>
 		    	</tr>
 		    </table>
 		    <hr>
@@ -106,30 +106,33 @@
 		    
 		    <table id="memolist" >
 		    	<tr>
-		    		<th class="memolisthead"><input type="checkbox"></th>
-		    		<th class="memolisthead">보낸사람</th>
-		    		<th class="memolisthead">제목</th>
-		    		<th class="memolisthead">발송시간</th>
-		    		<th class="memolisthead">읽음확인</th>
+		    		<th class="memolisthead" width="5%"><input id="receiveMemoCheckMain" type="checkbox"></th>
+		    		<th class="memolisthead" width="10%">보낸사람</th>
+		    		<th class="memolisthead" width="35%">제목</th>
+		    		<th class="memolisthead" width="25%">발송시간</th>
+		    		<th class="memolisthead" width="25%">읽음확인</th>
 		    	</tr>
 		    	<c:choose>
 		    	<c:when test="${ empty list}">
 			    	<tr>
-			    		<td colspan="5">쪽지가 없어요</td>>
+			    		<td colspan="5">쪽지가 없어요</td>
 			    	</tr>
 		    	</c:when>
 		    	<c:otherwise>
 			    	<c:forEach items="${list}" var="memos" varStatus="status">
-			    	<tr>
-			    		<td class="memotd"><input class="receiveMemoCheck" id="receiveMemoCheck${status.index + 1}" type="checkbox"></td>
-			    		<td class="memotd">${memos.memoSender}</td>
-			    		<td class="memotd">${memos.memoTitle}</td>   	
-			    		<td class="memotd">${memos.memoDate}</td>   	
-			    		<td class="memotd">
-			    		<c:choose>
-			    			<c:when test="${memos.memoCheck == 'N'}">읽지않음</c:when>
-			    			<c:otherwise>시간</c:otherwise>
-			    		</c:choose>
+			    	<tr id="receiveMemoMain${status.index}">
+			    		<td class="memotd" id="memoTdCheck">
+			    		<input type="checkbox" class="receiveMemoCheck" id="receiveMemoCheck${status.index}" onclick="memoCheck(${status.index})">
+			    		<input type="hidden" id="memoModalButton" data-bs-toggle="modal" data-bs-target="#memoModal">
+			    		</td>
+					    <td class="memotd receiveMemoMain" onclick="memoModal(${memos.memoNo})">${memos.memoSender}</td>
+					    <td class="memotd receiveMemoMain" onclick="memoModal(${memos.memoNo})">${memos.memoTitle}</td>   	
+					    <td class="memotd receiveMemoMain" onclick="memoModal(${memos.memoNo})">${memos.memoSendDate}</td>   	
+					    <td class="memotd receiveMemoMain" onclick="memoModal(${memos.memoNo})" id="memoRead${memos.memoNo}" >
+					    <c:choose>
+					    	<c:when test="${memos.memoCheck == 'N'}">읽지않음</c:when>
+					    	<c:otherwise>${memos.memoCheckDate}</c:otherwise>
+					    </c:choose>
 			    		</td>
 			    	</tr>
 			    	</c:forEach>
@@ -139,8 +142,16 @@
 		    
 		    <script>
 		    	$(function(){
-		    		console.log($('.memotd'));
-		    		$('.memotd').css("height", "40px").css("border", "1px solid silver");		    		
+		    		$('.memotd').css("height", "40px").css("border", "1px solid silver");
+		    		
+					$('.receiveMemoMain').on({
+		    		  mouseenter: function() {
+		    		    $(this).parent().children().slice(1).css("background-color", "lightgreen").css("cursor", "pointer");
+		    		  },
+		    		  mouseleave: function() {
+		    			$(this).parent().children().slice(1).css("background-color", "").css("cursor", "");
+		    		  }
+		    		});
 		    	})
 		    </script>
 		    
@@ -185,10 +196,135 @@
 		    		</td>
 		    	</tr>
 		    </table>
+	</div>
+	</div>
 		
 		        
 		    
 	<div id="diaryFooter"><jsp:include page="../../common/footer.jsp" /></div>
+	
+	
+	
+	<script>
+		$(function(){
+			$('#receiveMemoCheckMain').on("click", function(){
+				for(var i = 0; i < $('.receiveMemoCheck').length; i++){
+					$('#receiveMemoCheck' + i).prop("checked", true);
+				}
+			})
+		})
+		
+		
+		function memoCheck(a){
+			var check = true;
+			
+			if($('#receiveMemoCheck' + a).prop("checked") == false){
+				$('#receiveMemoCheckMain').prop("checked", false);		
+			} else{
+				for(var i = 0; i < $('.receiveMemoCheck').length; i++){
+					if($('#receiveMemoCheck' + i).prop("checked") == false){
+						check = false;
+					};
+				}
+				if(check){
+					$('#receiveMemoCheckMain').prop("checked", true);	
+				}
+			}
+		}
+		
+		
+	
+	
+	</script>
+	
+	<div class="modal fade" id="memoModal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" data-bs-backdrop="static" tabindex="-1">
+ 	   <div class="modal-dialog modal-dialog-centered">
+	      <div class="modal-content">
+	      
+	        <div class="modal-header" style="height:15px; background-color:lightgray">
+	          <h5 class="modal-title"></h5>
+	          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+	        </div>
+	        
+	        <div class="modal-body">
+	        
+	          <p class="modal-title" style="font-size:15px; text-align:center; margin-top:15px; margin-bottom:30px">쪽지 확인</p>
+	          
+	          <table style="width:70%; margin:auto; font-size:14px;">
+	          	<tr>
+	          		<td>보낸사람</td>
+	          		<td><input id="memoDetailSender" style="width:100%;" disabled></td>
+	          	</tr>
+	          	<tr>
+	          		<td>보낸시간</td>
+	          		<td><input id="memoDetailSendDate" style="width:100%;" disabled></td>
+	          	</tr>
+	          	<tr>
+	          		<td>제목</td>
+	          		<td><input id="memoDetailTitle" style="width:100%;" disabled></td>
+	          	</tr>
+	          	<tr>
+	          		<td>내용</td>
+	          		<td><textarea id="memoDetailContent" style="width:100%; height:90px;; resize:none;" disabled></textarea></td>
+	          	</tr>
+	          	<tr>
+	          		<td>확인시간</td>
+	          		<td><input id="memoDetailCheckDate" style="width:100%;" disabled></td>
+	          	</tr>
+	          
+	          
+	          </table>
+	          
+	        </div>
+	        
+	        <div class="modal-footer">
+	        <div style="margin:auto">
+	          <button type="button" class="btn btn-success">답장</button>
+	          <button type="button" class="btn btn-danger">삭제</button>
+	        </div>
+	        </div>
+	      
+	      </div>
+	    </div>
+	  </div>
+	  
+	  <script>
+	  
+	  function memoModal(memoNoSub){
+  		$('#memoModalButton').click();
+  		
+  		$.ajax({
+  			url : "updateMemoCheck",
+  			type : "get",
+				data : {
+					memoNo : memoNoSub
+				},
+				success : function(result){
+					$.ajax({
+			  			url : "selectMemoDetail",
+			  			type : "get",
+							data : {
+								memoNo : memoNoSub
+							},
+							success : function(result){
+								
+								$('#memoDetailSender').val(result.memoSender);	
+								$('#memoDetailSendDate').val(result.memoSendDate);	
+								$('#memoDetailTitle').val(result.memoTitle);	
+								$('#memoDetailContent').val(result.memoContent);	
+								$('#memoDetailCheckDate').val(result.memoCheckDate);
+								
+								$('#memoRead' + memoNoSub).text(result.memoCheckDate);
+							},
+							error : function(result){}
+			  		})
+				},
+				error : function(result){}
+  		})
+  		}
+	  
+	  
+	  </script>
 	
 </body>
 </html>
