@@ -641,6 +641,64 @@
 		      COURSE_SE = #{courseSe}
 	</delete>
 	
+	<select id="selectMyTaxiRes" resultType="taxiReservation">
+		SELECT
+		      TAXI_RNO taxiRno
+		     ,TR_NO  trNo
+		     ,TO_CHAR(TAXI_RDATE,'YY/MM/DD') taxiRDate
+		     ,TAXI_RTIME taxiRTime
+		     ,STATUS status
+		     ,TR_TYPE2 trType2
+		     ,MEM_ID memId
+		 FROM
+		     TAXI_RESERVATION JOIN TRANSPORTATION USING(TR_NO)
+		 WHERE
+		      MEM_ID = #{memId}
+		 ORDER
+		    BY
+		      TAXI_RNO
+	</select>
+	
+	<select id="selectMyCarRes" resultType="carReservation">
+		SELECT
+		      CAR_RNO carRno
+		     ,TR_NO trNo
+		     ,TO_CHAR(START_DATE,'YY/MM/DD') startDate
+		     ,TO_CHAR(END_DATE,'YY/MM/DD') endDate
+		     ,STATUS status
+		     ,TR_PAYMENT_NO trPaymentNo
+		     ,TO_CHAR(TR_PAYMENT_DATE,'DD/MM/YY') trPaymentDate
+		     ,TR_CARD_NO trCardNo
+		     ,TR_TYPE2 trType2
+		     ,TR_FEE trFee
+		     ,TRUNC((TO_DATE(END_DATE, 'YY/MM/DD') - TO_DATE(START_DATE, 'YY/MM/DD'))/365) reservationDay
+		     ,MEM_ID memId
+		 FROM
+		     CAR_RESERVATION JOIN TRANSPORTATION USING(TR_NO)
+		WHERE
+		     MEM_ID = #{memId}
+		ORDER
+		   BY
+		     CAR_RNO
+	</select>
+	
+	<update id="deleteTRes" parameterType="_int">
+		UPDATE
+		      TAXI_RESERVATION
+		  SET
+		     STATUS = 'N'
+		WHERE
+		     TAXI_RNO = #{ resNo }
+	</update>
+	
+	<update id="deleteCRes" parameterType="_int">
+		UPDATE
+		      CAR_RESERVATION
+		  SET
+		     STATUS = 'N'
+		WHERE
+		     CAR_RNO = #{ resNo }
+	</update>
 	
 	
 	</mapper>
