@@ -14,18 +14,6 @@
 		<result column="schedule_color" 	property="scheduleColor" />
 		<result column="schedule_date" 		property="scheduleDate" />
 	</resultMap>
-	
-	<resultMap id="memoResultSet" type="memo">
-		<result column="memo_no" 			property="memoNo" />
-		<result column="memo_sender" 		property="memoSender" />
-		<result column="memo_receiver" 		property="memoReceiver" />
-		<result column="memo_title"			property="memoTitle" />
-		<result column="memo_content" 		property="memoContent" />
-		<result column="memo_date" 			property="memoDate" />
-		<result column="memo_date2" 		property="memoDate2" />
-		<result column="memo_check" 		property="memoCheck" />
-		<result column="memo_status" 		property="memoStatus" />
-	</resultMap>
 
 	<insert id="insertMember" parameterType="member">
 		INSERT
@@ -228,9 +216,18 @@
 				MEMO_RECEIVER = #{memId}
 	</select>
 	
-	<select id="selectMemoGet" resultMap="memoResultSet">
+	<select id="selectMemoGet" resultType="memo">
 		SELECT
-				*
+				memo_no memoNo,
+				memo_sender memoSender,
+				memo_receiver memoReceiver,
+				memo_title memoTitle,
+				memo_content memoContent,
+				to_char(memo_senddate, 'YYYY-MM-DD HH24:MI') as memoSendDate,
+				to_char(memo_checkdate, 'YYYY-MM-DD HH24:MI') as memoCheckDate,
+				memo_reservedate memoReserveDate,
+				memo_check memoCheck,
+				memo_status memoStatus
 		FROM
 				memo
 		WHERE
@@ -240,9 +237,18 @@
 		        memo_no desc
 	</select>
 	
-	<select id="selectMemoSend" resultMap="memoResultSet">
+	<select id="selectMemoSend" resultType="memo">
 		SELECT
-				*
+				memo_no memoNo,
+				memo_sender memoSender,
+				memo_receiver memoReceiver,
+				memo_title memoTitle,
+				memo_content memoContent,
+				to_char(memo_senddate, 'YYYY-MM-DD HH24:MI') as memoSendDate,
+				to_char(memo_checkdate, 'YYYY-MM-DD HH24:MI') as memoCheckDate,
+				memo_reservedate memoReserveDate,
+				memo_check memoCheck,
+				memo_status memoStatus
 		FROM
 				memo
 		WHERE
@@ -251,6 +257,62 @@
 		   BY
 		        memo_no desc
 	</select>
+	
+	<update id="updateMemoCheck" parameterType="_int">
+		update
+			   memo
+   	  	   set
+       		   memo_check = 'Y'
+         where
+               memo_no = #{memoNo}
+           and
+           	   memo_check = 'N'
+	</update>
+	
+	<update id="updateMemoCheckDate" parameterType="_int">
+		update
+			   memo
+   	  	   set
+       		   memo_checkdate = sysdate
+         where
+               memo_no = #{memoNo}
+	</update>
+	
+	<select id="selectMemoDetail" resultType="memo">
+		SELECT
+				memo_no memoNo,
+				memo_sender memoSender,
+				memo_receiver memoReceiver,
+				memo_title memoTitle,
+				memo_content memoContent,
+				to_char(memo_senddate, 'YYYY-MM-DD HH24:MI') as memoSendDate,
+				to_char(memo_checkdate, 'YYYY-MM-DD HH24:MI') as memoCheckDate,
+				memo_reservedate memoReserveDate,
+				memo_check memoCheck,
+				memo_status memoStatus
+		FROM
+				memo
+		WHERE
+				memo_No = #{memoNo}
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
