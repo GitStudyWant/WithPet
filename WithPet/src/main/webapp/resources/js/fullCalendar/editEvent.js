@@ -37,6 +37,29 @@ var editEvent = function (event, element, view) {
 
     modifyBtnContainer.show();
     schUpdate.modal('show');
+    
+    $('#editStart').on('change', function(){
+		const regex = /^(?:19|20)\d{2}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|3[01])$/;
+		
+		if($(this).val() == ''){
+			$('#updateEvent').prop("disabled", true);
+		} else if (regex.test($(this).val())){
+			$('#updateEvent').prop("disabled", false);
+		} else {
+			alert("날짜형식이 맞지 않습니다.");
+			$('#updateEvent').prop("disabled", true);
+			$(this).val("");
+		}
+	})
+	
+	$('#editEnd').on('change', function(){
+		const regex = /^(?:19|20)\d{2}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|3[01])$/;
+		
+		if ($(this).val() != '' && !(regex.test($(this).val()))){
+			alert("날짜형식이 맞지 않습니다.");
+			$(this).val("");
+		}
+	})
 
 	$('#updateEvent').unbind();
   	$('#updateEvent').on('click', function () {

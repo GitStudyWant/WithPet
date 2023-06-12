@@ -94,8 +94,8 @@
 		    <hr>
 		    <table id="memokind">
 		    	<tr>
-		    		<td><a href="asd">받은쪽지함</a></td>
-		    		<td><a href="asd">보낸쪽지함</a></td>
+		    		<td><a href="receiveMemo">받은쪽지함</a></td>
+		    		<td><a href="sendMemo">보낸쪽지함</a></td>
 		    		<td><a href="newMemo">새 쪽지</td>
 		    	</tr>
 		    </table>

@@ -110,7 +110,7 @@
 		    		<th class="memolisthead">받은사람</th>
 		    		<th class="memolisthead">제목</th>
 		    		<th class="memolisthead">발송시간</th>
-		    		<th class="memolisthead">읽음확인</th>
+		    		<th class="memolisthead">수신확인</th>
 		    	</tr>
 		    	<c:choose>
 		    	<c:when test="${ empty list}">
@@ -163,24 +163,24 @@
 				                
 				                	<c:choose>
 				                		<c:when test="${ pi.currentPage eq 1 }">
-					                   		<li class="page-item disabled"><a class="page-link" href="#">&lt;</a></li>
+					                   		<li class="page-item disabled"><a class="page-link" href="#" disabled>&lt;</a></li>
 				    					</c:when>
 				    					<c:otherwise>
-					                    	<li class="page-item"><a class="page-link" href="list.bo?cPage=${ pi.currentPage - 1 }">&lt;</a></li>  					
+					                    	<li class="page-item"><a class="page-link" href="sendMemo?cPage=${ pi.currentPage - 1 }">&lt;</a></li>  					
 				    					</c:otherwise>            	
 				                	</c:choose>
 				                    
 				                    <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
-				                    	<li class="page-item"><a class="page-link" href="list.bo?cPage=${p}">${ p }</a><li>
+				                    	<li class="page-item"><a class="page-link" href="sendMemo?cPage=${p}">${p}</a><li>
 				                    </c:forEach>
 				                    
 				                    
 				                    <c:choose>
 				                    	<c:when test="${ pi.currentPage eq pi.maxPage }">
-				                    		<li class="page-item disabled"><a class="page-link" href="#">&gt;</a></li>
+				                    		<li class="page-item disabled"><a class="page-link" href="#" disabled>&gt;</a></li>
 				                    	</c:when>
 				                    	<c:otherwise>
-				                    		<li class="page-item"><a class="page-link" href="list.bo?cPage=${ pi.currentPage + 1 }">&gt;</a></li>
+				                    		<li class="page-item"><a class="page-link" href="sendMemo?cPage=${ pi.currentPage + 1 }">&gt;</a></li>
 				                  		</c:otherwise>
 				                    </c:choose>
 				                    

@@ -186,6 +186,7 @@ public class BoardController {
 	public String removeTag(@RequestBody Map<String, String> requestData) {
 	    String tagName = requestData.get("tagName");
 	    System.out.println(tagName);
+	    System.out.println(boardService.removeTag(tagName));
 	    return boardService.removeTag(tagName) > 0 ? "success" : "fail";
 	}
 	

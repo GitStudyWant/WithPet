@@ -129,6 +129,7 @@
 		          		<td><p style="font-size:3px; color:gray; margin-bottom:0px; display:none;"></p></td>
 		          	<tr>
 		          	<input type="hidden" name="memKakaoId" value="${sessionScope.kakaoId}">
+		          	<input type="hidden" name="memNaverId" value="${sessionScope.naverId}">
 	          	</table>
 	          	<button id="insertFormButton" type="submit" class="btn btn-primary" style="width:80%; display:block; margin:auto" disabled>회원 가입</button>
 	       		</form>
@@ -160,16 +161,42 @@
  		 	    	}
  		    	})
 	  		}
+	  		
+	  		if('${sessionScope.naverId}' != ""){
+	  			$.ajax({
+ 		 	    	url : "naverLogin.me",
+ 		 	    	type : 'POST',
+ 		 	    	data : {naverId : '${sessionScope.naverId}'},
+ 		 	    	success : function(result){
+ 		 	    		if(result == "1"){
+ 		 	    			location.href = "http://localhost:8787/withpet";
+ 		 	    		} else{
+ 		 	    			$('#insertMember').click();
+ 		 	    		}
+ 		 	    	}
+ 		    	})
+	  		}
 	  	})
 	  	
 	  	$('.btn-close').on('click', function(){
-	  		location.href = "http://localhost:8787/withpet/deleteKakaoId"
+	  		location.href = "http://localhost:8787/withpet/deleteSocialId"
 	  	})
 	  	
 	  	
 	    function kakaoLogin(){	    	
 	    	$.ajax({
 	 	    	url : "kakaoGetCodeUrl",
+	 	    	type : 'GET',
+	 	    	data : {},
+	 	    	success : function(result){
+	 	    		location.href = result;
+	 	    	}
+	    	})	    	
+	 	};
+	 	
+	 	function naverLogin(){	    	
+	    	$.ajax({
+	 	    	url : "naverGetCodeUrl",
 	 	    	type : 'GET',
 	 	    	data : {},
 	 	    	success : function(result){

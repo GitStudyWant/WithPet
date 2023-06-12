@@ -23,6 +23,7 @@ public class Member {
 	private String memStatus;
 	private String memUpdate;
 	private String memKakaoId;
+	private String memNaverId;
 	private int friendShare;
 	private int resultSearch;
 }

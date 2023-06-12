@@ -206,7 +206,7 @@
 		      MEMBER    
 	</select>
 	
-	<select id="adminMemberList" resultMap="memberResultSet">
+	<select id="adminMemberList" resultType="Member">
 		select
 		      mem_id
 		     ,mem_nick

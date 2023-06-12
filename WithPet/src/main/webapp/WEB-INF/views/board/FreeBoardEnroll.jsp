@@ -106,17 +106,7 @@
 			        lang : 'ko-KR'
 			  });
 			});
-		
-		function addTag() {
-            var newTag = $('#newTag').val();
-            if (newTag) {
-                var tagElement = '<span class="tag">' + newTag + '</span>';
-                $('#tagContainer').append(tagElement);
-                $('#tagModal').modal('hide');
-                $('#newTag').val('');
-            }
-        }
-		
+	
 	</script>
 			<!--  비로그인으로 접근시 이전 페이지로
 	        <c:if test="${ empty sessionScope.loginMember }">
@@ -188,61 +178,62 @@
     </div>
     
     <script>
-    function addTag() {
-        if ($('#newTag').val().trim() !== '') {
-            $.ajax({
-                url: 'addtag.bo',
-                type: 'POST',
-                data: {
-                	tagName : $('#newTag').val()
-                },
-                success: function(result){
-					console.log(result);
-					
-					if(result === 'success'){
-						var tagName = $('#newTag').val();
-						var tagItem = '<span class="tag-item">' + tagName + '<span class="close-btn">&times;</span></span>';
-		                    $('.tag-list').append(tagItem);
-		                    $('#newTag').val('');
-					}
-				},
-                error: function() {
-                	console.log('실패');
-                    alert('태그추가가 실패하였습니다.');
-				}
-        });
-     }
-    }
-    $(document).on('click', '.close-btn', function() {
-        var $tagItem = $(this).closest('.tag-item');
-        var tagtext = $tagItem.text().trim();
-        console.log(tagtext);
-        
+
+    
+function addTag() {
+    if ($('#newTag').val().trim() !== '') {
         $.ajax({
-            url: 'removetag.bo',
+            url: 'addtag.bo',
             type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify({
-                tagName: tagtext
-            }),
+            data: {
+                tagName: $('#newTag').val()
+            },
             success: function(result) {
                 console.log(result);
-                console.log(tagtext);
-                console.log($tagItem.text());
+
                 if (result === 'success') {
-                    $tagItem.remove();
+                    var tagName = $('#newTag').val();
+                    var tagItem = $('<span class="tag-item">' + tagName + '<span class="close-btn">&times;</span></span>');
+                    console.log(tagItem);
+                    $('.tag-list').append(tagItem);
+                    $('#newTag').val('');
                 }
             },
             error: function() {
                 console.log('실패');
-                console.log(tagtext);
-                console.log($tagItem.text());
-                alert('태그 삭제에 실패하였습니다.');
+                alert('태그 추가가 실패하였습니다.');
             }
         });
-    });
-        
+    }
+}
 
+$(document).on('click', '.close-btn', function() {
+    var $tagItem = $(this).closest('.tag-item');
+    console.log($tagItem);
+    var tagtext = $tagItem.text().trim().replace('×', '');
+
+    $.ajax({
+        url: 'removetag.bo',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({
+            tagName: tagtext
+        }),
+        success: function(result) {
+            console.log(result);
+            console.log(tagtext);
+            console.log($tagItem.text());
+            if (result === 'success') {
+                $tagItem.remove();
+            }
+        },
+        error: function() {
+            console.log('실패');
+            console.log(tagtext);
+            alert('태그 삭제에 실패하였습니다.');
+        }
+    });
+});
 </script>
     
 </body>

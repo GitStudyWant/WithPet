@@ -32,7 +32,7 @@ public interface MemberService {
 	
 	public Member selectKakaoMember(String memKakaoId);
 	
-	public int selectKakaoCount(String memKakaoId);
+	public Member selectNaverMember(String memNaverId);
 
 	public int updateMember(Member member);
 	

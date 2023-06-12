@@ -16,10 +16,10 @@
         
         if(code != null){
         	
-        	function kakaoGetTokenUser(){
+        	function naverGetTokenUser(){
         		
         		$.ajax({
-         	    	url : "kakaoGetTokenUser",
+         	    	url : "naverGetTokenUser",
          	    	type : 'get',
          	    	data : {
          	    	code : code,
@@ -34,7 +34,7 @@
          	    })
         	};
         	
-        	kakaoGetTokenUser();
+        	naverGetTokenUser();
         	
         }
         

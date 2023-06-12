@@ -35,6 +35,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.project.withpet.board.common.model.vo.PageInfo;
 import com.project.withpet.board.common.template.Pagination;
@@ -64,8 +65,6 @@ public class MemberController {
 		response.setContentType("text/html; charset=UTF-8");
 		response.getWriter().print("http://localhost:8787/withpet");
 	}
-	
-	
 	
 	@RequestMapping(value="idCheck.me", produces="application/json; charset=UTF-8")
 	public void idCheck(String checkId, HttpServletResponse response) throws ServletException, IOException {
@@ -108,6 +107,7 @@ public class MemberController {
 		
 		HttpSession session = request.getSession();
 		session.removeAttribute("kakaoId");
+		session.removeAttribute("naverId");
 		
 		if(memberService.insertMember(member) > 0) {
 			mv.setViewName("common/main");
@@ -165,30 +165,31 @@ public class MemberController {
 		response.getWriter().print(getCodeUrl);
 	}
 	
-	@RequestMapping("kakaoLogin.me")
-	public void selectKakaoMember(String kakaoId, HttpServletResponse response, HttpSession session) throws ServletException, IOException {
+	@RequestMapping("naverGetCodeUrl")
+	public void naverGetCodeUrl(HttpServletResponse response) throws ServletException, IOException {
 		
-		System.out.println("kakaoLogin 진입");
+		System.out.println("naverGetCodeUrl 진입");
 		
-		Member TempMember = memberService.selectKakaoMember(kakaoId);
+		String getCodeUrl = "https://nid.naver.com/oauth2.0/authorize"
+						+ "?response_type=code"
+				        + "&client_id=" + "6aIbyMx1S1A_QDaS6w46"
+				        + "&state=" + "STATE_STRING"
+				        + "&redirect_uri=" + "http://localhost:8787/withpet/naverLoginJump";
 		
-		if(TempMember != null) {
-			session.setAttribute("loginMember", TempMember);
-			session.setAttribute("loginMemo", memberService.selectMemoCount(TempMember.getMemId()));
-			session.removeAttribute("kakaoId");			
-			
-			response.setContentType("text/html; charset=UTF-8");
-			response.getWriter().print("1");
-		} else {
-			response.setContentType("text/html; charset=UTF-8");
-			response.getWriter().print("0");
-		}
+		response.setContentType("text/html; charset=UTF-8");
+		response.getWriter().print(getCodeUrl);
 	}
 	
 	@RequestMapping("/kakaoLoginJump")
-	public String kakaoLoginJump() throws ServletException, IOException {
+	public String kakaoLoginJump() {
 		System.out.println("kakaoLoginJump 진입");
 		return "member/kakaoLogin";
+	}
+	
+	@RequestMapping("/naverLoginJump")
+	public String naverLoginJump() {
+		System.out.println("naverLoginJump 진입");
+		return "member/naverLogin";
 	}
 	
 	@RequestMapping("kakaoGetTokenUser")
@@ -196,34 +197,38 @@ public class MemberController {
 		
 		System.out.println("kakaoGetTokenUser 진입");
 		
-		String accessToken = getAccessToken(code);
-		HashMap<String, Object> userInfo = getUserInfo(accessToken);
+		String accessToken = getKakaoAccessToken(code);
+		HashMap<String, Object> userInfo = getKakaoUserInfo(accessToken);
 		
 		HttpSession session = request.getSession();
 		session.setAttribute("accessToken", userInfo.get("accessToken"));
 		session.setAttribute("kakaoId", userInfo.get("id"));
 		
-		if(memberService.selectKakaoCount((String)userInfo.get("id")) == 0){			
-			response.setContentType("text/html; charset=UTF-8");
-			response.getWriter().print("http://localhost:8787/withpet");
-		} else {
         response.setContentType("text/html; charset=UTF-8");
 		response.getWriter().print("http://localhost:8787/withpet");
-		}
-		
+
 	}
 	
-	@RequestMapping("deleteKakaoId")
-	public String deleteKakaoId(HttpServletRequest request) {
+	@RequestMapping("naverGetTokenUser")
+	public void naverGetTokenUser(String code, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ParseException {
+		
+		System.out.println("naverGetTokenUser 진입");
+		
+		String accessToken = getNaverAccessToken(code);
+		HashMap<String, Object> userInfo = getNaverUserInfo(accessToken);
+		
 		HttpSession session = request.getSession();
-		session.removeAttribute("kakaoId");
+		session.setAttribute("accessToken", userInfo.get("accessToken"));
+		session.setAttribute("naverId", userInfo.get("id"));
 		
-		return "common/main";
+        response.setContentType("text/html; charset=UTF-8");
+		response.getWriter().print("http://localhost:8787/withpet");
+		
 	}
 	
-	public String getAccessToken(String code) throws ServletException, IOException, ParseException {
+	public String getKakaoAccessToken(String code) throws ServletException, IOException, ParseException {
 		
-		System.out.println("getAccessToken 진입");
+		System.out.println("getKakaoAccessToken 진입");
 		
 		String GetTokenUrl = "https://kauth.kakao.com/oauth/token?grant_type=authorization_code"
 				   + "&client_id=" + "261f64346cb2da405692b542c232a7d3&"
@@ -258,9 +263,47 @@ public class MemberController {
 		return access_Token;
 	}
 	
-	public HashMap<String, Object> getUserInfo(String accessToken) throws ServletException, IOException, ParseException {
+	public String getNaverAccessToken(String code) throws ServletException, IOException, ParseException {
+		
+		System.out.println("getNaverAccessToken 진입");
+		
+		String GetTokenUrl = "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code"
+				   + "&client_id=" + "6aIbyMx1S1A_QDaS6w46"
+				   + "&client_secret=" + "FVWHvKicAJ"
+		           + "&redirect_uri=" + "http://localhost:8787/withpet/naverLoginJump"
+		           + "&code=" + code;
+		
+		URL requestUrl = new URL(GetTokenUrl);
+		HttpURLConnection urlConnection = (HttpURLConnection)requestUrl.openConnection();
+		urlConnection.setRequestMethod("POST");
+		urlConnection.setDoOutput(true);
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+		
+		String responseText = "";
+		String access_Token = "";
+		String line;
+		
+		while((line = br.readLine()) != null) {
+			responseText += line;
+		}
+		
+		if(!responseText.equals("")) {
+			JSONParser parser = new JSONParser();
+			JSONObject jsonObject = (JSONObject)parser.parse(responseText);
+			
+			access_Token = (String)jsonObject.get("access_token");
+		}
+		
+		br.close();
+		urlConnection.disconnect();
+		
+		return access_Token;
+	}
 	
-		System.out.println("getUserInfo 진입");
+	public HashMap<String, Object> getKakaoUserInfo(String accessToken) throws ServletException, IOException, ParseException {
+	
+		System.out.println("getKakaoUserInfo 진입");
 		
 		HashMap<String, Object> userInfo = new HashMap<String, Object>();
 		String getUserURL = "https://kapi.kakao.com/v2/user/me";
@@ -292,7 +335,91 @@ public class MemberController {
 		return userInfo;
 	}
 	
+	public HashMap<String, Object> getNaverUserInfo(String accessToken) throws ServletException, IOException, ParseException {
+		
+		System.out.println("getNaverUserInfo 진입");
+
+		HashMap<String, Object> userInfo = new HashMap<String, Object>();
+		String getUserURL = "https://openapi.naver.com/v1/nid/me";
+
+		URL requestUrl = new URL(getUserURL);
+		HttpURLConnection urlConnection = (HttpURLConnection)requestUrl.openConnection();
+		urlConnection.setRequestMethod("GET");
+		urlConnection.setRequestProperty("Authorization", "Bearer " + accessToken);
+
+		BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+
+		String responseText = "";
+		String line;
+
+		while((line = br.readLine()) != null) {
+			responseText += line;
+		}
+		
+		if(!responseText.equals("")) {
+			JsonParser parser = new JsonParser();
+			JsonElement element = parser.parse(responseText);
+			String id = element.getAsJsonObject().get("response").getAsJsonObject().get("id").getAsString();
+			
+            userInfo.put("accessToken", accessToken);
+            userInfo.put("id", id);
+         
+		}
+		
+		return userInfo;
+	}
 	
+	@RequestMapping("kakaoLogin.me")
+	public void kakaoLogin(String kakaoId, HttpServletResponse response, HttpSession session) throws ServletException, IOException {
+		
+		System.out.println("kakaoLogin 진입");
+		
+		Member TempMember = memberService.selectKakaoMember(kakaoId);
+		
+		if(TempMember != null) {
+			session.setAttribute("loginMember", TempMember);
+			session.setAttribute("loginMemo", memberService.selectMemoCount(TempMember.getMemId()));
+			session.removeAttribute("kakaoId");			
+			
+			response.setContentType("text/html; charset=UTF-8");
+			response.getWriter().print("1");
+		} else {
+			response.setContentType("text/html; charset=UTF-8");
+			response.getWriter().print("0");
+		}
+	}
+	
+	@RequestMapping("naverLogin.me")
+	public void naverLogin(String naverId, HttpServletResponse response, HttpSession session) throws ServletException, IOException {
+		
+		System.out.println("naverLogin 진입");
+		
+		Member TempMember = memberService.selectNaverMember(naverId);
+	
+		if(TempMember != null) {
+			session.setAttribute("loginMember", TempMember);
+			session.setAttribute("loginMemo", memberService.selectMemoCount(TempMember.getMemId()));
+			session.removeAttribute("naverId");			
+			
+			response.setContentType("text/html; charset=UTF-8");
+			response.getWriter().print("1");
+		} else {
+			response.setContentType("text/html; charset=UTF-8");
+			response.getWriter().print("0");
+		}
+	}
+	
+	@RequestMapping("deleteSocialId")
+	public String deleteSocialId(HttpServletRequest request) {
+		
+		System.out.println("deleteSocialId 진입");
+		
+		HttpSession session = request.getSession();
+		session.removeAttribute("kakaoId");
+		session.removeAttribute("naverId");
+		
+		return "common/main";
+	}
 	
 	@RequestMapping(value="memberDiaryMain")
 	public ModelAndView memberDiaryMain(Schedule schedule, ModelAndView mv){
@@ -346,7 +473,7 @@ public class MemberController {
 	
 	
 	
-	
+
 	
 	
 	
@@ -942,7 +1069,7 @@ public class MemberController {
 						
 		int listCount = memberService.selectMemoCount(memId);
 		
-		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 10);
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 6, 10);
 		
 		model.addAttribute("pi", pi);
 		model.addAttribute("list", memberService.selectMemoGet(memId, pi));
@@ -950,6 +1077,7 @@ public class MemberController {
 		return "member/memo/receiveMemo";
 		
 	}
+
 	
 	@RequestMapping("sendMemo")
 	public String sendMemo(@RequestParam(value="cPage", defaultValue="1") int currentPage, HttpServletRequest request, Model model) {
@@ -960,7 +1088,7 @@ public class MemberController {
 						
 		int listCount = memberService.selectMemoCount(memId);
 		
-		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 10);
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 6, 10);
 		
 		model.addAttribute("pi", pi);
 		model.addAttribute("list", memberService.selectMemoSend(memId, pi));
