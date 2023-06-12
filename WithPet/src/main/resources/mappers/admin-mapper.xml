@@ -166,39 +166,6 @@
 	</update>
 	
 	
-	
-	
-	<resultMap id="memberResultSet" type="member">
-		<result column="MEM_ID"				property="memId" />
-		<result column="MEM_NICK"			property="memNick" />
-		<result column="MEM_PWD"			property="memPwd" />
-		<result column="MEM_PHONE"			property="memPhone" />
-		<result column="MEM_EMAIL"			property="memEmail" />
-		<result column="MEM_PHOTO"			property="memPhoto" />
-		<result column="MEM_PATH"			property="memPath" />
-		<result column="MEM_INTRO"			property="memIntro" />
-		<result column="MEM_GRADE"			property="memGrade" />
-		<result column="MEM_DATE"			property="memDate" />
-		<result column="MEM_MEMO"			property="memMemo" />
-		<result column="MEM_POINT"			property="memPoint" />
-		<result column="MEM_REPORT"			property="memReport" />
-		<result column="MEM_STATUS"			property="memStaus" />
-		<result column="MEM_UPDATE"			property="memUpdate" />
-		<result column="MEM_KAKAOID"		property="memKakaoId" />
-	</resultMap>	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	<select id="adminMemberListCount" resultType="_int">
 		SELECT
 		      COUNT(*)
@@ -206,15 +173,15 @@
 		      MEMBER    
 	</select>
 	
-	<select id="adminMemberList" resultType="Member">
+	<select id="adminMemberList" resultType="member">
 		select
-		      mem_id
-		     ,mem_nick
-		     ,mem_grade
-		     ,to_char(mem_date, 'YYYY-MM-DD') as "mem_date"
-		     ,mem_point
-		     ,mem_report
-		     ,mem_status
+		      mem_id memId
+		     ,mem_nick memNick
+		     ,mem_grade memGrade
+		     ,to_char(mem_date, 'YYYY-MM-DD') as "memDate"
+		     ,mem_point memPoint
+		     ,mem_report memReport
+		     ,mem_status memStatus
 		 from
 		     member
 		order

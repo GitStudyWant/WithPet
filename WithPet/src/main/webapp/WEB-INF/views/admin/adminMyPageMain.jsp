@@ -175,18 +175,18 @@
            </thead>
            </tbody>
                 <c:choose>
-                    <c:when test="${ empty memberList }">
+                    <c:when test="${ empty list }">
                         <tr><td colspan="8">회원이 없습니다.</td></tr>
                     </c:when>
                     <c:otherwise>
-                             <c:forEach var="m" items="${memberList}">
+                             <c:forEach var="m" items="${list}">
                              <tr>
                             <td>${m.memId}</td>
                             <td>${m.memNick}</td>
-				   			<td>(${m.memDate} / ${m.boardCount}/ ${m.replyCount})</td>
+				   			<td>${m.memDate}</td>
 				    		<td>${m.memPoint}</td>
 				    		<td class="member${m.memId}">
-                       			 <select name="memStaus">
+                       			 <select name="memStatus">
 	                                <option value="A">정상</option>
 	                                <option value="B">정지</option>
                             	</select> 
@@ -206,14 +206,6 @@
                 </tbody>
             </table>				
 			   
-				
-				
-				
-				
-				
-				
-				
-				
 				
 				
 				

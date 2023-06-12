@@ -69,7 +69,7 @@ public class AdminDao {
 	public ArrayList<Member> adminMemberList(SqlSessionTemplate sqlSession, PageInfo pi){
 		int offset = (pi.getCurrentPage() - 1)* pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-		return (ArrayList)sqlSession.selectList("memberMapper.adminMemberList",null,rowBounds);
+		return (ArrayList)sqlSession.selectList("adminMapper.adminMemberList",null,rowBounds);
 	}
 	
 	public int adminMemberListCount(SqlSessionTemplate sqlSession) {
