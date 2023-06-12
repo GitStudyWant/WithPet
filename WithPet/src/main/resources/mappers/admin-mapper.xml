@@ -213,10 +213,16 @@
 	    JOIN CAFE USING(CAFE_NO)
 	    ORDER
 	       BY
-	         CAFE_RES_NO DESC
+	         CAFE_NO DESC
 	</select>	
 	
-	
+	<delete id="deleteCr" parameterType="_int">
+		DELETE 
+		  FROM
+		       CAFE_RES
+		 WHERE
+		       CAFE_RES_NO = #{cafeResNo}
+	</delete>	
 	
 	
 	

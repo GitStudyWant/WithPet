@@ -43,4 +43,6 @@ public interface AdminService {
 	int adminGradeUpdate(Member m);
 	
 	ArrayList<CafeRes> cafeResManagement();
+	
+	int deleteCr(int cafeResNo);
 }

@@ -221,5 +221,14 @@ public class AdminController {
 		return "admin/cafeResManagement";
 	}	
 	
+	@ResponseBody
+	@RequestMapping("deleteCr")
+	public String deleteTr(CafeRes cr) {
+			if(adminService.deleteTr(cr.getCafeResNo()) > 0) {
+				return "Y";
+			}else {
+				return "N";
+			}
+		} 
 	
 }

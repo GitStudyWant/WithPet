@@ -158,38 +158,35 @@
 	
 	<script>
 		
-	
+		
 		$('#deleteBtn').click(function(){
-			if(confirm('선택한 예약건을 취소 처리 하시겠습니까?')){
-				
-				var resNo = $('input[name=trNo]:checked').val();
-				var trType = $('.trType').val();
-				
+			var cafeResNo = $('input[name=cafeResNo]:checked').val();
+			
+			if(confirm('선택한 카페 예약을 삭제하시겠습니까?')){
 				$.ajax({
-					url : 'deleteTReservation',
-					data : {resNo : resNo,
-						    trType : trType},
+					url : 'deleteCr',
+					data : {cafeResNo : cafeResNo},
 					success : function(result){
-						console.log(result);
 						if(result == 'Y'){
-							alert('취소 처리 되었습니다.');
+							alert('성공적으로 삭제되었습니다.')
 						}else{
-							alert('취소 처리가 실패했습니다. 다시 시도해주세요.');
+							alert('삭제가 실패했습니다. 다시 시도해주세요.');
 						}
 						
 					},
 					error : function(){
-						console.log('취소처리 실패 ㅠㅠ');
+						console.log('삭제 실패 ㅠㅠ');
 					}
 				})
 			} else {
 				return false;
 			}
-		})
+		})		
 		
-	$('#taxiList').click(function(){
-		location.href=location.href;
-	})
+		
+		
+		
+		
 		
 	</script>
 	

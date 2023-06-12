@@ -120,5 +120,11 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 
+	@Override
+	public int deleteCr(int cafeResNo) {
+		return adminDao.deleteCr(sqlSession, cafeResNo);
+	}
+
+
 	
 }

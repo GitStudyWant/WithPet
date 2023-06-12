@@ -85,5 +85,8 @@ public class AdminDao {
 		return (ArrayList)sqlSession.selectList("adminMapper.cafeResManagement");
 	}
 	
+	public int deleteCr(SqlSessionTemplate sqlSession, int cafeResNo) {
+		return sqlSession.delete("adminMapper.deleteCr", cafeResNo);
+	}
 	
 }
