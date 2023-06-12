@@ -92,10 +92,14 @@ public class AdminServiceImpl implements AdminService {
 
 
 	@Override
+	public int countTrRes(Transportation t) {
+		return adminDao.countTrRes(sqlSession, t);
+	}
+
+	@Override
 	public ArrayList<Member> adminMemberList(PageInfo pi) {
 		return adminDao.adminMemberList(sqlSession, pi);
 	}
-
 
 	@Override
 	public int adminMemberListCount() {

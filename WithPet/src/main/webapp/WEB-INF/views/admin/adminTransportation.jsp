@@ -108,9 +108,11 @@
 								<c:choose>
 									<c:when test="${i.trType eq 'T' }">
 										<td>펫택시</td>
+										<input id="${ i.trNo }trType" type="hidden" value="${ i.trType }">
 									</c:when>
 									<c:otherwise>
 										<td>렌터카</td>
+										<input id="${ i.trNo }trType" type="hidden" value="${ i.trType }">
 									</c:otherwise>
 								</c:choose>
 								<c:choose>
@@ -155,13 +157,20 @@
 	
 		
 		$('#deleteBtn').click(function(){
+			var trNo = $('input[name=trNo]:checked').val();
+			console.log($('#'+trNo+'trType').val());
+			
 			if(confirm('선택한 교통수단을 삭제하시겠습니까?')){
 				$.ajax({
 					url : 'deleteTr',
-					data : {trNo : $('input[name=trNo]:checked').val()},
+					data : {trNo : trNo,
+							trType : $('#'+trNo+'trType').val()},
 					success : function(result){
 						console.log(result);
-						if(result == 'Y'){
+						if(result == 'NN'){
+							alert('해당 교통수단은 유효한 예약건이 있어 삭제가 불가능 합니다.')
+						}
+						else if(result == 'Y'){
 							alert('성공적으로 삭제 되었습니다.');
 						}else{
 							alert('삭제가 실패했습니다. 다시 시도해주세요.');

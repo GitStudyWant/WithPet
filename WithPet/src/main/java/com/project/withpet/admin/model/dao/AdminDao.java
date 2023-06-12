@@ -24,6 +24,10 @@ public class AdminDao {
 		return sqlSession.insert("adminMapper.addTransportation", t);
 	}
 
+	public int countTrRes(SqlSessionTemplate sqlSession, Transportation t) {
+		return sqlSession.selectOne("adminMapper.countTrRes", t);
+	}
+	
 	public int deleteTr(SqlSessionTemplate sqlSession, int trNo) {
 		return sqlSession.delete("adminMapper.deleteTr", trNo);
 	}
@@ -65,11 +69,12 @@ public class AdminDao {
 	public ArrayList<Member> adminMemberList(SqlSessionTemplate sqlSession, PageInfo pi){
 		int offset = (pi.getCurrentPage() - 1)* pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-		return (ArrayList)sqlSession.selectList("adminMapper.adminMemberList",null,rowBounds);
+		return (ArrayList)sqlSession.selectList("memberMapper.adminMemberList",null,rowBounds);
 	}
 	
 	public int adminMemberListCount(SqlSessionTemplate sqlSession) {
 		return sqlSession.selectOne("adminMapper.adminMemberListCount");
 	}
+
 
 }

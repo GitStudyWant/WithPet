@@ -47,6 +47,9 @@ import com.project.withpet.member.model.vo.Friend;
 import com.project.withpet.member.model.vo.Member;
 import com.project.withpet.member.model.vo.Passward;
 import com.project.withpet.member.model.vo.Schedule;
+import com.project.withpet.trip.model.vo.MyPlace;
+import com.project.withpet.trip.model.vo.Place;
+
 
 @Controller
 public class MemberController {
@@ -462,7 +465,604 @@ public class MemberController {
 	
 	@RequestMapping("receiveMemo")
 	public String receiveMemo(@RequestParam(value="cPage", defaultValue="1") int currentPage, HttpServletRequest request, Model model) {
+
+		mv.setViewName("member/memo/memberMemo");
 		
+		return mv;
+	}
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// 마이페이지 trip관련 조회 메뉴 추가 
+	
+	@RequestMapping("myReservation")
+	public String myReservation(Model m) {
+		return "member/reservation/myReservation";
+	}
+	
+	@RequestMapping("myCourse")
+	public String myCourse(Model m, HttpSession session) {
+		
+		if(session.getAttribute("loginMember") == null) {
+			session.setAttribute("alertMsg","로그인 후 이용해주세요~");
+			return "common/main";
+		} else {
+			
+		String memId = ((Member)session.getAttribute("loginMember")).getMemId();
+		ArrayList<Place> myCourse = memberService.myCourse(memId);
+		System.out.println(myCourse);
+		m.addAttribute("myCourse", myCourse);
+		return "member/course/myCourse";
+		
+		}
+	}
+	
+	@ResponseBody
+	@RequestMapping("deleteCourse")
+	public String deleteCourse(MyPlace m) {
+		System.out.println(m);
+		if(memberService.deleteCourse(m) > 0) {
+			return "Y";
+		} else {
+			return "N";
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// 諛뺣�쇱꽦
+	
+	// �옉�꽦湲� 蹂닿린
+	
+	
+	// 硫붿씪 蹂대궡湲�
+	@Autowired
+	private JavaMailSenderImpl sender;
+	
+	@ResponseBody
+	@PostMapping("sendMail.bo")
+	public int sendMail(String email, HttpServletRequest request) throws MessagingException {
+		System.out.println("�삤�깘?");
+		System.out.println(email);
+		MimeMessage message = sender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+		
+		String ip = request.getRemoteAddr();
+		String secret = generateSecret();
+		
+		CertVO certvo = CertVO.builder()
+				  .who(ip)
+				  .secret(secret)
+				  .build();
+		
+		int result = memberService.sendMail(certvo);
+		
+		helper.setTo(email);
+		helper.setSubject("�씤利앸쾲�샇 蹂대궡�뱶由쎈땲�떎");
+		helper.setText("�씤利앸쾲�샇 : " + secret);
+		
+		sender.send(message);
+		
+		return result;
+		
+	}
+	
+	public String generateSecret() {
+	Random r = new Random();
+	int i = r.nextInt(100000);
+	Format f= new DecimalFormat("000000");
+	String secret = f.format(i);
+	
+	return secret;
+	}
+
+	
+	@ResponseBody
+	@PostMapping("check")
+	public int checkCode(String code, HttpServletRequest request) {
+		CertVO certVo = CertVO.builder().who(request.getRemoteAddr()).secret(code).build();
+		return memberService.validata(certVo);
+	}
+	
+	@ResponseBody
+	@PostMapping(value="idFind", produces="application/json; charset=UTF-8")
+	public String idFind(String email, HttpServletRequest request) {
+		return new Gson().toJson(memberService.idFind(email));
+	}
+	
+	@ResponseBody
+	@PostMapping("pwdMail.bo")
+	public int pwdMail(String email, HttpServletRequest request) throws MessagingException {
+		System.out.println("�삤�깘?");
+		System.out.println(email);
+		MimeMessage message = sender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+		
+		String ip = request.getRemoteAddr();
+		String secret = generateSecret();
+		
+		CertVO certvo = CertVO.builder()
+				  .who(ip)
+				  .secret(secret)
+				  .build();
+		
+		int result = memberService.sendMail(certvo);
+		
+		helper.setTo(email);
+		helper.setSubject("�씤利앸쾲�샇 蹂대궡�뱶由쎈땲�떎");
+		helper.setText("�씤利앸쾲�샇 : " + secret);
+		
+		sender.send(message);
+		
+		return result;
+		
+	}
+	
+	@ResponseBody
+	@PostMapping("pwdCheck")
+	public int pwdCheck(String code, HttpServletRequest request) {
+		CertVO certVo = CertVO.builder().who(request.getRemoteAddr()).secret(code).build();
+		return memberService.validata(certVo);
+	}
+
+	@ResponseBody
+	@PostMapping("pwdFind")
+	public ModelAndView pwdFind(Passward p, HttpServletRequest request, ModelAndView mv) {
+		if(memberService.pwdFind(p) > 0) {
+			mv.addObject("alertMsg", "鍮꾨�踰덊샇媛� 蹂�寃쎈릺�뿀�뒿�땲�떎!");
+			mv.setViewName("common/main");
+		}else {
+			mv.addObject("errorMsg", "鍮꾨�踰덊샇蹂�寃쎌뿉 �떎�뙣�븯���뒿�땲�떎!");
+			mv.setViewName("common/main");
+		}
+		return mv;
+	}
+	
+	@PostMapping("myPage")
+	public String myPage(@RequestParam(value="mPage", defaultValue="1") int currentPage, String memberId, HttpServletRequest request, Model m) {
+		
+		PageInfo pi = Pagination.getPageInfo(memberService.boardCount(memberId), currentPage, 10, 10);
+		pi.setMemberId(memberId);
+		ArrayList<Board> list = memberService.myPage(pi);
+		if(list.isEmpty()) {
+			m.addAttribute("boardList", list);
+			return "member/myPageMain";
+
+		}else {
+			m.addAttribute("number", 1);
+			m.addAttribute("pi", pi);
+			m.addAttribute("boardList", list);
+			return "member/myPageMain";
+		}
+	}
+	
+	@PostMapping("myPageReply")
+	public String myPageReply(@RequestParam(value="mPage", defaultValue="1") int currentPage, String memberId, HttpServletRequest request, Model m) {
+		
+		PageInfo pi = Pagination.getPageInfo(memberService.replyCount(memberId), currentPage, 10, 10);
+		pi.setMemberId(memberId);
+		ArrayList<Comments> list = memberService.myPageReply(pi);
+		if(list.isEmpty()) {
+			m.addAttribute("boardList", list);
+			return "member/myPageMain";
+
+		}else {
+			m.addAttribute("number", 2);
+			m.addAttribute("pi", pi);
+			m.addAttribute("ReplyList", list);
+			return "member/myPageMain";
+		}
+	}
+	@PostMapping("myPageLike")
+	public String myPageLike(@RequestParam(value="mPage", defaultValue="1") int currentPage, String memberId, HttpServletRequest request, Model m) {
+		
+		PageInfo pi = Pagination.getPageInfo(memberService.likeCount(memberId), currentPage, 10, 10);
+		pi.setMemberId(memberId);
+		ArrayList<Board> list = memberService.myPageLike(pi);
+		if(list.isEmpty()) {
+			m.addAttribute("boardList", list);
+			return "member/myPageMain";
+
+		}else {
+			m.addAttribute("number", 3);
+			m.addAttribute("pi", pi);
+			m.addAttribute("boardList", list);
+			return "member/myPageMain";
+		}
+	}
+	
+	
+	@PostMapping("myPageDelete")
+	public String myPageDelete(@RequestParam(value="mPage", defaultValue="1") int currentPage, String memberId, HttpServletRequest request, Model m) {
+		
+		PageInfo pi = Pagination.getPageInfo(memberService.deleteCount(memberId), currentPage, 10, 10);
+		pi.setMemberId(memberId);
+		ArrayList<Board> list = memberService.myPageDelete(pi);
+		if(list.isEmpty()) {
+			m.addAttribute("boardList", list);
+			return "member/myPageMain";
+
+		}else {
+			m.addAttribute("number", 5);
+			m.addAttribute("pi", pi);
+			m.addAttribute("boardList", list);
+			return "member/myPageMain";
+		}
+		
+	}
+	
+	@RequestMapping("myPageFriend.me")
+	public String myPageFriend(@RequestParam(value="mPage", defaultValue="1") int currentPage, HttpServletRequest request, Model m) {
+
 		HttpSession session = request.getSession();
 		
 		String memId = (String)((Member)session.getAttribute("loginMember")).getMemId();
@@ -477,6 +1077,7 @@ public class MemberController {
 		return "member/memo/receiveMemo";
 		
 	}
+
 	
 	@RequestMapping("sendMemo")
 	public String sendMemo(@RequestParam(value="cPage", defaultValue="1") int currentPage, HttpServletRequest request, Model model) {
