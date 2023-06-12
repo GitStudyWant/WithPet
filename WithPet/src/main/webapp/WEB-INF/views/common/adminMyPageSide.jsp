@@ -141,7 +141,7 @@
             <table id="sideMenu">
                 <thead align="center">
                     <tr>
-                        <th><a href="#">회원 관리</a></th>
+                        <th><a href="adminMemberList">회원 관리</a></th>
                     </tr>
                     <tr>
                         <th><a href="#">문의사항 관리</a></th>
@@ -159,10 +159,10 @@
                         <th><a href="transReservationList">교통예약 관리</a></th>
                     </tr>
                     <tr>
-                        <th><a href="#">숙소예약 관리</a></th>
+                        <th><a href="#">카페예약 관리</a></th>
                     </tr>
                     <tr>
-                        <th><a href="#">숙소 관리</a></th>
+                        <th><a href="#">카페 관리</a></th>
                     </tr>
                     <tr>
                         <th><a href="adminPlaceList">코스 장소 관리</a></th>

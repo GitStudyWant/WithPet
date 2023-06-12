@@ -1,10 +1,10 @@
 package com.project.withpet.admin.controller;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 
 import javax.servlet.http.HttpSession;
 
@@ -20,6 +20,7 @@ import com.google.gson.Gson;
 import com.project.withpet.admin.model.service.AdminService;
 import com.project.withpet.board.common.model.vo.PageInfo;
 import com.project.withpet.board.common.template.Pagination;
+import com.project.withpet.member.model.vo.Member;
 import com.project.withpet.trip.model.vo.Place;
 import com.project.withpet.trip.model.vo.TaxiReservation;
 import com.project.withpet.trip.model.vo.Transportation;
@@ -32,8 +33,13 @@ public class AdminController {
 	
 	
 	@RequestMapping("adminPage")
-	public String adminPage() {
-		return "admin/adminMyPageMain";
+	public String adminPage(HttpSession session) {
+		if(session.getAttribute("loginMember") == null) {
+			session.setAttribute("alertMsg","로그인 후 이용해주세요~");
+			return "common/main";
+		} else {
+			return "admin/adminMyPageMain";
+		}
 	}
 	
 	@RequestMapping("adminTransportation")
@@ -61,17 +67,19 @@ public class AdminController {
 	
 	@ResponseBody
 	@RequestMapping("deleteTr")
-	public String deleteTr(int trNo) {
-		System.out.println(trNo);
-		if(adminService.deleteTr(trNo) > 0) {
-			return "Y";
-		}else {
-			return "N";
+	public String deleteTr(Transportation t) {
+		int result = adminService.countTrRes(t);
+		if(result == 0) {
+			if(adminService.deleteTr(t.getTrNo()) > 0) {
+				return "Y";
+			}else {
+				return "N";
+			}
+		} else {
+			return "NN";
 		}
 	}
 	
-	
-
 	@RequestMapping("transReservationList")
 	public String taxiReservationList(Model m) {
 		
@@ -179,4 +187,24 @@ public class AdminController {
 		return changeName;
 		
 		}
+	
+	@RequestMapping("adminMemberList")
+	public String adminMemberList(@RequestParam(value="cPage", defaultValue="1") int currentPage,
+								  Model model) {
+		PageInfo pi = Pagination.getPageInfo(adminService.adminMemberListCount(), currentPage, 5, 10);
+		
+		ArrayList<Member> memberList = adminService.adminMemberList(pi);
+		
+		model.addAttribute("pi", pi);
+		model.addAttribute("memberList", memberList);
+		System.out.println(memberList);
+		
+		return "admin/adminMyPageMain";
+	}
+	
+	
+	
+	
+	
+	
 }

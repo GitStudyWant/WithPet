@@ -110,9 +110,9 @@
         <div id="header_1"></div>
         <div id="header_2"><a id="header_2_a">Trip</a>
             <div id="header_2_detail">
-                <div id="header_2_detail_1">내 주변 조회</div>
+                <div id="header_2_detail_1"><a href="aroundSearch">내 주변 조회</a></div>
                 <div id="header_2_detail_2"><a href="transReservation">교통 예약하기</a></div>
-                <div id="header_2_detail_3">숙소 예약하기</div>
+                <div id="header_2_detail_3"><a href="cafe.bo">숙소 예약하기</a></div>
                 <div id="header_2_detail_4"><a href="placeList">여행코스 추천</a></div>
             </div>
         </div>
@@ -139,6 +139,7 @@
 					</svg>
 					</c:when>
 					<c:otherwise>
+					<a href="receiveMemo">
 					<button type="button" class="btn btn-primary position-relative" style="background-color:transparent; border:none; padding:revert; margin-right:10px; margin-top:3px">
 					  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bell-fill" viewBox="0 0 16 16" style="vertical-align:baseline;">
 					  <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zm.995-14.901a1 1 0 1 0-1.99 0A5.002 5.002 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901z" class="position-relative" style="padding-bottom:12px"/>
@@ -148,6 +149,7 @@
 					   <span class="visually-hidden">unread messages</span>
 					  </span>
 					</button>
+					 </a>
 					</c:otherwise>
 				</c:choose>
 				<c:choose>

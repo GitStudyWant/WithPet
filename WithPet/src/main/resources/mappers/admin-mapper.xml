@@ -3,6 +3,9 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="adminMapper">
+
+
+
 	<select id="adminTransportation" resultType="transportation">
 		SELECT 
 		      TR_NO trNo
@@ -42,6 +45,23 @@
 		 WHERE
 		     TR_NO = #{trNo}
 	</delete>
+	
+	<select id="countTrRes" parameterType="transportation" resultType="_int">
+		SELECT 
+		      COUNT(TR_NO)
+		 <if test='trType == "T"'>
+		 FROM 
+		     TAXI_RESERVATION
+		 </if>
+		 <if test='trType == "C"'>
+		 FROM
+		     CAR_RESERVATION
+		 </if>
+		 WHERE
+		      TR_NO = #{trNo} AND 
+		      STATUS = 'Y'
+	</select>
+
 	
 	<select id="taxiReservationList" resultType="taxiReservation">
 		SELECT 
@@ -144,4 +164,78 @@
 		WHERE
 		     PLACE_NO = #{placeNo}    
 	</update>
+	
+	
+	
+	
+	
+	
+	<resultMap id="memberResultSet" type="member">
+		<result column="MEM_ID"				property="memId" />
+		<result column="MEM_NICK"			property="memNick" />
+		<result column="MEM_PWD"			property="memPwd" />
+		<result column="MEM_PHONE"			property="memPhone" />
+		<result column="MEM_EMAIL"			property="memEmail" />
+		<result column="MEM_PHOTO"			property="memPhoto" />
+		<result column="MEM_PATH"			property="memPath" />
+		<result column="MEM_INTRO"			property="memIntro" />
+		<result column="MEM_GRADE"			property="memGrade" />
+		<result column="MEM_DATE"			property="memDate" />
+		<result column="MEM_MEMO"			property="memMemo" />
+		<result column="MEM_POINT"			property="memPoint" />
+		<result column="MEM_REPORT"			property="memReport" />
+		<result column="MEM_STATUS"			property="memStaus" />
+		<result column="MEM_UPDATE"			property="memUpdate" />
+		<result column="MEM_KAKAOID"		property="memKakaoId" />
+	</resultMap>	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<select id="adminMemberListCount" resultType="_int">
+		SELECT
+		      COUNT(*)
+		  FROM
+		      MEMBER    
+	</select>
+	
+	<select id="adminMemberList" resultMap="memberResultSet">
+		select
+		      mem_id
+		     ,mem_nick
+		     ,mem_grade
+		     ,to_char(mem_date, 'YYYY-MM-DD') as "mem_date"
+		     ,mem_point
+		     ,mem_report
+		     ,mem_status
+		 from
+		     member
+		order
+		   by
+		     mem_id desc		     
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 </mapper>

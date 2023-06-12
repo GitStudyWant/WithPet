@@ -96,6 +96,44 @@
 
 
 
+
+
+    #wrap_12{
+        width: 1200px;
+        text-align: center;
+        margin: auto;
+    }
+    #wrap{
+        margin : auto;
+        width : 800px;
+        height : 100%;
+    }
+    button{
+        color:white ;
+        background-color: green;
+        border: 1px #C2E5F2;
+    }
+   
+   table{
+
+   text-align : center;
+    font-size : 13px;
+   
+   }
+    #actH2{
+        text-align: center;
+       font-weight: 1000;
+       margin-bottom: 40px;
+       margin-top: 40px;
+       color:#052159 ;
+    }
+    .actBtn{
+        border-radius: 5px;
+        color: white;
+    }
+
+
+
 </style>
 </head>
 <body>
@@ -103,14 +141,102 @@
 	<jsp:include page="../common/adminMyPageSide.jsp" />
 
 	<div id="body">
-			<div id="mainmain">
+		<div id="mainmain">
 				<h1>회원 관리</h1>	
-				리스트 뿌려주기~~~~~~
-				
+    <hr>
+    <br><br>
+    <form action="adminMemberList" method="post">
+        <table id="memberlist" align="center">
+           <thead>
+            <tr>
+                <td colspan="7">
+                    <select id="search" name="search">
+                        <option name="search" value="memId">아이디</option>
+                        <option name="search" value="memNick">닉네임</option>
+                    </select> : <input type="text" name="Skeyword" id="searchGo" onclick="noSearch();">
+                    <button class="actBtn" type="submit">검색</button>
+                </td>
+            </tr>
+            <tr>
+                <th colspan="5"><b></b></th>
+                <th><button class="actBtn" onclick="updateMemType();">상태 변경</button></th>
+            </tr>
+            <tr></tr>
+            <tr height="20"></tr>
+            <tr>
+                <th width="100px;">아이디</th>
+                <th>닉네임</th>
+                <th width="250px;">활동정보<br>(가입일자/작성글)</th>
+                <th width="90px;">보유 포인트</th>
+                <th width="90px;">회원상태</th>
+                <th width="90px;">회원등급</th>
+                <th>선택</th>
+            </tr>
+           </thead>
+           </tbody>
+                <c:choose>
+                    <c:when test="${ empty list }">
+                        <tr><td colspan="8">회원이 없습니다.</td></tr>
+                    </c:when>
+                    <c:otherwise>
+                             <c:forEach var="m" items="${list}">
+                             <tr>
+                            <td>${m.memId}</td>
+                            <td>${m.memNick}</td>
+				   			<td>(${m.memDate} / ${m.boardNo})</td>
+				    		<td>${m.memPoint}</td>
+				    		<td class="member${m.memId}">
+                       			 <select name="memStaus">
+	                                <option value="A">정상</option>
+	                                <option value="B">정지</option>
+                            	</select> 
+                            </td>				    		
+				    		<td class="member${m.memId}">
+                       			 <select name="memGrade">
+	                                <option value="A">ADMIN</option>
+	                                <option value="B">NORMAL</option>
+	                                <option value="C">CREATOR</option>
+                            	</select> 
+                            </td>
+                    <td><input type="checkbox" name="memStaus" value="${m.memId}"></td>
+                	</tr>
+                             </c:forEach>
+                    </c:otherwise>
+                </c:choose>
+                </tbody>
+            </table>				
 			   
 				
-			</div>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+		</div>
 	</div>		
+	<script>
+    function noSearch(){
+        
+        var result = $('#search option:selected').val();
+        console.log(result);
+        if (result == 'report') {
+            $('#searchGo').attr('readonly', true).val("검색 없이 조회 됩니다.").css('background-color','#C2E5F2');
+            
+                } else {
+                    $('#searchGo').removeAttr('readonly');
+                    $('#searchGo').css('background-color','white').val('').focus;
+                }
+    	}
+	</script>
 	
 	<div id="mypageFooter"><jsp:include page="../common/footer.jsp" /></div>
 	

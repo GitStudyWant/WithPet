@@ -120,29 +120,29 @@
 								<td>
 								<c:choose>
 									<c:when test="${i.placeType eq 'A' }">
-										<select>
+										<select id="${i.placeNo}placeType">
 											<option disabled selected value="식당/카페">식당/카페</option>
 										</select>
 									</c:when>
 									<c:when test="${i.placeType eq 'B' }">
-										<select>
+										<select id="${i.placeNo}placeType">
 											<option disabled selected value="숙박">숙박</option>
 										</select>
 									</c:when>
 									<c:when test="${i.placeType eq 'C' }">
-										<select>
+										<select id="${i.placeNo}placeType">
 											<option disabled selected value="야외시설">야외시설</option>
 										</select>
 									</c:when>
 								</c:choose>
 								</td>
-								<td>${ i.placeName }</td>
-								<td>${ i.placeLocation }</td>
-								<td>${ i.placePhone }</td>
-								<td>${ i.placeInfo }</td>
+								<td id="${i.placeNo}placeName">${ i.placeName }</td>
+								<td id="${i.placeNo}placeLocation">${ i.placeLocation }</td>
+								<td id="${i.placeNo}placePhone">${ i.placePhone }</td>
+								<td id="${i.placeNo}placeInfo">${ i.placeInfo }</td>
 								<td>
-										<input type="hidden" value="${i.placeChangeName}">
-										<input type="hidden" value="${i.placeOriginName}">
+										<input type="hidden" value="${i.placeChangeName}" id="${i.placeNo}placeChangeName">
+										<input type="hidden" value="${i.placeOriginName}" id="${i.placeNo}placeOriginName">
 								<c:choose>
 									<c:when test="${ !empty i.placeChangeName  }">
 										<button class="btnn" onclick="window.open('${i.placeChangeName}')">사진 보기</button>
@@ -224,14 +224,13 @@
 		
 		var click = $('input[name=placeNo]:checked');
 		var placeNo = $('input[name=placeNo]:checked').val();
-		var placeType = click.parent().next().next().children().children().val();
-		var placeName = click.parent().next().next().next().text();
-		var placeLocation = click.parent().next().next().next().next().text();
-		var placePhone = click.parent().next().next().next().next().next().text();
-		var placeInfo = click.parent().next().next().next().next().next().next().text();
-		var changeName = click.parent().next().next().next().next().next().next().next().children().eq(0).val();
-		var originName = click.parent().next().next().next().next().next().next().next().children().eq(1).val();
-		//console.log(placeInfo);
+		var placeType = $('#'+placeNo+'placeType').children().val();
+		var placeName = $('#'+placeNo+'placeName').text();
+		var placeLocation = $('#'+placeNo+'placeLocation').text();
+		var placePhone = $('#'+placeNo+'placePhone').text();
+		var placeInfo = $('#'+placeNo+'placeInfo').text();
+		var changeName = $('#'+placeNo+'changeName').val();
+		var originName = $('#'+placeNo+'originName').val();
 		
 		$('#MplaceNo').val(placeNo);
 		$('#MplaceName').val(placeName);

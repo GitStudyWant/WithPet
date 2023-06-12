@@ -59,7 +59,7 @@ var editEvent = function (event, element, view) {
 		
         $.ajax({
             type: "get",
-            url: "updateSchedule.me",
+            url: "updateSchedule",
             data: {
             	scheduleNo: $('#hidden').data('id'),
             	scheduleCate: event.title,
@@ -85,7 +85,7 @@ $('#deleteEvent').on('click', function () {
 	
     $.ajax({
         type: "get",
-        url: "deleteSchedule.me",
+        url: "deleteSchedule",
         data: {
             scheduleNo : $('#hidden').data('id')
         },

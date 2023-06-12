@@ -18,6 +18,8 @@ import com.project.withpet.member.model.vo.Memo;
 import com.project.withpet.member.model.vo.Passward;
 import com.project.withpet.member.model.vo.Point;
 import com.project.withpet.member.model.vo.Schedule;
+import com.project.withpet.trip.model.vo.MyPlace;
+import com.project.withpet.trip.model.vo.Place;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -28,6 +30,7 @@ public class MemberServiceImpl implements MemberService {
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 
+	// 멤버
 	@Override
 	public int insertMember(Member member) {
 		return memberDao.insertMember(sqlSession, member);
@@ -73,14 +76,41 @@ public class MemberServiceImpl implements MemberService {
 		return 0;
 	}
 
+	// 스케쥴
+	@Override
+	public ArrayList<Schedule> selectSchedules(Schedule schedule) {
+		return memberDao.selectSchedules(sqlSession, schedule);
+	}
+
+	@Override
+	public int insertSchedule(Schedule schedule) {
+		return memberDao.insertSchedule(sqlSession, schedule);
+	}
+	
+	@Override
+	public int updateSchedule(Schedule schedule) {
+		return memberDao.updateSchedule(sqlSession, schedule);
+	}
+	
+	@Override
+	public int deleteSchedule(int scheduleNo) {
+		return memberDao.deleteSchedule(sqlSession, scheduleNo);
+	}
+	
+	// 메모
 	@Override
 	public int selectMemoCount(String memId) {
 		return memberDao.selectMemoCount(sqlSession, memId);
 	}
 	
 	@Override
-	public ArrayList<Memo> selectMemoGet(String memId) {
-		return null;
+	public ArrayList<Memo> selectMemoGet(String memId, PageInfo pi) {
+		return memberDao.selectMemoGet(sqlSession, memId, pi);
+	}
+	
+	@Override
+	public ArrayList<Memo> selectMemoSend(String memId, PageInfo pi) {
+		return memberDao.selectMemoSend(sqlSession, memId, pi);
 	}
 
 	@Override
@@ -104,33 +134,8 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public ArrayList<Memo> selectMemoSend(String memId) {
-		return null;
-	}
-
-	@Override
 	public int insertMemo(Memo memo) {
 		return 0;
-	}
-	
-	@Override
-	public ArrayList<Schedule> selectSchedules(Schedule schedule) {
-		return memberDao.selectSchedules(sqlSession, schedule);
-	}
-
-	@Override
-	public int insertSchedule(Schedule schedule) {
-		return memberDao.insertSchedule(sqlSession, schedule);
-	}
-	
-	@Override
-	public int updateSchedule(Schedule schedule) {
-		return memberDao.updateSchedule(sqlSession, schedule);
-	}
-	
-	@Override
-	public int deleteSchedule(int scheduleNo) {
-		return memberDao.deleteSchedule(sqlSession, scheduleNo);
 	}
 
 	@Override
@@ -161,13 +166,18 @@ public class MemberServiceImpl implements MemberService {
 	
 	
 	
+
+	@Override
+	public ArrayList<Place> myCourse(String memId) {
+		return memberDao.myCourse(sqlSession, memId);
+	}
 	
 	
-	
-	
-	
-	
-	
+	@Override
+	public int deleteCourse(MyPlace m) {
+		return memberDao.deleteCourse(sqlSession, m);
+	}
+
 	
 	
 	
@@ -302,6 +312,12 @@ public class MemberServiceImpl implements MemberService {
 	public Member friendSearch(Friend fri) {
 		return memberDao.friendSearch(sqlSession, fri);
 	}
+
+	
+	
+
+
+
 	
 
 

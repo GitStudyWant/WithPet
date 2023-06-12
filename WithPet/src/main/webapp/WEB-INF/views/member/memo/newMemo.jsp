@@ -44,7 +44,7 @@
 		float:left;
 	}
 	
-	#memomain p{
+	#memotitle{
 		font-size:25px;
 		margin-left:60px;
 	}
@@ -65,20 +65,18 @@
 		border-right : 1px silver solid; 
 	}
 	
-	#memolist{
-		width : 95%;
-		text-align : center;
-		margin : auto;
+	#newMemoTable p{
+		height: 50px;
+		text-align : left;
+		font-size: 20px;
+		margin : 0px;
+		display : flex;
+		align-items:center;
+		font-weight:bold;
 	}
 	
-	td[class="memolisthead"]{
-		background-color : lightgray;
-		border : 1px solid silver;
-	}
-	
-	#memoetc{
-		width : 95%;
-		margin : auto;
+	#newMemoTable input{
+		width : 60%;
 	}
 
 </style>
@@ -90,48 +88,48 @@
 	<div id="body">	
 		    <div id="memomain">
 		    <br>
-		    <p>[${ loginMember.memNick }] 님의 쪽지</p>
-		    <br><br><br>
+		    <p id="memotitle">[${ loginMember.memNick }] 님의 쪽지</p>
+		    <br><br>
 		    
 		    <hr>
 		    <table id="memokind">
 		    	<tr>
 		    		<td><a href="asd">받은쪽지함</a></td>
 		    		<td><a href="asd">보낸쪽지함</a></td>
-		    		<td><a href="asd">새 쪽지</a></td>
+		    		<td><a href="newMemo">새 쪽지</td>
 		    	</tr>
 		    </table>
 		    <hr>
-		    <br><br>
+		    <br><br><br>
 		    
-		    <table id="memolist" >
-		    	<th>
-		    		<td class="memolisthead"><input type="checkbox"></td>
-		    		<td class="memolisthead">보낸사람</td>
-		    		<td class="memolisthead">제목</td>
-		    		<td class="memolisthead">발송시간</td>
-		    		<td class="memolisthead">읽음확인</td>
-		    	</th>
+		    <form action="newMemoSubmit" method="POST">
+		    <table id="newMemoTable" style="margin:auto">
+		    		<input class="newMemoIssue" id="newMemoSender" name="memoSender" type="hidden">
+				    <tr><td><p>수신인</p><td></tr>
+				    <tr><td><input class="newMemoIssue" id="newMemoReceiver" name="memoReceiver" type="text"></td></tr>
+				    <tr><td><p>쪽지제목</p></td></tr>
+				    <tr><td><input class="newMemoIssue" id="newMemoTitle" name="memoTitle" type="text"></td></tr>
+				    <tr><td><p>내용</p></td></tr>
+				    <tr><td>
+				    <fieldset>
+				    	<textarea class="newMemoIssue" id="newMemoContent" name="memoContent" style="width:400px; height:200px; resize:none"></textarea>
+				    </fieldset>
+				    </td></tr>
 		    </table>
-		    
 		    <br><br>
-		    
-		    <table id="memoetc">
-		    	<tr>
-		    		<td colspan="3">
-		    		<button class="btn btn-danger" style="width:8%; height:30px; display:flex; align-items: center; justify-content: center;">삭제</button>
-		    		</td>
-		    	</tr>
-		    	<tr>
-		    		<td width="30%" align="center">제목</td>
-		    		<td width="30%" align="center">발송시간</td>
-		    		<td width="30%" align="center">읽음확인</td>
-		    	</tr>
-		    </table>
-		
+		    <div style="width:10%; margin:auto"><button class="btn btn-primary" style="width:100%;">보내기</button></div>
+		    <br>
+		    <div style="width:10%; margin:auto"><button class="btn btn-secondary" style="width:100%;">예약발송</button></div>
+		    </form>
 		        
 		    
 	<div id="diaryFooter"><jsp:include page="../../common/footer.jsp" /></div>
+	
+	<script>
+	
+	
+	
+	</script>
 	
 </body>
 </html>

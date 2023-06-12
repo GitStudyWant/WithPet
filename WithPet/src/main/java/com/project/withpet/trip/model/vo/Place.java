@@ -16,6 +16,8 @@ public class Place {
 	private String placeOriginName;
 	private String placeChangeName;
 	private String placeFilePath;
-	private int placeCount;	
+	private int placeCount;
+	private int courseSe;
+	private int placeSe;
 
 }
