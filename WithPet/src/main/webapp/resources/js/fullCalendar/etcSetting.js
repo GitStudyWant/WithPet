@@ -1,4 +1,8 @@
 //SELECT 색 변경
+$('#scheduleColor').change(function () {
+    $(this).css('color', $(this).val());
+});
+
 $('#editColor').change(function () {
     $(this).css('color', $(this).val());
 });

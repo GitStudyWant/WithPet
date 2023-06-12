@@ -14,25 +14,6 @@
 		<result column="schedule_color" 	property="scheduleColor" />
 		<result column="schedule_date" 		property="scheduleDate" />
 	</resultMap>
-
-	<resultMap id="memberResultSet" type="member">
-		<result column="MEM_ID"				property="memId" />
-		<result column="MEM_NICK"			property="memNick" />
-		<result column="MEM_PWD"			property="memPwd" />
-		<result column="MEM_PHONE"			property="memPhone" />
-		<result column="MEM_EMAIL"			property="memEmail" />
-		<result column="MEM_PHOTO"			property="memPhoto" />
-		<result column="MEM_PATH"			property="memPath" />
-		<result column="MEM_INTRO"			property="memIntro" />
-		<result column="MEM_GRADE"			property="memGrade" />
-		<result column="MEM_DATE"			property="memDate" />
-		<result column="MEM_MEMO"			property="memMemo" />
-		<result column="MEM_POINT"			property="memPoint" />
-		<result column="MEM_REPORT"			property="memReport" />
-		<result column="MEM_STATUS"			property="memStaus" />
-		<result column="MEM_UPDATE"			property="memUpdate" />
-		<result column="MEM_KAKAOID"		property="memKakaoId" />
-	</resultMap>	
 	
 	<resultMap id="memoResultSet" type="memo">
 		<result column="memo_no" 			property="memoNo" />
@@ -45,7 +26,6 @@
 		<result column="memo_check" 		property="memoCheck" />
 		<result column="memo_status" 		property="memoStatus" />
 	</resultMap>
-
 
 	<insert id="insertMember" parameterType="member">
 		INSERT
@@ -69,6 +49,7 @@
 				,DEFAULT
 				,NULL
 				,#{memKakaoId}
+				,#{memNaverId}
 				)
 	</insert>
 	
@@ -126,6 +107,7 @@
 				,MEM_STATUS memStatus
 				,MEM_UPDATE memUpdate
 				,MEM_KAKAOID memKakaoId
+				,MEM_KAKAOID memNaverId
 		FROM
 				MEMBER
 		WHERE
@@ -152,6 +134,7 @@
 				,MEM_STATUS memStatus
 				,MEM_UPDATE memUpdate
 				,MEM_KAKAOID memKakaoId
+				,MEM_NAVERID memNaverId
 		FROM
 				MEMBER
 		WHERE
@@ -160,13 +143,31 @@
 				MEM_STATUS = 'Y'
 	</select>
 	
-	<select id="selectKakaoCount" resultType="_int">
-		select
-				count(*)
-		from
-				member
-		where
-				MEM_KAKAOID = #{memKaKaoId}
+	<select id="selectNaverMember" resultType="Member">
+		SELECT
+				MEM_ID memId
+				,MEM_NICK memNick
+				,MEM_PWD memPwd
+				,MEM_PHONE memPhone
+				,MEM_EMAIL memEmail
+				,MEM_PHOTO memPhoto
+				,MEM_PATH memPath
+				,MEM_INTRO memIntro
+				,MEM_GRADE memGrade
+				,MEM_DATE memDate
+				,MEM_MEMO memMemo
+				,MEM_POINT memPoint
+				,MEM_REPORT memReport
+				,MEM_STATUS memStatus
+				,MEM_UPDATE memUpdate
+				,MEM_KAKAOID memKakaoId
+				,MEM_NAVERID memNaverId
+		FROM
+				MEMBER
+		WHERE
+				MEM_NAVERID = #{memNaverId}
+		AND
+				MEM_STATUS = 'Y'
 	</select>
 	
 	<select id="selectSchedules" resultMap="scheduleResultSet">

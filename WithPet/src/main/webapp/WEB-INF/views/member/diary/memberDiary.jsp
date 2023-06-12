@@ -64,6 +64,10 @@
 		width : 15%;
 		float : left;
 	}
+	
+	#schInsert input, #schInsert select, #schUpdate input, #schUpdate select{
+		border  :solid 1px lightgray;
+	}
 
 </style>
 </head>
@@ -98,11 +102,11 @@
 				          <p class="modal-title" style="font-size:15px; text-align:center; margin-top:15px; margin-bottom:30px">일정 등록</p>
 				          <form action="insertSchedule" method="POST">
 				          <input type="hidden" value="${ loginMember.memId }" name="memId">
-				          	<table width="80%" style="text-align:center; margin:auto">
+				          	<table id="schSubmitTable" width="80%" style="text-align:center; margin:auto">
 					          	<tr>
 					          		<td width="30"><p style="font-size:10px; color:gray; margin-top:12px">카테고리</p></td>
 					          		<td width="80">
-					          		<select name="scheduleCate" style="width:100%; height:23px; border:solid 1px lightgray">
+					          		<select name="scheduleCate" style="width:100%; height:23px;">
 					          			<option value="산책">산책</option>
 					          			<option value="미용">미용</option>
 					          			<option value="여행">여행</option>
@@ -112,34 +116,34 @@
 					          	<tr>
 					          	<tr>
 						          	<td><p style="font-size:10px; color:gray; margin-top:12px">시작일</p></td>
-						          	<td><input autocomplete="off" type="text" class="dateChoice" name="scheduleStart" style="width:100%; border:solid 1px lightgray"></td>
+						          	<td><input autocomplete="off" type="text" class="dateChoice" name="scheduleStart" id="scheduleStart" style="width:100%;" placeholder="필수입력입니다" required></td>
 					          	</tr>
 					          	<tr>
 					          		<td><p style="font-size:10px; color:gray; margin-top:12px">종료일</p></td>
-					          		<td><input autocomplete="off" type="text" class="dateChoice" name="scheduleEnd" style="width:100%; border:solid 1px lightgray"></td>
+					          		<td><input autocomplete="off" type="text" class="dateChoice" name="scheduleEnd" id="scheduleEnd" style="width:100%;"></td>
 					          	</tr>
 					          	<tr>
 					          		<td><p style="font-size:10px; color:gray; margin-top:12px">일정내용</p></td>
-					          		<td><input type="text" name="scheduleContent" style="width:100%; border:solid 1px lightgray"></td>
+					          		<td><input type="text" name="scheduleContent" style="width:100%;"></td>
 					          	</tr>
 					          	<tr>
 					          		<td><p style="font-size:10px; color:gray; margin-top:12px">색상</p></td>
 					          		<td>
-						          		<select name="scheduleColor" style="width:100%; height:23px; border:solid 1px lightgray">
-	                                    <option value="#D25565" style="color:#D25565;">빨간색</option>
-	                                    <option value="#9775fa" style="color:#9775fa;">보라색</option>
-	                                    <option value="#ffa94d" style="color:#ffa94d;">주황색</option>
-	                                    <option value="#74c0fc" style="color:#74c0fc;">파란색</option>
-	                                    <option value="#f06595" style="color:#f06595;">핑크색</option>
-	                                    <option value="#63e6be" style="color:#63e6be;">연두색</option>
-	                                    <option value="#a9e34b" style="color:#a9e34b;">초록색</option>
-	                                    <option value="#4d638c" style="color:#4d638c;">남색</option>
-	                                    <option value="#495057" style="color:#495057;">검정색</option>
+						          		<select name="scheduleColor" id="scheduleColor" style="width:100%; height:23px; color:#D25565">
+		                                    <option value="#D25565" style="color:#D25565;">빨간색</option>
+		                                    <option value="#9775fa" style="color:#9775fa;">보라색</option>
+		                                    <option value="#ffa94d" style="color:#ffa94d;">주황색</option>
+		                                    <option value="#74c0fc" style="color:#74c0fc;">파란색</option>
+		                                    <option value="#f06595" style="color:#f06595;">핑크색</option>
+		                                    <option value="#63e6be" style="color:#63e6be;">연두색</option>
+		                                    <option value="#a9e34b" style="color:#a9e34b;">초록색</option>
+		                                    <option value="#4d638c" style="color:#4d638c;">남색</option>
+		                                    <option value="#495057" style="color:#495057;">검정색</option>
 	                                    </select>
                                     </td>
 					          	</tr>
 				          	</table>
-				          	<button type="submit" class="btn btn-primary" style="width:80%; margin:35px 50px">등록</button>
+				          	<button type="submit" id="schSubmit" class="btn btn-primary" style="width:80%; margin:35px 50px" disabled>등록</button>
 				       		</form>
 				        </div>
 				      
@@ -165,7 +169,7 @@
 					          	<tr>
 					          		<td width="30"><p style="font-size:10px; color:gray; margin-top:12px">카테고리</p></td>
 					          		<td width="80">
-					          		<select name="editCate" id="editCate" style="width:100%; height:23px; border:solid 1px lightgray">
+					          		<select name="editCate" id="editCate" style="width:100%; height:23px;">
 					          			<option value="산책">산책</option>
 					          			<option value="미용">미용</option>
 					          			<option value="여행">여행</option>
@@ -176,34 +180,34 @@
 					          	<tr>
 						          	<td><p style="font-size:10px; color:gray; margin-top:12px">시작일</p></td>
 						          	<td>
-						          	<input autocomplete="off" type="text" class="dateChoice" name="editStart" id="editStart" style="width:100%; border:solid 1px lightgray">
+						          	<input autocomplete="off" type="text" class="dateChoice" name="editStart" id="editStart" style="width:100%" required>
 						          	</td>
 					          	</tr>
 					          	<tr>
 					          		<td><p style="font-size:10px; color:gray; margin-top:12px">종료일</p></td>
 					          		<td>
-					          		<input autocomplete="off" type="text" class="dateChoice" name="editEnd" id="editEnd" style="width:100%; border:solid 1px lightgray">
+					          		<input autocomplete="off" type="text" class="dateChoice" name="editEnd" id="editEnd" style="width:100%;">
 					          		</td>
 					          	</tr>
 					          	<tr>
 					          		<td><p style="font-size:10px; color:gray; margin-top:12px">일정내용</p></td>
 					          		<td>
-					          		<input class="inputModal" type="text" name="editContent" id="editContent" style="width:100%; border:solid 1px lightgray">
+					          		<input class="inputModal" type="text" name="editContent" id="editContent" style="width:100%;">
 					          		</td>
 					          	</tr>
 					          	<tr>
 					          		<td><p style="font-size:10px; color:gray; margin-top:12px">색상</p></td>
 					          		<td>
-						          		<select name="editColor" id="editColor" style="width:100%; height:23px; border:solid 1px lightgray">
-	                                    <option value="#D25565" style="color:#D25565;">빨간색</option>
-	                                    <option value="#9775fa" style="color:#9775fa;">보라색</option>
-	                                    <option value="#ffa94d" style="color:#ffa94d;">주황색</option>
-	                                    <option value="#74c0fc" style="color:#74c0fc;">파란색</option>
-	                                    <option value="#f06595" style="color:#f06595;">핑크색</option>
-	                                    <option value="#63e6be" style="color:#63e6be;">연두색</option>
-	                                    <option value="#a9e34b" style="color:#a9e34b;">초록색</option>
-	                                    <option value="#4d638c" style="color:#4d638c;">남색</option>
-	                                    <option value="#495057" style="color:#495057;">검정색</option>
+						          		<select name="editColor" id="editColor" style="width:100%; height:23px;">
+		                                    <option value="#D25565" style="color:#D25565;">빨간색</option>
+		                                    <option value="#9775fa" style="color:#9775fa;">보라색</option>
+		                                    <option value="#ffa94d" style="color:#ffa94d;">주황색</option>
+		                                    <option value="#74c0fc" style="color:#74c0fc;">파란색</option>
+		                                    <option value="#f06595" style="color:#f06595;">핑크색</option>
+		                                    <option value="#63e6be" style="color:#63e6be;">연두색</option>
+		                                    <option value="#a9e34b" style="color:#a9e34b;">초록색</option>
+		                                    <option value="#4d638c" style="color:#4d638c;">남색</option>
+		                                    <option value="#495057" style="color:#495057;">검정색</option>
 	                                    </select>
                                     </td>
 					          	</tr>
@@ -211,7 +215,7 @@
 				          	<br>
 				          	<div class="modal-footer modalBtnContainer-modifyEvent">
 				          	<button type="button" class="btn btn-danger" id="deleteEvent">삭제</button>
-				          	<button type="button" class="btn btn-primary" id="updateEvent">저장</button>
+				          	<button type="button" class="btn btn-primary" id="updateEvent" disabled>저장</button>
 				          	</div>
 				       		</form>
 				        </div>
@@ -321,8 +325,6 @@
 	                        textColor: "#ffffff"
 	                    };
 	                    
-	                    console.log(event);
-	                    
 	                    events.push(event);
 	                }
 
@@ -340,7 +342,6 @@
 	
 	</script>
 	
-	
 	<script>
 	$(function() {
 		$(".dateChoice").datepicker({
@@ -350,6 +351,32 @@
 			$('.dateChoice').datepicker();
 		});
     });
+	</script>
+	
+	<script>
+	$('#scheduleStart').on('change', function(){
+		const regex = /^(?:19|20)\d{2}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|3[01])$/;
+		
+		if($(this).val() == ''){
+			$('#schSubmit').prop("disabled", true);
+		} else if (regex.test($('#scheduleStart').val())){
+			$('#schSubmit').prop("disabled", false);
+		} else {
+			alert("날짜형식이 맞지 않습니다.");
+			$('#schSubmit').prop("disabled", true);
+			$(this).val("");
+		}
+	})
+	
+	$('#scheduleEnd').on('change', function(){
+		const regex = /^(?:19|20)\d{2}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|3[01])$/;
+		
+		if ($(this).val() != '' && !(regex.test($(this).val()))){
+			alert("날짜형식이 맞지 않습니다.");
+			$(this).val("");
+		}
+	})
+	
 	</script>
 </body>
 </html>

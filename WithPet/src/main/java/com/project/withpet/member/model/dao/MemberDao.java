@@ -45,12 +45,12 @@ public class MemberDao {
 		return sqlSession.selectOne("memberMapper.selectMember", member);
 	}
 	
-	public int selectKakaoCount(SqlSession sqlSession, String memKakaoId) {
-		return sqlSession.selectOne("memberMapper.selectKakaoCount", memKakaoId);
-	}
-	
 	public Member selectKakaoMember(SqlSession sqlSession, String memKakaoId) {
 		return sqlSession.selectOne("memberMapper.selectKakaoMember", memKakaoId);
+	}
+	
+	public Member selectNaverMember(SqlSession sqlSession, String memNaverId) {
+		return sqlSession.selectOne("memberMapper.selectNaverMember", memNaverId);
 	}
 	   
 	public ArrayList<Schedule> selectSchedules(SqlSession sqlSession, Schedule schedule) {
