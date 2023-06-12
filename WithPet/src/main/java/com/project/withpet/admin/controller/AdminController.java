@@ -20,7 +20,7 @@ import com.google.gson.Gson;
 import com.project.withpet.admin.model.service.AdminService;
 import com.project.withpet.board.common.model.vo.PageInfo;
 import com.project.withpet.board.common.template.Pagination;
-import com.project.withpet.cafe.model.vo.Cafe;
+import com.project.withpet.cafe.model.vo.CafeRes;
 import com.project.withpet.member.model.vo.Member;
 import com.project.withpet.trip.model.vo.Place;
 import com.project.withpet.trip.model.vo.TaxiReservation;
@@ -213,10 +213,10 @@ public class AdminController {
 		}		
 	}
 	
-	@ResponseBody
-	@RequestMapping("cafeResManagement")
+	
+	@RequestMapping(value="cafeResManagement",produces="application/json; charset=UTF-8")
 	public String cafeResManagement(Model m) {
-		ArrayList<Cafe> cList = adminService.cafeResManagement();
+		ArrayList<CafeRes> cList = adminService.cafeResManagement();
 		m.addAttribute("cList", cList);
 		return "admin/cafeResManagement";
 	}	

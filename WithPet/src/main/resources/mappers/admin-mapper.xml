@@ -207,9 +207,10 @@
 		     ,CAFE_RES_STATUS cafeResStatus
 		     ,CAFE_NO cafeNo
 		     ,CAFE_TITLE cafeTitle
-	    FROM
-	         CAFE_RES JOIN CAFE 
-	         USING(CAFE_NO)
+		     ,CAFE_ADDRESS cafeAddress
+	     FROM
+	         CAFE_RES
+	    JOIN CAFE USING(CAFE_NO)
 	    ORDER
 	       BY
 	         CAFE_RES_NO DESC

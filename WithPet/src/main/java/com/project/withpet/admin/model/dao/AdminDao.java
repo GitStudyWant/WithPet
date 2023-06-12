@@ -7,7 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.project.withpet.board.common.model.vo.PageInfo;
-import com.project.withpet.cafe.model.vo.Cafe;
+import com.project.withpet.cafe.model.vo.CafeRes;
 import com.project.withpet.member.model.vo.Member;
 import com.project.withpet.trip.model.vo.CarReservation;
 import com.project.withpet.trip.model.vo.Place;
@@ -81,7 +81,7 @@ public class AdminDao {
 		return sqlSession.update("adminMapper.adminGradeUpdate", m);
 	}
 
-	public ArrayList<Cafe> cafeResManagement(SqlSessionTemplate sqlSession){
+	public ArrayList<CafeRes> cafeResManagement(SqlSessionTemplate sqlSession){
 		return (ArrayList)sqlSession.selectList("adminMapper.cafeResManagement");
 	}
 	
