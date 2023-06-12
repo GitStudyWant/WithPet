@@ -168,8 +168,6 @@
 	
 	
 	
-	
-	
 	<resultMap id="memberResultSet" type="member">
 		<result column="MEM_ID"				property="memId" />
 		<result column="MEM_NICK"			property="memNick" />
