@@ -166,31 +166,33 @@
             <tr>
                 <th width="100px;">아이디</th>
                 <th>닉네임</th>
-                <th width="250px;">활동정보<br>(가입일자/작성글 수/댓글 수)</th>
+                <th width="250px;">활동정보<br>(가입일자)</th>
                 <th width="90px;">보유 포인트</th>
                 <th width="90px;">회원상태</th>
+                <th>선택</th>
                 <th width="90px;">회원등급</th>
                 <th>선택</th>
             </tr>
            </thead>
            </tbody>
                 <c:choose>
-                    <c:when test="${ empty memberList }">
+                    <c:when test="${ empty list }">
                         <tr><td colspan="8">회원이 없습니다.</td></tr>
                     </c:when>
                     <c:otherwise>
-                             <c:forEach var="m" items="${memberList}">
+                             <c:forEach var="m" items="${list}">
                              <tr>
                             <td>${m.memId}</td>
                             <td>${m.memNick}</td>
-				   			<td>(${m.memDate} / ${m.boardCount}/ ${m.replyCount})</td>
+				   			<td>${m.memDate}</td>
 				    		<td>${m.memPoint}</td>
 				    		<td class="member${m.memId}">
-                       			 <select name="memStaus">
+                       			 <select name="memStatus">
 	                                <option value="A">정상</option>
 	                                <option value="B">정지</option>
                             	</select> 
-                            </td>				    		
+                            </td>			
+                    		<td><input type="checkbox" name="memStaus" value="${m.memId}"></td>                            
 				    		<td class="member${m.memId}">
                        			 <select name="memGrade">
 	                                <option value="A">ADMIN</option>
@@ -198,7 +200,7 @@
 	                                <option value="C">CREATOR</option>
                             	</select> 
                             </td>
-                    <td><input type="checkbox" name="memStaus" value="${m.memId}"></td>
+                    		<td><input type="checkbox" name="memGrade" value="${m.memId}"></td>
                 	</tr>
                              </c:forEach>
                     </c:otherwise>
@@ -210,33 +212,94 @@
 				
 				
 				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
 		</div>
 	</div>		
+
+
 	<script>
-    function noSearch(){
-        
-        var result = $('#search option:selected').val();
-        console.log(result);
-        if (result == 'report') {
-            $('#searchGo').attr('readonly', true).val("검색 없이 조회 됩니다.").css('background-color','#C2E5F2');
-            
-                } else {
-                    $('#searchGo').removeAttr('readonly');
-                    $('#searchGo').css('background-color','white').val('').focus;
-                }
-    	}
+                	
+	
+	
+                    function updateMemType(){
+
+                        var checkbox = $("input[name=memGrade]:checked");
+                        var member = new Object();
+                        
+                        if(confirm("회원의 상태를 변경하시겠습니까? ")){
+                                
+                                var memGrade = checkbox.parent().prev().find('option:selected').val()
+                                var memId = checkbox.val();
+                                var member = {
+                                                memGrade : memGrade,
+                                                memId : memId
+                                             }
+                            $.ajax({
+                                url:'adminGradeUpdate',
+                                data: ({memGrade : memGrade, memId : memId}),
+                                type: 'post',
+                                success : function(result){
+                                    if(result =='S'){
+                                alert("회원 상태 변경이 완료 되었습니다.");
+                                checkbox.prop('checked', false);
+                                location.href=location.href;
+                                    } else {
+                                        alert("회원 상태 변경이 실패 하였습니다.");
+                                    }
+                                }
+                            })
+                        } else {
+                            alert("취소 되었습니다.")
+                        }
+                     }       
+	                	
+	                	
+	                	
+	                 function noSearch(){
+	                        
+	                        var result = $('#search option:selected').val();
+	                        console.log(result);
+	                        if (result == 'report') {
+	                            $('#searchGo').attr('readonly', true).val("검색 없이 조회 됩니다.").css('background-color','#C2E5F2');
+	                            
+	                                } else {
+	                                    $('#searchGo').removeAttr('readonly');
+	                                    $('#searchGo').css('background-color','white').val('').focus;
+	                                }
+	                    	}
+	                 
+	                 
+	                	$(function(){
+	                		
+	                		for(var i = 1; i < ${list}.length(); i++){
+	                			if(($('.member'+i+'').text()) === 'A'){
+	                				console.log(($('.member'+i+'').text()));
+	                				$(".search-area"+i+"option[value='A']").attr('selected',true);
+	                				$(".search-area"+i+"option[value='A']").attr('disabled',true);
+	                			};
+	                			
+	                		     if(($('.member'+ i +'').text()) ==='B'){
+	                                 console.log(($('.member'+ i +'').text()));
+	                                 $(".search-area"+ i +" option[value='B']").attr('selected', true);
+	                                  $(".search-area"+ i +" option[value='B']").attr('disabled', true);
+	                             };
+	                              
+	                             if(($('.member'+ i +'').text()) ==='C'){
+	                                 console.log(($('.member'+ i +'').text()));
+	                                 $(".search-area"+ i +" option[value='C']").attr('selected', true);
+	                                  $(".search-area"+ i +" option[value='C']").attr('disabled', true);
+	                              };
+	           
+	                          console.log(($('.member'+ i +'').text()));
+	                              };
+	                	})	                    	                	
+	                	
 	</script>
+	
+	
+	
+	
+	
+	
 	
 	<div id="mypageFooter"><jsp:include page="../common/footer.jsp" /></div>
 	

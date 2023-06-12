@@ -27,16 +27,16 @@
 	
 	<select id="selectList" resultMap="cafeResultSet">
 		select
-		      cafe_no
+		      cafe_no 
 		     ,cafe_title
-		     ,cafe_content
-		     ,cafe_address
-		     ,cafe_service
-		     ,lat
-		     ,lng
-		     ,cafe_status
-		     ,origin_name
-		     ,change_name
+		     ,cafe_content 
+		     ,cafe_address 
+		     ,cafe_service 
+		     ,lat lat
+		     ,lng lng
+		     ,cafe_status 
+		     ,origin_name 
+		     ,change_name 
 		  from
 		      cafe
 		 where
@@ -80,8 +80,9 @@
 
 	<select id="cafeInfo" resultMap="cafeResultSet">
 		select
-			  cafe_title
-			 ,cafe_content
+			  cafe_no
+			 ,cafe_title 
+			 ,cafe_content 
 			 ,cafe_address
 			 ,cafe_service
 			 ,origin_Name

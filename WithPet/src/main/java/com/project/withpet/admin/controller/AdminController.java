@@ -20,6 +20,7 @@ import com.google.gson.Gson;
 import com.project.withpet.admin.model.service.AdminService;
 import com.project.withpet.board.common.model.vo.PageInfo;
 import com.project.withpet.board.common.template.Pagination;
+import com.project.withpet.cafe.model.vo.CafeRes;
 import com.project.withpet.member.model.vo.Member;
 import com.project.withpet.trip.model.vo.Place;
 import com.project.withpet.trip.model.vo.TaxiReservation;
@@ -191,17 +192,43 @@ public class AdminController {
 	@RequestMapping("adminMemberList")
 	public String adminMemberList(@RequestParam(value="cPage", defaultValue="1") int currentPage,
 								  Model model) {
-		PageInfo pi = Pagination.getPageInfo(adminService.adminMemberListCount(), currentPage, 5, 10);
-		
+		PageInfo pi = Pagination.getPageInfo(adminService.adminMemberListCount(), currentPage, 25, 10);
+		ArrayList<Member> list  = adminService.adminMemberList(pi);
 		model.addAttribute("pi", pi);
-		model.addAttribute("list", adminService.adminMemberList(pi));
+		model.addAttribute("list", list);
 		
 		return "admin/adminMyPageMain";
 	}
 	
+	@RequestMapping("adminGradeUpdate")
+	public String adminGradeUpdate(Member m, HttpSession session) {
+		
+		if(adminService.adminGradeUpdate(m) > 0) {
+			System.out.println(m);
+			session.setAttribute("alertMsg","성공");
+			return "redirect:adminMyPageMain";
+		} else {
+			session.setAttribute("alertMsg","실패");
+			return "redirect:adminMyPageMain";
+		}		
+	}
 	
 	
+	@RequestMapping(value="cafeResManagement",produces="application/json; charset=UTF-8")
+	public String cafeResManagement(Model m) {
+		ArrayList<CafeRes> cList = adminService.cafeResManagement();
+		m.addAttribute("cList", cList);
+		return "admin/cafeResManagement";
+	}	
 	
-	
+	@ResponseBody
+	@RequestMapping("deleteCr")
+	public String deleteTr(CafeRes cr) {
+			if(adminService.deleteTr(cr.getCafeResNo()) > 0) {
+				return "Y";
+			}else {
+				return "N";
+			}
+		} 
 	
 }

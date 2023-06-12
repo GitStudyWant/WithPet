@@ -11,4 +11,6 @@ public class CafeRes {
 	private int resTime;
 	private String resDate;
 	private String cafeResStatus;
+	private String cafeTitle;
+	private String cafeAddress;
 }
