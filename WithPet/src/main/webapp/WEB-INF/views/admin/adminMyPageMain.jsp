@@ -291,7 +291,6 @@
 	           
 	                          console.log(($('.member'+ i +'').text()));
 	                              };
-
 	                	})	                    	                	
 	                	
 	</script>

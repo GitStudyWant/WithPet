@@ -159,10 +159,10 @@
                         <th><a href="transReservationList">교통예약 관리</a></th>
                     </tr>
                     <tr>
-                        <th><a href="#">카페예약 관리</a></th>
+                        <th><a href="cafeResManagement">카페예약 관리</a></th>
                     </tr>
                     <tr>
-                        <th><a href="#">카페 관리</a></th>
+                        <th><a href="cafeManagement">카페 관리</a></th>
                     </tr>
                     <tr>
                         <th><a href="adminPlaceList">코스 장소 관리</a></th>
