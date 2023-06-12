@@ -198,7 +198,22 @@
             MEM_ID = #{memberId}
 	</update>
 	
-	
+	<select id="cafeResManagement" resultType="caferes">
+		SELECT 
+		      CAFE_RES_NO cafeResNo
+		     ,MEM_ID    memId
+		     ,TO_CHAR(RES_DATE,'YY/MM/DD') resDate
+		     ,RES_TIME resTime
+		     ,CAFE_RES_STATUS cafeResStatus
+		     ,CAFE_NO cafeNo
+		     ,CAFE_TITLE cafeTitle
+	    FROM
+	         CAFE_RES JOIN CAFE 
+	         USING(CAFE_NO)
+	    ORDER
+	       BY
+	         CAFE_RES_NO DESC
+	</select>	
 	
 	
 	
