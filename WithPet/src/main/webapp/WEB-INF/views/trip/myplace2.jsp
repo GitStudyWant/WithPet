@@ -36,11 +36,9 @@
 			height: 480px;
 			width: 100%;
 			/*border: 0.1px solid sandybrown;*/
-			/*margin-left : 100px;*/
+			margin-left : 150px;
 		}
 		
-		
-
 		#list1, #list2{
 			float: left;
 			height: 100%;
@@ -56,8 +54,7 @@
 			border-radius: 5px;
 		}
 		
-
-		
+	
 </style>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -66,8 +63,7 @@
 	<script type="text/javascript">
 				
 			var map;
-			//console.log(map);
-
+			
 			var marker_s, marekr_e, waypoint;
 			var resultMarkerArr = [];
 			//경로그림정보
@@ -75,124 +71,123 @@
 			var resultInfoArr = [];
 			
 			function initTmap(){
-
-				var lat1 = $('#my1').children().eq(3).children().val();
-				var lng1 = $('#my1').children().eq(4).children().val();
-				var lat5 = $('#my5').children().eq(3).children().val();
-				var lng5 = $('#my5').children().eq(4).children().val();
-
-				var lat2 = $('#my2').children().eq(3).children().val();
-				var lng2 = $('#my2').children().eq(4).children().val();
-				var lat3 = $('#my3').children().eq(3).children().val();
-				var lng3 = $('#my3').children().eq(4).children().val();
-				var lat4 = $('#my4').children().eq(3).children().val();
-				var lng4 = $('#my4').children().eq(4).children().val();
-
-				//console.log(lat1);
-				//console.log(lat5);
-
-				if(lat1 == '' || lat5 == ''){
-						alert("출발지와 도착지를 선택 해 주세요!");
-						return false;
-					}
-
 				resultMarkerArr = [];
-
-				if(map == null){
-								
-				 	// 1. 지도 띄우기
-					map = new Tmapv2.Map("map_div", {
-						center: new Tmapv2.LatLng(lat1, lng1),
-						width : "80%",
-						height : "80%",
-						zoom : 14,
-						zoomControl : true,
-						scrollwheel : true
-						
-					});
-					
-					// 2. 시작, 도착 심볼찍기
-					// 시작
-					marker_s = new Tmapv2.Marker({
-						position : new Tmapv2.LatLng(lat1,lng1),
-						icon : "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_s.png",
-						iconSize : new Tmapv2.Size(24, 38),
-						map:map
-					});
-					resultMarkerArr.push(marker_s);
-					// 도착
-					marker_e = new Tmapv2.Marker({
-						position : new Tmapv2.LatLng(lat5,lng5),
-						icon : "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_e.png",
-						iconSize : new Tmapv2.Size(24, 38),
-						map:map
-					});
-					resultMarkerArr.push(marker_e);
-					
-					// 3. 경유지 심볼 찍기
-					
-					if(lat2 != ''){
-					marker = new Tmapv2.Marker({
-						position : new Tmapv2.LatLng(lat2, lng2),
-						icon : "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_b_m_1.png",
-						iconSize : new Tmapv2.Size(24, 38),
-						map:map
-					});
-					resultMarkerArr.push(marker);					
-					}
-					
-					if(lat3 != ''){
-					marker = new Tmapv2.Marker({
-						position : new Tmapv2.LatLng(lat3, lng3),
-						icon : "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_b_m_2.png",
-						iconSize : new Tmapv2.Size(24, 38),
-						map:map
-					});
-					resultMarkerArr.push(marker);	
-					}
-					
-					if(lat4 != ''){
-					marker = new Tmapv2.Marker({
-						position : new Tmapv2.LatLng(lat4, lng4),
-						icon : "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_b_m_3.png",
-						iconSize : new Tmapv2.Size(24, 38),
-						map:map
-					});
-					resultMarkerArr.push(marker);					
-					}
 				
-				} else {
-					if(confirm('지도를 새로 조회 하시겠습니까?')){
-						$('#result').text('');
-						
-					} else {
-						return false;
-					}
+				var lat1 = $('#1w').val(); //위도 . 작은 값
+				var lng1 = $('#1g').val();
+				var lat2 = $('#2w').val();
+				var lng2 = $('#2g').val();
+				var lat3 = $('#3w').val();
+				var lng3 = $('#3g').val();
+				var lat4 = $('#4w').val();
+				var lng4 = $('#4g').val();
+				var lat5 = $('#5w').val();
+				var lng5 = $('#5g').val();
+				
+				console.log(lat1);
+				console.log(lng1);
+				console.log(lat5);
+				console.log(lng5);
+				
+				if(lat1 == '' || lat5 == ''){
+					alert("출발지와 도착지를 선택 해 주세요!");
+					return false;
 				}
+				
+				if(map == null){
+		
+			 	// 1. 지도 띄우기
+				map = new Tmapv2.Map("map_div", {
+					center: new Tmapv2.LatLng(lat1, lng1),
+					width : "70%",
+					height : "80%",
+					zoom : 12,
+					zoomControl : true,
+					scrollwheel : true
+					
+				});
+			 	
+			 	$('#selectLevel').css('display','inline');
+			 	$('#btn_select').css('display','inline');
+				
+				// 2. 시작, 도착 심볼찍기
+				// 시작
+				marker_s = new Tmapv2.Marker({
+					position : new Tmapv2.LatLng(lat1,lng1),
+					icon : "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_s.png",
+					iconSize : new Tmapv2.Size(24, 38),
+					map:map
+				});
+				resultMarkerArr.push(marker_s);
+				// 도착
+				marker_e = new Tmapv2.Marker({
+					position : new Tmapv2.LatLng(lat5,lng5),
+					icon : "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_e.png",
+					iconSize : new Tmapv2.Size(24, 38),
+					map:map
+				});
+				resultMarkerArr.push(marker_e);
+				
+				// 3. 경유지 심볼 찍기
+				if(lat2 != ''){
+				marker = new Tmapv2.Marker({
+					position : new Tmapv2.LatLng(lat2, lng2),
+					icon : "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_b_m_1.png",
+					iconSize : new Tmapv2.Size(24, 38),
+					map:map
+				});
+				resultMarkerArr.push(marker);
+				}
+				
+				if(lat3 != ''){
+				marker = new Tmapv2.Marker({
+					position : new Tmapv2.LatLng(37.402748, 127.108913),
+					icon : "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_b_m_2.png",
+					iconSize : new Tmapv2.Size(24, 38),
+					map:map
+				});
+				resultMarkerArr.push(marker);
+				}
+				
+				if(lat4 != ''){
+				marker = new Tmapv2.Marker({
+					position : new Tmapv2.LatLng(37.397153, 127.113403),
+					icon : "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_b_m_3.png",
+					iconSize : new Tmapv2.Size(24, 38),
+					map:map
+				});
+				resultMarkerArr.push(marker);
+				}
+			} else {
+				if(confirm('지도를 새로 조회 하시겠습니까?')){
+					$('#result').text('');
+					
+				} else {
+					return false;
+				}
+			}
+				
 				
 				// 4. 경로탐색 API 사용요청
 				var routeLayer; 
 				$("#btn_select").click(function(){
-
-
-					var lat1 = $('#my1').children().eq(3).children().val();
-					var lng1 = $('#my1').children().eq(4).children().val();
-					var lat2 = $('#my2').children().eq(3).children().val();
-					var lng2 = $('#my2').children().eq(4).children().val();
-					var lat3 = $('#my3').children().eq(3).children().val();
-					var lng3 = $('#my3').children().eq(4).children().val();
-					var lat4 = $('#my4').children().eq(3).children().val();
-					var lng4 = $('#my4').children().eq(4).children().val();
-					var lat5 = $('#my5').children().eq(3).children().val();
-					var lng5 = $('#my5').children().eq(4).children().val();
+					
+					var lat1 = $('#1w').val(); //위도 . 작은 값
+					var lng1 = $('#1g').val();
+					var lat2 = $('#2w').val();
+					var lng2 = $('#2g').val();
+					var lat3 = $('#3w').val();
+					var lng3 = $('#3g').val();
+					var lat4 = $('#4w').val();
+					var lng4 = $('#4g').val();
+					var lat5 = $('#5w').val();
+					var lng5 = $('#5g').val();
+					console.log(lat1);
+					console.log(lng1);
+					console.log(lat5);
+					console.log(lng5);
 					var value = '';
 					
-					//console.log(lat1);
-					//console.log(lat5);
-					//console.log(lat2);
-					//console.log(lat3);
-					//console.log(lat4);
-
 					if(lat1 == '' || lat5 == ''){
 						alert("출발지와 도착지를 선택 해 주세요!");
 						return false;
@@ -212,13 +207,13 @@
 						alert("경유지는 최소 1개 입력 해 주세요!");
 						return false;
 					}
-
+					
 					if(lat3 == '' && lat4 == ''){
 						value = [{
 									"viaPointId" : "test01",
 									"viaPointName" : "name01",
-									"viaX" : lat2,
-									"viaY" : lng2
+									"viaX" : lng2,
+									"viaY" : lat2
 						}]
 					}
 
@@ -226,14 +221,14 @@
 						value = [{
 									"viaPointId" : "test01",
 									"viaPointName" : "name01",
-									"viaX" : lat2,
-									"viaY" : lng2
+									"viaX" : lng2,
+									"viaY" : lat2
 									},
 									{
 										"viaPointId" : "test02",
 										"viaPointName" : "name02",
-										"viaX" : lat3 ,
-										"viaY" : lng3 
+										"viaX" : lng3 ,
+										"viaY" : lat3 
 									}]
 
 					}
@@ -242,28 +237,24 @@
 						value = [{
 									"viaPointId" : "test01",
 									"viaPointName" : "name01",
-									"viaX" : lat2,
-									"viaY" : lng2
+									"viaX" : lng2,
+									"viaY" : lat2
 									},
 								
 									{
 										"viaPointId" : "test02",
 										"viaPointName" : "name02",
-										"viaX" : lat3 ,
-										"viaY" : lng3 
+										"viaX" : lng3 ,
+										"viaY" : lat3 
 									},
 									{
 										"viaPointId" : "test03",
 										"viaPointName" : "name03",
-										"viaX" : lat4 ,
-										"viaY" : lng4 
+										"viaX" : lng4 ,
+										"viaY" : lat4 
 									}]
+
 					}
-
-					//console.log(lat3);
-					//console.log(lng3);
-					//console.log(value);
-
 					var searchOption = $("#selectLevel").val();
 					
 					var headers = {}; 
@@ -272,12 +263,12 @@
 					
 					var param = JSON.stringify({
 						"startName" : "출발지",
-						"startX" : lat1,
-						"startY" : lng1,
+						"startX" : lng1,
+						"startY" : lat1,
 						"startTime" : "201708081103",
 						"endName" : "도착지",
-						"endX" : lat5,//lat5 :37.4990106lng5 : 127.0328414
-						"endY" : lng5,
+						"endX" : lng5,
+						"endY" : lat5,
 						"viaPoints" : value,
 						"reqCoordType" : "WGS84GEO",
 						"resCoordType" : "EPSG3857",
@@ -382,14 +373,12 @@
 			}
 		</script>
 	</head>
-
-	
-	<!--<body onload="initTmap()"> 맵 생성 실행 -->
-		<div id="Ttotal">
-			<div id="title_wrap">
-				<p><h4 align="center">여행 코스 짜기</h4></p>
-				<hr>
-				<select id="location">
+	<!-- <body onload="initTmap()">맵 생성 실행 -->
+	<div id="Ttotal">
+		<div id="title_wrap">
+			<p><h4 align="center">여행 코스 짜기</h4></p>
+			<hr>
+			<select id="location">
 					<option value="서울">서울</option>
 					<option value="경기">경기도</option>
 					<option value="대구">대구</option>
@@ -401,11 +390,12 @@
 					<option value="B">숙박</option>
 					<option value="C">야외시설</option>
 				</select>
-			<button id="selecbtn" onclick="selectList();">조회</button>
-			</div>
-				<div id="list_wrap">
-					<div id="list1">
-							<button onclick="addMyPlace1(1);">출발지 추가</button>
+				<button id="selecbtn" onclick="selectList();">조회</button>
+				<!--  <button id="btn_select">거리 조회</button>-->
+		</div>
+		<div id="list_wrap">
+			<div id="list1">
+				<button onclick="addMyPlace1(1);">출발지 추가</button>
 							<button onclick="addMyPlace1(2);">2번 경유지 추가</button>
 							<button onclick="addMyPlace1(3);">3번 경유지 추가</button>
 							<button onclick="addMyPlace1(4);">4번 경유지 추가</button>
@@ -441,9 +431,9 @@
 								</tbody>
 								
 							</table>
-						</div>
-					<div id="list2">
-						<button onclick="saveMyCourse();">코스 저장</button>
+			</div>
+			<div id="list2">
+				<button onclick="saveMyCourse();">코스 저장</button>
 						<button onclick="initTmap();">지도 조회</button>
 						<button id="addPlace"><a data-bs-toggle="modal" data-bs-target="#placeModal">새 장소 추가</a></button>
 						<button onclick="resetMyCourse();">선택장소 초기화</button>
@@ -500,235 +490,241 @@
 									<td><button onclick="deleteMyPlace1(5);">X</button></td>
 								</tr>
 							</tbody>
-
 						</table>
-					</div>
-				</div>
+			</div>
+		</div>
+		<hr>
+		<div id="map_wrap" class="map_wrap">
+				<select id="selectLevel" style="display:none">
+					<option value="0" selected="selected">교통최적+추천</option>
+					<option value="1" >교통최적+무료우선</option>
+					<option value="2" >교통최적+최소시간</option>
+					<option value="3" >교통최적+초보</option>
+				</select>
+		<button id="btn_select" style="display:none">거리 조회</button>
+			<p><b id="result"></b></p>
+			<div id="map_div"></div>
+		</div>
+	</div>
+	
+	<script>
+	
+	
+	function addMyPlace1(num){
+		var checkbox = $("input[name=pick]:checked");
+		var pnum = $("input[name=pick]:checked").val();
+		var pname = $('#'+pnum+'placeName').text();
+		var g = $('#'+pnum+'placeLng').val();
+		var w = $('#'+pnum+'placeLat').val();
+		console.log(w);
+		console.log(g);
+		var choice = '#my'+num;
+		var choice2 = '#my'+(num-1);
 
-				<script>
+		if(pnum !='' && pnum == $(choice2).children().eq(1).text()){
+			if(!confirm("이전 장소가 추가하려는 장소와 동일합니다. 계속 하시겠습니까?")){
+				return false;
+			} else {}
+		}
 
-					function addMyPlace1(num){
-						var checkbox = $("input[name=pick]:checked");
-						var pnum = $("input[name=pick]:checked").val();
-						var pname = $('#'+pnum+'placeName').text();
-						var w = $('#'+pnum+'placeLng').val();
-						var g = $('#'+pnum+'placeLat').val();
-						var choice = '#my'+num;
-						var choice2 = '#my'+(num-1);
+		$('#pn'+num).text(pnum);
+		$('#'+num+'pname').text(pname);
+		$('#'+num+'w').val(w);
+		$('#'+num+'g').val(g);
+		
+		if(pnum != ''){
+			$('.placeName').click(function(){
+				$('#placeDetailModal').modal("show");
+				var placeNo = $(this).prev().text();
+				console.log(placeNo);
+				placedetail(placeNo);
+			})
+		}
+	}
 
-						if(pnum !='' && pnum == $(choice2).children().eq(1).text()){
-							if(!confirm("이전 장소가 추가하려는 장소와 동일합니다. 계속 하시겠습니까?")){
-								return false;
-							} else {}
-						}
+	function deleteMyPlace1(num){
+		
+		var choice = '#my'+num;
+		$('#pn'+num).text('');
+		$('#'+num+'pname').text('');
+		$('#'+num+'w').val('');
+		$('#'+num+'g').val('');
+		
+	}
+	
+	function resetMyCourse(){
+		
+		deleteMyPlace1(1);
+		deleteMyPlace1(2);
+		deleteMyPlace1(3);
+		deleteMyPlace1(4);
+		deleteMyPlace1(5);
+		
+	}
 
-						$('#pn'+num).text(pnum);
-						$('#'+num+'pname').text(pname);
-						$('#'+num+'w').val(w);
-						$('#'+num+'g').val(g);
-						
-						if(pnum != ''){
-							$('.placeName').click(function(){
-								$('#placeDetailModal').modal("show");
-								var placeNo = $(this).prev().text();
-								console.log(placeNo);
-								placedetail(placeNo);
-							})
-						}
-					}
-
-					function deleteMyPlace1(num){
-						
-						var choice = '#my'+num;
-						$('#pn'+num).text('');
-						$('#'+num+'pname').text('');
-						$('#'+num+'w').val('');
-						$('#'+num+'g').val('');
-						
-					}
+	function saveMyCourse(){
+		// 먼저 해당 회원의 저장 되어 있는 코스가 몇개인지 조회 해오기 
+		// 2개 이하면 => myCourse테이블에 인서트 해주기 순서(1~5)
+		//console.log('${loginMember.memId}');
+		if($('#1pname').text() != '' && $('#5pname').text() != ''){
+			
+			$.ajax({
+				url :'checkMyCourse',
+				data : { memId : '${loginMember.memId}'},
+				success : function(result){
+					//console.log(result);
+					//console.log($('#pn1').val());
+					//console.log($('#pn2').val());
+					//console.log($('#pn3').val());
+					//console.log($('#pn4').val());
+					//console.log($('#pn5').val());
 					
-					function resetMyCourse(){
+					if(result == 9){
+						if(confirm('이미 3개의 코스를 저장하셨습니다. 내 코스 페이지로 이동하시겠습니까?')){
+							location.href="myCourse"
+						} 
+					} else {
 						
-						deleteMyPlace1(1);
-						deleteMyPlace1(2);
-						deleteMyPlace1(3);
-						deleteMyPlace1(4);
-						deleteMyPlace1(5);
+						var courseSe;
+						if(result == 0 || result == 8) courseSe = 1;
+						else if(result == 1 || result == 6) courseSe = 3;
+						else courseSe = 5;
 						
-					}
-
-					function saveMyCourse(){
-						// 먼저 해당 회원의 저장 되어 있는 코스가 몇개인지 조회 해오기 
-						// 2개 이하면 => myCourse테이블에 인서트 해주기 순서(1~5)
-						console.log('${loginMember.memId}');
+						console.log('courseSe : ' + courseSe);
+	
 						$.ajax({
-							url :'checkMyCourse',
-							data : { memId : '${loginMember.memId}'},
+							url : 'saveMyCourse',
+							data : { courseSe : courseSe,
+									memId : '${ loginMember.memId }',
+									placeNo1 : $('#pn1').text(),
+									placeNo2 : $('#pn2').text(),
+									placeNo3 : $('#pn3').text(),
+									placeNo4 : $('#pn4').text(),
+									placeNo5 : $('#pn5').text()
+							},
 							success : function(result){
-								//console.log(result);
-								//console.log($('#pn1').val());
-								//console.log($('#pn2').val());
-								//console.log($('#pn3').val());
-								//console.log($('#pn4').val());
-								//console.log($('#pn5').val());
-								
-								if(result == 9){
-									if(confirm('이미 3개의 코스를 저장하셨습니다. 내 코스 페이지로 이동하시겠습니까?')){
-										href="#"
-									} 
+								console.log(result);
+								if(result == 'S'){
+									alert('코스 저장에 성공했습니다.');
+									$('#myChoice>tbody>tr').children().eq(1).text('');
+									$('#myChoice>tbody>tr').children().eq(1).text('');
 								} else {
-									
-									var courseSe;
-									if(result == 0 || result == 8) courseSe = 1;
-									else if(result == 1 || result == 6) courseSe = 3;
-									else courseSe = 5;
-									
-									console.log('courseSe : ' + courseSe);
-
-									$.ajax({
-										url : 'saveMyCourse',
-										data : { courseSe : courseSe,
-												memId : '${ loginMember.memId }',
-												placeNo1 : $('#pn1').text(),
-												placeNo2 : $('#pn2').text(),
-												placeNo3 : $('#pn3').text(),
-												placeNo4 : $('#pn4').text(),
-												placeNo5 : $('#pn5').text()
-										},
-										success : function(result){
-											console.log(result);
-											if(result == 'S'){
-												alert('코스 저장에 성공했습니다.');
-												$('#myChoice>tbody>tr').children().eq(1).text('');
-												$('#myChoice>tbody>tr').children().eq(1).text('');
-											} else {
-												alert('코스 저장에 실패했습니다.');
-											}
-											
-										},
-										error : function(){
-											console.log('실패 ㅠㅠ');
-										}
-									})
+									alert('코스 저장에 실패했습니다.');
 								}
+								
 							},
 							error : function(){
-								console.log('실패');
+								console.log('실패 ㅠㅠ');
 							}
-							})
+						})
+					}
+				},
+				error : function(){
+					console.log('실패');
+				}
+				})
+			} else {
+				alert('저장할 장소를 추가해주세요.');
+				return false;
+			}
+		}
+
+		function selectList(){
+
+			$.ajax({
+				url : "placeAllList",
+				data : { placeLocation : $('#location').val(),
+						placeType : $('#type').val()},
+				success : function(result){
+					console.log('전체는 성공!');
+					console.log(result);
+					let placeList ='';
+					for(let i in result){
+						placeList+= '<tr>'
+								 + '<td>'+'<input type="hidden" value="'+result[i].placeLng+'" id="'+result[i].placeNo+'placeLng">'+'</td>'
+								 + '<td>'+'<input type="hidden" value="'+result[i].placeLat+'" id="'+result[i].placeNo+'placeLat">'+'</td>'
+								 + '<td>' + '<input type="radio" name="pick" value="'+result[i].placeNo+'"></td>'
+								 + '<td>'+ result[i].placeNo+ '</td>'
+								 + '<td class="placeName" id="'+result[i].placeNo+'placeName">'+ result[i].placeName + '<td>'
+								 + '</tr>'
+					}
+					$('#allList>tbody').html(placeList);
+					$('#allList>tbody>tr>.placeName').click(function(){
+						$('#placeDetailModal').modal("show");
+						var placeNo = $(this).prev().text();
+						//console.log(placeNo);
+						placedetail(placeNo);
+					})
+				},
+				error : function(){
+					console.log('전체 리스트 조회 실패');
+				}
+			})
+
+
+			$.ajax({
+				url : "placeBestList",
+				data : {placeLocation : $('#location').val(),
+						placeType : $('#type').val()},
+				success : function(result){
+					let bestList = '';
+					console.log('베스트도 성공');
+					for(let i in result){	
+						bestList += '<tr>'
+							     + '<td>'+'<input type="hidden" value="'+result[i].placeLng+'" id="'+result[i].placeNo+'placeLng">'+'</td>'
+							     + '<td>'+'<input type="hidden" value="'+result[i].placeLat+'" id="'+result[i].placeNo+'placeLat">'+'</td>'
+							     + '<td>' + '<input type="radio" name="pick" value="'+result[i].placeNo+'"></td>'
+							     + '<td>'+ result[i].placeNo+ '</td>'
+							     + '<td class="placeName" id="'+result[i].placeNo+'placeName">'+ result[i].placeName + '<td>'
+							     + '</tr>'
+					}
+					$('#bestlist>tbody').html(bestList);
+					$('.placeName').click(function(){
+						$('#placeDetailModal').modal("show");
+						var placeNo = $(this).prev().text();
+						console.log(placeNo);
+						placedetail(placeNo);
+					})
+				},
+				error : function(){
+					console.log('베스트 리스트 조회 실패');
+				}
+			})
+		}
+		
+		function placedetail(placeNo){
+			
+			console.log(placeNo);
+			
+		 	$.ajax({
+					url : 'detail.place',
+					data : { placeNo : placeNo },
+					success : function(result){
+						console.log(result);
+						if(result.placeChangeName != null){
+							value = '<img src="'+result.placeChangeName +'" style="width:400px; height:300px">';
+							$('#photo').html(value);
 						}
+						if(result.placeType == 'A'){
+							var type = '식당/카페';
+						} else if(result.placeType == 'B'){
+							var type = '숙박';
+						} else { var type = '야외시설';} 
+						$('#placeType').text(type);
+						$('#placeName').text(result.placeName);
+						$('#placeCount').text(result.placeCount);
+						$('#placeLocation').text(result.placeLocation);
+						$('#placePhone').text(result.placePhone);
+						$('#placeInfo').html(result.placeInfo);
+					},
+					error : function(){
+						console.log('상세 페이지 내용 불러오기 실패 ')
+					}
+				})
 
-						function selectList(){
+		}
 
-							$.ajax({
-								url : "placeAllList",
-								data : { placeLocation : $('#location').val(),
-										placeType : $('#type').val()},
-								success : function(result){
-									console.log('전체는 성공!');
-									console.log(result);
-									let placeList ='';
-									for(let i in result){
-										placeList+= '<tr>'
-												 + '<td>'+'<input type="hidden" value="'+result[i].placeLng+'" id="'+result[i].placeNo+'placeLng">'+'</td>'
-												 + '<td>'+'<input type="hidden" value="'+result[i].placeLat+'" id="'+result[i].placeNo+'placeLat">'+'</td>'
-												 + '<td>' + '<input type="radio" name="pick" value="'+result[i].placeNo+'"></td>'
-												 + '<td>'+ result[i].placeNo+ '</td>'
-												 + '<td class="placeName" id="'+result[i].placeNo+'placeName">'+ result[i].placeName + '<td>'
-												 + '</tr>'
-									}
-									$('#allList>tbody').html(placeList);
-									$('#allList>tbody>tr>.placeName').click(function(){
-										$('#placeDetailModal').modal("show");
-										var placeNo = $(this).prev().text();
-										//console.log(placeNo);
-										placedetail(placeNo);
-									})
-								},
-								error : function(){
-									console.log('전체 리스트 조회 실패');
-								}
-							})
-
-
-							$.ajax({
-								url : "placeBestList",
-								data : {placeLocation : $('#location').val(),
-										placeType : $('#type').val()},
-								success : function(result){
-									let bestList = '';
-									console.log('베스트도 성공');
-									for(let i in result){	
-										bestList += '<tr>'
-											     + '<td>'+'<input type="hidden" value="'+result[i].placeLng+'" id="'+result[i].placeNo+'placeLng">'+'</td>'
-											     + '<td>'+'<input type="hidden" value="'+result[i].placeLat+'" id="'+result[i].placeNo+'placeLat">'+'</td>'
-											     + '<td>' + '<input type="radio" name="pick" value="'+result[i].placeNo+'"></td>'
-											     + '<td>'+ result[i].placeNo+ '</td>'
-											     + '<td class="placeName" id="'+result[i].placeNo+'placeName">'+ result[i].placeName + '<td>'
-											     + '</tr>'
-									}
-									$('#bestlist>tbody').html(bestList);
-									$('.placeName').click(function(){
-										$('#placeDetailModal').modal("show");
-										var placeNo = $(this).prev().text();
-										console.log(placeNo);
-										placedetail(placeNo);
-									})
-								},
-								error : function(){
-									console.log('베스트 리스트 조회 실패');
-								}
-							})
-						}
-						
-						function placedetail(placeNo){
-							
-							console.log(placeNo);
-							
-						 	$.ajax({
-									url : 'detail.place',
-									data : { placeNo : placeNo },
-									success : function(result){
-										console.log(result);
-										if(result.placeChangeName != null){
-											value = '<img src="'+result.placeChangeName +'" style="width:400px; height:300px">';
-											$('#photo').html(value);
-										}
-										if(result.placeType == 'A'){
-											var type = '식당/카페';
-										} else if(result.placeType == 'B'){
-											var type = '숙박';
-										} else { var type = '야외시설';} 
-										$('#placeType').text(type);
-										$('#placeName').text(result.placeName);
-										$('#placeCount').text(result.placeCount);
-										$('#placeLocation').text(result.placeLocation);
-										$('#placePhone').text(result.placePhone);
-										$('#placeInfo').html(result.placeInfo);
-									},
-									error : function(){
-										console.log('상세 페이지 내용 불러오기 실패 ')
-									}
-								})
-	
-						}
-
-				</script>
-				<hr>
-				<div id="map_wrap" class="map_wrap">
-					<div id="map_div" style="margin-left:100px">
-
-						<p id="result"></p>
-						<select id="selectLevel">
-							<option value="0" selected="selected">교통최적+추천</option>
-							<option value="1" >교통최적+무료우선</option>
-							<option value="2" >교통최적+최소시간</option>
-							<option value="3" >교통최적+초보</option>
-						</select>
-						<button id="btn_select">거리 조회</button>
-					</div>
-				</div>
-		</div>
+	</script>
 	
 	
 	<!-- 모달 창 -->
@@ -787,9 +783,7 @@
      </div>
    </div>
  </div>
-
 	
 	<jsp:include page="insertPlace.jsp" />
-	<!-- <jsp:include page="placeDetail.jsp" /> -->
 	</body>
-</html>
+</html>					

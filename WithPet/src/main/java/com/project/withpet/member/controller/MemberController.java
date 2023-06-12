@@ -620,8 +620,8 @@ public class MemberController {
 			ArrayList<TaxiReservation> tList = memberService.selectMyTaxiRes(memId);
 			ArrayList<CarReservation> cList = memberService.selectMyCarRes(memId);
 			
-			System.out.println(tList);
-			System.out.println(cList);
+			//System.out.println(tList);
+			//System.out.println(cList);
 			m.addAttribute("tList", tList);
 			m.addAttribute("cList", cList);
 			
@@ -639,7 +639,7 @@ public class MemberController {
 			
 		String memId = ((Member)session.getAttribute("loginMember")).getMemId();
 		ArrayList<Place> myCourse = memberService.myCourse(memId);
-		System.out.println(myCourse);
+		//System.out.println(myCourse);
 		m.addAttribute("myCourse", myCourse);
 		return "member/course/myCourse";
 		
@@ -649,7 +649,7 @@ public class MemberController {
 	@ResponseBody
 	@RequestMapping("deleteCourse")
 	public String deleteCourse(MyPlace m) {
-		System.out.println(m);
+		//System.out.println(m);
 		if(memberService.deleteCourse(m) > 0) {
 			return "Y";
 		} else {
