@@ -110,7 +110,7 @@
 									}
 									else{
 										document.getElementById('notCode').innerText='다음으로 넘어가주세요.';
-										document.getElementById('idNext').style.display='';
+										document.getElementById('idNext').style.display='block';
 									}
 		      				}
 		      			}
@@ -178,7 +178,7 @@
 		          	<tr>
 	          	</table>
 				<br><br><br><br>
-	          	<a class="btn btn-primary dis_inline" style="width:40%; margin:10px 10px" data-bs-toggle="modal" data-bs-target="#login">로그인하기</a>
+	          	<a class="btn btn-primary dis_inline" style="width:40%; margin:10px 10px" data-bs-toggle="modal" data-bs-target="#loginModal">로그인하기</a>
 				<a class="btn btn-primary" style="width:40%; margin:10px 10px" data-bs-toggle="modal" data-bs-target="#pwdFind">비밀번호 찾기</a>
 	       
 	          </form>

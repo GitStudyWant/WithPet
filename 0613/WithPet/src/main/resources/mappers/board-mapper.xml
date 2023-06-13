@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="boardMapper">
+	
+	<resultMap id="boardResultSet" type="board">
+		<result column="BOARD_NO" 		property="boardNo"/>
+		<result column="BOARD_TITLE" 	property="boardTitle"/>
+		<result column="BOARD_WRITER" 	property="boardWriter"/>
+		<result column="VIEW_COUNT" 			property="viewCount"/>
+		<result column="ENROLLDATE" 	property="enrolldate"/>
+		<result column="RATING" 	property="rating"/>
+		<result column="STATUS" 	property="status"/>
+		<result column="BOARD_CONTENT" 	property="boardContent"/>
+		<result column="BOARD_NUM" 	property="boardNum"/>
+	</resultMap>
+	
+	<select id="selectFrListCount" resultType="_int">
+			SELECT
+					COUNT(*)
+			FROM
+					BOARD
+			WHERE
+					STATUS = 'Y'				
+	</select>
+	
+	<select id="selectFrList" resultMap="boardResultSet">
+			SELECT
+					BOARD_NO
+					,BOARD_TITLE
+					,BOARD_WRITER
+					,BOARD_CONTENT
+					,VIEW_COUNT
+					,TO_CHAR(ENROLLDATE, 'YYYY-MM-DD') AS "ENROLLDATE"
+			FROM 
+					BOARD
+			WHERE						
+					STATUS = 'Y'
+			AND
+					BOARD_NUM = 1	
+			ORDER
+				BY
+					BOARD_NO DESC
+	</select>
+	
+	<select id="insertFrBoard" parameterType="board">
+		INSERT
+			INTO
+					BOARD
+					(
+					BOARD_NO
+					,BOARD_TITLE
+					,BOARD_CONTENT
+					,BOARD_WRITER
+					,ORIGIN_NAME
+					,CHANGE_NAME
+					,BOARD_NUM
+					)
+			VALUES
+					(
+					SEQ_BNO.NEXTVAL
+					,#{boardTitle}
+					,#{boardContent}
+					,#{boardWriter}
+					,#{originName}
+					,#{changeName}
+					,1
+					)		
+	</select>
+	<update id="increaseCount">
+		UPDATE
+				BOARD
+		SET
+				VIEW_COUNT = VIEW_COUNT + 1
+		WHERE
+				BOARD_NO = #{boardNo}
+		AND
+				STATUS = 'Y'						
+	</update>
+	
+	<select id="selectBoard" resultMap="boardResultSet">
+		SELECT
+				BOARD_NO
+				,BOARD_TITLE
+				,BOARD_WRITER
+				,BOARD_CONTENT
+				,ORIGIN_NAME
+				,CHANGE_NAME
+				,VIEW_COUNT
+				,TO_CHAR(ENROLLDATE, 'YYYY-MM-DD') AS "ENROLLDATE"
+		FROM
+				BOARD
+		WHERE
+				STATUS = 'Y'
+		AND
+				BOARD_NO = #{boardNo}				
+	</select>
+	
+	<update id="deleteBoard" parameterType="board">
+			UPDATE
+					BOARD
+				SET
+					STATUS = 'N'
+			WHERE
+					BOARD_NO=#{boardNo}			
+	</update>
+	<select id="selectCommentsList" resultType="comments">
+		SELECT
+				COMMENT_NO commentNo,
+				COMMENT_WRITER commentWriter,
+				COMMENT_TEXT commentText,
+				TO_CHAR(REG_DATE, 'YYYY-MM-DD') AS "regDate"
+			FROM
+				COMMENTS
+			WHERE
+					COMMENT_STATUS = 'Y'
+			AND
+					BOARD_NO = #{boardNo}
+			ORDER
+			BY
+					COMMENT_NO DESC						
+	</select>
+	
+	<insert id="insertComments" parameterType="comments">
+		INSERT
+			INTO
+				COMMENTS
+				(
+				COMMENT_NO
+				,COMMENT_TEXT
+				,COMMENT_WRITER
+				,BOARD_NO
+				)
+			VALUES
+				(
+				SEQ_C_NO.NEXTVAL
+				,#{commentText}
+				,#{commentWriter}
+				,#{boardNo}
+				)
+	</insert>
+</mapper>

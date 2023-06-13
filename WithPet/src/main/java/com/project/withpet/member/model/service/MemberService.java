@@ -7,6 +7,7 @@ import com.project.withpet.board.model.vo.Board;
 import com.project.withpet.board.model.vo.Comments;
 import com.project.withpet.member.model.vo.CertVO;
 import com.project.withpet.member.model.vo.Friend;
+import com.project.withpet.member.model.vo.Inquiry;
 import com.project.withpet.member.model.vo.Member;
 import com.project.withpet.member.model.vo.Memo;
 import com.project.withpet.member.model.vo.Passward;
@@ -271,5 +272,19 @@ public interface MemberService {
 	public int sharingCancellation(Friend fri);
 	
 	public Member friendSearch(Friend fri);
+	
+public ArrayList<Member> liveSearch(String keyword);
+	
+	public Member findMember(String findMember);
+	
+	public ArrayList<Inquiry> inquiry(PageInfo pi);
+	
+	public int inquiryCount(String memberId);
+	
+	public Inquiry inquiryDetail(Inquiry i);
+	
+	public int inquiryDelete(int ino);
+	
+	public int inquiryInsert(Inquiry i);
 	
 }
