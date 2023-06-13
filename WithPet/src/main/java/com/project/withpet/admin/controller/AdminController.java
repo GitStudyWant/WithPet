@@ -218,6 +218,7 @@ public class AdminController {
 	public String cafeResManagement(Model m) {
 		ArrayList<CafeRes> cList = adminService.cafeResManagement();
 		m.addAttribute("cList", cList);
+		System.out.println(cList);
 		return "admin/cafeResManagement";
 	}	
 	
