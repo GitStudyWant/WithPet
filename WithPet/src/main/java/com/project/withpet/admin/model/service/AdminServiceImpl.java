@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.withpet.admin.model.dao.AdminDao;
+import com.project.withpet.admin.model.vo.Search;
 import com.project.withpet.board.common.model.vo.PageInfo;
 import com.project.withpet.cafe.model.vo.CafeRes;
 import com.project.withpet.member.model.vo.Member;
@@ -123,6 +124,17 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public int deleteCr(int cafeResNo) {
 		return adminDao.deleteCr(sqlSession, cafeResNo);
+	}
+
+
+	public ArrayList<Search> searchKeyword(String key) {
+		return adminDao.searchKeyword(sqlSession, key);
+	}
+
+
+	@Override
+	public ArrayList<Search> bestKeyword() {
+		return adminDao.bestKeyword(sqlSession);
 	}
 
 

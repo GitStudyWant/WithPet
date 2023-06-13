@@ -31,11 +31,13 @@
 		<typeAlias type="com.project.withpet.cafe.model.vo.Cafe" alias="cafe" />
 		<typeAlias type="com.project.withpet.cafe.model.vo.CafePicture" alias="cafepicture" />
 		<typeAlias type="com.project.withpet.cafe.model.vo.CafeRes" alias="caferes" />
-
+		
 		
 
 		<typeAlias type="com.project.withpet.trip.model.vo.CarReservation" alias="carReservation" />
 		<typeAlias type="com.project.withpet.trip.model.vo.Transportation" alias="transportation" />
+		
+		<typeAlias type="com.project.withpet.admin.model.vo.Search" alias="search" />
 		
 	</typeAliases>
 	

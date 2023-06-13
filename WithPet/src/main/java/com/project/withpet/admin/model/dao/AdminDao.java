@@ -6,6 +6,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.project.withpet.admin.model.vo.Search;
 import com.project.withpet.board.common.model.vo.PageInfo;
 import com.project.withpet.cafe.model.vo.CafeRes;
 import com.project.withpet.member.model.vo.Member;
@@ -87,6 +88,14 @@ public class AdminDao {
 	
 	public int deleteCr(SqlSessionTemplate sqlSession, int cafeResNo) {
 		return sqlSession.delete("adminMapper.deleteCr", cafeResNo);
+	}
+
+	public ArrayList<Search> searchKeyword(SqlSessionTemplate sqlSession, String key) {
+		return (ArrayList)sqlSession.selectList("adminMapper.searchKeyword", key);
+	}
+
+	public ArrayList<Search> bestKeyword(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("adminMapper.bestKeyword");
 	}
 	
 }

@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
 import com.project.withpet.admin.model.service.AdminService;
+import com.project.withpet.admin.model.vo.Search;
 import com.project.withpet.board.common.model.vo.PageInfo;
 import com.project.withpet.board.common.template.Pagination;
 import com.project.withpet.cafe.model.vo.CafeRes;
@@ -230,5 +231,25 @@ public class AdminController {
 				return "N";
 			}
 		} 
+	
+	@ResponseBody
+	@RequestMapping(value="searchKeyword", produces="application/json; charset=UTF-8")
+	public String searchKeyword(String key) {
+		ArrayList<Search> keyList = adminService.searchKeyword(key);
+		//System.out.println(keyList);
+		return new Gson().toJson(keyList);
+	}
+	
+	
+	
+	@ResponseBody
+	@RequestMapping(value="bestKeyword", produces="application/json; charset=UTF-8")
+	public String bestKeyword() {
+		ArrayList<Search> bestList = adminService.bestKeyword();
+		System.out.println(bestList);
+		return new Gson().toJson(bestList);
+	}
+	
+	
 	
 }
