@@ -3,6 +3,7 @@ package com.project.withpet.trip.controller;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.servlet.http.HttpSession;
@@ -35,7 +36,7 @@ public class TripController {
 			session.setAttribute("alertMsg","로그인 후 이용해주세요~");
 			return "common/main";
 		} else {
-			return "trip/myplace";		
+			return "trip/myplace2";		
 		}
 	}
 	
@@ -43,13 +44,17 @@ public class TripController {
 	@ResponseBody
 	@RequestMapping(value="placeAllList", produces="application/json; charset=UTF-8")
 	public String placeAllList(Place p) {
-		return new Gson().toJson(tripService.selectPlaceList(p));	
+		ArrayList<Place> pList = tripService.selectPlaceList(p);
+		//System.out.println(pList);
+		return new Gson().toJson(pList);	
 	}
 	
 	@ResponseBody
 	@RequestMapping(value="placeBestList", produces="application/json; charset=UTF-8")
 	public String placeBestList(Place p) {
-		return new Gson().toJson(tripService.bestPlaceList(p));
+		ArrayList<Place> bList = tripService.bestPlaceList(p);
+		//System.out.println(bList);
+		return new Gson().toJson(bList);
 	}
 	
 	@RequestMapping("insertPlace")

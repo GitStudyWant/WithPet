@@ -16,8 +16,10 @@ import com.project.withpet.member.model.vo.Member;
 import com.project.withpet.member.model.vo.Memo;
 import com.project.withpet.member.model.vo.Passward;
 import com.project.withpet.member.model.vo.Schedule;
+import com.project.withpet.trip.model.vo.CarReservation;
 import com.project.withpet.trip.model.vo.MyPlace;
 import com.project.withpet.trip.model.vo.Place;
+import com.project.withpet.trip.model.vo.TaxiReservation;
 
 @Repository
 public class MemberDao {
@@ -90,6 +92,17 @@ public class MemberDao {
 		return (ArrayList)sqlSession.selectList("memberMapper.selectMemoSend", memId, rowBounds);
 	}
 	
+	public int updateMemoCheck(SqlSession sqlSession, int memoNo) {
+	    return sqlSession.update("memberMapper.updateMemoCheck", memoNo);
+	}
+	
+	public int updateMemoCheckDate(SqlSession sqlSession, int memoNo) {
+	    return sqlSession.update("memberMapper.updateMemoCheckDate", memoNo);
+	}
+	
+	public Memo selectMemoDetail(SqlSession sqlSession, int memoNo) {
+	    return sqlSession.selectOne("memberMapper.selectMemoDetail", memoNo);
+	}
 	
 	
 	
@@ -143,7 +156,30 @@ public class MemberDao {
 	
 	
 	
+	public ArrayList<Place> myCourse(SqlSessionTemplate sqlSession, String memId) {
+		return (ArrayList)sqlSession.selectList("memberMapper.myCourse", memId);
+	}
+
+	public int deleteCourse(SqlSessionTemplate sqlSession, MyPlace m) {
+		return sqlSession.delete("memberMapper.deleteCourse", m);
+	}
 	
+	public ArrayList<TaxiReservation> selectMyTaxiRes(SqlSessionTemplate sqlSession, String memId) {
+		return (ArrayList)sqlSession.selectList("memberMapper.selectMyTaxiRes", memId);
+	}
+
+	public ArrayList<CarReservation> selectMyCarRes(SqlSessionTemplate sqlSession, String memId) {
+		return (ArrayList)sqlSession.selectList("memberMapper.selectMyCarRes", memId);
+	}
+	
+	public int deleteTRes(SqlSessionTemplate sqlSession, int resNo) {
+		return sqlSession.update("memberMapper.deleteTRes", resNo);
+	}
+
+	public int deleteCRes(SqlSessionTemplate sqlSession, int resNo) {
+		return sqlSession.update("memberMapper.deleteCRes", resNo);
+	}
+
 	
 	
 	
@@ -357,14 +393,6 @@ public class MemberDao {
 		return sqlSession.selectOne("memberMapper.friendSearch", fri);
 	}
 
-	public ArrayList<Place> myCourse(SqlSessionTemplate sqlSession, String memId) {
-		return (ArrayList)sqlSession.selectList("memberMapper.myCourse", memId);
-	}
-
-	public int deleteCourse(SqlSessionTemplate sqlSession, MyPlace m) {
-		return sqlSession.delete("memberMapper.deleteCourse", m);
-	}
-	
 	
 	
 	

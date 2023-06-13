@@ -764,7 +764,7 @@ $(function(){
 		function validate_1(){
 			
 			var regExp1 = /^[0-9]{16}$/;
-			var regExp2 = /^[1-3][0-9][2][3-9]$/;
+			var regExp2 = /^[0-2][0-9][0-9][0-9]$/;
 			var cardNo = $('#trCardNo').val();
 			console.log(cardNo);
 			var expireDay = $('#expireDay').val();

@@ -12,8 +12,10 @@ import com.project.withpet.member.model.vo.Memo;
 import com.project.withpet.member.model.vo.Passward;
 import com.project.withpet.member.model.vo.Point;
 import com.project.withpet.member.model.vo.Schedule;
+import com.project.withpet.trip.model.vo.CarReservation;
 import com.project.withpet.trip.model.vo.MyPlace;
 import com.project.withpet.trip.model.vo.Place;
+import com.project.withpet.trip.model.vo.TaxiReservation;
 
 public interface MemberService {
 	
@@ -53,7 +55,9 @@ public interface MemberService {
 	public ArrayList<Memo> selectMemoSend(String memId, PageInfo pi);
 		
 	public int updateMemoCheck(int memoNo);
-		
+	
+	public int updateMemoCheckDate(int memoNo);
+	
 	public Memo selectMemoDetail(int memNo);
 		
 	public int deleteMemo(int memNo);
@@ -78,8 +82,13 @@ public interface MemberService {
 	
 	public int deleteCourse(MyPlace m);
 	
+	public ArrayList<TaxiReservation> selectMyTaxiRes(String memId);
 	
+	public ArrayList<CarReservation> selectMyCarRes(String memId);
 	
+	public int deleteTRes(int resNo);
+	
+	public int deleteCRes(int resNo);
 	
 	
 	

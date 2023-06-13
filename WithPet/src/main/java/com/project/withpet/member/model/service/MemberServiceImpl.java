@@ -18,8 +18,10 @@ import com.project.withpet.member.model.vo.Memo;
 import com.project.withpet.member.model.vo.Passward;
 import com.project.withpet.member.model.vo.Point;
 import com.project.withpet.member.model.vo.Schedule;
+import com.project.withpet.trip.model.vo.CarReservation;
 import com.project.withpet.trip.model.vo.MyPlace;
 import com.project.withpet.trip.model.vo.Place;
+import com.project.withpet.trip.model.vo.TaxiReservation;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -115,12 +117,17 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public int updateMemoCheck(int memoNo) {
-		return 0;
+		return memberDao.updateMemoCheck(sqlSession, memoNo);
 	}
 
 	@Override
-	public Memo selectMemoDetail(int memNo) {
-		return null;
+	public int updateMemoCheckDate(int memoNo) {
+		return memberDao.updateMemoCheckDate(sqlSession, memoNo);
+	}
+	
+	@Override
+	public Memo selectMemoDetail(int memoNo) {
+		return memberDao.selectMemoDetail(sqlSession, memoNo);
 	}
 
 	@Override
@@ -178,8 +185,27 @@ public class MemberServiceImpl implements MemberService {
 		return memberDao.deleteCourse(sqlSession, m);
 	}
 
+	@Override
+	public ArrayList<TaxiReservation> selectMyTaxiRes(String memId) {
+		return memberDao.selectMyTaxiRes(sqlSession, memId);
+	}
+
+	@Override
+	public ArrayList<CarReservation> selectMyCarRes(String memId) {
+		return memberDao.selectMyCarRes(sqlSession, memId);
+	}
 	
-	
+	@Override
+	public int deleteTRes(int resNo) {
+		return memberDao.deleteTRes(sqlSession, resNo);
+	}
+
+	@Override
+	public int deleteCRes(int resNo) {
+		return memberDao.deleteCRes(sqlSession, resNo);
+	}
+
+
 	
 	
 	
@@ -312,6 +338,8 @@ public class MemberServiceImpl implements MemberService {
 	public Member friendSearch(Friend fri) {
 		return memberDao.friendSearch(sqlSession, fri);
 	}
+
+	
 
 	
 	

@@ -35,7 +35,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.project.withpet.board.common.model.vo.PageInfo;
 import com.project.withpet.board.common.template.Pagination;
@@ -45,10 +44,13 @@ import com.project.withpet.member.model.service.MemberService;
 import com.project.withpet.member.model.vo.CertVO;
 import com.project.withpet.member.model.vo.Friend;
 import com.project.withpet.member.model.vo.Member;
+import com.project.withpet.member.model.vo.Memo;
 import com.project.withpet.member.model.vo.Passward;
 import com.project.withpet.member.model.vo.Schedule;
+import com.project.withpet.trip.model.vo.CarReservation;
 import com.project.withpet.trip.model.vo.MyPlace;
 import com.project.withpet.trip.model.vo.Place;
+import com.project.withpet.trip.model.vo.TaxiReservation;
 
 
 @Controller
@@ -477,6 +479,8 @@ public class MemberController {
 		model.addAttribute("pi", pi);
 		model.addAttribute("list", memberService.selectMemoGet(memId, pi));
 		
+		System.out.println(memberService.selectMemoGet(memId, pi));
+		
 		return "member/memo/receiveMemo";
 	}
 	
@@ -502,6 +506,25 @@ public class MemberController {
 		return "member/memo/newMemo";
 	}
 	
+	@RequestMapping("updateMemoCheck")
+	public void updateMemoCheck(int memoNo, HttpServletResponse response) throws IOException {
+		
+		if (memberService.updateMemoCheck(memoNo) == 1) {
+			memberService.updateMemoCheckDate(memoNo);
+		}
+		
+		response.setContentType("text/html; charset=UTF-8");
+		response.getWriter().print("");
+	}
+	
+	@RequestMapping("selectMemoDetail")
+	public void selectMemoDetail(int memoNo, HttpServletResponse response) throws IOException {
+		
+		Memo memo = memberService.selectMemoDetail(memoNo);
+		
+		response.setContentType("application/json; charset=UTF-8");
+		response.getWriter().print(new Gson().toJson(memo));
+	}
 	
 	
 	
@@ -586,8 +609,24 @@ public class MemberController {
 	// 마이페이지 trip관련 조회 메뉴 추가 
 	
 	@RequestMapping("myReservation")
-	public String myReservation(Model m) {
+	public String myReservation(Model m, HttpSession session) {
+		
+		if(session.getAttribute("loginMember") == null) {
+			session.setAttribute("alertMsg","로그인 후 이용해주세요~");
+			return "common/main";
+		} else {
+		
+		String memId = ((Member)session.getAttribute("loginMember")).getMemId();
+			ArrayList<TaxiReservation> tList = memberService.selectMyTaxiRes(memId);
+			ArrayList<CarReservation> cList = memberService.selectMyCarRes(memId);
+			
+			//System.out.println(tList);
+			//System.out.println(cList);
+			m.addAttribute("tList", tList);
+			m.addAttribute("cList", cList);
+			
 		return "member/reservation/myReservation";
+		}
 	}
 	
 	@RequestMapping("myCourse")
@@ -600,7 +639,7 @@ public class MemberController {
 			
 		String memId = ((Member)session.getAttribute("loginMember")).getMemId();
 		ArrayList<Place> myCourse = memberService.myCourse(memId);
-		System.out.println(myCourse);
+		//System.out.println(myCourse);
 		m.addAttribute("myCourse", myCourse);
 		return "member/course/myCourse";
 		
@@ -610,7 +649,7 @@ public class MemberController {
 	@ResponseBody
 	@RequestMapping("deleteCourse")
 	public String deleteCourse(MyPlace m) {
-		System.out.println(m);
+		//System.out.println(m);
 		if(memberService.deleteCourse(m) > 0) {
 			return "Y";
 		} else {
@@ -618,6 +657,25 @@ public class MemberController {
 		}
 	}
 	
+	@ResponseBody
+	@RequestMapping("deleteTRes")
+	public String deleteTRes(int resNo, String trType) {
+		//System.out.println(resNo+trType);
+		if(trType.equals("T")) {
+			if(memberService.deleteTRes(resNo) > 0) {
+				return "Y";
+			}else {
+				return "N";
+			}
+		} else {
+			if(memberService.deleteCRes(resNo) > 0) {
+				return "Y";
+			} else {
+				return "N";
+			}
+		}
+		
+	}
 	
 	
 	

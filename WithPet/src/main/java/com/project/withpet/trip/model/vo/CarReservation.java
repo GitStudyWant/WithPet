@@ -16,5 +16,6 @@ public class CarReservation {
 	private String trCardNo;
 	private String trType2;
 	private int trFee;
+	private String reservationDay;
 	
 }
