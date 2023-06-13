@@ -1,6 +1,5 @@
 package com.project.withpet.member.model.service;
 
-import java.sql.Date;
 import java.util.ArrayList;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -13,6 +12,7 @@ import com.project.withpet.board.model.vo.Comments;
 import com.project.withpet.member.model.dao.MemberDao;
 import com.project.withpet.member.model.vo.CertVO;
 import com.project.withpet.member.model.vo.Friend;
+import com.project.withpet.member.model.vo.Inquiry;
 import com.project.withpet.member.model.vo.Member;
 import com.project.withpet.member.model.vo.Memo;
 import com.project.withpet.member.model.vo.Passward;
@@ -339,7 +339,40 @@ public class MemberServiceImpl implements MemberService {
 		return memberDao.friendSearch(sqlSession, fri);
 	}
 
+	@Override
+	public ArrayList<Member> liveSearch(String keyword){
+		return memberDao.liveSearch(sqlSession, keyword);
+	}
 	
+	@Override
+	public Member findMember(String findMember) {
+		return memberDao.findMember(sqlSession, findMember);
+	}
+	
+	@Override
+	public ArrayList<Inquiry> inquiry(PageInfo pi){
+		return memberDao.inquiry(sqlSession, pi);
+	}
+	
+	@Override
+	public int inquiryCount(String memberId) {
+		return memberDao.inquiryCount(sqlSession, memberId);
+	}
+
+	@Override
+	public Inquiry inquiryDetail(Inquiry i) {
+		return memberDao.inquiryDetail(sqlSession, i);
+	}
+	
+	@Override
+	public int inquiryDelete(int ino) {
+		return memberDao.inquiryDelete(sqlSession, ino);
+	}
+	
+	@Override
+	public int inquiryInsert(Inquiry i) {
+		return memberDao.inquiryInsert(sqlSession, i);
+	}
 
 	
 	

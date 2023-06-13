@@ -163,7 +163,7 @@
                         <th><a onclick="myPage();">포인트</a></th>
                     </tr>
                     <tr>
-                        <th><a onclick="myPage();">문의사항</a></th>
+                        <th><a href="inquiry.me">문의사항</a></th>
                     </tr>
                     <tr>
                         <th><a href="myCourse">내 코스</a></th>

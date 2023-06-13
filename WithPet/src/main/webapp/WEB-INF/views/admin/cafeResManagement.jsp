@@ -90,7 +90,7 @@
 			<table id="naviTable" align="center" style="margin-left:50px">
 				<thead>
 					<tr>
-						<input type="hidden" value="C" class="cafeNo">
+						<input type="hidden" value="c" class="cafeResNo">
 						<th class="thHigh" width="40px">선택</th>
 						<th class="thHigh" width="90px">예약번호</th>
 						<th class="thHigh" width="90px">카페번호</th>
@@ -107,7 +107,7 @@
 						<c:when test="${ not empty cList }">
 						  	<c:forEach items="${cList}" var="c">
 								<tr>
-								<th><input type="radio" name="cafeResNo" style="margin-left:20px" value="${ c.cafeResNo }"/></th>
+								<th><input type="radio" name="cafeResNo" style="margin-left:20px" value="${c.cafeResNo}"/></th>
 								<td>${ c.cafeResNo }</td>
 								<td>${ c.cafeNo }</td>
 								<td>${ c.cafeTitle }</td>
@@ -165,10 +165,11 @@
 			if(confirm('선택한 카페 예약을 삭제하시겠습니까?')){
 				$.ajax({
 					url : 'deleteCr',
-					data : {cafeResNo : cafeResNo},
+					data : {cafeResNo : $('input[name=cafeResNo]:checked').val()},
 					success : function(result){
 						if(result == 'Y'){
 							alert('성공적으로 삭제되었습니다.')
+							location.href=location.href;
 						}else{
 							alert('삭제가 실패했습니다. 다시 시도해주세요.');
 						}

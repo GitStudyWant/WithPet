@@ -218,10 +218,38 @@
 	
 	<delete id="deleteCr" parameterType="_int">
 		DELETE 
-		  FROM
 		       CAFE_RES
 		 WHERE
-		       CAFE_RES_NO = #{cafeResNo}
+		       CAFE_RES_NO = ${cafeResNo}
+	</delete>	
+	
+	<select id="cafeManagement" resultType="cafe">
+		SELECT 
+		      CAFE_NO cafeNo
+		     ,CAFE_TITLE cafeTitle
+		     ,CAFE_CONTENT cafeContent
+		     ,CAFE_ADDRESS cafeAddress
+		     ,CAFE_SERVICE cafeService
+		     ,CAFE_STATUS cafeStatus
+		 FROM
+		     CAFE
+		ORDER
+		   BY
+		     CAFE_NO ASC
+	</select>	
+	
+	<select id="managementCount" resultType="_int">
+		SELECT
+		      COUNT(CAFE_NO)
+		  FROM
+		      CAFE
+	</select>	
+	
+	<delete id="deleteCafe" parameterType="_int">
+		DELETE 
+		      CAFE
+		 WHERE
+		      CAFE_NO = ${cafeNo}
 	</delete>	
 	
 	<select id="searchKeyword" resultType="search">
@@ -233,6 +261,7 @@
 		     SEARCH_KEYWORD LIKE '%'||#{key}||'%'
 	</select>
 	
+
 	<select id="bestKeyword" resultType="search">
 		SELECT 
 		      * 
@@ -260,9 +289,6 @@
                                        WHERE 
                                         RNUM BETWEEN 1 AND 5
 	</select>
-	
-	
-	
 	
 	
 	

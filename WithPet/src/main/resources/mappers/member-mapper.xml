@@ -677,6 +677,130 @@
 		        
 	</select>
 	
+	<select id="liveSearch" resultType="member">
+		select
+               *
+          from(
+               SELECT
+				   	MEM_ID memId
+					,MEM_NICK memNick
+					,MEM_PWD memPwd
+					,MEM_PHONE memPhone
+					,MEM_EMAIL memEmail
+					,MEM_PHOTO memPhoto
+					,MEM_PATH memPath
+					,MEM_INTRO memIntro
+					,MEM_GRADE memGrade
+					,MEM_DATE memDate
+					,MEM_MEMO memMemo
+					,MEM_POINT memPoint
+					,MEM_REPORT memReport
+					,MEM_STATUS memStatus
+					,MEM_UPDATE memUpdate
+					,MEM_KAKAOID memKakaoId
+		  		from
+		       		member
+		 		where
+		       		MEM_NICK LIKE #{keyword}
+        		 ORDER
+           			 BY MEM_NICK ASC)
+          WHERE ROWNUM BETWEEN 1 AND 5
+		       
+	
+	</select>
+	
+	<select id="findMember" resultType="member" parameterType="string">
+		select
+		        MEM_ID memId
+				,MEM_NICK memNick
+				,MEM_PWD memPwd
+				,MEM_PHONE memPhone
+				,MEM_EMAIL memEmail
+				,MEM_PHOTO memPhoto
+				,MEM_PATH memPath
+				,MEM_INTRO memIntro
+				,MEM_GRADE memGrade
+				,MEM_DATE memDate
+				,MEM_MEMO memMemo
+				,MEM_POINT memPoint
+				,MEM_REPORT memReport
+				,MEM_STATUS memStatus
+				,MEM_UPDATE memUpdate
+				,MEM_KAKAOID memKakaoId
+	      from
+	            member
+	     where
+	            mem_nick = #{findMember}
+	       and
+	            mem_status = 'Y'
+	</select>
+	
+	<select id="inquiryCount" resultType="_int" parameterType="string">
+		select
+		      count(*)
+		  from
+		      inquiry
+		 where
+		      mem_id = #{memberId}
+	</select>
+	
+	<select id="inquiry" resultType="inquiry" parameterType="pageInfo">
+		select
+		        MEM_ID memberId
+				,INQUIRY_NO inquiryNo
+				,INQUIRY_TITLE inquiryTitle
+				,INQUIRY_CONTENT inquiryContent
+				,INQUIRY_CREATEDATE inquiryCreateDate
+				,INQUIRY_STATUS inquiryStatus
+				,INQUIRY_ANSWER inquiryAnswer
+	      from
+	            INQUIRY
+	     where
+	            mem_id = #{memberId}
+	     order
+	        by  inquiry_createdate desc
+	</select>
+	
+	<select id="inquiryDetail" resultType="inquiry" parameterType="inquiry">
+		select
+		      MEM_ID memberId
+			  ,INQUIRY_NO inquiryNo
+			  ,INQUIRY_TITLE inquiryTitle
+			  ,INQUIRY_CONTENT inquiryContent
+			  ,INQUIRY_CREATEDATE inquiryCreateDate
+			  ,INQUIRY_STATUS inquiryStatus
+			  ,INQUIRY_ANSWER inquiryAnswer
+		  from
+		      inquiry
+		 where
+		      mem_id = #{memberId}
+		   and
+		      inquiry_no = #{inquiryNo}
+	</select>
+	
+	<delete id="inquiryDelete"  parameterType="_int">
+		delete from inquiry
+		 where
+		       inquiry_no = #{ino}
+	</delete>	
+	
+	<insert id="inquiryInsert" parameterType="inquiry">
+		insert
+		  into
+		  	   inquiry
+		values
+			  (
+			  #{memberId}
+			  ,SEQ_INQUIRY_NO.nextval
+			  ,#{inquiryTitle}
+			  ,#{inquiryContent}
+			  ,sysdate
+			  ,default
+			  ,NULL
+			  )
+	
+	</insert>
+	
 	<select id="myCourse" resultType="Place">
 		SELECT
 		      COURSE_SE courseSe

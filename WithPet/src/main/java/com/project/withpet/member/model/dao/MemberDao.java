@@ -12,6 +12,7 @@ import com.project.withpet.board.model.vo.Board;
 import com.project.withpet.board.model.vo.Comments;
 import com.project.withpet.member.model.vo.CertVO;
 import com.project.withpet.member.model.vo.Friend;
+import com.project.withpet.member.model.vo.Inquiry;
 import com.project.withpet.member.model.vo.Member;
 import com.project.withpet.member.model.vo.Memo;
 import com.project.withpet.member.model.vo.Passward;
@@ -393,7 +394,36 @@ public class MemberDao {
 		return sqlSession.selectOne("memberMapper.friendSearch", fri);
 	}
 
+	public ArrayList<Member> liveSearch(SqlSessionTemplate sqlSession, String keyword){
+		return (ArrayList)sqlSession.selectList("memberMapper.liveSearch", keyword);
+	}
 	
+	public Member findMember(SqlSessionTemplate sqlSession, String findMember) {
+		return sqlSession.selectOne("memberMapper.findMember", findMember);
+	}
+	
+	public int inquiryCount(SqlSessionTemplate sqlSession, String memberId) {
+		return sqlSession.selectOne("memberMapper.inquiryCount", memberId);
+	}
+	
+	public ArrayList<Inquiry> inquiry(SqlSessionTemplate sqlSession, PageInfo pi){
+		int offset = (pi.getCurrentPage()-1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("memberMapper.inquiry", pi, rowBounds);
+	}
+	
+	
+	public Inquiry inquiryDetail(SqlSessionTemplate sqlSession, Inquiry i) {
+		return sqlSession.selectOne("memberMapper.inquiryDetail", i);
+	}
+
+	public int inquiryDelete(SqlSessionTemplate sqlSession, int ino) {
+		return sqlSession.delete("memberMapper.inquiryDelete", ino);
+	}
+	
+	public int inquiryInsert(SqlSessionTemplate sqlSession, Inquiry i) {
+		return sqlSession.insert("memberMapper.inquiryInsert", i);
+	}
 	
 	
 	

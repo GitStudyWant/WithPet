@@ -129,7 +129,6 @@ public class CafeController {
 		String resDate4 = resDate3+resDate2 + "23";
 		
 		r.setResDate(resDate4);
-		r.setCafeNo(cafeService.findCafeNo(r));
 		
 		System.out.println(resDate4);
 		System.out.println(r);

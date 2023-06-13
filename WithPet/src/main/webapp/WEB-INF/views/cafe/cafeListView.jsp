@@ -415,13 +415,13 @@ img {
 	<br><br><br>
 	
 	
-	
-	<a href="cafeEnrollForm.bo" style="float:left; color:black; text-decoration:none; margin-left:880px">카페 등록하기</a>
+	<a href="cafeEnrollForm.bo" style="float:left; background-color: rgb(73, 166, 112); color:white; text-decoration:none; margin-left:880px; width:80x">카페 등록하기</a>
 	<div id="paste">
 	<c:forEach items="${list}" var="c">
 	    <div class="board_petcafe" id="paste${c.cafeNo}">
 	            <div class="petcafe_wrap">
 	            <input type="hidden" id="cafeAddress" name="cafeAddress"/>
+	            <input type="hidden" id="${c.cafeNo}cafeNo" value="${c.cafeNo}">
 	            <br>
 	            <h1><b>${c.cafeTitle }</b></h1> <br>
 	                <div class="petcafe_body">
@@ -448,6 +448,7 @@ img {
 	                        <div class="btn_wrap">
 	                            <a href="info.do?cno=${c.cafeNo}" id="infor" onclick="info();" class="md_btn">이용안내</a>
 	                            <a href="map.do?cafeAddress='${c.cafeAddress}'&cafeTitle='${c.cafeTitle}'" method="POST" class="md_btn">카페위치</a>
+	                            <input type="hidden" value="${c.cafeNo}">
 	                            <a href="res.me?cno=${c.cafeNo}" method="GET" class="md_btn">예약신청</a>
 	                        </div>
 	                    </div>
