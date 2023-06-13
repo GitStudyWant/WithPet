@@ -238,7 +238,7 @@
                                 data: ({memGrade : memGrade, memId : memId}),
                                 type: 'post',
                                 success : function(result){
-                                    if(result =='S'){
+                                    if(result == 'S'){
                                 alert("회원 상태 변경이 완료 되었습니다.");
                                 checkbox.prop('checked', false);
                                 location.href=location.href;
