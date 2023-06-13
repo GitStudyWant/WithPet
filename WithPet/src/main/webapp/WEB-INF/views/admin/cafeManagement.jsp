@@ -94,7 +94,6 @@
 			<hr>
 			<br>
 			<button id="addBtn" style="margin-left:900px" class="btnn"><a href="cafeEnrollForm.bo" style="text-decoration:none; color:white;">추가</a></button>
-			<button id="modifyBtn" class="btnn">수정</button>
 			<button id="deleteBtn" class="btnn">삭제</button>
 			<table id="naviTable" align="center" style="margin-left:50px">
 				<thead>
