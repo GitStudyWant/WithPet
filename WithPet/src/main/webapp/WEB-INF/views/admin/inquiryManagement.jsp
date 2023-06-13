@@ -91,6 +91,7 @@
 
 	<div id="body">
 		<div id="mainmain">
+		<div id="detailView">
 			<br>
 			<h3 style="text-align:center;">문의사항 관리</h3>	
 			<hr>
@@ -112,7 +113,7 @@
 					<c:choose>
 						<c:when test="${ not empty iList }">
 						  	<c:forEach items="${iList}" var="i">
-								<tr>
+								<tr onclick="inquiryDetail()">
 								<th><input type="radio" name="inquiryNo" style="margin-left:20px" value="${i.inquiryNo}"/></th>
 								<td>${i.inquiryNo}</td>
 								
@@ -155,8 +156,16 @@
 	
 			</div>
 	</div>		
-	
-	
+</div>	
+		    
+	<script>
+		function inquiryBoard(num){
+			$('#hidden-page').val(num); $('#inquiryForm').attr('action', 'inquiry.me').submit();
+		};	
+		
+	</script>
+				
+				
 	<script>
 		$('#deleteBtn').click(function(){
 			if(confirm('카페를 삭제하시겠습니까?')){
@@ -181,4 +190,77 @@
 			}
 		})
 	
+		
+		
+		
+					function inquiryDetail(inquiryNo,memberId){
+						console.log(memberId);
+						$.ajax({
+							url : 'inquiryDetail.me',
+							data : { inquiryNo : inquiryNo,
+								   memberId : memberId },
+							type : 'post',
+							success : function(result){
+								console.log(result);
+								console.log(result.inquiryAnswer);
+								var value = '';
+								if(result === '없음'){
+									$('#alertTag').text('검색결과가 존재하지 않습니다.');
+								} else{
+									value += '<hr>' 
+										  + '<div class="detail">'
+							              + '<h2>문의 상세보기</h2>'
+							              + '<table class="inquiryTable">'
+							              + '<tr>'
+							              + '<th class="text-alignC tr-td-70pxsize">제목</th>'
+							              + '<td colspan="3" class="text-alignL">'+ result.inquiryTitle +'</td>'
+							              + '</tr>'
+							              + '<tr>'
+							              + '<th class="text-alignC tr-td-70pxsize">작성자</th>'
+							              + '<td class="text-alignL">'+ result.memberId +'</td>'
+							              + '<th class="text-alignC tr-td-70pxsize">작성일</th>'
+							              + '<td>'+ result.inquiryCreateDate +'</td>'
+							              + '</tr>'
+							              + '<tr><br>'
+							              + '<th colspan="4"><h3>문의내용</h3></th>'
+							              + '<td colspan="3"></td>'
+							              + '</tr>'
+							              + '<tr>'
+							              + '<td colspan="4"><p style="height:150px;">'+ result.inquiryContent +'</p></td>'
+							              + '</tr>'
+							              + '</table>'
+							              + '<br>'
+										  + '<div align="center">'
+							              + '<a class="btn btn-danger" onclick="inquiryDelete('+result.inquiryNo+');">삭제하기</a>'  
+							              + '</div>'    
+										  + '<br><hr>'							            
+							              + '<table id="inquiryAnswer" style="width:100%;">'
+							              + '<thead>'
+							              + '<tr>'
+							              + '<th>'
+							              + '<h3 class="text-alignC">답변 내용</h3>'
+							              + '</th>'
+							              + '</tr>'
+							              + '<tr>'
+							              + '<td style="height:200px;"><p>'+result.inquiryAnswer+'</p></td>'
+							              + '</tr>'
+							              + '</thead>'
+							              + '</table>'
+										  + '</div>';
+								}
+								$('#detailView').html(value);
+							},
+							error : function(){
+								console.log('실패');
+							}
+						});
+					}
+					
+		
 	</script>
+	
+	
+	
+	<div id="mypageFooter"><jsp:include page="../common/footer.jsp" /></div>
+</body>
+</html>
