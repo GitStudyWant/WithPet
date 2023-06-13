@@ -101,8 +101,13 @@ public class MemberServiceImpl implements MemberService {
 	
 	// 메모
 	@Override
-	public int selectMemoCount(String memId) {
-		return memberDao.selectMemoCount(sqlSession, memId);
+	public int selectReceiveMemoCount(String memId) {
+		return memberDao.selectReceiveMemoCount(sqlSession, memId);
+	}
+	
+	@Override
+	public int selectSendMemoCount(String memId) {
+		return memberDao.selectSendMemoCount(sqlSession, memId);
 	}
 	
 	@Override
@@ -131,18 +136,18 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public int deleteMemo(int memNo) {
-		return 0;
+	public int deleteMemo(int memoNo) {
+		return memberDao.deleteMemo(sqlSession, memoNo);
 	}
-
+	
 	@Override
-	public int deleteMemos(Memo[] memNos) {
-		return 0;
+	public int discountMemoCount(String memId) {
+		return memberDao.discountMemoCount(sqlSession, memId);
 	}
 
 	@Override
 	public int insertMemo(Memo memo) {
-		return 0;
+		return memberDao.insertMemo(sqlSession, memo);
 	}
 
 	@Override

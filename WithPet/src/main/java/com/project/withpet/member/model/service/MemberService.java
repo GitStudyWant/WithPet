@@ -49,8 +49,10 @@ public interface MemberService {
 	public int deleteSchedule(int scheduleNo);
 	
 	// 메모
-	public int selectMemoCount(String memId);
+	public int selectReceiveMemoCount(String memId);
 		
+	public int selectSendMemoCount(String memId);
+	
 	public ArrayList<Memo> selectMemoGet(String memId, PageInfo pi);
 	
 	public ArrayList<Memo> selectMemoSend(String memId, PageInfo pi);
@@ -61,9 +63,9 @@ public interface MemberService {
 	
 	public Memo selectMemoDetail(int memNo);
 		
-	public int deleteMemo(int memNo);
-		
-	public int deleteMemos(Memo[] memNos);
+	public int deleteMemo(int memoNo);
+	
+	public int discountMemoCount(String memId);
 		
 	public int insertMemo(Memo memo);
 	

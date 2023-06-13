@@ -73,8 +73,12 @@ public class MemberDao {
 	    return sqlSession.delete("memberMapper.deleteSchedule", scheduleNo);
 	}
 	
-	public int selectMemoCount(SqlSession sqlSession, String memId) {
-		return sqlSession.selectOne("memberMapper.selectMemoCount", memId);
+	public int selectReceiveMemoCount(SqlSession sqlSession, String memId) {
+		return sqlSession.selectOne("memberMapper.selectReceiveMemoCount", memId);
+	}
+	
+	public int selectSendMemoCount(SqlSession sqlSession, String memId) {
+		return sqlSession.selectOne("memberMapper.selectSendMemoCount", memId);
 	}
 	
 	public ArrayList<Memo> selectMemoGet(SqlSession sqlSession, String memId, PageInfo pi){
@@ -105,11 +109,17 @@ public class MemberDao {
 	    return sqlSession.selectOne("memberMapper.selectMemoDetail", memoNo);
 	}
 	
+	public int deleteMemo(SqlSession sqlSession, int memoNo) {
+	    return sqlSession.update("memberMapper.deleteMemo", memoNo);
+	}
 	
+	public int discountMemoCount(SqlSession sqlSession, String memId) {
+	    return sqlSession.update("memberMapper.discountMemoCount", memId);
+	}
 	
-	
-	
-	
+	public int insertMemo(SqlSession sqlSession, Memo memo) {
+	    return sqlSession.insert("memberMapper.insertMemo", memo);
+	}
 	
 	
 	
