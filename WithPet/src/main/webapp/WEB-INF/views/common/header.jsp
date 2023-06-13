@@ -112,7 +112,7 @@
             <div id="header_2_detail">
                 <div id="header_2_detail_1"><a href="aroundSearch">내 주변 조회</a></div>
                 <div id="header_2_detail_2"><a href="transReservation">교통 예약하기</a></div>
-                <div id="header_2_detail_3"><a href="cafe.bo">숙소 예약하기</a></div>
+                <div id="header_2_detail_3"><a href="cafe.bo">카페 예약하기</a></div>
                 <div id="header_2_detail_4"><a href="placeList">여행코스 추천</a></div>
             </div>
         </div>

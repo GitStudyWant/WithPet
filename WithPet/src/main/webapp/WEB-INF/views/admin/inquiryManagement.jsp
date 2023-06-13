@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>카페 관리하기</title>
+<title>문의사항 관리하기</title>
 <style>
 
 	body{
@@ -73,6 +73,8 @@
 		background-color:rgb(73, 166, 112);
 		color: white;
 		border: 1px rgb(73, 166, 112);
+		width:40px;
+		height:30px;
 		
 	}
 	
@@ -90,34 +92,35 @@
 	<div id="body">
 		<div id="mainmain">
 			<br>
-			<h3 style="text-align:center;">카페 관리</h3>	
+			<h3 style="text-align:center;">문의사항 관리</h3>	
 			<hr>
 			<br>
-			<button id="addBtn" style="margin-left:1200px" class="btnn"><a href="cafeEnrollForm.bo" style="text-decoration:none; color:white;">추가</a></button>
-			<button id="deleteBtn" class="btnn">삭제</button>
+			<button id="deleteBtn" style="margin-left:1300px" class="btnn">삭제</button>
 			<table id="naviTable" align="center" style="margin-left:50px">
 				<thead>
 					<tr>
 						<th class="thHigh" width="40px">선택</th>
-						<th class="thHigh" width="90px">번호</th>
-						<th class="thHigh" width="90px">카페명</th>
-						<th class="thHigh" width="90px">주소</th>
-						<th class="thHigh" width="110px">서비스</th>
+						<th class="thHigh" width="90px">문의번호</th>
+						<th class="thHigh" width="90px">제목</th>
+						<th class="thHigh" width="90px">작성자</th>
+						<th class="thHigh" width="110px">작성일</th>
 						<th class="thHigh" width="110px">상태</th>
+						<th class="thHigh" width="110px">답변</th>
 					</tr>
 				</thead>
 				<tbody>
 					<c:choose>
-						<c:when test="${ not empty cList }">
-						  	<c:forEach items="${cList}" var="c">
+						<c:when test="${ not empty iList }">
+						  	<c:forEach items="${iList}" var="i">
 								<tr>
-								<th><input type="radio" name="cafeNo" style="margin-left:20px" value="${c.cafeNo}"/></th>
-								<td>${c.cafeNo}</td>
+								<th><input type="radio" name="inquiryNo" style="margin-left:20px" value="${i.inquiryNo}"/></th>
+								<td>${i.inquiryNo}</td>
 								
-								<td id="${c.cafeNo}cafeTitle">${ c.cafeTitle }</td>
-								<td id="${c.cafeNo}cafeAddress">${ c.cafeAddress }</td>
-								<td id="${c.cafeNo}cafeService">${ c.cafeService }</td>
-								<td id="${c.cafeNo}cafeStatus">${ c.cafeStatus }</td>
+								<td id="${i.inquiryNo}inquiryTitle">${ i.inquiryTitle }</td>
+								<td id="${i.inquiryNo}inquiryContent">${ i.inquiryContent }</td>
+								<td id="${i.inquiryNo}inquiryCreateDate">${ i.inquiryCreateDate }</td>
+								<td id="${i.inquiryNo}inquiryStatus">${ i.inquiryStatus }</td>
+								<td id="${i.inquiryNo}inquiryAnswer">${ i.inquiryAnswer }</td>
 								</tr>
 							</c:forEach>
 						</c:when>
@@ -135,18 +138,18 @@
            				<button class="btn btn-success">&lt</button>
          			</c:when>
          			<c:otherwise>
-         				<button class="btn btn-success" onclick="location.href='cafeManagement?cPage=${ pi.currentPage - 1 }'">&lt</button>
+         				<button class="btn btn-success" onclick="location.href='inquiryManagement?cPage=${ pi.currentPage - 1 }'">&lt</button>
          			</c:otherwise>
           		</c:choose>
              	<c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
-             		<button class="btn btn-success" onclick="location.href='cafeManagement?cPage=${p}'">${ p }</button>
+             		<button class="btn btn-success" onclick="location.href='inquiryManagement?cPage=${p}'">${ p }</button>
               	</c:forEach>
               	<c:choose>
          			<c:when test="${ pi.currentPage eq pi.maxPage }">
             			<button class="btn btn-success">&gt</button>
               		</c:when>
                		<c:otherwise>
-               			<button class="btn btn-success" onclick="location.href='cafeManagement?cPage=${pi.currentPage+1}'">&gt</button>
+               			<button class="btn btn-success" onclick="location.href='inquiryManagement?cPage=${pi.currentPage+1}'">&gt</button>
                		</c:otherwise>
                	</c:choose>
 	
@@ -159,8 +162,8 @@
 			if(confirm('카페를 삭제하시겠습니까?')){
 				
 				$.ajax({
-					url : 'deleteCafe',
-					data : {cafeNo : $('input[name=cafeNo]:checked').val()},
+					url : 'deleteInquiry',
+					data : {inquiryNo : $('input[name=inquiryNo]:checked').val()},
 					success : function(result){
 						if(result == 'Y'){
 							alert('성공적으로 삭제되었습니다.');

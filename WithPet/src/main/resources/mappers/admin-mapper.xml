@@ -252,6 +252,34 @@
 		      CAFE_NO = ${cafeNo}
 	</delete>	
 	
+	<select id="inquiryManagement" resultType="inquiry">
+		select
+		      mem_id memberId
+		     ,inquiry_no inquiryNo
+		     ,inquiry_title inquiryTitle
+		     ,inquiry_content inquiryContent
+		     ,inquiry_createdate inquiryCreateDate
+		     ,inquiry_status inquiryStatus
+		     ,inquiry_answer inquiryAnswer
+		 from
+		     inquiry
+		order
+		   by
+		     inquiry_no asc              
+	</select>
 	
+	<select id="inquiryManagementCount" resultType="_int">
+		SELECT
+		      COUNT(INQUIRY_NO)
+		  FROM
+		      INQUIRY
+	</select>	
+	
+	<delete id="deleteInquiry" parameterType="_int">
+		DELETE 
+		      inquiry
+		 WHERE
+		      inquiry_no = ${inquiryNo}
+	</delete>			
 	
 </mapper>
