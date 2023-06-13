@@ -416,7 +416,7 @@ img {
 	
 	
 	
-	<a href="cafeEnrollForm.bo" style="float:left; color:black; text-decoration:none; margin-left:880px">카페 등록하기</a>
+	<a href="cafeEnrollForm.bo" style="float:left; background-color: rgb(73, 166, 112); color:white; text-decoration:none; margin-left:880px; width:80x">카페 등록하기</a>
 	<div id="paste">
 	<c:forEach items="${list}" var="c">
 	    <div class="board_petcafe" id="paste${c.cafeNo}">

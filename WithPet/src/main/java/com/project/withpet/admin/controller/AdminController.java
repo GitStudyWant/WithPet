@@ -20,6 +20,7 @@ import com.google.gson.Gson;
 import com.project.withpet.admin.model.service.AdminService;
 import com.project.withpet.board.common.model.vo.PageInfo;
 import com.project.withpet.board.common.template.Pagination;
+import com.project.withpet.cafe.model.vo.Cafe;
 import com.project.withpet.cafe.model.vo.CafeRes;
 import com.project.withpet.member.model.vo.Member;
 import com.project.withpet.trip.model.vo.Place;
@@ -224,12 +225,35 @@ public class AdminController {
 	
 	@ResponseBody
 	@RequestMapping("deleteCr")
-	public String deleteTr(CafeRes cr) {
-			if(adminService.deleteTr(cr.getCafeResNo()) > 0) {
-				return "Y";
-			}else {
-				return "N";
-			}
-		} 
+	public String deleteTr(int cafeResNo) {
+		if(adminService.deleteCr(cafeResNo) > 0) {
+			return "Y";
+		}else {
+			return "N";
+		}
+	} 
+	
+	@RequestMapping("cafeManagement")
+	public String cafeManagement(@RequestParam(value="cPage", defaultValue="1") int currentPage, Model m) {
+		
+		PageInfo pi = Pagination.getPageInfo(adminService.managementCount(), currentPage, 10, 5);
+		
+		ArrayList<Cafe> cList = adminService.cafeManagement(pi);
+		m.addAttribute("pi", pi);
+		m.addAttribute("cList",cList);
+		return "admin/cafeManagement";
+	}	
+	
+	@ResponseBody
+	@RequestMapping("deleteCafe")
+	public String deleteCafe(int cafeNo) {
+		if(adminService.deleteCafe(cafeNo) > 0) {
+			return "Y";
+		} else {
+			return "N";
+		}
+	}	
+	
+	
 	
 }

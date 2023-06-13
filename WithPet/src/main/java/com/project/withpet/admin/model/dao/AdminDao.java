@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.project.withpet.board.common.model.vo.PageInfo;
+import com.project.withpet.cafe.model.vo.Cafe;
 import com.project.withpet.cafe.model.vo.CafeRes;
 import com.project.withpet.member.model.vo.Member;
 import com.project.withpet.trip.model.vo.CarReservation;
@@ -87,6 +88,20 @@ public class AdminDao {
 	
 	public int deleteCr(SqlSessionTemplate sqlSession, int cafeResNo) {
 		return sqlSession.delete("adminMapper.deleteCr", cafeResNo);
+	}
+	
+	public ArrayList<Cafe> cafeManagement(SqlSessionTemplate sqlSession,PageInfo pi){
+		int offset = (pi.getCurrentPage() - 1)* pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("adminMapper.cafeManagement",null,rowBounds);		
+	}
+	
+	public int managementCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("adminMapper.managementCount");
+	}
+	
+	public int deleteCafe(SqlSessionTemplate sqlSession, int cafeNo) {
+		return sqlSession.delete("adminMapper.deleteCafe", cafeNo);
 	}
 	
 }
