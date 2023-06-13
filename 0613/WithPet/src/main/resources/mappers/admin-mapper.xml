@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="adminMapper">
+	<select id="adminTransportation" resultType="transportation">
+		SELECT 
+		      TR_NO trNo
+		     ,TR_TYPE trType
+		     ,TR_TYPE2 trType2
+		     ,TR_FEE trFee
+          FROM
+               TRANSPORTATION
+         ORDER
+            BY
+              TR_NO
+	</select>
+	
+	<insert id="addTransportation" parameterType="transportation">
+		INSERT
+		  INTO
+		      TRANSPORTATION 
+		      (
+		      TR_NO
+		     ,TR_TYPE
+		     ,TR_TYPE2
+		     ,TR_FEE
+		      )
+		VALUES
+		      (
+		      SEQ_TR_NO.NEXTVAL
+		     ,#{trType}
+		     ,#{trType2}
+		     ,#{trFee}
+		      )
+	</insert>
+	
+	<delete id="deleteTr" parameterType="_int">
+		DELETE 
+		  FROM
+		       TRANSPORTATION
+		 WHERE
+		     TR_NO = #{trNo}
+	</delete>
+</mapper>

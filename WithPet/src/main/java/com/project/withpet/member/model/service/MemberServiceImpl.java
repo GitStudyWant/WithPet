@@ -1,6 +1,5 @@
 package com.project.withpet.member.model.service;
 
-import java.sql.Date;
 import java.util.ArrayList;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -13,13 +12,16 @@ import com.project.withpet.board.model.vo.Comments;
 import com.project.withpet.member.model.dao.MemberDao;
 import com.project.withpet.member.model.vo.CertVO;
 import com.project.withpet.member.model.vo.Friend;
+import com.project.withpet.member.model.vo.Inquiry;
 import com.project.withpet.member.model.vo.Member;
 import com.project.withpet.member.model.vo.Memo;
 import com.project.withpet.member.model.vo.Passward;
 import com.project.withpet.member.model.vo.Point;
 import com.project.withpet.member.model.vo.Schedule;
+import com.project.withpet.trip.model.vo.CarReservation;
 import com.project.withpet.trip.model.vo.MyPlace;
 import com.project.withpet.trip.model.vo.Place;
+import com.project.withpet.trip.model.vo.TaxiReservation;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -188,8 +190,27 @@ public class MemberServiceImpl implements MemberService {
 		return memberDao.deleteCourse(sqlSession, m);
 	}
 
+	@Override
+	public ArrayList<TaxiReservation> selectMyTaxiRes(String memId) {
+		return memberDao.selectMyTaxiRes(sqlSession, memId);
+	}
+
+	@Override
+	public ArrayList<CarReservation> selectMyCarRes(String memId) {
+		return memberDao.selectMyCarRes(sqlSession, memId);
+	}
 	
-	
+	@Override
+	public int deleteTRes(int resNo) {
+		return memberDao.deleteTRes(sqlSession, resNo);
+	}
+
+	@Override
+	public int deleteCRes(int resNo) {
+		return memberDao.deleteCRes(sqlSession, resNo);
+	}
+
+
 	
 	
 	
@@ -321,6 +342,41 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public Member friendSearch(Friend fri) {
 		return memberDao.friendSearch(sqlSession, fri);
+	}
+
+	@Override
+	public ArrayList<Member> liveSearch(String keyword){
+		return memberDao.liveSearch(sqlSession, keyword);
+	}
+	
+	@Override
+	public Member findMember(String findMember) {
+		return memberDao.findMember(sqlSession, findMember);
+	}
+	
+	@Override
+	public ArrayList<Inquiry> inquiry(PageInfo pi){
+		return memberDao.inquiry(sqlSession, pi);
+	}
+	
+	@Override
+	public int inquiryCount(String memberId) {
+		return memberDao.inquiryCount(sqlSession, memberId);
+	}
+
+	@Override
+	public Inquiry inquiryDetail(Inquiry i) {
+		return memberDao.inquiryDetail(sqlSession, i);
+	}
+	
+	@Override
+	public int inquiryDelete(int ino) {
+		return memberDao.inquiryDelete(sqlSession, ino);
+	}
+	
+	@Override
+	public int inquiryInsert(Inquiry i) {
+		return memberDao.inquiryInsert(sqlSession, i);
 	}
 
 	

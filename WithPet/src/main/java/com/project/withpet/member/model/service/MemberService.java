@@ -7,13 +7,16 @@ import com.project.withpet.board.model.vo.Board;
 import com.project.withpet.board.model.vo.Comments;
 import com.project.withpet.member.model.vo.CertVO;
 import com.project.withpet.member.model.vo.Friend;
+import com.project.withpet.member.model.vo.Inquiry;
 import com.project.withpet.member.model.vo.Member;
 import com.project.withpet.member.model.vo.Memo;
 import com.project.withpet.member.model.vo.Passward;
 import com.project.withpet.member.model.vo.Point;
 import com.project.withpet.member.model.vo.Schedule;
+import com.project.withpet.trip.model.vo.CarReservation;
 import com.project.withpet.trip.model.vo.MyPlace;
 import com.project.withpet.trip.model.vo.Place;
+import com.project.withpet.trip.model.vo.TaxiReservation;
 
 public interface MemberService {
 	
@@ -82,8 +85,13 @@ public interface MemberService {
 	
 	public int deleteCourse(MyPlace m);
 	
+	public ArrayList<TaxiReservation> selectMyTaxiRes(String memId);
 	
+	public ArrayList<CarReservation> selectMyCarRes(String memId);
 	
+	public int deleteTRes(int resNo);
+	
+	public int deleteCRes(int resNo);
 	
 	
 	
@@ -266,5 +274,19 @@ public interface MemberService {
 	public int sharingCancellation(Friend fri);
 	
 	public Member friendSearch(Friend fri);
+	
+public ArrayList<Member> liveSearch(String keyword);
+	
+	public Member findMember(String findMember);
+	
+	public ArrayList<Inquiry> inquiry(PageInfo pi);
+	
+	public int inquiryCount(String memberId);
+	
+	public Inquiry inquiryDetail(Inquiry i);
+	
+	public int inquiryDelete(int ino);
+	
+	public int inquiryInsert(Inquiry i);
 	
 }

@@ -52,6 +52,11 @@
 		display : none;
 	}
 	
+	#goPlace{
+		text-decoration : none;
+		color : white;
+	}
+	
 </style>
 </head>
 <body>
@@ -62,7 +67,7 @@
 		    <hr>
 		    <div class="container" style="width:75%;">
 		     		<h5>내가 저장한 코스 </h5>
-		     		<button class="btnn" style="margin-left:750px"><a href="placeList">여행 코스 짜러 가기</a></button>
+		     		<button class="btnn" style="margin-left:750px"><a id="goPlace" href="placeList">여행 코스 짜러 가기</a></button>
 		     		<input type="hidden" value="${loginMember.memId}" id="getMemId">
 		     		<div id="c1d">
 		     			<br>

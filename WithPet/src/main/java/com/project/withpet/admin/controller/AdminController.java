@@ -18,8 +18,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
 import com.project.withpet.admin.model.service.AdminService;
+import com.project.withpet.admin.model.vo.Search;
 import com.project.withpet.board.common.model.vo.PageInfo;
 import com.project.withpet.board.common.template.Pagination;
+import com.project.withpet.cafe.model.vo.Cafe;
 import com.project.withpet.cafe.model.vo.CafeRes;
 import com.project.withpet.member.model.vo.Member;
 import com.project.withpet.trip.model.vo.Place;
@@ -218,17 +220,63 @@ public class AdminController {
 	public String cafeResManagement(Model m) {
 		ArrayList<CafeRes> cList = adminService.cafeResManagement();
 		m.addAttribute("cList", cList);
+		System.out.println(cList);
 		return "admin/cafeResManagement";
 	}	
 	
 	@ResponseBody
 	@RequestMapping("deleteCr")
-	public String deleteTr(CafeRes cr) {
-			if(adminService.deleteTr(cr.getCafeResNo()) > 0) {
-				return "Y";
-			}else {
-				return "N";
-			}
-		} 
+	public String deleteTr(int cafeResNo) {
+		if(adminService.deleteCr(cafeResNo) > 0) {
+			return "Y";
+		}else {
+			return "N";
+		}
+	} 
+	
+	@RequestMapping("cafeManagement")
+	public String cafeManagement(@RequestParam(value="cPage", defaultValue="1") int currentPage, Model m) {
+		
+		PageInfo pi = Pagination.getPageInfo(adminService.managementCount(), currentPage, 10, 5);
+		
+		ArrayList<Cafe> cList = adminService.cafeManagement(pi);
+		m.addAttribute("pi", pi);
+		m.addAttribute("cList",cList);
+		return "admin/cafeManagement";
+	}	
+	
+	@ResponseBody
+	@RequestMapping("deleteCafe")
+	public String deleteCafe(int cafeNo) {
+		if(adminService.deleteCafe(cafeNo) > 0) {
+			return "Y";
+		} else {
+			return "N";
+		}
+	}	
+	
+	
+	
+	
+	
+	@ResponseBody
+	@RequestMapping(value="searchKeyword", produces="application/json; charset=UTF-8")
+	public String searchKeyword(String key) {
+		ArrayList<Search> keyList = adminService.searchKeyword(key);
+		//System.out.println(keyList);
+		return new Gson().toJson(keyList);
+	}
+	
+	
+	
+	@ResponseBody
+	@RequestMapping(value="bestKeyword", produces="application/json; charset=UTF-8")
+	public String bestKeyword() {
+		ArrayList<Search> bestList = adminService.bestKeyword();
+		System.out.println(bestList);
+		return new Gson().toJson(bestList);
+	}
+	
+	
 	
 }

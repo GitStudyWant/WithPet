@@ -15,7 +15,7 @@
 			margin: auto;
 			height: 1200px;
 			width: 1200px;
-			border: 0.1px solid sandybrown;
+			/*border: 0.1px solid sandybrown;*/
 			box-sizing: border-box;
 			text-align: center;
 		}
@@ -29,14 +29,14 @@
 		#list_wrap{
 			height: 480px;
 			width: 100%;
-			border: 0.1px solid sandybrown;
+			/*border: 0.1px solid sandybrown;*/
 		}
 
 		#map_wrap{
 			height: 480px;
 			width: 100%;
-			border: 0.1px solid sandybrown;
-			margin-left : 100px;
+			/*border: 0.1px solid sandybrown;*/
+			/*margin-left : 100px;*/
 		}
 		
 		
@@ -45,7 +45,7 @@
 			float: left;
 			height: 100%;
 			width: 50%;
-			border: 0.1px solid sandybrown;
+			/*border: 0.1px solid sandybrown;*/
 		}
 
 		button{
@@ -691,7 +691,7 @@
 									success : function(result){
 										console.log(result);
 										if(result.placeChangeName != null){
-											value = '<img src="'+result.placeChangeName +'">';
+											value = '<img src="'+result.placeChangeName +'" style="width:400px; height:300px">';
 											$('#photo').html(value);
 										}
 										if(result.placeType == 'A'){
@@ -714,9 +714,9 @@
 						}
 
 				</script>
-				
+				<hr>
 				<div id="map_wrap" class="map_wrap">
-					<div id="map_div">
+					<div id="map_div" style="margin-left:100px">
 
 						<p id="result"></p>
 						<select id="selectLevel">

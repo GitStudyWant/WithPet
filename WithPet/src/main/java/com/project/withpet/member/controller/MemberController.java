@@ -44,12 +44,15 @@ import com.project.withpet.board.model.vo.Comments;
 import com.project.withpet.member.model.service.MemberService;
 import com.project.withpet.member.model.vo.CertVO;
 import com.project.withpet.member.model.vo.Friend;
+import com.project.withpet.member.model.vo.Inquiry;
 import com.project.withpet.member.model.vo.Member;
 import com.project.withpet.member.model.vo.Memo;
 import com.project.withpet.member.model.vo.Passward;
 import com.project.withpet.member.model.vo.Schedule;
+import com.project.withpet.trip.model.vo.CarReservation;
 import com.project.withpet.trip.model.vo.MyPlace;
 import com.project.withpet.trip.model.vo.Place;
+import com.project.withpet.trip.model.vo.TaxiReservation;
 
 
 @Controller
@@ -646,8 +649,24 @@ public class MemberController {
 	// 마이페이지 trip관련 조회 메뉴 추가 
 	
 	@RequestMapping("myReservation")
-	public String myReservation(Model m) {
+	public String myReservation(Model m, HttpSession session) {
+		
+		if(session.getAttribute("loginMember") == null) {
+			session.setAttribute("alertMsg","로그인 후 이용해주세요~");
+			return "common/main";
+		} else {
+		
+		String memId = ((Member)session.getAttribute("loginMember")).getMemId();
+			ArrayList<TaxiReservation> tList = memberService.selectMyTaxiRes(memId);
+			ArrayList<CarReservation> cList = memberService.selectMyCarRes(memId);
+			
+			//System.out.println(tList);
+			//System.out.println(cList);
+			m.addAttribute("tList", tList);
+			m.addAttribute("cList", cList);
+			
 		return "member/reservation/myReservation";
+		}
 	}
 	
 	@RequestMapping("myCourse")
@@ -660,7 +679,7 @@ public class MemberController {
 			
 		String memId = ((Member)session.getAttribute("loginMember")).getMemId();
 		ArrayList<Place> myCourse = memberService.myCourse(memId);
-		System.out.println(myCourse);
+		//System.out.println(myCourse);
 		m.addAttribute("myCourse", myCourse);
 		return "member/course/myCourse";
 		
@@ -670,7 +689,7 @@ public class MemberController {
 	@ResponseBody
 	@RequestMapping("deleteCourse")
 	public String deleteCourse(MyPlace m) {
-		System.out.println(m);
+		//System.out.println(m);
 		if(memberService.deleteCourse(m) > 0) {
 			return "Y";
 		} else {
@@ -678,6 +697,25 @@ public class MemberController {
 		}
 	}
 	
+	@ResponseBody
+	@RequestMapping("deleteTRes")
+	public String deleteTRes(int resNo, String trType) {
+		//System.out.println(resNo+trType);
+		if(trType.equals("T")) {
+			if(memberService.deleteTRes(resNo) > 0) {
+				return "Y";
+			}else {
+				return "N";
+			}
+		} else {
+			if(memberService.deleteCRes(resNo) > 0) {
+				return "Y";
+			} else {
+				return "N";
+			}
+		}
+		
+	}
 	
 	
 	
@@ -1518,7 +1556,7 @@ public class MemberController {
 			}
 		}
 		
-		/*
+		
 		@ResponseBody
 		@RequestMapping(value="liveSearch.me", produces="application/json; charset=UTF-8")
 		public String liveSearch(String keyword) {
@@ -1546,17 +1584,16 @@ public class MemberController {
 			return null;
 		}
 		
-		@RequestMapping(value="inquiry.me", produces="application/json; charset=UTF-8")
+		@RequestMapping("inquiry.me")
 		public String inquiry(@RequestParam(value="iPage", defaultValue="1") int currentPage, HttpServletRequest request, Model m) {
 			HttpSession session = request.getSession();
 			String memberId = ((Member)session.getAttribute("loginMember")).getMemId();
 			PageInfo pi = Pagination.getPageInfo(memberService.inquiryCount(memberId), currentPage, 10, 10);
 			pi.setMemberId(memberId);
 			ArrayList<Inquiry> list = memberService.inquiry(pi);
-			System.out.println(list);
-			System.out.println(memberId);
 			if(list.isEmpty()) {
-				return new Gson().toJson;
+				m.addAttribute("inquiryList", list);
+				return "member/inquiry/memberInquiry";
 			}else {
 				m.addAttribute("pi", pi);
 				m.addAttribute("inquiryList", list);
@@ -1567,9 +1604,50 @@ public class MemberController {
 		@ResponseBody
 		@RequestMapping(value="inquiryDetail.me", produces="application/json; charset=UTF-8")
 		public String inquiryDetail(int inquiryNo, String memberId) {
+			System.out.println(memberId);
 			Inquiry i = new Inquiry(memberId, inquiryNo);
 			Inquiry inquiry = memberService.inquiryDetail(i);
-			return null
+			if(inquiry != null) {
+				if(inquiry.getInquiryAnswer() == null) {
+					inquiry.setInquiryAnswer("답변 내용이 아직 작성되지 않았습니다.");
+				}
+				return new Gson().toJson(inquiry);
+			}else {
+				return new Gson().toJson("없음");
+			}
 		}
-		*/
+		
+		@RequestMapping("inuqiryDelete.me")
+		public String inquiryDelete(int ino, Model m) {
+			if(memberService.inquiryDelete(ino) > 0) {
+				m.addAttribute("alertMsg", "삭제에 성공하셨습니다.");
+				return "redirect:inquiry.me";
+			}else {
+				m.addAttribute("alertMsg", "삭제에 실패하셨습니다.");
+				return "redirect:inquiry.me";
+			}
+		}
+		
+		@RequestMapping("inquiryInsertPage.me")
+		public String inquiryInsertPage() {
+			return "member/modal/memberinquiryModal";
+		}
+		
+		@RequestMapping("inquiryInsert.me")
+		public String inquiryInsert(String memberId, String inquiryTitle, String inquiryContent, Model m) {
+			Inquiry i = new Inquiry();
+			i.setMemberId(memberId);
+			i.setInquiryTitle(inquiryTitle);
+			i.setInquiryContent(inquiryContent);
+			System.out.println(i);
+			if(memberService.inquiryInsert(i) > 0) {
+				m.addAttribute("alertMsg", "작성에 성공하셨습니다.");
+				return "redirect:inquiry.me";
+			}else {
+				m.addAttribute("alertMsg", "작성에 실패하셨습니다.");
+				return "redirect:inquiry.me";
+			}
+			
+		}
+		
 	}

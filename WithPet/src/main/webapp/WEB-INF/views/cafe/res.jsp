@@ -57,6 +57,7 @@ tr {
 				<tr>
 					<th scope="row">시설명</th>
 					<td>${c.cafeTitle}</td>
+					<input type="hidden" value="cno">
 				</tr>
 				
 				<tr>
@@ -138,6 +139,7 @@ tr {
             <br>
             <form action="cafeReservation" method="POST">
             <input type="hidden" name="memId" id="memId" value="${ loginMember.memId }">
+            <input type="hidden" name="cafeNo" id="cafeNo" value="${c.cafeNo}">
              <table width="100%" style="text-align:center">
                  <tr style="height: 10px;"></tr>
                  <tr style="margin-top:5px">
@@ -184,6 +186,7 @@ tr {
 			$('#resDate').datepicker({
 			});
 			var choiceDate = $('#resDate').val();
+			console.log($('#cafeNo').val());
 		})
 		
 	})
@@ -193,7 +196,10 @@ tr {
 	$('#goTReservation').click(function(){
 		 $('#goResTaxi').modal("show");	
 		 
+		 
+		 
 	})
+	
  
  </script>
 

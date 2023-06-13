@@ -203,18 +203,19 @@
 		 						      ,TR_tYPE2
 		 						      ,TAXI_RDATE
 		 						      ,TAXI_RTIME 
+		 						      ,STATUS
 		 						  FROM 
 		 						       TRANSPORTATION LEFT JOIN 
 		 			 			  	   TAXI_RESERVATION USING(TR_NO))
 		 			  			 WHERE 
 		 			  				   TR_TYPE = 'T' AND 
-		 			  				   TR_Type2 = #{trType2})
+		 			  				   TR_Type2 = #{trType2} AND
+		 			  				   STATUS = 'Y')
 		 			   	 			   WHERE 
 		 			   	 			         TAXI_RDATE = #{taxiRDate} AND 
 		 			   	 			         TAXI_RTIME = #{taxiRTime}) AND 
 		 			   	 			         TR_TYPE= 'T' AND 
-		 			   	 			         TR_TYPE2 = #{trType2} AND
-		 			   	 			         STATUS = 'Y'
+		 			   	 			         TR_TYPE2 = #{trType2}
 	</select>
 	
 	<insert id="taxiReservation" parameterType="taxiReservation">
@@ -278,17 +279,18 @@
 							          ,TR_TYPE2
 							          ,START_DATE
 							          ,END_DATE 
+							          ,STATUS
 							      FROM 
 							          TRANSPORTATION LEFT JOIN 
 		 			 			  CAR_RESERVATION USING(TR_NO)) 
 		 			 			  WHERE 
 		 			 			       TR_TYPE='C' AND 
-		 			 			       TR_TYPE2 = #{trType2}) 
+		 			 			       TR_TYPE2 = #{trType2} AND
+		 			 			       STATUS = 'Y') 
 		 			 			  WHERE 
 		 			 			       END_DATE >= #{startDate}) AND 
 		 			 			       TR_TYPE='C' AND 
-		 			 			       TR_TYPE2 = #{trType2} AND
-		 			 			       STATUS = 'Y'
+		 			 			       TR_TYPE2 = #{trType2}
 	</select>
 	
 	<select id="checkFee" resultType="_int">
