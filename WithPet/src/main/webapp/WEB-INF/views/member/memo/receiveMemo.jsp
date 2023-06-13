@@ -106,24 +106,27 @@
 		    
 		    <table id="memolist" >
 		    	<tr>
-		    		<th class="memolisthead" width="5%"><input id="receiveMemoCheckMain" type="checkbox"></th>
+		    		<th class="memolisthead" width="5%">
+		    		<input id="receiveMemoCheckMain" type="checkbox">
+		    		<input type="hidden" id="memoModalButton" data-bs-toggle="modal" data-bs-target="#memoModal">
+		    		</th>
 		    		<th class="memolisthead" width="10%">보낸사람</th>
 		    		<th class="memolisthead" width="35%">제목</th>
 		    		<th class="memolisthead" width="25%">발송시간</th>
 		    		<th class="memolisthead" width="25%">읽음확인</th>
 		    	</tr>
 		    	<c:choose>
-		    	<c:when test="${ empty list}">
+		    	<c:when test="${empty list}">
 			    	<tr>
-			    		<td colspan="5">쪽지가 없어요</td>
+			    		<td class="memotd" colspan="5">쪽지가 없어요</td>
 			    	</tr>
 		    	</c:when>
 		    	<c:otherwise>
 			    	<c:forEach items="${list}" var="memos" varStatus="status">
 			    	<tr id="receiveMemoMain${status.index}">
-			    		<td class="memotd" id="memoTdCheck">
-			    		<input type="checkbox" class="receiveMemoCheck" id="receiveMemoCheck${status.index}" onclick="memoCheck(${status.index})">
-			    		<input type="hidden" id="memoModalButton" data-bs-toggle="modal" data-bs-target="#memoModal">
+			    		<td class="memotd">
+			    		<input type="checkbox" class="receiveMemoCheck" id="receiveMemoCheck${status.index}" name="receiveMemoCheck${status.index}" onclick="memoCheck(${status.index})">
+			    		<input type="hidden" class="receiveMemoNo" id="receiveMemoNo${status.index}" name="receiveMemoNo${status.index}" value="${memos.memoNo}">
 			    		</td>
 					    <td class="memotd receiveMemoMain" onclick="memoModal(${memos.memoNo})">${memos.memoSender}</td>
 					    <td class="memotd receiveMemoMain" onclick="memoModal(${memos.memoNo})">${memos.memoTitle}</td>   	
@@ -160,13 +163,13 @@
 		    <table id="memoetc">
 		    	<tr>
 		    		<td colspan="3">
-		    		<button class="btn btn-danger" style="width:8%; height:30px; display:flex; align-items: center; justify-content: center;">삭제</button>
+		    		<button class="btn btn-danger" onclick="deleteReceiveMemos()" style="width:8%; height:30px; display:flex; align-items: center; justify-content: center;">삭제</button>
 		    		</td>
 		    	</tr>
 		    	<tr>
 		    		<td colspan="3" width="100%">
-		    			<div id="pagingArea" style="width:1%; margin:auto">
-				                <ul class="pagination">
+		    			<div id="pagingArea" style="text-align: center;">
+				                <ul class="pagination" style="display: flex; justify-content: center;">
 				                
 				                	<c:choose>
 				                		<c:when test="${ pi.currentPage eq 1 }">
@@ -232,6 +235,40 @@
 			}
 		}
 		
+		function deleteReceiveMemoOne(){
+			
+			deleteMemo($('#memoDetailNo').val(), 1);
+	  	}
+		
+		function deleteReceiveMemos(){
+			
+			var checkedCount = 0;
+			
+			for(var i = 0; i < $('.receiveMemoCheck').length; i++){
+				if($('#receiveMemoCheck' + i).prop("checked") == true){
+					checkedCount += 1;
+					if(checkedCount != $('.receiveMemoCheck:checked').length){
+						deleteMemo($('#receiveMemoNo' + i).val(), 0);
+					} else{
+						deleteMemo($('#receiveMemoNo' + i).val(), 1);
+					}
+				}
+			}
+		}
+		
+		function deleteMemo(MemoNo, triger){
+			$.ajax({
+				url : "deleteMemo",
+				type : "get",
+				data : {deleteMemoNo : MemoNo},
+				success : function(result){
+					if(triger == 1){
+						location.href="http://localhost:8787/withpet/receiveMemo";
+					}
+				},
+				error : function(error){}
+			})	
+		}
 		
 	
 	
@@ -249,6 +286,8 @@
 	        <div class="modal-body">
 	        
 	          <p class="modal-title" style="font-size:15px; text-align:center; margin-top:15px; margin-bottom:30px">쪽지 확인</p>
+	          
+	          <input type="hidden" id="memoDetailNo" name="memoDetailNo">
 	          
 	          <table style="width:70%; margin:auto; font-size:14px;">
 	          	<tr>
@@ -279,10 +318,11 @@
 	        
 	        <div class="modal-footer">
 	        <div style="margin:auto">
-	          <button type="button" class="btn btn-success">답장</button>
-	          <button type="button" class="btn btn-danger">삭제</button>
+	          <a id="replyMemo" class="btn btn-success" href="">답장</a>
+	          <button type="button" class="btn btn-danger" onclick="deleteReceiveMemoOne()">삭제</button>
 	        </div>
 	        </div>
+	       
 	      
 	      </div>
 	    </div>
@@ -308,6 +348,7 @@
 							},
 							success : function(result){
 								
+								$('#memoDetailNo').val(result.memoNo);	
 								$('#memoDetailSender').val(result.memoSender);	
 								$('#memoDetailSendDate').val(result.memoSendDate);	
 								$('#memoDetailTitle').val(result.memoTitle);	
@@ -315,6 +356,8 @@
 								$('#memoDetailCheckDate').val(result.memoCheckDate);
 								
 								$('#memoRead' + memoNoSub).text(result.memoCheckDate);
+								$('#replyMemo').prop("href", "replyMemo?memoDetailSender=" + result.memoSender);
+								
 							},
 							error : function(result){}
 			  		})

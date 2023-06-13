@@ -172,7 +172,7 @@
 	<insert id="insertSchedule" parameterType="schedule">
 		INSERT
 		INTO
-				SCHEDULE
+				schedule
 		VALUES
 				(
 				#{memId}
@@ -188,7 +188,7 @@
 	
 	<update id="updateSchedule" parameterType="schedule">
 		UPDATE
-				SCHEDULE
+				schedule
 		SET
 				schedule_cate = #{scheduleCate}
 				,schedule_start = #{scheduleStart}
@@ -202,18 +202,31 @@
 	
 	<delete id="deleteSchedule" parameterType="_int">
 		DELETE
-				SCHEDULE
+				schedule
 		WHERE
 				schedule_no = #{scheduleNo}
 	</delete>
 	
-	<select id="selectMemoCount" resultType="_int">
+	<select id="selectReceiveMemoCount" resultType="_int">
 		select
 				count(*)
 		from
 				memo
 		where
-				MEMO_RECEIVER = #{memId}
+				memo_receiver = #{memId}
+		and
+				memo_status = 'N'
+	</select>
+	
+	<select id="selectSendMemoCount" resultType="_int">
+		select
+				count(*)
+		from
+				memo
+		where
+				memo_sender = #{memId}
+		and
+				memo_status = 'N'
 	</select>
 	
 	<select id="selectMemoGet" resultType="memo">
@@ -232,6 +245,8 @@
 				memo
 		WHERE
 				memo_receiver = #{memId}
+		AND
+				memo_status = 'N'
 		ORDER
 		   BY
 		        memo_no desc
@@ -253,6 +268,8 @@
 				memo
 		WHERE
 				memo_sender = #{memId}
+		AND
+				memo_status = 'N'
 		ORDER
 		   BY
 		        memo_no desc
@@ -296,11 +313,42 @@
 				memo_No = #{memoNo}
 	</select>
 	
+	<update id="deleteMemo">
+		update
+			   memo
+   	  	   set
+       		   memo_status = 'Y'
+         where
+               memo_no = #{memoNo}
+	</update>
 	
+	<update id="discountMemoCount">
+		update
+			   member
+   	  	   set
+       		   mem_memo = mem_memo - 1
+         where
+               mem_id = #{memId}
+	</update>
 	
-	
-	
-	
+	<insert id="insertMemo" parameterType="memo">
+		INSERT
+		INTO
+				memo
+		VALUES
+				(
+				SEQ_MEMO_NO.NEXTVAL
+				,#{memoSender}
+				,#{memoReceiver}
+				,#{memoTitle}
+				,#{memoContent}
+				,sysdate
+				,null
+				,null
+				,default
+				,default
+				)
+	</insert>
 	
 	
 	
@@ -705,4 +753,4 @@
 	
 	
 	
-	</mapper>
+</mapper>
