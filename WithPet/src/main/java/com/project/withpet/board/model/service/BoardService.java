@@ -29,6 +29,10 @@ public interface BoardService {
 
 	int removeTag(String tagName);
 	
+	int searchTagId(String tagName);
+
+	String selectTag(String tagName);
+	
 
 	
 }

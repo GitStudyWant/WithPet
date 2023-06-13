@@ -91,6 +91,20 @@
             font-weight: bolder;
             background-color: rgb(73, 166, 112);
         }
+     .tag-item{
+      		float: left;
+      		text-align:center;
+      		margin-bottom: 10px; 			
+       		margin-right: 10px;
+       		margin-left: 10px;
+   			background-color: rgb(73, 166, 112);
+   			color: white;
+            font-weight: bolder;
+            width: 55px;
+            height: 30px;
+            vertical-align:middle;
+            
+      }
 
 </style>
 </head>
@@ -135,15 +149,18 @@
 					<input type="hidden" id="boardWriter" name="boardWriter" value="${ loginMember.memId }">
 					<input type="text" name="boardTitle" style="width: 40%;" placeholder="제목" required/>
 					<br><br> 
-					<input type="file" id="upfile" class="form-control-file border" name="upfile">
+					<input type="file" id="upfile" class="form-control-file border" name="upfile" style="border:solid 1px lightgray">
 					
 					<textarea id="summernote" name="boardContent">
 					</textarea>
 
-			        
 					<div align="center">
 						<br>
+						<div class="tag-list-board" style="width: 100%; height : 50px;border: 1px solid lightgray;">
+                		</div>
+						<br>
 						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tagModal">태그추가</button>
+                	
 						<br><br>
 	                    <button type="submit" class="btn btn-primary">등록하기</button>
 	                    <button type="reset" class="btn btn-danger" >취소하기</button>
@@ -164,39 +181,62 @@
                     <h4 class="modal-title" id="tagModalLabel">태그 추가</h4>
                 </div>
                 <div class="modal-body">
-                    <input type="text" id="newTag" class="form-control" placeholder="태그를 입력하세요">
+                    <input type="text" id="newTag" class="form-control" placeholder="태그를 입력하세요" onkeyup="updateTagLength()" maxlength="15">
+                    <span style="float: right;" id="tagLength"></span>
                 </div>
                 <div class="tag-list">
                 	
                 </div>
                 <div class="modal-footer">
+					<button type="button" class="btn btn-success" style="background-color: rgb(73, 166, 112); border: rgb(73, 166, 112); color: white;" data-dismiss="modal" >완료</button>                
                     <button type="button" class="btn btn-default" data-dismiss="modal" data-backdrop="false">닫기</button>
-                    <button type="button" class="btn btn-primary" onclick="addTag()">추가</button>
+                    <button type="button" class="btn btn-primary" onclick="addTag();">추가</button>
                 </div>
             </div>
         </div>
     </div>
     
     <script>
+    function updateTagLength() {
+        var tagName = $('#newTag').val();
+        var currentLength = tagName.length;
+        var maxLength = 15;
 
+        $('#tagLength').text(currentLength + '/' + maxLength);
+        
+        if (currentLength > maxLength) {
+            $('#newTag').val(tagName.substring(0, maxLength));
+        }
+    }
     
-function addTag() {
+function addTag() {	
+	var tagName = $('#newTag').val().trim();
     if ($('#newTag').val().trim() !== '') {
         $.ajax({
             url: 'addtag.bo',
             type: 'POST',
-            data: {
+            dataType: 'text',
+            contentType: 'application/json',
+            data: JSON.stringify({
                 tagName: $('#newTag').val()
-            },
+            }),
             success: function(result) {
                 console.log(result);
-
+                
                 if (result === 'success') {
-                    var tagName = $('#newTag').val();
+                    var maxLength = 15;
+                    var isDuplicate = $('.tag-list').find('.tag-item:contains(' + tagName + ')').length > 0;
+                    if (isDuplicate) {
+                        alert('중복된 태그입니다. 다른 태그를 입력해주세요.');
+                        return;
+                    }
                     var tagItem = $('<span class="tag-item">' + tagName + '<span class="close-btn">&times;</span></span>');
                     console.log(tagItem);
                     $('.tag-list').append(tagItem);
                     $('#newTag').val('');
+                    $('#tagLength').text(0 + '/' + maxLength);
+                    
+                    
                 }
             },
             error: function() {
@@ -209,30 +249,14 @@ function addTag() {
 
 $(document).on('click', '.close-btn', function() {
     var $tagItem = $(this).closest('.tag-item');
-    console.log($tagItem);
-    var tagtext = $tagItem.text().trim().replace('×', '');
+		$tagItem.remove();
 
-    $.ajax({
-        url: 'removetag.bo',
-        type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify({
-            tagName: tagtext
-        }),
-        success: function(result) {
-            console.log(result);
-            console.log(tagtext);
-            console.log($tagItem.text());
-            if (result === 'success') {
-                $tagItem.remove();
-            }
-        },
-        error: function() {
-            console.log('실패');
-            console.log(tagtext);
-            alert('태그 삭제에 실패하였습니다.');
-        }
-    });
+});
+$(document).on('click', '.btn-success', function() {
+    var tagItems = $('.tag-list').children('.tag-item').clone();
+    $('.tag-list-board').empty();
+    $('.tag-list-board').append(tagItems);
+    $('#tagModal').modal('hide');
 });
 </script>
     
