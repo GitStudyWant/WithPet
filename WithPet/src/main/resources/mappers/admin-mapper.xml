@@ -267,7 +267,46 @@
 		   by
 		     inquiry_no asc              
 	</select>
+
+	<select id="searchKeyword" resultType="search">
+		SELECT
+		      SEARCH_KEYWORD searchKeyword
+		 FROM
+		     SEARCH
+		WHERE
+		     SEARCH_KEYWORD LIKE '%'||#{key}||'%'
+	</select>
 	
+
+	<select id="bestKeyword" resultType="search">
+		SELECT 
+		      * 
+		      FROM
+		      (
+		      	SELECT 
+		      	      ROWNUM RNUM, A.* 
+		      	                  FROM  
+		      	                     (
+		      	                      SELECT SEARCH_KEYWORD searchKeyword
+		      	                     ,COUNT(SEARCH_KEYWORD) COUNT 
+		      	                      FROM 
+		      	                          SEARCH 
+		      	                      WHERE 
+		      	                           TO_DATE(SEARCH_DATE,'YY/MM/DD') > 
+                                           TO_DATE(SYSDATE,'YY/MM/DD') - 7 
+                                      GROUP 
+                                         BY 
+                                            SEARCH_KEYWORD 
+                                      ORDER 
+                                         BY 
+                                           COUNT 
+                                       DESC) 
+                                            A) 
+                                       WHERE 
+                                        RNUM BETWEEN 1 AND 5
+	</select>
+	
+
 	<select id="inquiryManagementCount" resultType="_int">
 		SELECT
 		      COUNT(INQUIRY_NO)

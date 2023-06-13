@@ -2,6 +2,7 @@ package com.project.withpet.admin.model.service;
 
 import java.util.ArrayList;
 
+import com.project.withpet.admin.model.vo.Search;
 import com.project.withpet.board.common.model.vo.PageInfo;
 import com.project.withpet.cafe.model.vo.Cafe;
 import com.project.withpet.cafe.model.vo.CafeRes;
@@ -48,16 +49,25 @@ public interface AdminService {
 	
 	int deleteCr(int cafeResNo);
 	
+
+	ArrayList<Search> searchKeyword(String key);
+	
+	ArrayList<Search> bestKeyword();
+
 	ArrayList<Cafe> cafeManagement(PageInfo pi);
 	
 	int managementCount();
 	
 	int deleteCafe(int cafeNo);
+
+
 	
+
 	ArrayList<Inquiry> inquiryManagement(PageInfo pi);
 	
 	int inquiryManagementCount();
 	
 	int deleteInquiry(int inquiryNo);
-	
+
+
 }
