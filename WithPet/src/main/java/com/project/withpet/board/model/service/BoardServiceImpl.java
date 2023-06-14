@@ -70,8 +70,19 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public int removeTag(String tagName) {
-		return boardDao.removeTag(sqlSession,tagName);
+	        return boardDao.removeTag(sqlSession,tagName);
 	}
+
+	@Override
+	public int searchTagId(String tagName) {
+		return boardDao.searchTagId(sqlSession,tagName);
+	}
+
+	@Override
+	public String selectTag(String tagName) {
+		return boardDao.selectTag(sqlSession,tagName);
+	}
+
 	
 
 

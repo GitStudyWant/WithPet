@@ -58,5 +58,14 @@ public class BoardDao {
 	public int removeTag(SqlSessionTemplate sqlSession, String tagName) {
 		return sqlSession.delete("boardMapper.removeTag",tagName);
 	}
+
+	public int searchTagId(SqlSessionTemplate sqlSession, String tagName) {
+		return sqlSession.selectOne("boardMapper.searchTagId", tagName);
+	}
+
+	public String selectTag(SqlSessionTemplate sqlSession, String tagName) {
+		return sqlSession.selectOne("boardMapper.selectTag", tagName);
+	}
+
 	
 }

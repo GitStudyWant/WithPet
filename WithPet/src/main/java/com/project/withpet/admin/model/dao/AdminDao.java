@@ -10,6 +10,7 @@ import com.project.withpet.admin.model.vo.Search;
 import com.project.withpet.board.common.model.vo.PageInfo;
 import com.project.withpet.cafe.model.vo.Cafe;
 import com.project.withpet.cafe.model.vo.CafeRes;
+import com.project.withpet.member.model.vo.Inquiry;
 import com.project.withpet.member.model.vo.Member;
 import com.project.withpet.trip.model.vo.CarReservation;
 import com.project.withpet.trip.model.vo.Place;
@@ -112,5 +113,18 @@ public class AdminDao {
 	public int deleteCafe(SqlSessionTemplate sqlSession, int cafeNo) {
 		return sqlSession.delete("adminMapper.deleteCafe", cafeNo);
 	}
+	
+	public ArrayList<Inquiry> inquiryManagement(SqlSessionTemplate sqlSession, PageInfo pi){
+		return (ArrayList)sqlSession.selectList("adminMapper.inquiryManagement", pi);
+	}
+	
+	public int inquiryManagementCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("adminMapper.inquiryManagementCount");
+	}
+	
+	public int deleteInquiry(SqlSessionTemplate sqlSession, int inquiryNo) {
+		return sqlSession.delete("adminMapper.deleteInquiry", inquiryNo);
+	}
+	
 	
 }

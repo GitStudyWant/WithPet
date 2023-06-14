@@ -14,6 +14,7 @@ import java.util.Random;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -67,6 +68,14 @@ public class MemberController {
 	public void sendBack(HttpServletResponse response) throws IOException {
 		response.setContentType("text/html; charset=UTF-8");
 		response.getWriter().print("http://localhost:8787/withpet");
+	}
+	
+	@RequestMapping("updateloginMemberMemo")
+	public void updateloginMemberMemo(int memMemoSend, HttpSession session, HttpServletResponse response) throws IOException {
+		session.setAttribute("loginMemo", memMemoSend);
+
+		response.setContentType("text/html; charset=UTF-8");
+		response.getWriter().print("");
 	}
 	
 	@RequestMapping(value="idCheck.me", produces="application/json; charset=UTF-8")
@@ -127,7 +136,7 @@ public class MemberController {
 
 		Member loginMember = memberService.selectMember(member);
 
-		int loginMemo = memberService.selectMemoCount(member.getMemId());
+		int loginMemo = memberService.selectReceiveMemoCount(member.getMemId());
 
 		if(loginMember != null && (member.getMemPwd().equals(loginMember.getMemPwd())) /* && bcryptPasswordEncoder.matches(member.getMemPwd(), loginMember.getMemPwd())*/) {
 			session.setAttribute("loginMember", loginMember);
@@ -381,7 +390,7 @@ public class MemberController {
 		
 		if(TempMember != null) {
 			session.setAttribute("loginMember", TempMember);
-			session.setAttribute("loginMemo", memberService.selectMemoCount(TempMember.getMemId()));
+			session.setAttribute("loginMemo", memberService.selectReceiveMemoCount(TempMember.getMemId()));
 			session.removeAttribute("kakaoId");			
 			
 			response.setContentType("text/html; charset=UTF-8");
@@ -401,7 +410,7 @@ public class MemberController {
 	
 		if(TempMember != null) {
 			session.setAttribute("loginMember", TempMember);
-			session.setAttribute("loginMemo", memberService.selectMemoCount(TempMember.getMemId()));
+			session.setAttribute("loginMemo", memberService.selectReceiveMemoCount(TempMember.getMemId()));
 			session.removeAttribute("naverId");			
 			
 			response.setContentType("text/html; charset=UTF-8");
@@ -471,16 +480,17 @@ public class MemberController {
 
 		HttpSession session = request.getSession();
 		
-		String memId = (String)((Member)session.getAttribute("loginMember")).getMemId();
-						
-		int listCount = memberService.selectMemoCount(memId);
-		
-		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 6, 10);
-		
-		model.addAttribute("pi", pi);
-		model.addAttribute("list", memberService.selectMemoGet(memId, pi));
-		
-		System.out.println(memberService.selectMemoGet(memId, pi));
+		if((Member)session.getAttribute("loginMember") != null) {
+			
+			String memId = (String)((Member)session.getAttribute("loginMember")).getMemId();
+							
+			int listCount = memberService.selectReceiveMemoCount(memId);
+			
+			PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 6, 10);
+			
+			model.addAttribute("pi", pi);
+			model.addAttribute("list", memberService.selectMemoGet(memId, pi));
+		}
 		
 		return "member/memo/receiveMemo";
 	}
@@ -490,20 +500,30 @@ public class MemberController {
 		
 		HttpSession session = request.getSession();
 		
-		String memId = (String)((Member)session.getAttribute("loginMember")).getMemId();
-						
-		int listCount = memberService.selectMemoCount(memId);
+		if((Member)session.getAttribute("loginMember") != null) {
+			
+			String memId = (String)((Member)session.getAttribute("loginMember")).getMemId();
+							
+			int listCount = memberService.selectSendMemoCount(memId);
+			
+			PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 6, 10);
 		
-		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 6, 10);
-		
-		model.addAttribute("pi", pi);
-		model.addAttribute("list", memberService.selectMemoSend(memId, pi));
+			model.addAttribute("pi", pi);
+			model.addAttribute("list", memberService.selectMemoSend(memId, pi));
+		}
 		
 		return "member/memo/sendMemo";
 	}
 	
 	@RequestMapping("newMemo")
-	public String newMemo() {
+	public String newMemo(HttpSession session) {
+		
+		String memId = (String)((Member)session.getAttribute("loginMember")).getMemId();
+		
+		Member member = new Member();
+		member.setMemId(memId);
+		session.setAttribute("loginMember", memberService.selectMember(member));
+		
 		return "member/memo/newMemo";
 	}
 	
@@ -527,8 +547,41 @@ public class MemberController {
 		response.getWriter().print(new Gson().toJson(memo));
 	}
 	
+	@RequestMapping("deleteMemo")
+	public void deleteReceiveMemo(int deleteMemoNo, HttpServletResponse response) {
+		
+		memberService.deleteMemo(deleteMemoNo);
+		
+		return;
+	}
 	
+	@RequestMapping("replyMemo")
+	public ModelAndView replyMemo(HttpServletResponse response, String memoDetailSender, ModelAndView mv) {
+		
+		mv.addObject("Receiver", memoDetailSender);
+		mv.setViewName("member/memo/newMemo");
+		
+		return mv;
+	}
 	
+	@RequestMapping(value="insertMemo")
+	public String insertMemo(Memo memo, HttpSession session){
+		
+		
+		String memId = (String)((Member)session.getAttribute("loginMember")).getMemId();
+		
+		int discountMemo = memberService.discountMemoCount(memId);
+		
+		if(discountMemo > 0) {
+			Member member = new Member();
+			member.setMemId(memId);
+			session.setAttribute("loginMember", memberService.selectMember(member));
+			
+			memberService.insertMemo(memo);
+		}
+
+		return "redirect:/newMemo";
+	}
 
 	
 	

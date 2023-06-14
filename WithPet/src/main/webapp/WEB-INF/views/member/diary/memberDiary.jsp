@@ -247,7 +247,6 @@
 	
 	<script>
 	
-	var draggedEventIsAllDay;
 	var activeInactiveWeekends = true;
 		
 	$('#calendar').fullCalendar({
@@ -258,7 +257,8 @@
 	    displayEventTime: false,
 	    displayEventEnd: false,
 	    firstDay: 0,
-	    selectable: true,
+	    selectable: false,
+	    editable: false,
 	    eventLimit: true,
 	    views: {
 	        month: { eventLimit: 4 }

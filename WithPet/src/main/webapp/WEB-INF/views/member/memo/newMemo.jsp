@@ -37,7 +37,7 @@
 		font-size:35px;
 	}
 
-	#schedulemain{
+	#memomain{
 		width : 100%;
 		height : 1000px;
 		padding-top : 15px;
@@ -96,13 +96,13 @@
 		    	<tr>
 		    		<td><a href="receiveMemo">받은쪽지함</a></td>
 		    		<td><a href="sendMemo">보낸쪽지함</a></td>
-		    		<td><a href="newMemo">새 쪽지</td>
+		    		<td><a href="newMemo">새 쪽지</a></td>
 		    	</tr>
 		    </table>
 		    <hr>
 		    <br><br><br>
 		    
-		    <form action="newMemoSubmit" method="POST">
+		    <form action="insertMemo" method="get">
 		    <table id="newMemoTable" style="margin:auto">
 		    		<input class="newMemoIssue" id="newMemoSender" name="memoSender" type="hidden">
 				    <tr><td><p>수신인</p><td></tr>
@@ -117,15 +117,32 @@
 				    </td></tr>
 		    </table>
 		    <br><br>
-		    <div style="width:10%; margin:auto"><button class="btn btn-primary" style="width:100%;">보내기</button></div>
+		    <div style="width:20%; margin:auto"><p style="text-align:center; font-size:12px">남은 쪽지 횟수 : ${ loginMember.memMemo }번</p></div>
+		    <div style="width:10%; margin:auto"><button class="btn btn-primary" id="sendButton" style="width:100%;">보내기</button></div>
 		    <br>
 		    <div style="width:10%; margin:auto"><button class="btn btn-secondary" style="width:100%;">예약발송</button></div>
 		    </form>
-		        
+		</div>
+	</div>    
 		    
 	<div id="diaryFooter"><jsp:include page="../../common/footer.jsp" /></div>
 	
 	<script>
+	
+	$(function(){
+		
+		$('#newMemoSender').val('${ loginMember.memId }');
+		
+		if(${Receiver != null} ){
+			$('#newMemoReceiver').val('${Receiver}');
+			$('#newMemoReceiver').text('${Receiver}');
+		}
+		
+		if(${ loginMember.memMemo <= 0}){
+			$('#sendButton').prop("disabled", true);
+		}
+		
+	})
 	
 	
 	
