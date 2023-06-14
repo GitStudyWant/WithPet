@@ -105,6 +105,7 @@
             vertical-align:middle;
             
       }
+    
 
 </style>
 </head>
@@ -150,7 +151,6 @@
 					<input type="text" name="boardTitle" style="width: 40%;" placeholder="제목" required/>
 					<br><br> 
 					<input type="file" id="upfile" class="form-control-file border" name="upfile" style="border:solid 1px lightgray">
-					
 					<textarea id="summernote" name="boardContent">
 					</textarea>
 

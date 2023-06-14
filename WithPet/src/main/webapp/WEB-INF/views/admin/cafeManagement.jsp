@@ -93,7 +93,7 @@
 			<h3 style="text-align:center;">카페 관리</h3>	
 			<hr>
 			<br>
-			<button id="addBtn" style="margin-left:1200px" class="btnn"><a href="cafeEnrollForm.bo" style="text-decoration:none; color:white;">추가</a></button>
+			<button id="addBtn" style="margin-left:1100px" class="btnn"><a href="cafeEnrollForm.bo" style="text-decoration:none; color:white;">추가</a></button>
 			<button id="deleteBtn" class="btnn">삭제</button>
 			<table id="naviTable" align="center" style="margin-left:50px">
 				<thead>
@@ -177,5 +177,15 @@
 				return false;
 			}
 		})
+	</script>
 	
+	<script>
+		
+	$(function(){
+		$('#naviTable tr').click(function(){
+
+			location.href="info.do?cno=" + $(this).children().eq(1).text();
+			
+		})
+	})
 	</script>

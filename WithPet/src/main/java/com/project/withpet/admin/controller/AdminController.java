@@ -209,14 +209,16 @@ public class AdminController {
 	@RequestMapping("adminGradeUpdate")
 	public String adminGradeUpdate(Member m, HttpSession session) {
 		
-		if(adminService.adminGradeUpdate(m) > 0) {
-			System.out.println(m);
+		int result = adminService.adminGradeUpdate(m);
+		
+		if(result > 0) {
 			session.setAttribute("alertMsg","성공");
 			return "redirect:adminMyPageMain";
 		} else {
 			session.setAttribute("alertMsg","실패");
 			return "redirect:adminMyPageMain";
-		}		
+		}	
+		
 	}
 	
 	

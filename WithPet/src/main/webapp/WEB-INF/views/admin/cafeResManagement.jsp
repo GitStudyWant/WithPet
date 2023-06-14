@@ -158,7 +158,6 @@
 	
 	<script>
 		
-		
 		$('#deleteBtn').click(function(){
 			var cafeResNo = $('input[name=cafeResNo]:checked').val();
 			
@@ -184,11 +183,18 @@
 			}
 		})		
 		
+	</script>
+	
+	
+	<script>
 		
-		
-		
-		
-		
+		$(function(){
+			$('#naviTable tr').click(function(){
+	
+				location.href="info.do?cno=" + $(this).children().eq(2).text();
+				
+			})
+		})
 	</script>
 	
 	<div id="mypageFooter"><jsp:include page="../common/footer.jsp" /></div>

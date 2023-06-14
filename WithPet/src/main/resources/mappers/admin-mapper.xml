@@ -195,7 +195,7 @@
          SET 
            MEM_GRADE = #{memGrade}
        WHERE 
-            MEM_ID = #{memberId}
+            MEM_ID = #{memId}
 	</update>
 	
 	<select id="cafeResManagement" resultType="caferes">
