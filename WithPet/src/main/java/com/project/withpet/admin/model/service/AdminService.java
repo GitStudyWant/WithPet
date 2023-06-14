@@ -6,6 +6,7 @@ import com.project.withpet.admin.model.vo.Search;
 import com.project.withpet.board.common.model.vo.PageInfo;
 import com.project.withpet.cafe.model.vo.Cafe;
 import com.project.withpet.cafe.model.vo.CafeRes;
+import com.project.withpet.member.model.vo.Inquiry;
 import com.project.withpet.member.model.vo.Member;
 import com.project.withpet.trip.model.vo.CarReservation;
 import com.project.withpet.trip.model.vo.Place;
@@ -58,5 +59,15 @@ public interface AdminService {
 	int managementCount();
 	
 	int deleteCafe(int cafeNo);
+
+
+	
+
+	ArrayList<Inquiry> inquiryManagement(PageInfo pi);
+	
+	int inquiryManagementCount();
+	
+	int deleteInquiry(int inquiryNo);
+
 
 }

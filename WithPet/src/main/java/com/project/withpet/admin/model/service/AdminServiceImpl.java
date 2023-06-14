@@ -11,6 +11,7 @@ import com.project.withpet.admin.model.vo.Search;
 import com.project.withpet.board.common.model.vo.PageInfo;
 import com.project.withpet.cafe.model.vo.Cafe;
 import com.project.withpet.cafe.model.vo.CafeRes;
+import com.project.withpet.member.model.vo.Inquiry;
 import com.project.withpet.member.model.vo.Member;
 import com.project.withpet.trip.model.vo.CarReservation;
 import com.project.withpet.trip.model.vo.Place;
@@ -151,6 +152,24 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public int deleteCafe(int cafeNo) {
 		return adminDao.deleteCafe(sqlSession, cafeNo);
+	}
+
+
+	@Override
+	public ArrayList<Inquiry> inquiryManagement(PageInfo pi) {
+		return adminDao.inquiryManagement(sqlSession, pi);
+	}
+
+
+	@Override
+	public int inquiryManagementCount() {
+		return adminDao.inquiryManagementCount(sqlSession);
+	}
+
+
+	@Override
+	public int deleteInquiry(int inquiryNo) {
+		return adminDao.deleteInquiry(sqlSession, inquiryNo);
 	}
 
 

@@ -23,6 +23,7 @@ import com.project.withpet.board.common.model.vo.PageInfo;
 import com.project.withpet.board.common.template.Pagination;
 import com.project.withpet.cafe.model.vo.Cafe;
 import com.project.withpet.cafe.model.vo.CafeRes;
+import com.project.withpet.member.model.vo.Inquiry;
 import com.project.withpet.member.model.vo.Member;
 import com.project.withpet.trip.model.vo.Place;
 import com.project.withpet.trip.model.vo.TaxiReservation;
@@ -255,8 +256,27 @@ public class AdminController {
 		}
 	}	
 	
-	
-	
+	@RequestMapping("inquiryManagement")
+	public String inquiryManagement(@RequestParam(value="cPage", defaultValue="1") int currentPage, Model m) {
+		
+		PageInfo pi = Pagination.getPageInfo(adminService.inquiryManagementCount(), currentPage, 10, 5);
+		
+		ArrayList<Inquiry> iList = adminService.inquiryManagement(pi);
+		
+		m.addAttribute("pi", pi);
+		m.addAttribute("iList",iList);
+		return "admin/inquiryManagement";		
+	}
+
+	@ResponseBody
+	@RequestMapping("deleteInquiry")
+	public String deleteInquiry(int inquiryNo) {
+		if(adminService.deleteInquiry(inquiryNo) > 0) {
+			return "Y";
+		} else {
+			return "N";
+		}
+	}	
 	
 	
 	@ResponseBody

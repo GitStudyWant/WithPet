@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -175,20 +176,30 @@ public class BoardController {
 	}
 	
 	@ResponseBody
-	@RequestMapping("addtag.bo")
-	public String addTag(String tagName) {
-		System.out.println(tagName);
-	    return boardService.addTag(tagName) > 0 ? "success" : "fail";
+	@RequestMapping(value = "addtag.bo", produces = "text/html; charset=UTF-8")
+	public String addTag(@RequestBody Map<String, String> requestData) {
+	    String tagName = requestData.get("tagName");
+	    String dupTag = boardService.selectTag(tagName);
+	    System.out.println(dupTag);
+	    if(dupTag!=null) {
+	    	System.out.println("중복된 태그네.");
+	    	return "success";
+	    }else {
+	    	int result = boardService.addTag(tagName);
+	    	System.out.println("새로운 태그명 추가 : " + tagName);
+	    	return (result > 0) ? "success" : "fail";
+	    }
 	}
 	
 	@ResponseBody
-	@PostMapping(value = "removetag.bo", produces = "application/json; charset=UTF-8")
+	@RequestMapping(value = "removetag.bo", produces = "text/html; charset=UTF-8")
 	public String removeTag(@RequestBody Map<String, String> requestData) {
 	    String tagName = requestData.get("tagName");
 	    System.out.println(tagName);
-	    System.out.println(boardService.removeTag(tagName));
+	    //int tagId = boardService.searchTagId(tagName);
+	    //System.out.println(tagId);
+	    
 	    return boardService.removeTag(tagName) > 0 ? "success" : "fail";
+	    
 	}
-	
-	
 }
