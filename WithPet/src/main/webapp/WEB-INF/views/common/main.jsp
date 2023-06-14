@@ -38,6 +38,13 @@
 		margin-left : 690px;
 		margin-top : 20px;
 	}
+	
+	#searchBtn{
+		position : absolute;
+		margin-top : 31px;
+		margin-left : 10px;
+		
+	}
 </style>
 </head>
 <body>
@@ -46,10 +53,10 @@
 	
 	<div id="body">
 		<div id="searchBar">
-		<form action="goSearch" method="POST">
-			<input type="text" style="margin-left:700px; margin-top:30px; width: 400px" id="keyword" onkeyup="searchKeyword(this);">
+		<form action="goSearch" method="GET">
+			<input type="text" style="margin-left:700px; margin-top:30px; width: 400px" id="searchKeyword" name="searchKeyword" onkeyup="searchKeyword1(this);">
 			<div id="keywordResult" style="margin-left:700px;"></div> 
-			<button type="submit" class="btnn">검색</button><br>
+			<button type="submit" class="btnn" id="searchBtn">검색</button><br>
 			<div id="bestKeyword"></div>
 		</form>
 		</div>
@@ -61,7 +68,7 @@
 	
 	<script>
 	
-	function searchKeyword(e){
+	function searchKeyword1(e){
 		
 		console.log($(e).val());
 		
@@ -111,7 +118,7 @@
 				console.log(result);
 				var value= '<b>인기검색어 : </b>';
 				for(let i in result){
-					value+='<a class="goBestSearch" href="#">'+result[i].searchKeyword+'</a>'+' | ';
+					value+='<a class="goBestSearch" href="goSearch?searchKeyword='+result[i].searchKeyword+'">'+result[i].searchKeyword+'</a>'+' | ';
 				}
 				
 				$('#bestKeyword').html(value);

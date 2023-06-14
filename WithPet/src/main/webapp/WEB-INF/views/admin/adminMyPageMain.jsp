@@ -175,85 +175,131 @@
             </tr>
            </thead>
            </tbody>
+           
                 <c:choose>
                     <c:when test="${ empty list }">
                         <tr><td colspan="8">회원이 없습니다.</td></tr>
                     </c:when>
                     <c:otherwise>
-                             <c:forEach var="m" items="${list}">
-                             <tr>
+                       <c:forEach var="m" items="${list}">
+                           <tr>
                             <td>${m.memId}</td>
                             <td>${m.memNick}</td>
 				   			<td>${m.memDate}</td>
 				    		<td>${m.memPoint}</td>
 				    		<td class="member${m.memId}">
-                       			 <select name="memStatus">
-	                                <option value="A">정상</option>
-	                                <option value="B">정지</option>
-                            	</select> 
-                            </td>			
+				    			<c:choose>
+				    				<c:when test="${m.memStatus eq 'Y' }">
+		                       			 <select name="memStatus">
+			                                <option value="Y" disabled selected>정상</option>
+			                                <option value="N">정지</option>
+		                            	</select> 
+				    				</c:when>
+				    				<c:otherwise>
+				    					<select name="memStatus">
+			                                <option value="Y">정상</option>
+			                                <option value="N" disabled selected>정지</option>
+		                            	</select> 
+				    				</c:otherwise>
+				    			</c:choose>
+                            </td>		
                     		<td><input type="checkbox" name="memStaus" value="${m.memId}"></td>                            
 				    		<td class="member${m.memId}">
-                       			 <select name="memGrade">
-	                                <option value="A">ADMIN</option>
-	                                <option value="B">NORMAL</option>
-	                                <option value="C">CREATOR</option>
-                            	</select> 
+				    			<c:choose>
+				    				<c:when test="${m.memGrade eq 'ADMIN' }">
+		                       			 <select name="memGrade" >
+			                                <option value="ADMIN" disabled selected>ADMIN</option>
+			                                <option value="NORMAL">NORMAL</option>
+			                                <option value="CREATOR">CREATOR</option>
+		                            	</select> 
+				    				</c:when>
+				    				<c:when test="${m.memGrade eq 'NORMAL' }">
+		                       			 <select name="memGrade" >
+			                                <option value="ADMIN">ADMIN</option>
+			                                <option value="NORMAL" disabled selected>NORMAL</option>
+			                                <option value="CREATOR">CREATOR</option>
+		                            	</select> 
+				    				</c:when>
+				    				<c:otherwise>
+		                       			 <select name="memGrade" >
+			                                <option value="ADMIN">ADMIN</option>
+			                                <option value="NORMAL">NORMAL</option>
+			                                <option value="CREATOR" disabled selected>CREATOR</option>
+		                            	</select> 
+				    				</c:otherwise>
+				    			</c:choose>
                             </td>
                     		<td><input type="checkbox" name="memGrade" value="${m.memId}"></td>
-                	</tr>
-                             </c:forEach>
+                		 </tr>
+                       </c:forEach>
                     </c:otherwise>
                 </c:choose>
                 </tbody>
             </table>				
+           </form>
 			   
 				
 				
 				
 				
 		</div>
-	</div>		
-
-
-	<script>
-                	
+	</div>	
 	
 	
-                    function updateMemType(){
+  <script>
+      /* 
+  		$(function(){
+  			
+  			for(let Member in ${list}){
+			//$("option[value=${list[i].memStatus}]").attr('selected',true);
+			//$("option[value=${list[i].memStatus}]").attr('disabled',true);
+			
+			$("option[value=${list[i].getMemGrade}]").attr('selected',true);
+			$("option[value=${list[i].getMemGrade}]").attr('disabled',true);
+  				
+  			}	
+  		})
+  		*/
+                     	
+	</script>		
+	
 
-                        var checkbox = $("input[name=memGrade]:checked");
-                        var member = new Object();
-                        
-                        if(confirm("회원의 상태를 변경하시겠습니까? ")){
-                                
-                                var memGrade = checkbox.parent().prev().find('option:selected').val()
-                                var memId = checkbox.val();
-                                var member = {
-                                                memGrade : memGrade,
-                                                memId : memId
-                                             }
-                            $.ajax({
-                                url:'adminGradeUpdate',
-                                data: ({memGrade : memGrade, memId : memId}),
-                                type: 'post',
-                                success : function(result){
-                                    if(result == 'S'){
-                                alert("회원 상태 변경이 완료 되었습니다.");
-                                checkbox.prop('checked', false);
-                                location.href=location.href;
-                                    } else {
-                                        alert("회원 상태 변경이 실패 하였습니다.");
-                                    }
-                                }
-                            })
-                        } else {
-                            alert("취소 되었습니다.")
-                        }
-                     }       
-	                	
-	                	
-	                	
+
+		<script>
+			function updateMemType() {
+			  var selectedMembers = $('input[name="memGrade"]:checked');
+
+			  if (selectedMembers.length === 0) {
+			    alert("회원을 선택해주세요.");
+			  }
+
+			  var memGrade = $('select[name="memGrade"]').val();
+
+			  selectedMembers.each(function() {
+			    var memId = $(this).val();
+
+			    $.ajax({
+			      url: 'adminGradeUpdate',
+			      type: 'post',
+			      data: { memId: memId, memGrade: memGrade },
+			      success: function(result) {
+			        $('select[name="memGrade"]').val(memGrade);
+			        console.log("회원 등급이 변경되었습니다.");
+			      },
+			      error: function(error) {
+			        console.error("회원 등급 변경 중 오류가 발생했습니다.");
+			      }
+			    });
+			  })
+			};
+		
+	 
+           </script>
+           
+           
+           
+	              <script>  	
+	             /*  	
 	                 function noSearch(){
 	                        
 	                        var result = $('#search option:selected').val();
@@ -292,7 +338,8 @@
 	                          console.log(($('.member'+ i +'').text()));
 	                              };
 	                	})	                    	                	
-	                	
+	              
+	                	*/
 	</script>
 	
 	

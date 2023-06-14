@@ -195,7 +195,7 @@
          SET 
            MEM_GRADE = #{memGrade}
        WHERE 
-            MEM_ID = #{memberId}
+            MEM_ID = #{memId}
 	</update>
 	
 	<select id="cafeResManagement" resultType="caferes">
@@ -275,6 +275,9 @@
 		     SEARCH
 		WHERE
 		     SEARCH_KEYWORD LIKE '%'||#{key}||'%'
+		GROUP 
+		   BY
+		     SEARCH_KEYWORD
 	</select>
 	
 
@@ -319,6 +322,88 @@
 		      inquiry
 		 WHERE
 		      inquiry_no = ${inquiryNo}
-	</delete>			
+	</delete>	
+	
+	<select id="countReportList" resultType="_int">
+		SELECT
+		      COUNT(REPORT_NO)
+		 FROM
+		     REPORT
+	</select>	
+	
+	<select id="adminReportList" resultType="report">
+		SELECT
+		      REPORT_NO reportNo
+		     ,REPORT_SENDER reportSender
+		     ,REPORT_RECEIVER reportReceiver
+		     ,TO_CHAR(REPORT_DATE,'YY/MM/DD') reportDate
+		     ,REPORT_CONTENT reportContent
+		     ,REPORT_STATUS reportStatus
+		     ,BOARD_NO 	boardNo
+		     ,COMMENT_NO commentNo
+		FROM
+		    REPORT
+	</select>	
+	
+	<delete id="deleteReport">
+		DELETE
+		  FROM 
+		      REPORT
+		 WHERE
+		      REPORT_NO = #{reportNo}
+	</delete>
+	
+	<update id="checkReport1">
+		UPDATE
+		      REPORT
+		  SET
+		     REPORT_STATUS = 'Y'
+		 WHERE
+		      REPORT_NO = #{reportNo}
+	</update>
+	
+	<update id="checkReport2">
+		UPDATE
+		      MEMBER
+		   SET
+		      MEM_REPORT = MEM_REPORT + 1
+		WHERE
+		     MEM_ID = #{memId}
+	</update>
+	
+	<select id="goSearch" resultType="board">
+		SELECT 
+		      BOARD_NO boardNo
+		     ,BOARD_TITLE boardTitle
+		     ,BOARD_WRITER boardWriter
+		     ,BOARD_CONTENT boardContent
+		     ,ENROLLDATE enrollDate
+		     ,VIEW_COUNT viewCount
+		     ,RATING rating
+		     ,BOARD_NUM boardNum
+		 FROM
+		     BOARD
+		WHERE
+		     BOARD_TITLE LIKE '%'||#{searchKeyword}||'%'
+	      OR
+	         BOARD_CONTENT LIKE '%'||#{searchKeyword}||'%'
+	      OR 
+	         BOARD_WRITER LIKE '%'||#{searchKeyword}||'%'
+	</select>
+	
+	<insert id="addSearchKeyword">
+		INSERT
+		  INTO
+		      SEARCH
+		      (
+		       SEARCH_KEYWORD
+		      ,SEARCH_DATE
+		      )
+		VALUES 
+		      (
+		      #{searchKeyword}
+		     ,SYSDATE 
+		      )
+	</insert>
 	
 </mapper>

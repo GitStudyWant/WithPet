@@ -20,7 +20,7 @@
 		box-sizing: border-box;
 		position:absolute;
 		float:left;
-		margin-left:15%;
+		/*margin-left:15%;*/
 		
 	}
 
@@ -58,10 +58,10 @@
 </style>
 </head>
 <body>
-<jsp:include page="../../common/myPageSide.jsp" />
+<jsp:include page="../common/header.jsp" />
 	
 	<div id="body">	
-		    <p>내 예약 조회</p>
+		    <p>${keyword} 검색 결과</p>
 		    <hr>
 		    <div id="myReservationmain">
 		    <div class="container" style="width:75%;">
@@ -339,7 +339,7 @@
 	
 	
 
-<div id="mypageFooter"><jsp:include page="../../common/footer.jsp" /></div>
+<div id="mypageFooter"><jsp:include page="../common/footer.jsp" /></div>
 
 </body>
 </html>

@@ -6,8 +6,10 @@ import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.project.withpet.admin.model.vo.Report;
 import com.project.withpet.admin.model.vo.Search;
 import com.project.withpet.board.common.model.vo.PageInfo;
+import com.project.withpet.board.model.vo.Board;
 import com.project.withpet.cafe.model.vo.Cafe;
 import com.project.withpet.cafe.model.vo.CafeRes;
 import com.project.withpet.member.model.vo.Inquiry;
@@ -124,6 +126,36 @@ public class AdminDao {
 	
 	public int deleteInquiry(SqlSessionTemplate sqlSession, int inquiryNo) {
 		return sqlSession.delete("adminMapper.deleteInquiry", inquiryNo);
+	}
+
+	public int countReportList(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("adminMapper.countReportList");
+	}
+
+	public ArrayList<Report> adminReportList(SqlSessionTemplate sqlSession, PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1)* pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("adminMapper.adminReportList",null,rowBounds);
+	}
+
+	public int deleteReport(SqlSessionTemplate sqlSession, String reportNo) {
+		return sqlSession.delete("adminMapper.deleteReport", reportNo);
+	}
+
+	public int checkReport1(SqlSessionTemplate sqlSession, String reportNo) {
+		return sqlSession.update("adminMapper.checkReport1", reportNo);
+	}
+
+	public int checkReport2(SqlSessionTemplate sqlSession, String memId) {
+		return sqlSession.update("adminMapper.checkReport2", memId);
+	}
+
+	public ArrayList<Board> goSearch(SqlSessionTemplate sqlSession, String searchKeyword) {
+		return (ArrayList)sqlSession.selectList("adminMapper.goSearch", searchKeyword);
+	}
+
+	public int addSearchKeyword(SqlSessionTemplate sqlSession, String searchKeyword) {
+		return sqlSession.insert("adminMapper.addSearchKeyword", searchKeyword);
 	}
 	
 	
