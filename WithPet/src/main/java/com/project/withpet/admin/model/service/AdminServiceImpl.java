@@ -5,10 +5,13 @@ import java.util.ArrayList;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.project.withpet.admin.model.dao.AdminDao;
+import com.project.withpet.admin.model.vo.Report;
 import com.project.withpet.admin.model.vo.Search;
 import com.project.withpet.board.common.model.vo.PageInfo;
+import com.project.withpet.board.model.vo.Board;
 import com.project.withpet.cafe.model.vo.Cafe;
 import com.project.withpet.cafe.model.vo.CafeRes;
 import com.project.withpet.member.model.vo.Inquiry;
@@ -170,6 +173,47 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public int deleteInquiry(int inquiryNo) {
 		return adminDao.deleteInquiry(sqlSession, inquiryNo);
+	}
+
+
+	@Override
+	public int countReportList() {
+		return adminDao.countReportList(sqlSession);
+	}
+
+
+	@Override
+	public ArrayList<Report> adminReportList(PageInfo pi) {
+		return adminDao.adminReportList(sqlSession, pi);
+	}
+
+
+	@Override
+	public int deleteReport(String reportNo) {
+		return adminDao.deleteReport(sqlSession, reportNo);
+	}
+
+	@Transactional
+	@Override
+	public int checkReport1(String reportNo) {
+		return adminDao.checkReport1(sqlSession, reportNo);
+	}
+
+	@Transactional
+	@Override
+	public int checkReport2(String memId) {
+		return adminDao.checkReport2(sqlSession, memId);
+	}
+
+	@Override
+	public ArrayList<Board> goSearch(String searchKeyword) {
+		return adminDao.goSearch(sqlSession, searchKeyword);
+	}
+
+
+	@Override
+	public int addSearchKeyword(String searchKeyword) {
+		return adminDao.addSearchKeyword(sqlSession, searchKeyword);
 	}
 
 

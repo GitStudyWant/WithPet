@@ -147,7 +147,7 @@
                         <th><a href="inquiryManagement">문의사항 관리</a></th>
                     </tr>
                     <tr>
-                        <th><a href="#">신고 관리</a></th>
+                        <th><a href="adminReportList">신고 관리</a></th>
                     </tr>
                     <tr>
                         <th><a href="#">금칙어 관리</a></th>

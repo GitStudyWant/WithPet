@@ -19,9 +19,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
 import com.project.withpet.admin.model.service.AdminService;
+import com.project.withpet.admin.model.vo.Report;
 import com.project.withpet.admin.model.vo.Search;
 import com.project.withpet.board.common.model.vo.PageInfo;
 import com.project.withpet.board.common.template.Pagination;
+import com.project.withpet.board.model.vo.Board;
 import com.project.withpet.cafe.model.vo.Cafe;
 import com.project.withpet.cafe.model.vo.CafeRes;
 import com.project.withpet.member.model.vo.Inquiry;
@@ -39,8 +41,9 @@ public class AdminController {
 	
 	@RequestMapping("adminPage")
 	public String adminPage(HttpSession session) {
-		if(session.getAttribute("loginMember") == null) {
-			session.setAttribute("alertMsg","로그인 후 이용해주세요~");
+		Member loginMember = (Member) session.getAttribute("loginMember");
+		if(loginMember == null || !loginMember.getMemGrade().equals("ADMIN")) {
+			session.setAttribute("alertMsg","관리자 로그인 후 이용해주세요~");
 			return "common/main";
 		} else {
 			return "admin/adminMyPageMain";
@@ -300,6 +303,56 @@ public class AdminController {
 		return new Gson().toJson(bestList);
 	}
 	
+	@RequestMapping("adminReportList")
+	public String ReportList(@RequestParam(value="cPage", defaultValue="1") int currentPage, Model m) {
+		
+		PageInfo pi = Pagination.getPageInfo(adminService.countReportList(), currentPage, 10, 5);
+		
+		ArrayList<Report> RList = adminService.adminReportList(pi);
+		m.addAttribute("pi", pi);
+		m.addAttribute("RList",RList);
+		return "admin/adminReportList";
+	}
 	
+	@ResponseBody
+	@RequestMapping("deleteReport")
+	public String deleteReport(String reportNo) {
+		
+		if(adminService.deleteReport(reportNo) > 0) {
+			return "Y";
+		} else {
+			return "N";
+		}
+		
+	}
+	
+	@ResponseBody
+	@RequestMapping("checkReport")
+	public String checkReport(String reportNo, String memId) {
+		
+		if(adminService.checkReport1(reportNo) > 0 ) {
+				if(adminService.checkReport2(memId) > 0 ){
+					return "Y";
+				} else {
+					return "N";
+				}
+				
+		} else {
+			return "NN";
+		}
+	}
+	
+	@RequestMapping("goSearch")
+	public String goSearch(String searchKeyword, Model m, HttpSession session) {
+		if(adminService.addSearchKeyword(searchKeyword) > 0 ) {
+			ArrayList<Board> searchList = adminService.goSearch(searchKeyword);
+			m.addAttribute("searchList", searchList);
+			m.addAttribute("keyword", searchKeyword);
+			return "common/searchView";
+		} else {
+			session.setAttribute("alertMsg","검색 중 오류가 발생했습니다. 다시 시도해주세요");
+			return "common/Main";
+		}
+	}
 	
 }

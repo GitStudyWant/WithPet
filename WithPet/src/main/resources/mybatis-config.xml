@@ -38,7 +38,7 @@
 		<typeAlias type="com.project.withpet.trip.model.vo.Transportation" alias="transportation" />
 		
 		<typeAlias type="com.project.withpet.admin.model.vo.Search" alias="search" />
-		
+		<typeAlias type="com.project.withpet.admin.model.vo.Report" alias="report" />
 	</typeAliases>
 	
 	<mappers>
