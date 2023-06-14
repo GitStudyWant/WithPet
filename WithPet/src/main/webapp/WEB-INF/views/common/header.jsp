@@ -183,7 +183,7 @@
         	</c:otherwise>        	
         </c:choose>
         
-        <button type="button" class="btn btn-primary" id="liveToastBtn">Show live toast</button>
+        <!-- <button type="button" class="btn btn-primary" id="liveToastBtn">Show live toast</button> -->
         
 		<div class="toast-container position-fixed top-0 end-0 p-3">
 		  <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">

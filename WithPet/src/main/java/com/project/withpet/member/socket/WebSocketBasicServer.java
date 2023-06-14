@@ -15,7 +15,7 @@ public class WebSocketBasicServer extends TextWebSocketHandler{
 	
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-		System.out.println("접속 : ");
+		//System.out.println("접속 : ");
 	}
 	
 	@Override
@@ -31,7 +31,7 @@ public class WebSocketBasicServer extends TextWebSocketHandler{
 	
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-		System.out.println("전화 끊었다");
+		//System.out.println("전화 끊었다");
 	}
 
 }
