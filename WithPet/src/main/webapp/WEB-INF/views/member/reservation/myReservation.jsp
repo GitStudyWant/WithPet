@@ -87,7 +87,15 @@
 		         		<tbody>
 		         				<c:forEach var="i" items="${ tList }">
 		         					<tr>
-		         						<td><input type="radio" value="${ i.taxiRno }" name="tRno">
+		         						<td>
+		         						<c:choose>
+		         						<c:when test="${i.status eq 'N'}">
+		         						<input type="radio" value="${ i.taxiRno }" name="tRno" disabled>
+		         						</c:when>
+		         						<c:otherwise>
+		         						<input type="radio" value="${ i.taxiRno }" name="tRno">
+		         						</c:otherwise>
+		         						</c:choose>
 		         						</td>
 		         						<td>${ i.trNo }</td>
 		         						<td id="${i.taxiRno}taxiRDate">${ i.taxiRDate }</td>
@@ -192,7 +200,15 @@
 		         		<tbody>
 		         			<c:forEach var="c" items="${ cList }">
 		         			<tr>
-		         				<td><input type="radio" value="${ c.carRno }" name="cRno">
+		         				<td>
+		         					<c:choose>
+		         						<c:when test="${c.status eq 'N'}">
+		         						<input type="radio" value="${ c.carRno }" name="cRno" disabled>
+		         						</c:when>
+		         						<c:otherwise>
+		         						<input type="radio" value="${ c.carRno }" name="cRno">
+		         						</c:otherwise>
+		         					</c:choose>
 		         				</td>
 		         				<td>${ c.trNo }</td>
 		         				<td id="${c.carRno}startDate">${ c.startDate }</td>

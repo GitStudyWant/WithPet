@@ -187,19 +187,49 @@
 				   			<td>${m.memDate}</td>
 				    		<td>${m.memPoint}</td>
 				    		<td class="member${m.memId}">
-                       			 <select name="memStatus">
-	                                <option value="A">정상</option>
-	                                <option value="B">정지</option>
-                            	</select> 
-                            </td>			
+				    			<c:choose>
+				    				<c:when test="${m.memStatus eq 'Y' }">
+		                       			 <select name="memStatus">
+			                                <option value="Y" disabled selected>정상</option>
+			                                <option value="N">정지</option>
+		                            	</select> 
+				    				</c:when>
+				    				<c:otherwise>
+				    					<select name="memStatus">
+			                                <option value="Y">정상</option>
+			                                <option value="N" disabled selected>정지</option>
+		                            	</select> 
+				    				</c:otherwise>
+				    			</c:choose>
+                            </td>		
+                          
                     		<td><input type="checkbox" name="memStaus" value="${m.memId}"></td>                            
 				    		<td class="member${m.memId}">
-                       			 <select name="memGrade">
-	                                <option value="A">ADMIN</option>
-	                                <option value="B">NORMAL</option>
-	                                <option value="C">CREATOR</option>
-                            	</select> 
+				    			<c:choose>
+				    				<c:when test="${m.memGrade eq 'ADMIN' }">
+		                       			 <select name="memGrade" >
+			                                <option value="ADMIN" disabled selected>ADMIN</option>
+			                                <option value="NORMAL">NORMAL</option>
+			                                <option value="CREATOR">CREATOR</option>
+		                            	</select> 
+				    				</c:when>
+				    				<c:when test="${m.memGrade eq 'NORMAL' }">
+		                       			 <select name="memGrade" >
+			                                <option value="ADMIN">ADMIN</option>
+			                                <option value="NORMAL" disabled selected>NORMAL</option>
+			                                <option value="CREATOR">CREATOR</option>
+		                            	</select> 
+				    				</c:when>
+				    				<c:otherwise>
+		                       			 <select name="memGrade" >
+			                                <option value="ADMIN">ADMIN</option>
+			                                <option value="NORMAL">NORMAL</option>
+			                                <option value="CREATOR" disabled selected>CREATOR</option>
+		                            	</select> 
+				    				</c:otherwise>
+				    			</c:choose>
                             </td>
+                             
                     		<td><input type="checkbox" name="memGrade" value="${m.memId}"></td>
                 	</tr>
                              </c:forEach>
@@ -213,12 +243,31 @@
 				
 				
 		</div>
-	</div>		
+	</div>	
+	
+	
+  <script>
+       
+  		$(function(){
+  			
+  			for(let Member in ${list}){
+			//$("option[value=${list[i].memStatus}]").attr('selected',true);
+			//$("option[value=${list[i].memStatus}]").attr('disabled',true);
+			
+			$("option[value=${list[i].getMemGrade}]").attr('selected',true);
+			$("option[value=${list[i].getMemGrade}]").attr('disabled',true);
+  				
+  			}	
+  		})
+  		
+                     	
+	</script>		
+	
 
 
 	<script>
                 	
-	
+	/*
 	
                     function updateMemType(){
 
@@ -292,7 +341,8 @@
 	                          console.log(($('.member'+ i +'').text()));
 	                              };
 	                	})	                    	                	
-	                	
+	              
+	                	*/
 	</script>
 	
 	

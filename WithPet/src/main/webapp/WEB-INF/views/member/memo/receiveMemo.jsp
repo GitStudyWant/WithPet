@@ -37,7 +37,7 @@
 		font-size:35px;
 	}
 
-	#schedulemain{
+	#memomain{
 		width : 100%;
 		height : 1000px;
 		padding-top : 15px;
@@ -236,7 +236,6 @@
 		}
 		
 		function deleteReceiveMemoOne(){
-			
 			deleteMemo($('#memoDetailNo').val(), 1);
 	  	}
 		
@@ -263,6 +262,7 @@
 				data : {deleteMemoNo : MemoNo},
 				success : function(result){
 					if(triger == 1){
+						socketReceive();
 						location.href="http://localhost:8787/withpet/receiveMemo";
 					}
 				},

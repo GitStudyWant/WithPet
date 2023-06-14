@@ -37,7 +37,7 @@
 		font-size:35px;
 	}
 
-	#schedulemain{
+	#memomain{
 		width : 100%;
 		height : 1000px;
 		padding-top : 15px;

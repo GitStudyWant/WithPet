@@ -293,7 +293,7 @@ public class AdminController {
 	@RequestMapping(value="bestKeyword", produces="application/json; charset=UTF-8")
 	public String bestKeyword() {
 		ArrayList<Search> bestList = adminService.bestKeyword();
-		System.out.println(bestList);
+		//System.out.println(bestList);
 		return new Gson().toJson(bestList);
 	}
 	

@@ -37,7 +37,7 @@
 		font-size:35px;
 	}
 
-	#schedulemain{
+	#memomain{
 		width : 100%;
 		height : 1000px;
 		padding-top : 15px;
@@ -122,7 +122,8 @@
 		    <br>
 		    <div style="width:10%; margin:auto"><button class="btn btn-secondary" style="width:100%;">예약발송</button></div>
 		    </form>
-		        
+		</div>
+	</div>    
 		    
 	<div id="diaryFooter"><jsp:include page="../../common/footer.jsp" /></div>
 	

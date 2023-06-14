@@ -50,6 +50,8 @@ public interface MemberService {
 	
 	// 메모
 	public int selectReceiveMemoCount(String memId);
+	
+	public void selectReceiveMemoCountTest(String memId);
 		
 	public int selectSendMemoCount(String memId);
 	

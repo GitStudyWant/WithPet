@@ -275,6 +275,9 @@
 		     SEARCH
 		WHERE
 		     SEARCH_KEYWORD LIKE '%'||#{key}||'%'
+		GROUP 
+		   BY
+		     SEARCH_KEYWORD
 	</select>
 	
 
