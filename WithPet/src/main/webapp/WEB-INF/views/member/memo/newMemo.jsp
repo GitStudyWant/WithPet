@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>메인</title>
+<title>새 메모</title>
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,500,600">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -119,8 +119,6 @@
 		    <br><br>
 		    <div style="width:20%; margin:auto"><p style="text-align:center; font-size:12px">남은 쪽지 횟수 : ${ loginMember.memMemo }번</p></div>
 		    <div style="width:10%; margin:auto"><button class="btn btn-primary" id="sendButton" style="width:100%;">보내기</button></div>
-		    <br>
-		    <div style="width:10%; margin:auto"><button class="btn btn-secondary" style="width:100%;">예약발송</button></div>
 		    </form>
 		</div>
 	</div>    

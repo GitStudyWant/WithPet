@@ -267,7 +267,6 @@
 	    navLinks: true,
 	    defaultDate: moment(),
 	    timeFormat: 'HH:mm',
-	    editable: true,
 	    weekends: true,
 	    nowIndicator: true,
 	    dayPopoverFormat: 'MM/DD dddd',

@@ -90,12 +90,12 @@
 				,MEM_GRADE memGrade
 				,MEM_DATE memDate
 				,MEM_MEMO memMemo
-				,MEM_POINT memPoint
 				,MEM_REPORT memReport
+				,MEM_POPUP memPopup
 				,MEM_STATUS memStatus
 				,MEM_UPDATE memUpdate
 				,MEM_KAKAOID memKakaoId
-				,MEM_KAKAOID memNaverId
+				,MEM_NAVERID memNaverId
 		FROM
 				MEMBER
 		WHERE
@@ -117,8 +117,8 @@
 				,MEM_GRADE memGrade
 				,MEM_DATE memDate
 				,MEM_MEMO memMemo
-				,MEM_POINT memPoint
 				,MEM_REPORT memReport
+				,MEM_POPUP memPopup
 				,MEM_STATUS memStatus
 				,MEM_UPDATE memUpdate
 				,MEM_KAKAOID memKakaoId
@@ -144,8 +144,8 @@
 				,MEM_GRADE memGrade
 				,MEM_DATE memDate
 				,MEM_MEMO memMemo
-				,MEM_POINT memPoint
 				,MEM_REPORT memReport
+				,MEM_POPUP memPopup
 				,MEM_STATUS memStatus
 				,MEM_UPDATE memUpdate
 				,MEM_KAKAOID memKakaoId
@@ -215,7 +215,20 @@
 		where
 				memo_receiver = #{memId}
 		and
-				memo_status = 'N'
+				memo_receiverstatus = 'N'
+	</select>
+	
+	<select id="selectReceiveMemoCountCheck" resultType="_int">
+		select
+				count(*)
+		from
+				memo
+		where
+				memo_receiver = #{memId}
+		and
+				memo_receiverstatus = 'N'
+		and
+				memo_check = 'N'
 	</select>
 	
 	<select id="selectSendMemoCount" resultType="_int">
@@ -226,7 +239,7 @@
 		where
 				memo_sender = #{memId}
 		and
-				memo_status = 'N'
+				memo_senderstatus = 'N'
 	</select>
 	
 	<select id="selectMemoGet" resultType="memo">
@@ -240,13 +253,14 @@
 				to_char(memo_checkdate, 'YYYY-MM-DD HH24:MI') as memoCheckDate,
 				memo_reservedate memoReserveDate,
 				memo_check memoCheck,
-				memo_status memoStatus
+				memo_receiverstatus memoReceiverStatus,
+				memo_senderstatus memoSenderStatus
 		FROM
 				memo
 		WHERE
 				memo_receiver = #{memId}
 		AND
-				memo_status = 'N'
+				memo_receiverstatus = 'N'
 		ORDER
 		   BY
 		        memo_no desc
@@ -263,13 +277,14 @@
 				to_char(memo_checkdate, 'YYYY-MM-DD HH24:MI') as memoCheckDate,
 				memo_reservedate memoReserveDate,
 				memo_check memoCheck,
-				memo_status memoStatus
+				memo_receiverstatus memoReceiverStatus,
+				memo_senderstatus memoSenderStatus
 		FROM
 				memo
 		WHERE
 				memo_sender = #{memId}
 		AND
-				memo_status = 'N'
+				memo_senderstatus = 'N'
 		ORDER
 		   BY
 		        memo_no desc
@@ -306,18 +321,38 @@
 				to_char(memo_checkdate, 'YYYY-MM-DD HH24:MI') as memoCheckDate,
 				memo_reservedate memoReserveDate,
 				memo_check memoCheck,
-				memo_status memoStatus
+				memo_receiverstatus memoReceiverStatus,
+				memo_senderstatus memoSenderStatus
 		FROM
 				memo
 		WHERE
 				memo_No = #{memoNo}
 	</select>
 	
-	<update id="deleteMemo">
+	<update id="deleteReceiveMemo">
 		update
 			   memo
    	  	   set
-       		   memo_status = 'Y'
+       		   memo_receiverstatus = 'Y'
+         where
+               memo_no = #{memoNo}
+	</update>
+	
+	<update id="deleteSendMemo">
+		update
+			   memo
+   	  	   set
+       		   memo_senderstatus = 'Y'
+         where
+               memo_no = #{memoNo}
+	</update>
+	
+	<update id="rollbackSendMemo">
+		update
+			   memo
+   	  	   set
+       		   memo_senderstatus = 'Y',
+       		   memo_receiverstatus = 'Y'
          where
                memo_no = #{memoNo}
 	</update>
@@ -345,6 +380,7 @@
 				,sysdate
 				,null
 				,null
+				,default
 				,default
 				,default
 				)

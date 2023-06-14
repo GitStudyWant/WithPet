@@ -129,11 +129,11 @@
     <div id="myPageSide">
         <div id="pro">
             <div align="center">
-            <img id="memberimg" src="resources/myPage/user.png" alt="">
+            	<img id="memberimg" src="resources/myPage/user.png" alt="">
             </div>
             <br>
             <div align="center">
-            	<img id="memberoption" src="resources/myPage/option.png" alt="">
+            	<a href="memberModifyFrontMove"><img id="memberoption" src="resources/myPage/option.png" alt=""></a>
                 <b>${ loginMember.memNick }</b>
             </div>
         </div>
@@ -158,9 +158,6 @@
                     </tr>
                     <tr>
                         <th><a href="myPageFriend.me">친구</a></th>
-                    </tr>
-                    <tr>
-                        <th><a onclick="myPage();">포인트</a></th>
                     </tr>
                     <tr>
                         <th><a href="inquiry.me">문의사항</a></th>
