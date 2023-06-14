@@ -247,7 +247,7 @@
 	
 	
   <script>
-       /*
+       
   		$(function(){
   			
   			for(let Member in ${list}){
@@ -259,7 +259,6 @@
   				
   			}	
   		})
-  		*/
   		
                      	
 	</script>		
