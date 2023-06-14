@@ -2,6 +2,8 @@ package com.project.withpet.member.model.service;
 
 import java.util.ArrayList;
 
+import javax.websocket.OnMessage;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -103,6 +105,11 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int selectReceiveMemoCount(String memId) {
 		return memberDao.selectReceiveMemoCount(sqlSession, memId);
+	}
+	
+	@Override
+	public void selectReceiveMemoCountTest(String memId) {
+		return;
 	}
 	
 	@Override

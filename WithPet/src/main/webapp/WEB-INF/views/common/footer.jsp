@@ -30,6 +30,62 @@
             <b class="btag-fontSize">회사소개 제휴제안 이용약관 개인정보처리방침 크리에이터 신청</b>
         </div>
     </div>
+    
+    <script>
+    
+    var socket;
+    
+    $(function(){
+    	socketConnect();
+    	
+    	setInterval(function(){
+    		if(true){
+    			socketReceive();
+    		}
+    		
+    	}, 3000)
+    })
+    
+    function socketConnect(){
+    	var uri = 'ws://localhost:8787/withpet/member';
+		socket = new WebSocket(uri);
+    	
+		socket.onopen = () => {
+			console.log('서버와 연결되었습니다!');
+		}
+		socket.onclose = () => {
+			console.log('접속이 종료되었습니다!');
+		}
+		socket.onerror = (error) => {
+			console.log('서버와 연결과정에서 문제가 발생했습니다');
+			console.log(error);
+		}
+		socket.onmessage = e => {
+			updateloginMemberMemo(e.data);
+		}
+		
+    }
+    
+    function socketDisconnect(){
+		socket.close();
+	}
+    
+    function socketReceive(){
+    	socket.send('${loginMember.memId}');	
+	}
+    
+    function updateloginMemberMemo(memMemo){
+    	$.ajax({
+    		url : "updateloginMemberMemo",
+    		type : "get",
+    		data : {memMemoSend : memMemo},
+    		success : function(result){
+    			$('#memoBell').text(memMemo);
+    		}
+    	})
+    }
+    
+    </script>
 
 </body>
 </html>

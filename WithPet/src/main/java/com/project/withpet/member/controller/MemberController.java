@@ -70,6 +70,14 @@ public class MemberController {
 		response.getWriter().print("http://localhost:8787/withpet");
 	}
 	
+	@RequestMapping("updateloginMemberMemo")
+	public void updateloginMemberMemo(int memMemoSend, HttpSession session, HttpServletResponse response) throws IOException {
+		session.setAttribute("loginMemo", memMemoSend);
+
+		response.setContentType("text/html; charset=UTF-8");
+		response.getWriter().print("");
+	}
+	
 	@RequestMapping(value="idCheck.me", produces="application/json; charset=UTF-8")
 	public void idCheck(String checkId, HttpServletResponse response) throws ServletException, IOException {
 		
@@ -508,7 +516,13 @@ public class MemberController {
 	}
 	
 	@RequestMapping("newMemo")
-	public String newMemo() {
+	public String newMemo(HttpSession session) {
+		
+		String memId = (String)((Member)session.getAttribute("loginMember")).getMemId();
+		
+		Member member = new Member();
+		member.setMemId(memId);
+		session.setAttribute("loginMember", memberService.selectMember(member));
 		
 		return "member/memo/newMemo";
 	}

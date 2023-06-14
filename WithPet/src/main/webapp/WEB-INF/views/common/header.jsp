@@ -89,6 +89,26 @@
         #header_7>a:hover {cursor:pointer;}
         #header_2_detail a{text-decoration:none; color:black;}
         
+        #liveToast{
+        	border: 1px solid black;
+   			margin-top: 45px;
+    		height: 30px;
+    		width: 100px;
+        }
+        
+        #liveToastInner{
+        	align-items: center;
+		    justify-content: center;
+		    height: 30px;
+		    display: flex;
+		    font-size: 5px;
+		    text-align: center;
+		    color: black;
+        }
+        
+        
+        
+        
     </style>
 
 </head>
@@ -144,9 +164,8 @@
 					  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bell-fill" viewBox="0 0 16 16" style="vertical-align:baseline;">
 					  <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zm.995-14.901a1 1 0 1 0-1.99 0A5.002 5.002 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901z" class="position-relative" style="padding-bottom:12px"/>
 					  </svg>
-					  <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size:10px; width:30px; height:18px;">
+					  <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="memoBell" style="font-size:10px; width:30px; height:18px;">
 					   ${ loginMemo }
-					   <span class="visually-hidden">unread messages</span>
 					  </span>
 					</button>
 					 </a>
@@ -163,6 +182,17 @@
         		
         	</c:otherwise>        	
         </c:choose>
+        
+        <button type="button" class="btn btn-primary" id="liveToastBtn">Show live toast</button>
+        
+		<div class="toast-container position-fixed top-0 end-0 p-3">
+		  <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+		  <script>$('#liveToast').css("display", "block");</script>
+		    <div id="toast-header">
+		    	<p id="liveToastInner">새 메세지 수신</p>
+		    </div>
+		  </div>
+		</div>
         
         <form action="" method="post" id="postForm">
         	<input type="hidden" name="memberId" value="${ loginMember.memId }"/>
