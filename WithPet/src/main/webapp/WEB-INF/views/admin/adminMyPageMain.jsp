@@ -181,8 +181,8 @@
                         <tr><td colspan="8">회원이 없습니다.</td></tr>
                     </c:when>
                     <c:otherwise>
-                             <c:forEach var="m" items="${list}">
-                             <tr>
+                       <c:forEach var="m" items="${list}">
+                           <tr>
                             <td>${m.memId}</td>
                             <td>${m.memNick}</td>
 				   			<td>${m.memDate}</td>
@@ -229,10 +229,9 @@
 				    				</c:otherwise>
 				    			</c:choose>
                             </td>
-                             
                     		<td><input type="checkbox" name="memGrade" value="${m.memId}"></td>
-                	</tr>
-                             </c:forEach>
+                		 </tr>
+                       </c:forEach>
                     </c:otherwise>
                 </c:choose>
                 </tbody>
@@ -284,7 +283,7 @@
 			      type: 'post',
 			      data: { memId: memId, memGrade: memGrade },
 			      success: function(result) {
-			        $('.member' + memId + 'select[name="memGrade"]').val(memGrade);
+			        $('select[name="memGrade"]').val(memGrade);
 			        console.log("회원 등급이 변경되었습니다.");
 			      },
 			      error: function(error) {
