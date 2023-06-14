@@ -175,6 +175,7 @@
             </tr>
            </thead>
            </tbody>
+           
                 <c:choose>
                     <c:when test="${ empty list }">
                         <tr><td colspan="8">회원이 없습니다.</td></tr>
@@ -202,7 +203,6 @@
 				    				</c:otherwise>
 				    			</c:choose>
                             </td>		
-                          
                     		<td><input type="checkbox" name="memStaus" value="${m.memId}"></td>                            
 				    		<td class="member${m.memId}">
 				    			<c:choose>
@@ -237,6 +237,7 @@
                 </c:choose>
                 </tbody>
             </table>				
+           </form>
 			   
 				
 				
@@ -247,7 +248,7 @@
 	
 	
   <script>
-       
+      /* 
   		$(function(){
   			
   			for(let Member in ${list}){
@@ -259,50 +260,47 @@
   				
   			}	
   		})
-  		
+  		*/
                      	
 	</script>		
 	
 
 
-	<script>
-                	
-	/*
-	
-                    function updateMemType(){
+		<script>
+			function updateMemType() {
+			  var selectedMembers = $('input[name="memGrade"]:checked');
 
-                        var checkbox = $("input[name=memGrade]:checked");
-                        var member = new Object();
-                        
-                        if(confirm("회원의 상태를 변경하시겠습니까? ")){
-                                
-                                var memGrade = checkbox.parent().prev().find('option:selected').val()
-                                var memId = checkbox.val();
-                                var member = {
-                                                memGrade : memGrade,
-                                                memId : memId
-                                             }
-                            $.ajax({
-                                url:'adminGradeUpdate',
-                                data: ({memGrade : memGrade, memId : memId}),
-                                type: 'post',
-                                success : function(result){
-                                    if(result == 'S'){
-                                alert("회원 상태 변경이 완료 되었습니다.");
-                                checkbox.prop('checked', false);
-                                location.href=location.href;
-                                    } else {
-                                        alert("회원 상태 변경이 실패 하였습니다.");
-                                    }
-                                }
-                            })
-                        } else {
-                            alert("취소 되었습니다.")
-                        }
-                     }       
-	                	
-	                	
-	                	
+			  if (selectedMembers.length === 0) {
+			    alert("회원을 선택해주세요.");
+			  }
+
+			  var memGrade = $('select[name="memGrade"]').val();
+
+			  selectedMembers.each(function() {
+			    var memId = $(this).val();
+
+			    $.ajax({
+			      url: 'adminGradeUpdate',
+			      type: 'post',
+			      data: { memId: memId, memGrade: memGrade },
+			      success: function(result) {
+			        $('.member' + memId + 'select[name="memGrade"]').val(memGrade);
+			        console.log("회원 등급이 변경되었습니다.");
+			      },
+			      error: function(error) {
+			        console.error("회원 등급 변경 중 오류가 발생했습니다.");
+			      }
+			    });
+			  })
+			};
+		
+	 
+           </script>
+           
+           
+           
+	              <script>  	
+	             /*  	
 	                 function noSearch(){
 	                        
 	                        var result = $('#search option:selected').val();
