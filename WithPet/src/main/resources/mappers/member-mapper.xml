@@ -495,11 +495,12 @@
 				,MEM_GRADE memGrade
 				,MEM_DATE memDate
 				,MEM_MEMO memMemo
-				,MEM_POINT memPoint
 				,MEM_REPORT memReport
+				,MEM_POPUP memPopup
 				,MEM_STATUS memStatus
 				,MEM_UPDATE memUpdate
 				,MEM_KAKAOID memKakaoId
+				,MEM_NAVERID memNaverId
 		  from
 		      member
 		 where
@@ -702,11 +703,12 @@
 				,MEM_GRADE memGrade
 				,MEM_DATE memDate
 				,MEM_MEMO memMemo
-				,MEM_POINT memPoint
 				,MEM_REPORT memReport
+				,MEM_POPUP memPopup
 				,MEM_STATUS memStatus
 				,MEM_UPDATE memUpdate
 				,MEM_KAKAOID memKakaoId
+				,MEM_NAVERID memNaverId
 				,(select count(*) from diary_share where share_sender = #{memberId} and share_receiver = member.mem_id) friendShare
 		   from
 		       member
@@ -762,11 +764,12 @@
 				,MEM_GRADE memGrade
 				,MEM_DATE memDate
 				,MEM_MEMO memMemo
-				,MEM_POINT memPoint
 				,MEM_REPORT memReport
+				,MEM_POPUP memPopup
 				,MEM_STATUS memStatus
 				,MEM_UPDATE memUpdate
 				,MEM_KAKAOID memKakaoId
+				,MEM_NAVERID memNaverId
 				,(select count(*) from diary_share where share_sender = #{friendSender} and share_receiver = member.mem_id) friendShare
 				,(select count(*) from friend where friend_sender = #{friendSender} and friend_receiver = #{friendReceiver}) "resultSearch"
 		  from
@@ -793,11 +796,12 @@
 					,MEM_GRADE memGrade
 					,MEM_DATE memDate
 					,MEM_MEMO memMemo
-					,MEM_POINT memPoint
 					,MEM_REPORT memReport
+					,MEM_POPUP memPopup
 					,MEM_STATUS memStatus
 					,MEM_UPDATE memUpdate
 					,MEM_KAKAOID memKakaoId
+					,MEM_NAVERID memNaverId
 		  		from
 		       		member
 		 		where
@@ -822,11 +826,12 @@
 				,MEM_GRADE memGrade
 				,MEM_DATE memDate
 				,MEM_MEMO memMemo
-				,MEM_POINT memPoint
 				,MEM_REPORT memReport
+				,MEM_POPUP memPopup
 				,MEM_STATUS memStatus
 				,MEM_UPDATE memUpdate
 				,MEM_KAKAOID memKakaoId
+				,MEM_NAVERID memNaverId
 	      from
 	            member
 	     where
