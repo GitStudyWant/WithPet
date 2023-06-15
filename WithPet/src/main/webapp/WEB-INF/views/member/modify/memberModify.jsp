@@ -129,7 +129,9 @@
 		    				</div></td>
 		    				<td width="50%" style="text-align:right">
 		    				<input class="btn btn-primary" type="button" style="width:60px; height:30px; font-size:14px; margin:0px; padding:0px" onclick="profileImgButton()" value="사진등록">
-		    				<input class="btn btn-primary" type="file" style="display:none" id="profileImgFile" onchange="loadProfileImg(this)" value="등록" name="profileImgData">
+		    				<input type="file" style="display:none" id="profileImgFile" onchange="loadProfileImg(this)" name="profileImgData">
+		    				<input type="hidden" name="memPhoto" value="${loginMember.memPhoto}" />
+                            <input type="hidden" name="memPath" value="${loginMember.memPath}" />
 		    				</td>
 		    			</tr>
 		    			<tr>
@@ -154,12 +156,9 @@
 		    				<td><p>NEW PASSWORD CHECK</p></td>
 		    				<td colspan="2"><input type="password" name="memPwd2" id="UmemPwd2" placeholder="새 비밀번호 확인"></td>
 		    			</tr>
-		    			<tr class="UpwdCheck">
-		          			<td colspan="3" class="checkTd"><p style="font-size:3px; margin:auto"></p></td>
-		          		<tr>
 		    			<tr>
 		    				<td><p>PHONE</p></td>
-		    				<td colspan="2"><input type="number" name="memPhone" id="UmemPhone" maxlength="11" value="${loginMember.memPhone}"></td>
+		    				<td colspan="2"><input type="text" name="memPhone" id="UmemPhone" maxlength="11" value="${loginMember.memPhone}"></td>
 		    			</tr>
 		    			<tr id="UphoneCheck">
 		          			<td colspan="3" class="checkTd"><p style="font-size:3px; margin:auto"></p></td>

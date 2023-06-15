@@ -651,19 +651,19 @@ public class MemberController {
 	}
 	
 	@RequestMapping("memberModifyFrontMove")
-	public String memberModifyFrontMove(){
+	public String memberModifyFrontMove(){		
 		return "member/modify/memberModifyFront";
 	}
 	
 	@RequestMapping("memberPwdCompare")
-	public String memberPwdCompare(Member member, HttpServletResponse response) throws IOException {
+	public String memberPwdCompare(Member member, HttpSession session) throws IOException {
 		
 		Member loginMember = memberService.selectMember(member);
 		
-		response.setContentType("application/json; charset=UTF-8");
 		if(loginMember != null && (member.getMemPwd().equals(loginMember.getMemPwd()))) {
 			return "member/modify/memberModify";
 		} else {
+			session.setAttribute("errorMsg", "비밀번호가 일치하지 않습니다");
 			return "redirect:/memberModifyFrontMove";
 		}
 	}

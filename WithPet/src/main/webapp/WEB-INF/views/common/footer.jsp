@@ -89,7 +89,9 @@
     		success : function(result){
     			if(($('#memoBell').text() != "") && ($('#memoBell').text() < memMemo)){
     				$('#memoBell').text(memMemo);
-    				$('#liveToastBtn').click();
+    				if(${loginMember.memPopup == 'Y'}){
+    						$('#liveToastBtn').click();
+    				}
     			} else if(($('#memoBell').text() != "") && ($('#memoBell').text() > memMemo)){
     				$('#memoBell').text(memMemo);
     			}
