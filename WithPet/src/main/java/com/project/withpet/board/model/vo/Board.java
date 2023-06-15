@@ -19,5 +19,4 @@ public class Board {
 	private String originName;
 	private String changeName;
 	
-	
 }

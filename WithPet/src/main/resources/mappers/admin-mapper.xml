@@ -389,6 +389,8 @@
 	         BOARD_CONTENT LIKE '%'||#{searchKeyword}||'%'
 	      OR 
 	         BOARD_WRITER LIKE '%'||#{searchKeyword}||'%'
+	     AND 
+	         STATUS = 'Y'
 	</select>
 	
 	<insert id="addSearchKeyword">
