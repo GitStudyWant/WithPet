@@ -142,7 +142,7 @@
 
 	<div id="body">
 		<div id="mainmain">
-				<h1>회원 관리</h1>	
+		<h1>회원 관리</h1>	
     <hr>
     <br><br>
     <form action="adminMemberList" method="post">
@@ -159,7 +159,7 @@
             </tr>
             <tr>
                 <th colspan="5"><b></b></th>
-                <th><button class="actBtn" onclick="updateMemType();">상태 변경</button></th>
+                <th><button class="actBtn" onclick="return updateMemType2();">상태 변경</button></th>
             </tr>
             <tr></tr>
             <tr height="20"></tr>
@@ -167,7 +167,6 @@
                 <th width="100px;">아이디</th>
                 <th>닉네임</th>
                 <th width="250px;">활동정보<br>(가입일자)</th>
-                <th width="90px;">보유 포인트</th>
                 <th width="90px;">회원상태</th>
                 <th>선택</th>
                 <th width="90px;">회원등급</th>
@@ -186,17 +185,16 @@
                             <td>${m.memId}</td>
                             <td>${m.memNick}</td>
 				   			<td>${m.memDate}</td>
-				    		<td>${m.memPoint}</td>
 				    		<td class="member${m.memId}">
 				    			<c:choose>
 				    				<c:when test="${m.memStatus eq 'Y' }">
-		                       			 <select name="memStatus">
+		                       			 <select name="memStatus" id="${m.memId}memStatus">
 			                                <option value="Y" disabled selected>정상</option>
 			                                <option value="N">정지</option>
 		                            	</select> 
 				    				</c:when>
 				    				<c:otherwise>
-				    					<select name="memStatus">
+				    					<select name="memStatus" id="${m.memId}memStatus">
 			                                <option value="Y">정상</option>
 			                                <option value="N" disabled selected>정지</option>
 		                            	</select> 
@@ -207,21 +205,21 @@
 				    		<td class="member${m.memId}">
 				    			<c:choose>
 				    				<c:when test="${m.memGrade eq 'ADMIN' }">
-		                       			 <select name="memGrade" >
+		                       			 <select name="${m.memId}memGrade" id="${m.memId}memGrade">
 			                                <option value="ADMIN" disabled selected>ADMIN</option>
 			                                <option value="NORMAL">NORMAL</option>
 			                                <option value="CREATOR">CREATOR</option>
 		                            	</select> 
 				    				</c:when>
 				    				<c:when test="${m.memGrade eq 'NORMAL' }">
-		                       			 <select name="memGrade" >
+		                       			 <select name="${m.memId}memGrade" id="${m.memId}memGrade" >
 			                                <option value="ADMIN">ADMIN</option>
 			                                <option value="NORMAL" disabled selected>NORMAL</option>
 			                                <option value="CREATOR">CREATOR</option>
 		                            	</select> 
 				    				</c:when>
 				    				<c:otherwise>
-		                       			 <select name="memGrade" >
+		                       			 <select name="${m.memId}memGrade" id="${m.memId}memGrade">
 			                                <option value="ADMIN">ADMIN</option>
 			                                <option value="NORMAL">NORMAL</option>
 			                                <option value="CREATOR" disabled selected>CREATOR</option>
@@ -229,7 +227,9 @@
 				    				</c:otherwise>
 				    			</c:choose>
                             </td>
-                    		<td><input type="checkbox" name="memGrade" value="${m.memId}"></td>
+                    		<td>
+                    		<input type="checkbox" name="memGrade" value="${m.memId}">
+                    		</td>
                 		 </tr>
                        </c:forEach>
                     </c:otherwise>
@@ -237,63 +237,48 @@
                 </tbody>
             </table>				
            </form>
-			   
-				
-				
-				
-				
 		</div>
 	</div>	
 	
 	
-  <script>
-      /* 
-  		$(function(){
-  			
-  			for(let Member in ${list}){
-			//$("option[value=${list[i].memStatus}]").attr('selected',true);
-			//$("option[value=${list[i].memStatus}]").attr('disabled',true);
-			
-			$("option[value=${list[i].getMemGrade}]").attr('selected',true);
-			$("option[value=${list[i].getMemGrade}]").attr('disabled',true);
-  				
-  			}	
-  		})
-  		*/
-                     	
-	</script>		
-	
-
 
 		<script>
-			function updateMemType() {
+		
+		
+			function updateMemType2() {
 			  var selectedMembers = $('input[name="memGrade"]:checked');
-
+			  console.log(selectedMembers.val());
 			  if (selectedMembers.length === 0) {
 			    alert("회원을 선택해주세요.");
 			  }
-
-			  var memGrade = $('select[name="memGrade"]').val();
-
+				
 			  selectedMembers.each(function() {
 			    var memId = $(this).val();
-
+			    var memGrade = $('#'+memId+'memGrade').val();
+			   // console.log("memId " + memId);
+			   // console.log("memGrade " + memGrade);
+			    
+			   
 			    $.ajax({
 			      url: 'adminGradeUpdate',
 			      type: 'post',
 			      data: { memId: memId, memGrade: memGrade },
 			      success: function(result) {
-			        $('select[name="memGrade"]').val(memGrade);
+			    	  if(result === 'Y'){
+			        $('#'+memId+'memGrade').val(memGrade);
 			        console.log("회원 등급이 변경되었습니다.");
+			    	  }
 			      },
 			      error: function(error) {
 			        console.error("회원 등급 변경 중 오류가 발생했습니다.");
 			      }
+			   
 			    });
+			   
 			  })
-			};
+			
+			}
 		
-	 
            </script>
            
            
