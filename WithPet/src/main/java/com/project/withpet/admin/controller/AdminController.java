@@ -345,6 +345,7 @@ public class AdminController {
 	public String goSearch(String searchKeyword, Model m, HttpSession session) {
 		if(adminService.addSearchKeyword(searchKeyword) > 0 ) {
 			ArrayList<Board> searchList = adminService.goSearch(searchKeyword);
+			System.out.println(searchList);
 			m.addAttribute("searchList", searchList);
 			m.addAttribute("keyword", searchKeyword);
 			return "common/searchView";
