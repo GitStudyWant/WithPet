@@ -84,14 +84,15 @@
         #header_6>a:hover + div{display:block;}
         #header_6>a~div:hover{cursor:pointer; display:block;}
 
-        #header_7 {text-align:center; line-height:70px; font-size:15px; padding-right:2%;}
-        @media (max-width: 940px) { #header_7 { font-size: 10px; } }
+        #header_7 {text-align:center; line-height:70px; font-size:13px; padding-right:2%;}
+        @media (max-width: 940px) { #header_7 { font-size: 8px; } }
         #header_7>a:hover {cursor:pointer;}
         #header_2_detail a{text-decoration:none; color:black;}
         
-        #liveToast{
+         #liveToast{
         	border: 1px solid black;
    			margin-top: 45px;
+   			margin-right : 20px;
     		height: 30px;
     		width: 100px;
         }
@@ -105,10 +106,6 @@
 		    text-align: center;
 		    color: black;
         }
-        
-        
-        
-        
     </style>
 
 </head>
@@ -154,19 +151,22 @@
         	<c:otherwise>
         		<c:choose>
         			<c:when test="${ loginMemo == 0 }">
-        			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bell" viewBox="0 0 16 16">
-  					<path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zM8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6z"/>
-					</svg>
+	        		<a href="receiveMemo" id="memoBellMain" style="display:none;">
+					<button type="button" class="btn btn-primary position-relative" style="background-color:transparent; border:none; padding:revert; margin-right:10px; margin-top:3px">
+						 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bell-fill" viewBox="0 0 16 16" style="vertical-align:baseline;">
+						 <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zm.995-14.901a1 1 0 1 0-1.99 0A5.002 5.002 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901z" class="position-relative" style="padding-bottom:12px"/>
+						 </svg>
+						 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="memoBell" style="font-size:10px; width:30px; height:18px;">0</span>
+					</button>
+					 </a>
 					</c:when>
 					<c:otherwise>
-					<a href="receiveMemo">
+					<a href="receiveMemo" id="memoBellMain">
 					<button type="button" class="btn btn-primary position-relative" style="background-color:transparent; border:none; padding:revert; margin-right:10px; margin-top:3px">
-					  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bell-fill" viewBox="0 0 16 16" style="vertical-align:baseline;">
-					  <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zm.995-14.901a1 1 0 1 0-1.99 0A5.002 5.002 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901z" class="position-relative" style="padding-bottom:12px"/>
-					  </svg>
-					  <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="memoBell" style="font-size:10px; width:30px; height:18px;">
-					   ${ loginMemo }
-					  </span>
+						 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bell-fill" viewBox="0 0 16 16" style="vertical-align:baseline;">
+						 <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zm.995-14.901a1 1 0 1 0-1.99 0A5.002 5.002 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901z" class="position-relative" style="padding-bottom:12px"/>
+						 </svg>
+						 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="memoBell" style="font-size:10px; width:30px; height:18px;">${ loginMemo }</span>
 					</button>
 					 </a>
 					</c:otherwise>
@@ -183,16 +183,31 @@
         	</c:otherwise>        	
         </c:choose>
         
-        <!-- <button type="button" class="btn btn-primary" id="liveToastBtn">Show live toast</button> -->
+        <button type="button" class="btn btn-primary" id="liveToastBtn" style="display:none"></button>
         
 		<div class="toast-container position-fixed top-0 end-0 p-3">
 		  <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-		  <script>$('#liveToast').css("display", "block");</script>
 		    <div id="toast-header">
 		    	<p id="liveToastInner">새 메세지 수신</p>
+		    	<button type="button" class="btn-closeToast" data-bs-dismiss="toast" aria-label="Close" id="liveToastBtnClose" style="display:none"></button>
 		    </div>
 		  </div>
 		</div>
+        
+		
+		<script>
+		const toastTrigger = document.getElementById('liveToastBtn')
+		const toastLiveExample = document.getElementById('liveToast')
+		if (toastTrigger) {
+		  toastTrigger.addEventListener('click', () => {
+		    const toast = new bootstrap.Toast(toastLiveExample)
+		    toast.show()
+		    setTimeout(function() {
+		        toast.hide();
+		      }, 2000);
+		  })
+		}
+		</script>
         
         <form action="" method="post" id="postForm">
         	<input type="hidden" name="memberId" value="${ loginMember.memId }"/>

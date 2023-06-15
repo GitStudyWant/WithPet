@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>메인</title>
+<title>수신함</title>
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,500,600">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -80,6 +80,8 @@
 		width : 95%;
 		margin : auto;
 	}
+	
+	@media (max-width: 930px) { #deleteButton { font-size: 12px; }
 
 </style>
 </head>
@@ -163,7 +165,7 @@
 		    <table id="memoetc">
 		    	<tr>
 		    		<td colspan="3">
-		    		<button class="btn btn-danger" onclick="deleteReceiveMemos()" style="width:8%; height:30px; display:flex; align-items: center; justify-content: center;">삭제</button>
+		    		<button class="btn btn-danger" onclick="deleteReceiveMemos()" style="width:8%; height:30px; display:flex; align-items: center; justify-content: center;" id="deleteButton">삭제</button>
 		    		</td>
 		    	</tr>
 		    	<tr>
@@ -236,7 +238,7 @@
 		}
 		
 		function deleteReceiveMemoOne(){
-			deleteMemo($('#memoDetailNo').val(), 1);
+			deleteReceiveMemo($('#memoDetailNo').val(), 1);
 	  	}
 		
 		function deleteReceiveMemos(){
@@ -247,17 +249,17 @@
 				if($('#receiveMemoCheck' + i).prop("checked") == true){
 					checkedCount += 1;
 					if(checkedCount != $('.receiveMemoCheck:checked').length){
-						deleteMemo($('#receiveMemoNo' + i).val(), 0);
+						deleteReceiveMemo($('#receiveMemoNo' + i).val(), 0);
 					} else{
-						deleteMemo($('#receiveMemoNo' + i).val(), 1);
+						deleteReceiveMemo($('#receiveMemoNo' + i).val(), 1);
 					}
 				}
 			}
 		}
 		
-		function deleteMemo(MemoNo, triger){
+		function deleteReceiveMemo(MemoNo, triger){
 			$.ajax({
-				url : "deleteMemo",
+				url : "deleteReceiveMemo",
 				type : "get",
 				data : {deleteMemoNo : MemoNo},
 				success : function(result){

@@ -179,7 +179,6 @@
 		     ,mem_nick memNick
 		     ,mem_grade memGrade
 		     ,to_char(mem_date, 'YYYY-MM-DD') as "memDate"
-		     ,mem_point memPoint
 		     ,mem_report memReport
 		     ,mem_status memStatus
 		 from

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -206,17 +207,16 @@ public class AdminController {
 		return "admin/adminMyPageMain";
 	}
 	
+	@ResponseBody
 	@RequestMapping("adminGradeUpdate")
 	public String adminGradeUpdate(Member m, HttpSession session) {
+		System.out.println(m);
 		
-		int result = adminService.adminGradeUpdate(m);
-		
-		if(result > 0) {
-			session.setAttribute("alertMsg","성공");
-			return "redirect:adminMyPageMain";
+		if(adminService.adminGradeUpdate(m) > 0) {
+			session.setAttribute("alertMsg","등급이 변경되었습니다.");
+			return "Y";
 		} else {
-			session.setAttribute("alertMsg","실패");
-			return "redirect:adminMyPageMain";
+			return "N";
 		}	
 		
 	}

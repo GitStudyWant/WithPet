@@ -51,7 +51,7 @@ public interface MemberService {
 	// 메모
 	public int selectReceiveMemoCount(String memId);
 	
-	public void selectReceiveMemoCountTest(String memId);
+	public int selectReceiveMemoCountCheck(String memId);
 		
 	public int selectSendMemoCount(String memId);
 	
@@ -65,18 +65,15 @@ public interface MemberService {
 	
 	public Memo selectMemoDetail(int memNo);
 		
-	public int deleteMemo(int memoNo);
+	public int deleteReceiveMemo(int memoNo);
+	
+	public int deleteSendMemo(int memoNo);
+	
+	public int rollbackSendMemo(int memoNo);
 	
 	public int discountMemoCount(String memId);
 		
 	public int insertMemo(Memo memo);
-	
-	// 포인트
-	public ArrayList<Point> selectPoint(String memId);
-	
-	public ArrayList<Point> selectPointPlus(String memId);
-	
-	public ArrayList<Point> selectPointMinus(String memId);
 	
 	// 코스
 	// 예약

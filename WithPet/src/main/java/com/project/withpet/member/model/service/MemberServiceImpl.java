@@ -77,7 +77,7 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Override
 	public int updateMember(Member member) {
-		return 0;
+		return memberDao.updateMember(sqlSession, member);
 	}
 
 	// 스케쥴
@@ -108,13 +108,13 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
-	public void selectReceiveMemoCountTest(String memId) {
-		return;
+	public int selectSendMemoCount(String memId) {
+		return memberDao.selectSendMemoCount(sqlSession, memId);
 	}
 	
 	@Override
-	public int selectSendMemoCount(String memId) {
-		return memberDao.selectSendMemoCount(sqlSession, memId);
+	public int selectReceiveMemoCountCheck(String memId) {
+		return memberDao.selectReceiveMemoCountCheck(sqlSession, memId);
 	}
 	
 	@Override
@@ -143,8 +143,18 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public int deleteMemo(int memoNo) {
-		return memberDao.deleteMemo(sqlSession, memoNo);
+	public int deleteReceiveMemo(int memoNo) {
+		return memberDao.deleteReceiveMemo(sqlSession, memoNo);
+	}
+	
+	@Override
+	public int deleteSendMemo(int memoNo) {
+		return memberDao.deleteSendMemo(sqlSession, memoNo);
+	}
+	
+	@Override
+	public int rollbackSendMemo(int memoNo) {
+		return memberDao.rollbackSendMemo(sqlSession, memoNo);
 	}
 	
 	@Override
@@ -155,21 +165,6 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int insertMemo(Memo memo) {
 		return memberDao.insertMemo(sqlSession, memo);
-	}
-
-	@Override
-	public ArrayList<Point> selectPoint(String memId) {
-		return null;
-	}
-
-	@Override
-	public ArrayList<Point> selectPointPlus(String memId) {
-		return null;
-	}
-
-	@Override
-	public ArrayList<Point> selectPointMinus(String memId) {
-		return null;
 	}
 
 	

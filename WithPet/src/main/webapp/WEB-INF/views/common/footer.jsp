@@ -75,12 +75,24 @@
 	}
     
     function updateloginMemberMemo(memMemo){
+    	
+    	if(memMemo != 0){
+    		$('#memoBellMain').css("display", "block");
+    	} else {
+    		$('#memoBellMain').css("display", "none");
+    	}
+    	
     	$.ajax({
     		url : "updateloginMemberMemo",
     		type : "get",
     		data : {memMemoSend : memMemo},
     		success : function(result){
-    			$('#memoBell').text(memMemo);
+    			if(($('#memoBell').text() != "") && ($('#memoBell').text() < memMemo)){
+    				$('#memoBell').text(memMemo);
+    				$('#liveToastBtn').click();
+    			} else if(($('#memoBell').text() != "") && ($('#memoBell').text() > memMemo)){
+    				$('#memoBell').text(memMemo);
+    			}
     		}
     	})
     }

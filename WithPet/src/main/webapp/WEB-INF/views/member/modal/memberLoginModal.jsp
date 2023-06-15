@@ -126,7 +126,7 @@
 		          	</tr>
 		          	<tr>
 		          		<td height="17"></td>
-		          		<td><p style="font-size:3px; color:gray; margin-bottom:0px; display:none;"></p></td>
+		          		<td><p id="emailCheck" style="font-size:3px; color:gray; margin-bottom:0px; display:none;"></p></td>
 		          	<tr>
 		          	<input type="hidden" name="memKakaoId" value="${sessionScope.kakaoId}">
 		          	<input type="hidden" name="memNaverId" value="${sessionScope.naverId}">
@@ -178,7 +178,7 @@
 	  		}
 	  	})
 	  	
-	  	$('.btn-close').on('click', function(){
+	  	$('.btn-closeLogin').on('click', function(){
 	  		location.href = "http://localhost:8787/withpet/deleteSocialId"
 	  	})
 	  	

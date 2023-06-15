@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>메인</title>
+<title>발신함</title>
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,500,600">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -80,6 +80,8 @@
 		width : 95%;
 		margin : auto;
 	}
+	
+	@media (max-width: 930px) { #deleteButton { font-size: 12px; }
 
 </style>
 </head>
@@ -163,7 +165,7 @@
 		    <table id="memoetc">
 		    	<tr>
 		    		<td colspan="3">
-		    		<button class="btn btn-danger" onclick="deleteSendMemos()"  style="width:8%; height:30px; display:flex; align-items: center; justify-content: center;">삭제</button>
+		    		<button class="btn btn-danger" onclick="deleteSendMemos()"  style="width:8%; height:30px; display:flex; align-items: center; justify-content: center;" id="deleteButton">삭제</button>
 		    		</td>
 		    	</tr>
 		    	<tr>
@@ -235,8 +237,13 @@
 		
 		function deleteSendMemoOne(){
 			
-			deleteMemo($('#memoDetailNo').val(), 1);
+			deleteSendMemo($('#memoDetailNo').val(), 1);
 	  	}
+		
+		function rollbackSendMemoOne(){
+			
+			rollbackSendMemo($('#memoDetailNo').val());
+		}
 		
 		function deleteSendMemos(){
 						
@@ -246,23 +253,35 @@
 				if($('#sendMemoCheck' + i).prop("checked") == true){
 					checkedCount += 1;
 					if(checkedCount != $('.sendMemoCheck:checked').length){
-						deleteMemo($('#sendMemoNo' + i).val(), 0);
+						deleteSendMemo($('#sendMemoNo' + i).val(), 0);
 					} else{
-						deleteMemo($('#sendMemoNo' + i).val(), 1);
+						deleteSendMemo($('#sendMemoNo' + i).val(), 1);
 					}
 				}
 			}
 		}
 		
-		function deleteMemo(MemoNo, triger){
+		function deleteSendMemo(MemoNo, triger){
 			$.ajax({
-				url : "deleteMemo",
+				url : "deleteSendMemo",
 				type : "get",
 				data : {deleteMemoNo : MemoNo},
 				success : function(result){
 					if(triger == 1){
 						location.href="http://localhost:8787/withpet/sendMemo";
 					}
+				},
+				error : function(error){}
+			})	
+		}
+		
+		function rollbackSendMemo(MemoNo){
+			$.ajax({
+				url : "rollbackSendMemo",
+				type : "get",
+				data : {deleteMemoNo : MemoNo},
+				success : function(result){
+					location.href="http://localhost:8787/withpet/sendMemo";
 				},
 				error : function(error){}
 			})	
@@ -316,6 +335,7 @@
 	        
 	        <div class="modal-footer">
 	        <div style="margin:auto">
+	          <button type="button" class="btn btn-secondary" onclick="rollbackSendMemoOne()" id="rollbackButton">회수</button>
 	          <button type="button" class="btn btn-danger" onclick="deleteSendMemoOne()">삭제</button>
 	        </div>
 	        </div>
@@ -344,6 +364,12 @@
 					$('#memoDetailTitle').val(result.memoTitle);	
 					$('#memoDetailContent').val(result.memoContent);	
 					$('#memoDetailCheckDate').val(result.memoCheckDate);
+					
+					if(result.memoCheckDate == null){
+						$('#rollbackButton').prop("disabled", false)
+					} else{
+						$('#rollbackButton').prop("disabled", true)
+					}
 				},
 				error : function(result){}
   		})

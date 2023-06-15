@@ -216,6 +216,5 @@ public class AdminServiceImpl implements AdminService {
 		return adminDao.addSearchKeyword(sqlSession, searchKeyword);
 	}
 
-
 	
 }

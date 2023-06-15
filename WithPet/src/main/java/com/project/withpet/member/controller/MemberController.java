@@ -1,20 +1,22 @@
 package com.project.withpet.member.controller;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Random;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -32,6 +34,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
@@ -136,7 +139,7 @@ public class MemberController {
 
 		Member loginMember = memberService.selectMember(member);
 
-		int loginMemo = memberService.selectReceiveMemoCount(member.getMemId());
+		int loginMemo = memberService.selectReceiveMemoCountCheck(member.getMemId());
 
 		if(loginMember != null && (member.getMemPwd().equals(loginMember.getMemPwd())) /* && bcryptPasswordEncoder.matches(member.getMemPwd(), loginMember.getMemPwd())*/) {
 			session.setAttribute("loginMember", loginMember);
@@ -390,7 +393,7 @@ public class MemberController {
 		
 		if(TempMember != null) {
 			session.setAttribute("loginMember", TempMember);
-			session.setAttribute("loginMemo", memberService.selectReceiveMemoCount(TempMember.getMemId()));
+			session.setAttribute("loginMemo", memberService.selectReceiveMemoCountCheck(TempMember.getMemId()));
 			session.removeAttribute("kakaoId");			
 			
 			response.setContentType("text/html; charset=UTF-8");
@@ -410,7 +413,7 @@ public class MemberController {
 	
 		if(TempMember != null) {
 			session.setAttribute("loginMember", TempMember);
-			session.setAttribute("loginMemo", memberService.selectReceiveMemoCount(TempMember.getMemId()));
+			session.setAttribute("loginMemo", memberService.selectReceiveMemoCountCheck(TempMember.getMemId()));
 			session.removeAttribute("naverId");			
 			
 			response.setContentType("text/html; charset=UTF-8");
@@ -433,7 +436,48 @@ public class MemberController {
 		return "common/main";
 	}
 	
-	@RequestMapping(value="memberDiaryMain")
+	@RequestMapping("updateMember")
+	public String updateMember(Member member, MultipartFile profileImgData, HttpSession session) {
+		
+		if(!profileImgData.getOriginalFilename().equals("")){
+			if(member.getMemPhoto() != null) {
+				new File(session.getServletContext().getRealPath(member.getMemPath())).delete();				
+			}
+			
+			String changeName = saveFile(profileImgData, session);
+			
+			member.setMemPhoto(profileImgData.getOriginalFilename());
+			member.setMemPath("resources/profile_upfiles/" + changeName);
+		}
+		
+		String TempPwd = memberService.selectMember(member).getMemPwd();
+		if(member.getMemPwd().equals("")) {
+			member.setMemPwd(TempPwd);
+		}
+			
+		int result = memberService.updateMember(member);
+		session.setAttribute("loginMember", memberService.selectMember(member));
+		
+		return "member/modify/memberModify";
+	}
+	
+	public String saveFile(MultipartFile profileImgData, HttpSession session) {
+		
+		String origin = profileImgData.getOriginalFilename();
+		String currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+		int ranNum = (int)(Math.random() * 90000) + 10000;
+		String ext = origin.substring(origin.lastIndexOf("."));
+		String changeName = currentTime + "_" + ranNum + ext;
+		String savePath = session.getServletContext().getRealPath("/resources/profile_upfiles/");
+		try {
+			profileImgData.transferTo(new File(savePath + changeName));
+		} catch (IllegalStateException | IOException e) {
+			e.printStackTrace();
+		}
+		return changeName;
+	}
+	
+	@RequestMapping("memberDiaryMain")
 	public ModelAndView memberDiaryMain(Schedule schedule, ModelAndView mv){
 		
 		mv.setViewName("member/diary/memberDiary");
@@ -450,7 +494,7 @@ public class MemberController {
 		return new Gson().toJson(schedules);
 	}
 	
-	@RequestMapping(value="insertSchedule")
+	@RequestMapping("insertSchedule")
 	public String insertSchedule(Schedule schedule){
 		
 		int schedulecount = memberService.insertSchedule(schedule);
@@ -458,7 +502,7 @@ public class MemberController {
 		return "redirect:/memberDiaryMain";
 	}
 	
-	@RequestMapping(value="updateSchedule")
+	@RequestMapping("updateSchedule")
 	public String updateSchedule(Schedule schedule){
 		
 		int schedulecount = memberService.updateSchedule(schedule);
@@ -466,7 +510,7 @@ public class MemberController {
 		return "redirect:/memberDiaryMain";
 	}
 	
-	@RequestMapping(value="deleteSchedule")
+	@RequestMapping("deleteSchedule")
 	public String deleteSchedule(int scheduleNo){
 		
 		int schedulecount = memberService.deleteSchedule(scheduleNo);
@@ -547,10 +591,26 @@ public class MemberController {
 		response.getWriter().print(new Gson().toJson(memo));
 	}
 	
-	@RequestMapping("deleteMemo")
+	@RequestMapping("deleteReceiveMemo")
 	public void deleteReceiveMemo(int deleteMemoNo, HttpServletResponse response) {
 		
-		memberService.deleteMemo(deleteMemoNo);
+		memberService.deleteReceiveMemo(deleteMemoNo);
+		
+		return;
+	}
+	
+	@RequestMapping("deleteSendMemo")
+	public void deleteSendMemo(int deleteMemoNo, HttpServletResponse response) {
+		
+		memberService.deleteSendMemo(deleteMemoNo);
+		
+		return;
+	}
+	
+	@RequestMapping("rollbackSendMemo")
+	public void rollbackSendMemo(int deleteMemoNo, HttpServletResponse response) {
+		
+		memberService.rollbackSendMemo(deleteMemoNo);
 		
 		return;
 	}
@@ -564,26 +624,50 @@ public class MemberController {
 		return mv;
 	}
 	
-	@RequestMapping(value="insertMemo")
-	public String insertMemo(Memo memo, HttpSession session){
+	@RequestMapping("insertMemo")
+	public ModelAndView insertMemo(Memo memo, HttpSession session, ModelAndView mv){
+		Member member = new Member();
+		member.setMemId(memo.getMemoReceiver());
 		
+		if(memberService.selectMember(member) != null) {
 		
-		String memId = (String)((Member)session.getAttribute("loginMember")).getMemId();
-		
-		int discountMemo = memberService.discountMemoCount(memId);
-		
-		if(discountMemo > 0) {
-			Member member = new Member();
-			member.setMemId(memId);
-			session.setAttribute("loginMember", memberService.selectMember(member));
+			String memId = (String)((Member)session.getAttribute("loginMember")).getMemId();
+			int discountMemo = memberService.discountMemoCount(memId);
 			
-			memberService.insertMemo(memo);
+			if(discountMemo > 0) {
+				member.setMemId(memId);
+				session.setAttribute("loginMember", memberService.selectMember(member));
+				
+				memberService.insertMemo(memo);
+				
+				mv.setViewName("redirect:/newMemo");
+			}
+		} else {
+			mv.addObject("errorMsg", "수신자가 존재하지 않습니다");
+			mv.setViewName("member/memo/newMemo");
 		}
-
-		return "redirect:/newMemo";
+		
+		return mv;
+	}
+	
+	@RequestMapping("memberModifyFrontMove")
+	public String memberModifyFrontMove(){
+		return "member/modify/memberModifyFront";
+	}
+	
+	@RequestMapping("memberPwdCompare")
+	public String memberPwdCompare(Member member, HttpServletResponse response) throws IOException {
+		
+		Member loginMember = memberService.selectMember(member);
+		
+		response.setContentType("application/json; charset=UTF-8");
+		if(loginMember != null && (member.getMemPwd().equals(loginMember.getMemPwd()))) {
+			return "member/modify/memberModify";
+		} else {
+			return "redirect:/memberModifyFrontMove";
+		}
 	}
 
-	
 	
 	
 	

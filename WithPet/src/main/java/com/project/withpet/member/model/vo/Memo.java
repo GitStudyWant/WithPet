@@ -15,6 +15,7 @@ public class Memo {
 	private String memoCheckDate;
 	private String memoReserveDate;
 	private String memoCheck;
-	private String memoStatus;
+	private String memoSenderStatus;
+	private String memoReceiverStatus;
 
 }

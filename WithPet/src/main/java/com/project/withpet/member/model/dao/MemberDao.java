@@ -56,6 +56,10 @@ public class MemberDao {
 	public Member selectNaverMember(SqlSession sqlSession, String memNaverId) {
 		return sqlSession.selectOne("memberMapper.selectNaverMember", memNaverId);
 	}
+	
+	public int updateMember(SqlSession sqlSession, Member member) {
+		return sqlSession.update("memberMapper.updateMember", member);
+	}
 	   
 	public ArrayList<Schedule> selectSchedules(SqlSession sqlSession, Schedule schedule) {
 		return (ArrayList)sqlSession.selectList("memberMapper.selectSchedules", schedule);
@@ -75,6 +79,10 @@ public class MemberDao {
 	
 	public int selectReceiveMemoCount(SqlSession sqlSession, String memId) {
 		return sqlSession.selectOne("memberMapper.selectReceiveMemoCount", memId);
+	}
+	
+	public int selectReceiveMemoCountCheck(SqlSession sqlSession, String memId) {
+		return sqlSession.selectOne("memberMapper.selectReceiveMemoCountCheck", memId);
 	}
 	
 	public int selectSendMemoCount(SqlSession sqlSession, String memId) {
@@ -109,8 +117,16 @@ public class MemberDao {
 	    return sqlSession.selectOne("memberMapper.selectMemoDetail", memoNo);
 	}
 	
-	public int deleteMemo(SqlSession sqlSession, int memoNo) {
-	    return sqlSession.update("memberMapper.deleteMemo", memoNo);
+	public int deleteReceiveMemo(SqlSession sqlSession, int memoNo) {
+	    return sqlSession.update("memberMapper.deleteReceiveMemo", memoNo);
+	}
+	
+	public int deleteSendMemo(SqlSession sqlSession, int memoNo) {
+	    return sqlSession.update("memberMapper.deleteSendMemo", memoNo);
+	}
+	
+	public int rollbackSendMemo(SqlSession sqlSession, int memoNo) {
+	    return sqlSession.update("memberMapper.rollbackSendMemo", memoNo);
 	}
 	
 	public int discountMemoCount(SqlSession sqlSession, String memId) {
