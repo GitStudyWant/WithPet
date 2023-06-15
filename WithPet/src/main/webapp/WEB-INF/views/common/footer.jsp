@@ -90,7 +90,9 @@
     			if(($('#memoBell').text() != "") && ($('#memoBell').text() < memMemo)){
     				$('#memoBell').text(memMemo);
     				$('#liveToastBtn').click();
-    			};
+    			} else if(($('#memoBell').text() != "") && ($('#memoBell').text() > memMemo)){
+    				$('#memoBell').text(memMemo);
+    			}
     		}
     	})
     }

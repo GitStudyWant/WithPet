@@ -81,7 +81,7 @@
     }
 
     #memberimg{
-        width: 50%;
+        width : 50%;
         height : 50%;
         border-radius: 100px;
         margin-top: 60px;
@@ -129,7 +129,14 @@
     <div id="myPageSide">
         <div id="pro">
             <div align="center">
-            	<img id="memberimg" src="resources/myPage/user.png" alt="">
+            	<c:choose>
+		    			<c:when test="${loginMember.memPath != null}">
+		    			<img id="memberimg" src="${loginMember.memPath}" alt="메인사진">
+		    			</c:when>
+		    			<c:otherwise>
+		    			<img id="memberimg" src="https://moyeoyou.kr/assets/common/img/user/default_photo.jpg" alt="메인사진">
+		    			</c:otherwise>
+		    	</c:choose>
             </div>
             <br>
             <div align="center">

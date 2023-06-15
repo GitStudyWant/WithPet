@@ -56,6 +56,10 @@ public class MemberDao {
 	public Member selectNaverMember(SqlSession sqlSession, String memNaverId) {
 		return sqlSession.selectOne("memberMapper.selectNaverMember", memNaverId);
 	}
+	
+	public int updateMember(SqlSession sqlSession, Member member) {
+		return sqlSession.update("memberMapper.updateMember", member);
+	}
 	   
 	public ArrayList<Schedule> selectSchedules(SqlSession sqlSession, Schedule schedule) {
 		return (ArrayList)sqlSession.selectList("memberMapper.selectSchedules", schedule);

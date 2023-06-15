@@ -68,6 +68,10 @@
 		height : 100px;
 	}
 	
+	#modifyDiv .checkTd{
+		height : 10px;
+	}
+	
 	#modifyDiv p{
 		font-size : 10px;
 		color : gray;
@@ -81,20 +85,17 @@
 		font-size : 12px;
 	}
 	
-	#modifyDiv #memId{
-		background-color : silver;
-	}
-	
 	#modifyDiv textarea{
 		height : 100%;
 		width : 100%;
 		resize : none;
 		border : 1px solid silver;
+		font-size : 12px;
 	}
 	
-	#Umemberimg{
-        width: 50%;
-        height : 50%;
+	#profileImg{
+        width : 90%;
+        height : 90%;
         border-radius: 100px;
     }
 
@@ -106,22 +107,33 @@
 	
 	<div id="body">	
 		<div id="modifymain">
-			<form action="memberModify" method="Post">
+			<form action="updateMember" method="Post" enctype="multipart/form-data">
 			  <div>
 			  	<p style="font-size:15px; text-align:center; margin:0px">정보수정</p>
 			  </div>
 			  <div id="modifyDiv">
-		    		<table style="width:85%">
+		    		<table style="width:65%">
 		    			<tr>
-		    				<td width="30%" id="profileTd"><p>PROFILE</p></td>
-		    				<td width="20%"><div align="center"><img id="Umemberimg" src="resources/myPage/user.png" alt=""></div></td>
-		    				<td width="30%">
-		    				<button class="btn btn-danger" type="text" style="width:40px; height:30px; font-size:14px; margin:0px; padding:0px">취소</button>
-		    				<button class="btn btn-primary" type="file" style="width:40px; height:30px; font-size:14px; margin:0px; padding:0px">등록</button>
+		    				<td width="20%" id="profileTd"><p>PROFILE</p></td>
+		    				<td width="30%"><div align="center">
+		    				<div style="width:100%; height:100%">
+			    				<c:choose>
+			    				<c:when test="${loginMember.memPath != null}">
+			    				<img id="profileImg" src="${loginMember.memPath}" alt="프로필사진">
+			    				</c:when>
+			    				<c:otherwise>
+			    				<img id="profileImg" src="https://moyeoyou.kr/assets/common/img/user/default_photo.jpg" alt="프로필사진">
+			    				</c:otherwise>
+			    				</c:choose>
+		    				</div>
+		    				</div></td>
+		    				<td width="50%" style="text-align:right">
+		    				<input class="btn btn-primary" type="button" style="width:60px; height:30px; font-size:14px; margin:0px; padding:0px" onclick="profileImgButton()" value="사진등록">
+		    				<input class="btn btn-primary" type="file" style="display:none" id="profileImgFile" onchange="loadProfileImg(this)" value="등록" name="profileImgData">
 		    				</td>
 		    			</tr>
 		    			<tr>
-		    				<td><p>ID</p></td>
+		    				<td><p>ID </p><p style="color:skyblue">수정불가</p></td>
 		    				<td colspan="2"><input type="text" name="memId" id="UmemId" value="${loginMember.memId}" readonly></td>
 		    			</tr>
 		    			<tr>
@@ -129,45 +141,45 @@
 		    				<td colspan="2"><input type="text" name="memNick" id="UmemNick" value="${loginMember.memNick}"></td>
 		    			</tr>
 		    			<tr id="UnickCheck">
-		          			<td colspan="3"><p style="font-size:3px; margin:auto"></p></td>
+		          			<td colspan="3" class="checkTd"><p style="font-size:3px; margin:auto"></p></td>
 		          		<tr>
 		    			<tr>
 		    				<td><p>NEW PASSWORD</p></td>
 		    				<td colspan="2"><input type="password" name="memPwd" id="UmemPwd" placeholder="새 비밀번호"></td>
 		    			</tr>
 		    			<tr class="UpwdCheck">
-		          			<td colspan="3"><p style="font-size:3px; margin:auto"></p></td>
+		          			<td colspan="3" class="checkTd"><p style="font-size:3px; margin:auto"></p></td>
 		          		<tr>
 		    			<tr>
 		    				<td><p>NEW PASSWORD CHECK</p></td>
 		    				<td colspan="2"><input type="password" name="memPwd2" id="UmemPwd2" placeholder="새 비밀번호 확인"></td>
 		    			</tr>
 		    			<tr class="UpwdCheck">
-		          			<td colspan="3"><p style="font-size:3px; margin:auto"></p></td>
+		          			<td colspan="3" class="checkTd"><p style="font-size:3px; margin:auto"></p></td>
 		          		<tr>
 		    			<tr>
 		    				<td><p>PHONE</p></td>
 		    				<td colspan="2"><input type="number" name="memPhone" id="UmemPhone" maxlength="11" value="${loginMember.memPhone}"></td>
 		    			</tr>
 		    			<tr id="UphoneCheck">
-		          			<td colspan="3"><p style="font-size:3px; margin:auto"></p></td>
+		          			<td colspan="3" class="checkTd"><p style="font-size:3px; margin:auto"></p></td>
 		          		<tr>
 		    			<tr>
 		    				<td><p>EMAIL</p></td>
 		    				<td colspan="2"><input type="text" name="memEmail" id="UmemEmail" value="${loginMember.memEmail}"></td>
 		    			</tr>
 		    			<tr id="UemailCheck">
-		          			<td colspan="3"><p style="font-size:3px; margin:auto"></p></td>
+		          			<td colspan="3" class="checkTd"><p style="font-size:3px; margin:auto"></p></td>
 		          		<tr>
 		    			<tr>
 		    				<td><p>INTRO</p></td>
-		    				<td colspan="2"><textarea height="100%" width="100%" resize="none">${loginMember.memIntro}</textarea></td>
+		    				<td colspan="2"><textarea height="100%" width="100%" resize="none" name="memIntro">${loginMember.memIntro}</textarea></td>
 		    			</tr>
 		    		</table>
 		    		<br><br>
 		    		<div style="text-align:right; margin-right:20px">
 		    		<button class="btn btn-danger" type="reset" style="width:40px; height:30px; font-size:14px; margin:0px; padding:0px">취소</button>
-		    		<button class="btn btn-primary" type="submit" style="width:40px; height:30px; font-size:14px; margin:0px; padding:0px" id="updateFormButton" disabled="true">수정</button>
+		    		<button class="btn btn-primary" type="submit" style="width:40px; height:30px; font-size:14px; margin:0px; padding:0px" id="updateFormButton">수정</button>
 		    		</div>
 		    	</div>
 		    </form>
@@ -175,7 +187,28 @@
 	</div>
 	
 	<div id="modifyFooter"><jsp:include page="../../common/footer.jsp" /></div>
+	<script>
 	
+	function profileImgButton(){
+		$('#profileImgFile').click();
+	}
+	
+	function loadProfileImg(inputFile) {
+		
+		if (inputFile.files.length == 1) {
+			let reader = new FileReader();
+			reader.readAsDataURL(inputFile.files[0]);
+			
+			reader.onload = function (e) {
+				$('#profileImg').attr('src', e.target.result);
+				$('#filetext').val("");
+			}
+		} else {
+			$('#profileImg').attr('src', 'https://moyeoyou.kr/assets/common/img/user/default_photo.jpg');
+		}
+	}
+	
+	</script>
 	<script>
 		
 	var buttonEnable
@@ -305,11 +338,16 @@
 	    		} else{    			
 	    			$('.UpwdCheck').hide();
 	    			$('#updateFormButton').removeAttr("disabled");
+	    			mbuttonEnableCheck();
 	    		}
-			} else{
+			} else if($(this).val().length == 0 && ($('#UmemPwd').val()==$('#UmemPwd2').val())){
 				$('.UpwdCheck').hide();
+				mbuttonEnableCheck();
+			} else{
+				$('.UpwdCheck').show();
+    			$('.UpwdCheck p').css('color', 'red').text('8자 이상 입력해주세요');
+    			$('#updateFormButton').attr("disabled", true);
 			}
-			
 		})
 		
 		$('#UmemPwd2').on('keyup', function(){
@@ -321,12 +359,16 @@
 	    		} else{    			
 	    			$('.UpwdCheck').hide();
 	    			$('#updateFormButton').removeAttr("disabled");
-	    		}	
-			} else{
+	    			mbuttonEnableCheck();
+	    		}
+			} else if($(this).val().length == 0 && ($('#UmemPwd').val()==$('#UmemPwd2').val())){
 				$('.UpwdCheck').hide();
+				mbuttonEnableCheck();
+			} else{
+				$('.UpwdCheck').show();
+    			$('.UpwdCheck p').css('color', 'red').text('8자 이상 입력해주세요');
+    			$('#updateFormButton').attr("disabled", true);
 			}
-			
-			
 		})
 	</script>
 	

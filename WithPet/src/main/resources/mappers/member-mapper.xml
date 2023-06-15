@@ -158,6 +158,22 @@
 				MEM_STATUS = 'Y'
 	</select>
 	
+	<update id="updateMember" parameterType="member">
+		UPDATE
+				member
+		SET
+				mem_nick = #{memNick}
+				,mem_pwd = #{memPwd}
+				,mem_phone = #{memPhone}
+				,mem_email = #{memEmail}
+				,mem_photo = #{memPhoto}
+				,mem_path = #{memPath}
+				,mem_intro = #{memIntro}
+				,mem_update = sysdate
+		WHERE
+				mem_id = #{memId}
+	</update>
+	
 	<select id="selectSchedules" resultMap="scheduleResultSet">
 		SELECT
 				*
@@ -256,7 +272,7 @@
 				memo_receiverstatus memoReceiverStatus,
 				memo_senderstatus memoSenderStatus
 		FROM
-				memo
+				memo			
 		WHERE
 				memo_receiver = #{memId}
 		AND

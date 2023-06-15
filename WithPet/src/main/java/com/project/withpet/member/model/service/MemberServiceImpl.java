@@ -77,7 +77,7 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Override
 	public int updateMember(Member member) {
-		return 0;
+		return memberDao.updateMember(sqlSession, member);
 	}
 
 	// 스케쥴
