@@ -207,17 +207,16 @@ public class AdminController {
 		return "admin/adminMyPageMain";
 	}
 	
+	@ResponseBody
 	@RequestMapping("adminGradeUpdate")
 	public String adminGradeUpdate(Member m, HttpSession session) {
+		System.out.println(m);
 		
-		int result = adminService.adminGradeUpdate(m);
-		
-		if(result > 0) {
-			session.setAttribute("alertMsg","성공");
-			return "redirect:adminMyPageMain";
+		if(adminService.adminGradeUpdate(m) > 0) {
+			session.setAttribute("alertMsg","등급이 변경되었습니다.");
+			return "Y";
 		} else {
-			session.setAttribute("alertMsg","실패");
-			return "redirect:adminMyPageMain";
+			return "N";
 		}	
 		
 	}

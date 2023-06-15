@@ -158,5 +158,4 @@ public class AdminDao {
 		return sqlSession.insert("adminMapper.addSearchKeyword", searchKeyword);
 	}
 	
-	
 }
