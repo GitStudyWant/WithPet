@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cafeMapper">
+	<resultMap id="cafeResultSet" type="cafe">
+		<result column="cafe_no" 	   property="cafeNo" />
+		<result column="cafe_title"    property="cafeTitle" />
+		<result column="cafe_content"  property="cafeContent" />
+		<result column="cafe_address"  property="cafeAddress" />
+		<result column="cafe_service"  property="cafeService" />
+		<result column="origin_name"   property="originName" />
+		<result column="change_name"   property="changeName" />
+		<result column="lat"  		   property="lat" />
+		<result column="lng"  		   property="lng" />
+		<result column="cafe_status"   property="cafeStatus" />
+	</resultMap>	
+
+	<select id="selectListCount" resultType="_int">
+		select
+		      count(*)
+		  from
+		      cafe
+		 where
+		      cafe_status = 'Y'        
+	</select>
+	
+	<select id="selectList" resultMap="cafeResultSet">
+		select
+		      cafe_no 
+		     ,cafe_title
+		     ,cafe_content 
+		     ,cafe_address 
+		     ,cafe_service 
+		     ,lat lat
+		     ,lng lng
+		     ,cafe_status 
+		     ,origin_name 
+		     ,change_name 
+		  from
+		      cafe
+		 where
+		      cafe_status = 'Y'
+		 order
+		    by
+		      cafe_no desc            
+	</select>
+
+
+	<insert id="insertCafe" parameterType="cafe">
+		insert
+		  into
+		      cafe
+		      (
+		      cafe_no
+		     ,cafe_title
+		     ,cafe_content
+		     ,cafe_address
+		     ,cafe_service
+		     ,origin_name
+		     ,change_name
+		     ,lat
+		     ,lng
+		     ,cafe_status
+		      )
+		 values
+		 	  (
+		 	  seq_c_no.nextval
+		 	  ,#{cafeTitle}
+		 	  ,#{cafeContent}
+		 	  ,#{cafeAddress}
+		 	  ,#{cafeService}
+		 	  ,#{originName}
+		 	  ,#{changeName}
+		 	  ,#{lat}
+		 	  ,#{lng}
+		 	  ,default
+		 	  )     
+	</insert>
+
+	<select id="cafeInfo" resultMap="cafeResultSet">
+		select
+			  cafe_no
+			 ,cafe_title 
+			 ,cafe_content 
+			 ,cafe_address
+			 ,cafe_service
+			 ,origin_Name
+			 ,change_Name
+		 from
+		     cafe
+		where
+		     cafe_no = #{cafeNo}     
+	</select>
+
+	<insert id="cafeReservation" parameterType="caferes">
+		INSERT
+		  INTO
+		      CAFE_RES
+		     (
+		      CAFE_RES_NO
+			 ,MEM_ID
+			 ,CAFE_NO
+			 ,RES_TIME
+			 ,RES_DATE
+			 ,CAFE_RES_STATUS
+		      )
+		 VALUES
+		      (
+		      SEQ_CR_NO.NEXTVAL
+		     ,#{memId}
+		     ,#{cafeNo}
+		     ,#{resTime}
+		     ,#{resDate}
+		     ,default      
+		      )     
+	</insert>
+	
+
+
+
+
+</mapper>

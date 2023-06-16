@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="adminMapper">
+
+
+
+	<select id="adminTransportation" resultType="transportation">
+		SELECT 
+		      TR_NO trNo
+		     ,TR_TYPE trType
+		     ,TR_TYPE2 trType2
+		     ,TR_FEE trFee
+          FROM
+               TRANSPORTATION
+         ORDER
+            BY
+              TR_NO
+	</select>
+	
+	<insert id="addTransportation" parameterType="transportation">
+		INSERT
+		  INTO
+		      TRANSPORTATION 
+		      (
+		      TR_NO
+		     ,TR_TYPE
+		     ,TR_TYPE2
+		     ,TR_FEE
+		      )
+		VALUES
+		      (
+		      SEQ_TR_NO.NEXTVAL
+		     ,#{trType}
+		     ,#{trType2}
+		     ,#{trFee}
+		      )
+	</insert>
+	
+	<delete id="deleteTr" parameterType="_int">
+		DELETE 
+		  FROM
+		       TRANSPORTATION
+		 WHERE
+		     TR_NO = #{trNo}
+	</delete>
+	
+	<select id="countTrRes" parameterType="transportation" resultType="_int">
+		SELECT 
+		      COUNT(TR_NO)
+		 <if test='trType == "T"'>
+		 FROM 
+		     TAXI_RESERVATION
+		 </if>
+		 <if test='trType == "C"'>
+		 FROM
+		     CAR_RESERVATION
+		 </if>
+		 WHERE
+		      TR_NO = #{trNo} AND 
+		      STATUS = 'Y'
+	</select>
+
+	
+	<select id="taxiReservationList" resultType="taxiReservation">
+		SELECT 
+		      TAXI_RNO taxiRno
+		     ,TR_NO    trNo
+		     ,TO_CHAR(TAXI_RDATE,'YY/MM/DD') taxiRDate
+		     ,TAXI_RTIME taxiRTime
+		     ,STATUS status
+		     ,MEM_ID memId
+		     ,TR_TYPE2 trType2
+	    FROM
+	         TAXI_RESERVATION JOIN TRANSPORTATION 
+	         USING(TR_NO)
+	    ORDER
+	       BY
+	         TAXI_RNO
+	</select>
+	
+	<select id="carReservationList" resultType="carReservation">
+		SELECT 
+		      CAR_RNO carRno
+		     ,TR_NO trNo
+		     ,TO_CHAR(START_DATE,'YY-MM-DD') startDate
+		     ,TO_CHAR(END_DATE,'YY-MM-DD') endDate
+		     ,STATUS status
+		     ,MEM_ID memId
+		     ,TR_PAYMENT_NO trPaymentNo
+		     ,TO_CHAR(TR_PAYMENT_DATE, 'YY-MM-DD') trPaymentDate
+		     ,TR_CARD_NO trCardNo
+			 ,TR_TYPE2 trType2
+        FROM
+            CAR_RESERVATION JOIN TRANSPORTATION USING(TR_NO)
+        ORDER
+           BY
+             CAR_RNO
+	</select>
+	
+	<update id="deleteTReservation" parameterType="String">
+		UPDATE
+		      TAXI_RESERVATION
+		   SET
+		      STATUS = 'N'
+		WHERE
+		     TAXI_RNO = #{resNo}
+	</update>
+	
+	<update id="deleteCReservation" parameterType="String">
+		UPDATE
+		      CAR_RESERVATION
+		   SET
+		      STATUS = 'N'
+		WHERE
+		     CAR_RNO = #{resNo}
+	</update>
+	
+	<select id="adminPlaceList" resultType="place">
+		SELECT 
+		      PLACE_NO placeNo
+		     ,PLACE_TYPE placeType
+		     ,PLACE_NAME placeName
+		     ,PLACE_LOCATION placeLocation
+		     ,PLACE_PHONE placePhone
+		     ,PLACE_INFO placeInfo
+		     ,PLACE_CHANGE_NAME placeChangeName
+		     ,PLACE_COUNT placeCount
+		 FROM
+		     PLACE
+		ORDER
+		   BY
+		     PLACE_NO DESC
+	</select>
+	
+	<delete id="deletePlace" parameterType="_int">
+		DELETE 
+		      PLACE
+		 WHERE
+		      PLACE_NO = ${placeNo}
+	</delete>
+	
+	<select id="countPlaceList" resultType="_int">
+		SELECT
+		      COUNT(PLACE_NO)
+		  FROM
+		      PLACE
+	</select>
+	
+	<update id="modifyPlace" parameterType="place">
+		UPDATE 
+		      PLACE
+		   SET
+		      PLACE_TYPE = #{placeType}
+		     ,PLACE_NAME = #{placeName}
+		     ,PLACE_LOCATION = #{placeLocation}
+		     ,PLACE_LAT = #{placeLat}
+		     ,PLACE_LNG = #{placeLng}
+		     ,PLACE_PHONE = #{placePhone}
+		     ,PLACE_INFO = #{placeInfo}
+		     ,PLACE_ORIGIN_NAME = #{placeOriginName}
+		     ,PLACE_CHANGE_NAME = #{placeChangeName}
+		WHERE
+		     PLACE_NO = #{placeNo}    
+	</update>
+	
+	
+	<select id="adminMemberListCount" resultType="_int">
+		SELECT
+		      COUNT(*)
+		  FROM
+		      MEMBER    
+	</select>
+	
+	<select id="adminMemberList" resultType="member">
+		select
+		      mem_id memId
+		     ,mem_nick memNick
+		     ,mem_grade memGrade
+		     ,to_char(mem_date, 'YYYY-MM-DD') as "memDate"
+		     ,mem_report memReport
+		     ,mem_status memStatus
+		 from
+		     member
+		order
+		   by
+		     mem_id desc		     
+	</select>
+	
+	<update id="adminGradeUpdate" parameterType="member">
+      UPDATE 
+            MEMBER
+         SET 
+           MEM_GRADE = #{memGrade}
+       WHERE 
+            MEM_ID = #{memId}
+	</update>
+	
+	<select id="cafeResManagement" resultType="caferes">
+		SELECT 
+		      CAFE_RES_NO cafeResNo
+		     ,MEM_ID    memId
+		     ,TO_CHAR(RES_DATE,'YY/MM/DD') resDate
+		     ,RES_TIME resTime
+		     ,CAFE_RES_STATUS cafeResStatus
+		     ,CAFE_NO cafeNo
+		     ,CAFE_TITLE cafeTitle
+		     ,CAFE_ADDRESS cafeAddress
+	     FROM
+	         CAFE_RES
+	    JOIN CAFE USING(CAFE_NO)
+	    ORDER
+	       BY
+	         CAFE_NO DESC
+	</select>	
+	
+	<delete id="deleteCr" parameterType="_int">
+		DELETE 
+		       CAFE_RES
+		 WHERE
+		       CAFE_RES_NO = ${cafeResNo}
+	</delete>	
+	
+	<select id="cafeManagement" resultType="cafe">
+		SELECT 
+		      CAFE_NO cafeNo
+		     ,CAFE_TITLE cafeTitle
+		     ,CAFE_CONTENT cafeContent
+		     ,CAFE_ADDRESS cafeAddress
+		     ,CAFE_SERVICE cafeService
+		     ,CAFE_STATUS cafeStatus
+		 FROM
+		     CAFE
+		ORDER
+		   BY
+		     CAFE_NO ASC
+	</select>	
+	
+	<select id="managementCount" resultType="_int">
+		SELECT
+		      COUNT(CAFE_NO)
+		  FROM
+		      CAFE
+	</select>	
+	
+	<delete id="deleteCafe" parameterType="_int">
+		DELETE 
+		      CAFE
+		 WHERE
+		      CAFE_NO = ${cafeNo}
+	</delete>	
+	
+	<select id="inquiryManagement" resultType="inquiry">
+		select
+		      mem_id memberId
+		     ,inquiry_no inquiryNo
+		     ,inquiry_title inquiryTitle
+		     ,inquiry_content inquiryContent
+		     ,inquiry_createdate inquiryCreateDate
+		     ,inquiry_status inquiryStatus
+		     ,inquiry_answer inquiryAnswer
+		 from
+		     inquiry
+		order
+		   by
+		     inquiry_no asc              
+	</select>
+
+	<select id="searchKeyword" resultType="search">
+		SELECT
+		      SEARCH_KEYWORD searchKeyword
+		 FROM
+		     SEARCH
+		WHERE
+		     SEARCH_KEYWORD LIKE '%'||#{key}||'%'
+		GROUP 
+		   BY
+		     SEARCH_KEYWORD
+	</select>
+	
+
+	<select id="bestKeyword" resultType="search">
+		SELECT 
+		      * 
+		      FROM
+		      (
+		      	SELECT 
+		      	      ROWNUM RNUM, A.* 
+		      	                  FROM  
+		      	                     (
+		      	                      SELECT SEARCH_KEYWORD searchKeyword
+		      	                     ,COUNT(SEARCH_KEYWORD) COUNT 
+		      	                      FROM 
+		      	                          SEARCH 
+		      	                      WHERE 
+		      	                           TO_DATE(SEARCH_DATE,'YY/MM/DD') > 
+                                           TO_DATE(SYSDATE,'YY/MM/DD') - 7 
+                                      GROUP 
+                                         BY 
+                                            SEARCH_KEYWORD 
+                                      ORDER 
+                                         BY 
+                                           COUNT 
+                                       DESC) 
+                                            A) 
+                                       WHERE 
+                                        RNUM BETWEEN 1 AND 5
+	</select>
+	
+
+	<select id="inquiryManagementCount" resultType="_int">
+		SELECT
+		      COUNT(INQUIRY_NO)
+		  FROM
+		      INQUIRY
+	</select>	
+	
+	<delete id="deleteInquiry" parameterType="_int">
+		DELETE 
+		      inquiry
+		 WHERE
+		      inquiry_no = ${inquiryNo}
+	</delete>	
+	
+	<select id="countReportList" resultType="_int">
+		SELECT
+		      COUNT(REPORT_NO)
+		 FROM
+		     REPORT
+	</select>	
+	
+	<select id="adminReportList" resultType="report">
+		SELECT
+		      REPORT_NO reportNo
+		     ,REPORT_SENDER reportSender
+		     ,REPORT_RECEIVER reportReceiver
+		     ,TO_CHAR(REPORT_DATE,'YY/MM/DD') reportDate
+		     ,REPORT_CONTENT reportContent
+		     ,REPORT_STATUS reportStatus
+		     ,BOARD_NO 	boardNo
+		     ,COMMENT_NO commentNo
+		FROM
+		    REPORT
+	</select>	
+	
+	<delete id="deleteReport">
+		DELETE
+		  FROM 
+		      REPORT
+		 WHERE
+		      REPORT_NO = #{reportNo}
+	</delete>
+	
+	<update id="checkReport1">
+		UPDATE
+		      REPORT
+		  SET
+		     REPORT_STATUS = 'Y'
+		 WHERE
+		      REPORT_NO = #{reportNo}
+	</update>
+	
+	<update id="checkReport2">
+		UPDATE
+		      MEMBER
+		   SET
+		      MEM_REPORT = MEM_REPORT + 1
+		WHERE
+		     MEM_ID = #{memId}
+	</update>
+	
+	<select id="goSearch" resultType="board">
+		SELECT 
+		      BOARD_NO boardNo
+		     ,BOARD_TITLE boardTitle
+		     ,BOARD_WRITER boardWriter
+		     ,BOARD_CONTENT boardContent
+		     ,ENROLLDATE enrollDate
+		     ,VIEW_COUNT viewCount
+		     ,RATING rating
+		     ,BOARD_NUM boardNum
+		 FROM
+		     BOARD
+		WHERE
+		     BOARD_TITLE LIKE '%'||#{searchKeyword}||'%'
+	      OR
+	         BOARD_CONTENT LIKE '%'||#{searchKeyword}||'%'
+	      OR 
+	         BOARD_WRITER LIKE '%'||#{searchKeyword}||'%'
+	     AND 
+	         STATUS = 'Y'
+	</select>
+	
+	<insert id="addSearchKeyword">
+		INSERT
+		  INTO
+		      SEARCH
+		      (
+		       SEARCH_KEYWORD
+		      ,SEARCH_DATE
+		      )
+		VALUES 
+		      (
+		      #{searchKeyword}
+		     ,SYSDATE 
+		      )
+	</insert>
+	
+</mapper>

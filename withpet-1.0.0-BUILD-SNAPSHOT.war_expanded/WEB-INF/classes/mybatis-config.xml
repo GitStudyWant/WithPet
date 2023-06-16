@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration 
+	PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+	"https://mybatis.org/dtd/mybatis-3-config.dtd" >
+<configuration>
+
+	<settings>
+		<setting name="jdbcTypeForNull" value="NULL" />
+	</settings>
+	
+	<typeAliases>
+		<typeAlias type="com.project.withpet.member.model.vo.Member" alias="member" />
+		<typeAlias type="com.project.withpet.member.model.vo.Memo" alias="memo" />
+		<typeAlias type="com.project.withpet.member.model.vo.Point" alias="point" />
+		<typeAlias type="com.project.withpet.member.model.vo.Schedule" alias="schedule" />
+		<typeAlias type="com.project.withpet.trip.model.vo.Place" alias="place" />
+		<typeAlias type="com.project.withpet.trip.model.vo.R_MyPlace" alias="R_myPlace" />
+		<typeAlias type="com.project.withpet.board.model.vo.Board" alias="board" />
+		<typeAlias type="com.project.withpet.board.model.vo.Tag" alias="tag" />
+		<typeAlias type="com.project.withpet.board.model.vo.TagBridge" alias="tbridge" />
+		<typeAlias type="com.project.withpet.board.model.vo.Comments" alias="comments" />
+		<typeAlias type="com.project.withpet.member.model.vo.CertVO" alias="cert" />
+		<typeAlias type="com.project.withpet.member.model.vo.Passward" alias="passward" />
+		<typeAlias type="com.project.withpet.board.common.model.vo.PageInfo" alias="pageInfo" />
+		<typeAlias type="com.project.withpet.board.model.vo.Comments" alias="comments"/>
+		<typeAlias type="com.project.withpet.trip.model.vo.TaxiReservation" alias="taxiReservation" />
+		<typeAlias type="com.project.withpet.member.model.vo.Friend" alias="friend" />
+		<typeAlias type="com.project.withpet.member.model.vo.Inquiry" alias="inquiry" />
+		<typeAlias type="com.project.withpet.trip.model.vo.MyPlace" alias="myPlace" />
+
+		<typeAlias type="com.project.withpet.cafe.model.vo.Cafe" alias="cafe" />
+		<typeAlias type="com.project.withpet.cafe.model.vo.CafePicture" alias="cafepicture" />
+		<typeAlias type="com.project.withpet.cafe.model.vo.CafeRes" alias="caferes" />
+		
+		
+
+		<typeAlias type="com.project.withpet.trip.model.vo.CarReservation" alias="carReservation" />
+		<typeAlias type="com.project.withpet.trip.model.vo.Transportation" alias="transportation" />
+		
+		<typeAlias type="com.project.withpet.admin.model.vo.Search" alias="search" />
+		<typeAlias type="com.project.withpet.admin.model.vo.Report" alias="report" />
+	</typeAliases>
+	
+	<mappers>
+		<mapper resource="/mappers/member-mapper.xml" />
+		<mapper resource="/mappers/trip-mapper.xml" />
+		<mapper resource="/mappers/board-mapper.xml" />
+		<mapper resource="/mappers/admin-mapper.xml" />
+		<mapper resource="/mappers/cafe-mapper.xml" />		
+	</mappers>
+
+
+</configuration>

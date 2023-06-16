@@ -1,7 +1,7 @@
 package com.project.withpet.board.model.service;
 
 import java.util.ArrayList;
-
+import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +12,7 @@ import com.project.withpet.board.model.dao.BoardDao;
 import com.project.withpet.board.model.vo.Board;
 import com.project.withpet.board.model.vo.Comments;
 import com.project.withpet.board.model.vo.Tag;
+import com.project.withpet.board.model.vo.TagBridge;
 
 
 @Service
@@ -81,6 +82,22 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public String selectTag(String tagName) {
 		return boardDao.selectTag(sqlSession,tagName);
+	}
+
+	@Override
+	public ArrayList<Tag> selectTagName(int boardNo) {
+		return boardDao.selectTagName(sqlSession,boardNo);
+	}
+
+	@Override
+	public int selectTagId(String tagName) {
+		return boardDao.selectTagId(sqlSession,tagName);
+	}
+
+	@Override
+	public void insertTagBridges(List<TagBridge> tagBridges) {
+		 boardDao.insertTagBridge(sqlSession, tagBridges);
+		
 	}
 
 	
