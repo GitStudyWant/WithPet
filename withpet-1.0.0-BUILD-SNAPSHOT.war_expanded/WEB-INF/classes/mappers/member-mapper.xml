@@ -1,0 +1,995 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="memberMapper">
+
+	<resultMap id="scheduleResultSet" type="schedule">
+		<result column="mem_id" 			property="memId" />
+		<result column="schedule_no" 		property="scheduleNo" />
+		<result column="schedule_cate" 		property="scheduleCate" />
+		<result column="schedule_start"		property="scheduleStart" />
+		<result column="schedule_end" 		property="scheduleEnd" />
+		<result column="schedule_content" 	property="scheduleContent" />
+		<result column="schedule_color" 	property="scheduleColor" />
+		<result column="schedule_date" 		property="scheduleDate" />
+	</resultMap>
+
+	<insert id="insertMember" parameterType="member">
+		INSERT
+		INTO
+				MEMBER
+		VALUES
+				(
+				#{memId}
+				,#{memNick}
+				,#{memPwd}
+				,#{memPhone}
+				,#{memEmail}
+				,#{memPhoto}
+				,#{memPath}
+				,#{memIntro}
+				,DEFAULT
+				,DEFAULT
+				,DEFAULT
+				,DEFAULT
+				,DEFAULT
+				,DEFAULT
+				,NULL
+				,#{memKakaoId}
+				,#{memNaverId}
+				)
+	</insert>
+	
+	<select id="idCheck" resultType="_int">
+		select
+				count(*)
+		from
+				member
+		where
+				mem_id = #{checkId}
+	</select>
+	
+	<select id="nickCheck" resultType="_int">
+		select
+				count(*)
+		from
+				member
+		where
+				mem_nick = #{checkNick}
+	</select>
+
+	<select id="phoneCheck" resultType="_int">
+		select
+				count(*)
+		from
+				member
+		where
+				mem_phone = #{checkPhone}
+	</select>
+	
+	<select id="emailCheck" resultType="_int">
+		select
+				count(*)
+		from
+				member
+		where
+				mem_email = #{checkEmail}
+	</select>
+	
+	<select id="selectMember" parameterType="member" resultType="Member">
+		SELECT
+				MEM_ID memId
+				,MEM_NICK memNick
+				,MEM_PWD memPwd
+				,MEM_PHONE memPhone
+				,MEM_EMAIL memEmail
+				,MEM_PHOTO memPhoto
+				,MEM_PATH memPath
+				,MEM_INTRO memIntro
+				,MEM_GRADE memGrade
+				,MEM_DATE memDate
+				,MEM_MEMO memMemo
+				,MEM_REPORT memReport
+				,MEM_POPUP memPopup
+				,MEM_STATUS memStatus
+				,MEM_UPDATE memUpdate
+				,MEM_KAKAOID memKakaoId
+				,MEM_NAVERID memNaverId
+		FROM
+				MEMBER
+		WHERE
+				MEM_ID = #{memId}
+		AND
+				MEM_STATUS = 'Y'
+	</select>
+	
+	<select id="selectKakaoMember" resultType="Member">
+		SELECT
+				MEM_ID memId
+				,MEM_NICK memNick
+				,MEM_PWD memPwd
+				,MEM_PHONE memPhone
+				,MEM_EMAIL memEmail
+				,MEM_PHOTO memPhoto
+				,MEM_PATH memPath
+				,MEM_INTRO memIntro
+				,MEM_GRADE memGrade
+				,MEM_DATE memDate
+				,MEM_MEMO memMemo
+				,MEM_REPORT memReport
+				,MEM_POPUP memPopup
+				,MEM_STATUS memStatus
+				,MEM_UPDATE memUpdate
+				,MEM_KAKAOID memKakaoId
+				,MEM_NAVERID memNaverId
+		FROM
+				MEMBER
+		WHERE
+				MEM_KAKAOID = #{memKakaoId}
+		AND
+				MEM_STATUS = 'Y'
+	</select>
+	
+	<select id="selectNaverMember" resultType="Member">
+		SELECT
+				MEM_ID memId
+				,MEM_NICK memNick
+				,MEM_PWD memPwd
+				,MEM_PHONE memPhone
+				,MEM_EMAIL memEmail
+				,MEM_PHOTO memPhoto
+				,MEM_PATH memPath
+				,MEM_INTRO memIntro
+				,MEM_GRADE memGrade
+				,MEM_DATE memDate
+				,MEM_MEMO memMemo
+				,MEM_REPORT memReport
+				,MEM_POPUP memPopup
+				,MEM_STATUS memStatus
+				,MEM_UPDATE memUpdate
+				,MEM_KAKAOID memKakaoId
+				,MEM_NAVERID memNaverId
+		FROM
+				MEMBER
+		WHERE
+				MEM_NAVERID = #{memNaverId}
+		AND
+				MEM_STATUS = 'Y'
+	</select>
+	
+	<update id="updateMember" parameterType="member">
+		UPDATE
+				member
+		SET
+				mem_nick = #{memNick}
+				,mem_pwd = #{memPwd}
+				,mem_phone = #{memPhone}
+				,mem_email = #{memEmail}
+				,mem_photo = #{memPhoto}
+				,mem_path = #{memPath}
+				,mem_intro = #{memIntro}
+				,mem_update = sysdate
+		WHERE
+				mem_id = #{memId}
+	</update>
+	
+	<select id="selectSchedules" resultMap="scheduleResultSet">
+		SELECT
+				*
+		FROM
+				schedule
+		WHERE
+				mem_id = #{memId}
+		AND
+				schedule_start BETWEEN #{scheduleStart} and #{scheduleEnd}
+	</select>
+	
+	<insert id="insertSchedule" parameterType="schedule">
+		INSERT
+		INTO
+				schedule
+		VALUES
+				(
+				#{memId}
+				,SEQ_SCHEDULE_NO.NEXTVAL
+				,#{scheduleCate}
+				,#{scheduleStart}
+				,#{scheduleEnd}
+				,#{scheduleContent}
+				,#{scheduleColor}
+				,sysdate
+				)
+	</insert>
+	
+	<update id="updateSchedule" parameterType="schedule">
+		UPDATE
+				schedule
+		SET
+				schedule_cate = #{scheduleCate}
+				,schedule_start = #{scheduleStart}
+				,schedule_end = #{scheduleEnd}
+				,schedule_content = #{scheduleContent}
+				,schedule_color = #{scheduleColor}
+				,schedule_date = sysdate
+		WHERE
+				schedule_no = #{scheduleNo}
+	</update>
+	
+	<delete id="deleteSchedule" parameterType="_int">
+		DELETE
+				schedule
+		WHERE
+				schedule_no = #{scheduleNo}
+	</delete>
+	
+	<select id="selectReceiveMemoCount" resultType="_int">
+		select
+				count(*)
+		from
+				memo
+		where
+				memo_receiver = #{memId}
+		and
+				memo_receiverstatus = 'N'
+	</select>
+	
+	<select id="selectReceiveMemoCountCheck" resultType="_int">
+		select
+				count(*)
+		from
+				memo
+		where
+				memo_receiver = #{memId}
+		and
+				memo_receiverstatus = 'N'
+		and
+				memo_check = 'N'
+	</select>
+	
+	<select id="selectSendMemoCount" resultType="_int">
+		select
+				count(*)
+		from
+				memo
+		where
+				memo_sender = #{memId}
+		and
+				memo_senderstatus = 'N'
+	</select>
+	
+	<select id="selectMemoGet" resultType="memo">
+		SELECT
+				memo_no memoNo,
+				memo_sender memoSender,
+				memo_receiver memoReceiver,
+				memo_title memoTitle,
+				memo_content memoContent,
+				to_char(memo_senddate, 'YYYY-MM-DD HH24:MI') as memoSendDate,
+				to_char(memo_checkdate, 'YYYY-MM-DD HH24:MI') as memoCheckDate,
+				memo_reservedate memoReserveDate,
+				memo_check memoCheck,
+				memo_receiverstatus memoReceiverStatus,
+				memo_senderstatus memoSenderStatus
+		FROM
+				memo			
+		WHERE
+				memo_receiver = #{memId}
+		AND
+				memo_receiverstatus = 'N'
+		ORDER
+		   BY
+		        memo_no desc
+	</select>
+	
+	<select id="selectMemoSend" resultType="memo">
+		SELECT
+				memo_no memoNo,
+				memo_sender memoSender,
+				memo_receiver memoReceiver,
+				memo_title memoTitle,
+				memo_content memoContent,
+				to_char(memo_senddate, 'YYYY-MM-DD HH24:MI') as memoSendDate,
+				to_char(memo_checkdate, 'YYYY-MM-DD HH24:MI') as memoCheckDate,
+				memo_reservedate memoReserveDate,
+				memo_check memoCheck,
+				memo_receiverstatus memoReceiverStatus,
+				memo_senderstatus memoSenderStatus
+		FROM
+				memo
+		WHERE
+				memo_sender = #{memId}
+		AND
+				memo_senderstatus = 'N'
+		ORDER
+		   BY
+		        memo_no desc
+	</select>
+	
+	<update id="updateMemoCheck" parameterType="_int">
+		update
+			   memo
+   	  	   set
+       		   memo_check = 'Y'
+         where
+               memo_no = #{memoNo}
+           and
+           	   memo_check = 'N'
+	</update>
+	
+	<update id="updateMemoCheckDate" parameterType="_int">
+		update
+			   memo
+   	  	   set
+       		   memo_checkdate = sysdate
+         where
+               memo_no = #{memoNo}
+	</update>
+	
+	<select id="selectMemoDetail" resultType="memo">
+		SELECT
+				memo_no memoNo,
+				memo_sender memoSender,
+				memo_receiver memoReceiver,
+				memo_title memoTitle,
+				memo_content memoContent,
+				to_char(memo_senddate, 'YYYY-MM-DD HH24:MI') as memoSendDate,
+				to_char(memo_checkdate, 'YYYY-MM-DD HH24:MI') as memoCheckDate,
+				memo_reservedate memoReserveDate,
+				memo_check memoCheck,
+				memo_receiverstatus memoReceiverStatus,
+				memo_senderstatus memoSenderStatus
+		FROM
+				memo
+		WHERE
+				memo_No = #{memoNo}
+	</select>
+	
+	<update id="deleteReceiveMemo">
+		update
+			   memo
+   	  	   set
+       		   memo_receiverstatus = 'Y'
+         where
+               memo_no = #{memoNo}
+	</update>
+	
+	<update id="deleteSendMemo">
+		update
+			   memo
+   	  	   set
+       		   memo_senderstatus = 'Y'
+         where
+               memo_no = #{memoNo}
+	</update>
+	
+	<update id="rollbackSendMemo">
+		update
+			   memo
+   	  	   set
+       		   memo_senderstatus = 'Y',
+       		   memo_receiverstatus = 'Y'
+         where
+               memo_no = #{memoNo}
+	</update>
+	
+	<update id="discountMemoCount">
+		update
+			   member
+   	  	   set
+       		   mem_memo = mem_memo - 1
+         where
+               mem_id = #{memId}
+	</update>
+	
+	<insert id="insertMemo" parameterType="memo">
+		INSERT
+		INTO
+				memo
+		VALUES
+				(
+				SEQ_MEMO_NO.NEXTVAL
+				,#{memoSender}
+				,#{memoReceiver}
+				,#{memoTitle}
+				,#{memoContent}
+				,sysdate
+				,null
+				,null
+				,default
+				,default
+				,default
+				)
+	</insert>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<resultMap id="boardResultSet" type="board">
+		<result column="BOARD_NO" 		property="boardNo"/>
+		<result column="BOARD_TITLE" 	property="boardTitle"/>
+		<result column="BOARD_WRITER" 	property="boardWriter"/>
+		<result column="VIEW_COUNT" 			property="viewCount"/>
+		<result column="ENROLLDATE" 	property="enrolldate"/>
+		<result column="RATING" 	property="rating"/>
+		<result column="STATUS" 	property="status"/>
+		<result column="BOARD_CONTENT" 	property="boardContent"/>
+		<result column="BOARD_NUM" 	property="boardNum"/>
+	</resultMap>
+	
+	
+	
+	<insert id="sendMail" parameterType="cert">
+		INSERT
+		  INTO 
+		      CERTIFIED
+		      (
+		      CERTIFIED_ID,
+		      CERTIFIED_CODE,
+		      CERTIFIED_DATE
+		      )
+		VALUES
+			  (
+			  #{who},
+			  #{secret},
+			  SYSDATE
+			  )
+			  
+	</insert>
+	
+	<select id="validate" resultType="cert"
+						  parameterType="cert">
+		SELECT
+		      *
+		  FROM
+		      CERTIFIED
+		 WHERE
+		      CERTIFIED_ID = #{who}
+		   AND
+		      CERTIFIED_CODE = #{secret}
+		   AND
+		      CERTIFIED_DATE BETWEEN SYSDATE - 3/24/60 AND SYSDATE
+	</select>
+	
+	<delete id="remove" parameterType="cert">
+		delete CERTIFIED where CERTIFIED_ID = #{who} and CERTIFIED_CODE = #{secret}
+	</delete>
+	
+	<select id="idFind" resultType="member" parameterType="string">
+		select
+		     	MEM_ID memId
+				,MEM_NICK memNick
+				,MEM_PWD memPwd
+				,MEM_PHONE memPhone
+				,MEM_EMAIL memEmail
+				,MEM_PHOTO memPhoto
+				,MEM_PATH memPath
+				,MEM_INTRO memIntro
+				,MEM_GRADE memGrade
+				,MEM_DATE memDate
+				,MEM_MEMO memMemo
+				,MEM_REPORT memReport
+				,MEM_POPUP memPopup
+				,MEM_STATUS memStatus
+				,MEM_UPDATE memUpdate
+				,MEM_KAKAOID memKakaoId
+				,MEM_NAVERID memNaverId
+		  from
+		      member
+		 where
+		      mem_email = #{email}
+		   and
+		      mem_status = 'Y'
+	</select>
+	
+		<insert id="pwdMail" parameterType="cert">
+		INSERT
+		  INTO 
+		      CERTIFIED
+		      (
+		      CERTIFIED_ID,
+		      CERTIFIED_CODE,
+		      CERTIFIED_DATE
+		      )
+		VALUES
+			  (
+			  #{who},
+			  #{secret},
+			  SYSDATE
+			  )
+			  
+	</insert>
+	
+	<update id="pwdFind" parameterType="passward">
+		update member 
+   	  	   set
+       		   mem_pwd = #{password}
+         where
+               mem_id = #{memberId}
+           and
+               mem_email = #{email}
+           and
+               mem_pwd = #{password}
+	</update>
+	
+	<select id="myPage" resultType="board" parameterType="pageInfo">
+		SELECT
+		        BOARD_NO boardNo
+				,BOARD_TITLE boardTitle
+				,BOARD_WRITER boardWriter
+				,BOARD_CONTENT boardContent
+				,ENROLLDATE enrolldate
+				,VIEW_COUNT viewCount
+				,STATUS status
+				,RATING rating
+				,BOARD_NUM boardNum
+		  FROM
+		       board
+		 WHERE
+		       board_writer = #{memberId}
+		   AND 
+		   	   status = 'Y'
+		 order
+		    by
+		       board_no desc
+	</select>
+	
+	<select id="boardCount" resultType="_int" parameterType="string">
+		SELECT 
+			   COUNT(*)
+		  FROM
+		       BOARD
+		 WHERE
+		       BOARD_WRITER = #{memberId}
+		   and
+		       status = 'Y'
+	</select>
+	
+	<select id="replyCount" resultType="_int" parameterType="string">
+		SELECT
+			   COUNT(*)
+		  FROM
+		       COMMENTS
+		 WHERE
+		       COMMENT_WRITER = #{memberId}
+	</select>
+	
+	<select id="myPageReply" resultType="comments" parameterType="pageInfo">
+		SELECT 
+			   COMMENT_NO commentNo
+			   ,BOARD_NO boardNo
+			   ,COMMENT_WRITER commentWriter
+			   ,COMMENT_TEXT commentText
+			   ,COMMENT_STATUS commentStatus
+			   ,COMMENT_GROUP commentGroup
+			   ,COMMENT_LEVEL commentLevel
+			   ,REG_DATE regDate
+		  FROM
+		       COMMENTS
+		 WHERE
+		 	   COMMENT_WRITER = #{memberId}    
+		   AND
+		   	   COMMENT_STATUS = 'Y'
+		 ORDER
+		    BY 
+		       COMMENT_NO DESC 
+	</select>
+	
+	<select id="likeCount" resultType="_int" parameterType="string">
+		SELECT 
+			   COUNT(*)
+		  FROM
+		       LIKES
+		 WHERE
+		       LIKE_ID = #{memberId}
+	</select>
+	
+	<select id="myPageLike" resultType="board"  parameterType="pageInfo">
+		SELECT
+		        BOARD_NO boardNo
+				,BOARD_TITLE boardTitle
+				,BOARD_WRITER boardWriter
+				,BOARD_CONTENT boardContent
+				,ENROLLDATE enrolldate
+				,VIEW_COUNT viewCount
+				,STATUS status
+				,RATING rating
+				,BOARD_NUM boardNum
+		  FROM
+		        BOARD
+		  JOIN  
+		  	    LIKES ON(BOARD_WRITER = LIKE_ID)
+		 WHERE
+		 	    LIKE_ID = #{memberId}
+		   and
+		        status = 'Y'
+		   and
+		        like_no = board_no
+		 GROUP 
+		    BY 
+		 		BOARD_NO
+				,BOARD_TITLE
+				,BOARD_WRITER
+				,BOARD_CONTENT
+				,ENROLLDATE
+				,VIEW_COUNT
+				,STATUS
+				,RATING
+				,BOARD_NUM
+		 order
+		    by
+		        board_no desc
+	</select>
+	
+	<select id="deleteCount" resultType="_int" parameterType="string">
+		select
+		      count(*)
+		  from
+		      board
+		 where
+		      board_writer = #{memberId}
+		   and
+		      status = 'N'
+	</select>
+
+	<select id="myPageDelete" resultType="board" parameterType="pageInfo">
+		select
+		      	BOARD_NO boardNo
+				,BOARD_TITLE boardTitle
+				,BOARD_WRITER boardWriter
+				,BOARD_CONTENT boardContent
+				,ENROLLDATE enrolldate
+				,VIEW_COUNT viewCount
+				,STATUS status
+				,RATING rating
+				,BOARD_NUM boardNum
+		  from
+		        board
+		 where
+		        board_writer = #{memberId}
+		   and
+		        status = 'N'
+		 order
+		    by
+		        board_no desc
+	</select>
+	
+	<select id="friendCount" resultType="_int" parameterType="string">
+		select
+			   count(*)
+		  from
+		       friend
+		 where
+		       friend_sender = #{memberId}	
+	</select>
+	
+	<select id="myPageFriend" resultType="member" parameterType="pageInfo">
+		select
+			   	MEM_ID memId
+				,MEM_NICK memNick
+				,MEM_PWD memPwd
+				,MEM_PHONE memPhone
+				,MEM_EMAIL memEmail
+				,MEM_PHOTO memPhoto
+				,MEM_PATH memPath
+				,MEM_INTRO memIntro
+				,MEM_GRADE memGrade
+				,MEM_DATE memDate
+				,MEM_MEMO memMemo
+				,MEM_REPORT memReport
+				,MEM_POPUP memPopup
+				,MEM_STATUS memStatus
+				,MEM_UPDATE memUpdate
+				,MEM_KAKAOID memKakaoId
+				,MEM_NAVERID memNaverId
+				,(select count(*) from diary_share where share_sender = #{memberId} and share_receiver = member.mem_id) friendShare
+		   from
+		       member
+		   Left join  diary_share on(mem_id = share_sender)
+		 where
+		       mem_id in(select friend_receiver from friend where friend_sender = #{memberId})
+		 order
+		    by
+		       mem_id desc
+	</select>
+	
+	<delete id="friendDelete" parameterType="friend">
+		delete
+		  from
+		       friend
+		 where
+		       friend_sender = #{friendSender}
+		   and
+		       friend_receiver = #{friendReceiver}
+	</delete>
+	
+	<insert id="freindSharing" parameterType="friend">
+		insert
+		  into
+		       diary_share
+		VALUES
+			   (
+			   #{friendSender}
+			   ,#{friendReceiver}
+			   )
+	</insert>
+	
+	<delete id="sharingCancellation" parameterType="friend">
+		delete
+		  from
+		       diary_share
+		 where
+		       share_sender = #{friendSender}
+		   and
+		       share_receiver = #{friendReceiver}
+	</delete>
+	
+	<select id="friendSearch" resultType="member" parameterType="friend">
+		select
+		      MEM_ID memId
+				,MEM_NICK memNick
+				,MEM_PWD memPwd
+				,MEM_PHONE memPhone
+				,MEM_EMAIL memEmail
+				,MEM_PHOTO memPhoto
+				,MEM_PATH memPath
+				,MEM_INTRO memIntro
+				,MEM_GRADE memGrade
+				,MEM_DATE memDate
+				,MEM_MEMO memMemo
+				,MEM_REPORT memReport
+				,MEM_POPUP memPopup
+				,MEM_STATUS memStatus
+				,MEM_UPDATE memUpdate
+				,MEM_KAKAOID memKakaoId
+				,MEM_NAVERID memNaverId
+				,(select count(*) from diary_share where share_sender = #{friendSender} and share_receiver = member.mem_id) friendShare
+				,(select count(*) from friend where friend_sender = #{friendSender} and friend_receiver = #{friendReceiver}) "resultSearch"
+		  from
+		        member
+		 where
+		        mem_id = #{friendReceiver}
+				  
+		        
+	</select>
+	
+	<select id="liveSearch" resultType="member">
+		select
+               *
+          from(
+               SELECT
+				   	MEM_ID memId
+					,MEM_NICK memNick
+					,MEM_PWD memPwd
+					,MEM_PHONE memPhone
+					,MEM_EMAIL memEmail
+					,MEM_PHOTO memPhoto
+					,MEM_PATH memPath
+					,MEM_INTRO memIntro
+					,MEM_GRADE memGrade
+					,MEM_DATE memDate
+					,MEM_MEMO memMemo
+					,MEM_REPORT memReport
+					,MEM_POPUP memPopup
+					,MEM_STATUS memStatus
+					,MEM_UPDATE memUpdate
+					,MEM_KAKAOID memKakaoId
+					,MEM_NAVERID memNaverId
+		  		from
+		       		member
+		 		where
+		       		MEM_NICK LIKE #{keyword}
+        		 ORDER
+           			 BY MEM_NICK ASC)
+          WHERE ROWNUM BETWEEN 1 AND 5
+		       
+	
+	</select>
+	
+	<select id="findMember" resultType="member" parameterType="string">
+		select
+		        MEM_ID memId
+				,MEM_NICK memNick
+				,MEM_PWD memPwd
+				,MEM_PHONE memPhone
+				,MEM_EMAIL memEmail
+				,MEM_PHOTO memPhoto
+				,MEM_PATH memPath
+				,MEM_INTRO memIntro
+				,MEM_GRADE memGrade
+				,MEM_DATE memDate
+				,MEM_MEMO memMemo
+				,MEM_REPORT memReport
+				,MEM_POPUP memPopup
+				,MEM_STATUS memStatus
+				,MEM_UPDATE memUpdate
+				,MEM_KAKAOID memKakaoId
+				,MEM_NAVERID memNaverId
+	      from
+	            member
+	     where
+	            mem_nick = #{findMember}
+	       and
+	            mem_status = 'Y'
+	</select>
+	
+	<select id="inquiryCount" resultType="_int" parameterType="string">
+		select
+		      count(*)
+		  from
+		      inquiry
+		 where
+		      mem_id = #{memberId}
+	</select>
+	
+	<select id="inquiry" resultType="inquiry" parameterType="pageInfo">
+		select
+		        MEM_ID memberId
+				,INQUIRY_NO inquiryNo
+				,INQUIRY_TITLE inquiryTitle
+				,INQUIRY_CONTENT inquiryContent
+				,INQUIRY_CREATEDATE inquiryCreateDate
+				,INQUIRY_STATUS inquiryStatus
+				,INQUIRY_ANSWER inquiryAnswer
+	      from
+	            INQUIRY
+	     where
+	            mem_id = #{memberId}
+	     order
+	        by  inquiry_createdate desc
+	</select>
+	
+	<select id="inquiryDetail" resultType="inquiry" parameterType="inquiry">
+		select
+		      MEM_ID memberId
+			  ,INQUIRY_NO inquiryNo
+			  ,INQUIRY_TITLE inquiryTitle
+			  ,INQUIRY_CONTENT inquiryContent
+			  ,INQUIRY_CREATEDATE inquiryCreateDate
+			  ,INQUIRY_STATUS inquiryStatus
+			  ,INQUIRY_ANSWER inquiryAnswer
+		  from
+		      inquiry
+		 where
+		      mem_id = #{memberId}
+		   and
+		      inquiry_no = #{inquiryNo}
+	</select>
+	
+	<delete id="inquiryDelete"  parameterType="_int">
+		delete from inquiry
+		 where
+		       inquiry_no = #{ino}
+	</delete>	
+	
+	<insert id="inquiryInsert" parameterType="inquiry">
+		insert
+		  into
+		  	   inquiry
+		values
+			  (
+			  #{memberId}
+			  ,SEQ_INQUIRY_NO.nextval
+			  ,#{inquiryTitle}
+			  ,#{inquiryContent}
+			  ,sysdate
+			  ,default
+			  ,NULL
+			  )
+	
+	</insert>
+	
+	<select id="myCourse" resultType="Place">
+		SELECT
+		      COURSE_SE courseSe
+		     ,PLACE_SE placeSe
+		     ,PLACE_NO placeNo
+		     ,PLACE_TYPE placeType
+		     ,PLACE_NAME placeName
+		     ,PLACE_LOCATION placeLocation
+		 FROM
+		      MY_PLACE JOIN PLACE USING(PLACE_NO)
+		 WHERE
+		      MEM_ID = #{memId}
+		 ORDER
+		    BY
+		      COURSE_SE, PLACE_SE
+	</select>
+	
+	<delete id="deleteCourse" parameterType="MyPlace">
+		DELETE 
+		  FROM
+		      MY_PLACE
+		 WHERE
+		      MEM_ID = #{memId} AND
+		      COURSE_SE = #{courseSe}
+	</delete>
+	
+	<select id="selectMyTaxiRes" resultType="taxiReservation">
+		SELECT
+		      TAXI_RNO taxiRno
+		     ,TR_NO  trNo
+		     ,TO_CHAR(TAXI_RDATE,'YY/MM/DD') taxiRDate
+		     ,TAXI_RTIME taxiRTime
+		     ,STATUS status
+		     ,TR_TYPE2 trType2
+		     ,MEM_ID memId
+		 FROM
+		     TAXI_RESERVATION JOIN TRANSPORTATION USING(TR_NO)
+		 WHERE
+		      MEM_ID = #{memId}
+		 ORDER
+		    BY
+		      TAXI_RNO
+	</select>
+	
+	<select id="selectMyCarRes" resultType="carReservation">
+		SELECT
+		      CAR_RNO carRno
+		     ,TR_NO trNo
+		     ,TO_CHAR(START_DATE,'YY/MM/DD') startDate
+		     ,TO_CHAR(END_DATE,'YY/MM/DD') endDate
+		     ,STATUS status
+		     ,TR_PAYMENT_NO trPaymentNo
+		     ,TO_CHAR(TR_PAYMENT_DATE,'DD/MM/YY') trPaymentDate
+		     ,TR_CARD_NO trCardNo
+		     ,TR_TYPE2 trType2
+		     ,TR_FEE trFee
+		     ,TRUNC((TO_DATE(END_DATE, 'YY/MM/DD') - TO_DATE(START_DATE, 'YY/MM/DD'))/365) reservationDay
+		     ,MEM_ID memId
+		 FROM
+		     CAR_RESERVATION JOIN TRANSPORTATION USING(TR_NO)
+		WHERE
+		     MEM_ID = #{memId}
+		ORDER
+		   BY
+		     CAR_RNO
+	</select>
+	
+	<update id="deleteTRes" parameterType="_int">
+		UPDATE
+		      TAXI_RESERVATION
+		  SET
+		     STATUS = 'N'
+		WHERE
+		     TAXI_RNO = #{ resNo }
+	</update>
+	
+	<update id="deleteCRes" parameterType="_int">
+		UPDATE
+		      CAR_RESERVATION
+		  SET
+		     STATUS = 'N'
+		WHERE
+		     CAR_RNO = #{ resNo }
+	</update>
+	
+	
+</mapper>

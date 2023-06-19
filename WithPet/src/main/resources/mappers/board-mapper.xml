@@ -16,6 +16,15 @@
 		<result column="BOARD_NUM" 	property="boardNum"/>
 	</resultMap>
 	
+	<resultMap id="tagResultSet" type="tag">
+		<result column="TAG_NAME" 		property="tagName"/>
+		<result column="TAG_ID" 	property="tagId"/>
+	</resultMap>
+	<resultMap id="tbResultSet" type="tbridge">
+		<result column="BRIDGE_NO"	property="bridgeNo"/>
+		<result column="BRIDGE_ID" 	property="bridgeid"/>
+	</resultMap>	
+	
 	<select id="selectFrListCount" resultType="_int">
 			SELECT
 					COUNT(*)
@@ -68,6 +77,31 @@
 					,1
 					)		
 	</select>
+ 
+	<select id="insertTagBridge" parameterType="tbridge">
+		INSERT
+			INTO
+					TAG_BRIDGE
+					(
+					BRIDGE_NO
+					,BRIDGE_ID
+					)
+			VALUES
+					(
+					SEQ_BNO.CURRVAL
+					,#{tagId}
+					)		
+	
+	</select>
+    <select id="searchTagId" resultType="int">
+        SELECT 
+        		TAG_ID
+        FROM
+         		TAG 
+        WHERE 
+        		TAG_NAME=#{tagName}
+    </select>
+
 	<update id="increaseCount">
 		UPDATE
 				BOARD
@@ -161,14 +195,6 @@
 		    WHERE
 		        TAG_NAME=#{tagName}
 		</delete>
-    <select id="searchTagId" resultType="int">
-        SELECT 
-        		TAG_ID
-        FROM
-         		TAG 
-        WHERE 
-        		TAG_NAME=#{tagName}
-    </select>
     
     <select id="selectTag" resultType="string">
         SELECT 
@@ -178,4 +204,30 @@
         WHERE 
         		TAG_NAME=#{tagName}
     </select>
+    <select id="selectTagId" resultType="tag">
+        SELECT 
+        		TAG_ID
+        FROM
+         		TAG 
+        WHERE 
+        		TAG_NAME=#{tagName}
+    </select>
+    <select id="selectTagName" resultMap="tagResultSet">
+    	 SELECT 
+        		TAG_NAME
+    	FROM
+        		TAG 
+    	WHERE 
+		        TAG_ID IN (
+		            SELECT
+		                BRIDGE_ID
+		            FROM
+		                TAG_BRIDGE
+		            WHERE
+		                BRIDGE_NO = #{boardNo}
+		        )
+    </select>
+    
+    
+    
 </mapper>
