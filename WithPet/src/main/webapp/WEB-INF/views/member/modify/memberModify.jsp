@@ -118,12 +118,12 @@
 		    				<td width="30%"><div align="center">
 		    				<div style="width:100%; height:100%">
 			    				<c:choose>
-			    				<c:when test="${loginMember.memPath != null}">
-			    				<img id="profileImg" src="${loginMember.memPath}" alt="프로필사진">
-			    				</c:when>
-			    				<c:otherwise>
-			    				<img id="profileImg" src="https://moyeoyou.kr/assets/common/img/user/default_photo.jpg" alt="프로필사진">
-			    				</c:otherwise>
+				    				<c:when test="${loginMember.memPath != null}">
+				    				<img id="profileImg" src="${loginMember.memPath}" alt="프로필사진">
+				    				</c:when>
+				    				<c:otherwise>
+				    				<img id="profileImg" src="https://moyeoyou.kr/assets/common/img/user/default_photo.jpg" alt="프로필사진">
+				    				</c:otherwise>
 			    				</c:choose>
 		    				</div>
 		    				</div></td>

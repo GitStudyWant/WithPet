@@ -257,11 +257,11 @@
 			}
 		}
 		
-		function deleteReceiveMemo(MemoNo, triger){
+		function deleteReceiveMemo(memoNo, triger){
 			$.ajax({
 				url : "deleteReceiveMemo",
 				type : "get",
-				data : {deleteMemoNo : MemoNo},
+				data : {deleteMemoNo : memoNo},
 				success : function(result){
 					if(triger == 1){
 						socketReceive();
