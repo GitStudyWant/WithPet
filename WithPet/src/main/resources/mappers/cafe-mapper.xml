@@ -99,7 +99,7 @@
 		      CAFE_RES
 		     (
 		      CAFE_RES_NO
-			 ,MEM_ID
+			 ,USER_ID
 			 ,CAFE_NO
 			 ,RES_TIME
 			 ,RES_DATE
