@@ -216,7 +216,7 @@ public class MemberController {
 		HashMap<String, Object> userInfo = getKakaoUserInfo(accessToken);
 		
 		HttpSession session = request.getSession();
-		session.setAttribute("accessToken", userInfo.get("accessToken"));
+		//session.setAttribute("accessToken", userInfo.get("accessToken"));
 		session.setAttribute("kakaoId", userInfo.get("id"));
 		
         response.setContentType("text/html; charset=UTF-8");
@@ -650,20 +650,35 @@ public class MemberController {
 		return mv;
 	}
 	
+	@RequestMapping("insertChatMemo")
+	public ModelAndView insertChatMemo(Memo memo, HttpSession session, ModelAndView mv){
+						
+		int count = memberService.insertChatMemo(memo);
+		
+		if(count > 0) {
+			mv.setViewName("redirect:/newMemo");
+		} else {
+			mv.addObject("errorMsg", "채팅창 오픈 메세지 전송에 실패했습니다.");
+			mv.setViewName("redirect:/newMemo");
+		}
+		
+		return mv;
+	}
+	
 	@RequestMapping("memberModifyFrontMove")
-	public String memberModifyFrontMove(){
+	public String memberModifyFrontMove(){		
 		return "member/modify/memberModifyFront";
 	}
 	
 	@RequestMapping("memberPwdCompare")
-	public String memberPwdCompare(Member member, HttpServletResponse response) throws IOException {
+	public String memberPwdCompare(Member member, HttpSession session) throws IOException {
 		
 		Member loginMember = memberService.selectMember(member);
 		
-		response.setContentType("application/json; charset=UTF-8");
 		if(loginMember != null && (member.getMemPwd().equals(loginMember.getMemPwd()))) {
 			return "member/modify/memberModify";
 		} else {
+			session.setAttribute("errorMsg", "비밀번호가 일치하지 않습니다");
 			return "redirect:/memberModifyFrontMove";
 		}
 	}

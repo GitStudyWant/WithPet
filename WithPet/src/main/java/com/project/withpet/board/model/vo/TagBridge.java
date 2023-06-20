@@ -1,10 +1,13 @@
 package com.project.withpet.board.model.vo;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 public class TagBridge {
-	
-	private int bridgeNo;	//NUMBER
-	private int bridgeid;	//NUMBER
+    private int bridgeNo;
+    private int bridgeId;
+
+    public TagBridge() {
+    }
 }

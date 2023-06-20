@@ -119,6 +119,10 @@ public class AdminServiceImpl implements AdminService {
 		return adminDao.adminGradeUpdate(sqlSession, m);
 	}
 
+	@Override
+	public int adminStatusUpdate(Member m) {
+		return adminDao.adminStatusUpdate(sqlSession, m);
+	}
 
 	@Override
 	public ArrayList<CafeRes> cafeResManagement() {

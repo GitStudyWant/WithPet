@@ -137,7 +137,9 @@ public class MemberDao {
 	    return sqlSession.insert("memberMapper.insertMemo", memo);
 	}
 	
-	
+	public int insertChatMemo(SqlSession sqlSession, Memo memo) {
+	    return sqlSession.insert("memberMapper.insertChatMemo", memo);
+	}
 	
 	
 	

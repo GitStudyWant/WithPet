@@ -93,7 +93,7 @@
         width: 100%; height: auto;
     }    
 
-    #tag1, #tag2, #tag3, #tag4, #tag5{
+    #tag, #tag2, #tag3, #tag4, #tag5{
         display:inline-block;
         margin-top: 5px;
         margin-left: 5px;
@@ -163,20 +163,34 @@
             <br><br>
             
 
-                    		<div class="board-element" id="board-element" data-bno="${b.boardNo}">
+                    		<div class="board-element" id="board-element">
                 <div style="border-bottom: 1px solid gray;">
                 <span id="boardTitle" >${ b.boardTitle }</span><span id="count">조회수 : ${ b.viewCount }</span><span id="create">작성일자 : ${ b.enrolldate }</span><span id="createDate"></span>
                 <br>
 				<span id="userId">작성자 : ${ b.boardWriter }</span>
 				<br>
 				</div>
+				<br>
+				<div style="float: right;"><span style="background-color: lightgray; color: white;">
+				<c:choose>
+                    	<c:when test="${ empty b.originName }">
+                    			첨부파일이 존재하지 않습니다.
+                    	</c:when>
+                    	<c:otherwise>
+                        	
+                        	첨부파일 : <a href="${b.changeName}" download="${b.originName}">${b.originName}</a>
+                    
+                    	</c:otherwise>
+                    </c:choose>
+				</span></div>
+				<br>
                 <div style="padding-top: 30px; padding-bottom: 30px; border-bottom: 1px solid gray;">
                 <span id="boardContent">${ b.boardContent }</span>
                 </div>
                 <div style="border-bottom: 1px solid gray;">
-                <span id="tag1">태그1</span>
-                <span id="tag2">태그2</span>
-                <span id="tag3">태그3</span>
+                <c:forEach var="tag" items="${t}">
+				    <span id="tag">${tag.tagName}</span>
+				  </c:forEach>
                 </div>
                 <div style="margin-top: 5px; margin-bottom: 5px;">
                 <span id="heart"><img src="https://media.istockphoto.com/id/1294470271/ko/%EB%B2%A1%ED%84%B0/%EC%8B%AC%EC%9E%A5-%EC%8B%AC%ED%94%8C%ED%95%98%EA%B3%A0-%EA%B9%A8%EB%81%97%ED%95%9C-%EB%B9%88-%ED%95%98%ED%8A%B8-%EB%AA%A8%EC%96%91-%EB%82%99%EC%84%9C-%EC%8A%A4%ED%83%80%EC%9D%BC-%EC%86%90%EC%9C%BC%EB%A1%9C-%EA%B7%B8%EB%A6%B0-%EB%B2%A1%ED%84%B0.jpg?s=612x612&w=0&k=20&c=kOhcsR7-s7nt3m83Y4LrfJm_rjmJ8dqhVpCpJDEoy_k=" alt=""></span>
@@ -187,30 +201,34 @@
 				</div>   
             </div>
             
-                        <br>
+                       
+            <form action="" method="post" id="updateForm">
+            	<input type="hidden" name="bno" value="${ b.boardNo }" >
+            	<input type="hidden" name="filePath" value="${ b.changeName }" >
+            </form>
 	
 			<c:if test="${ loginMember.memId eq b.boardWriter }">
             <div align="center">
                 <!-- 수정하기, 삭제하기 버튼은 이 글이 본인이 작성한 글일 경우에만 보여져야 함 -->
-                <a class="btn btn-primary" onclick="postFormSubmit(1);">수정하기</a>
-                <a class="btn btn-danger" onclick="postFormSubmit(2);">삭제하기</a>
+                <a class="btn btn-primary" onclick="updateFormSubmit(1);">수정하기</a>
+                <a class="btn btn-danger" onclick="updateFormSubmit(2);">삭제하기</a>
             </div>
             </c:if>
             
-            <form action="" method="post" id="postForm">
-            	<input type="hidden" name="bno" value="${ b.boardNo }" >
-            	<input type="hidden" name="filePath" value="${ b.changeName }" >
-            </form>
             
            	<script>
-           		function postFormSubmit(num) {
+           		function updateFormSubmit(num) {
+           			var boardNo = $('#updateForm input[name=bno]').val();
+
+           		  	console.log("bno:", boardNo);
+           			
            			
            			if(num==1){
            			// 수정하기 클릭시
-           			$('#postForm').attr('action','updateForm.fr').submit();
+           				$('#updateForm').attr('action','updateForm.fr').submit();
            			}else{
            			// 삭제하기 클리시
-           			$('#postForm').attr('action','delete.fr').submit();
+           				$('#updateForm').attr('action','delete.fr').submit();
            			}
 				}
            	</script>

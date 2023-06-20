@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="tripMapper">
+
+	<resultMap id="placeResultSet" type="place">
+		<result column="place_no" property="placeNo"/>
+		<result column="place_type" property="placeType"/>
+		<result column="place_name" property="placeName"/>
+		<result column="place_location" property="placeLocation"/>
+		<result column="place_lng" property="placeLng"/>
+		<result column="place_lat" property="placeLat"/>
+		<result column="place_phone" property="placePhone"/>
+		<result column="place_info" property="placeInfo"/>
+		<result column="place_origin_name" property="placeOriginName"/>
+		<result column="place_change_name" property="placeChangeName"/>
+		<result column="place_file_path" property="placeFilePath"/>
+		<result column="place_count" property="placeCount"/>
+	</resultMap>
+	<select id="selectPlaceList" parameterType="place" resultMap="placeResultSet">
+		SELECT
+		      PLACE_NO 
+		      ,PLACE_TYPE
+		      ,PLACE_NAME
+		      ,PLACE_LOCATION
+		      ,PLACE_LNG
+		      ,PLACE_LAT
+		      ,PLACE_PHONE
+		      ,PLACE_INFO
+		      ,PLACE_ORIGIN_NAME
+		      ,PLACE_CHANGE_NAME
+		      ,PLACE_FILE_PATH
+		      ,PLACE_COUNT
+	     FROM
+	         PLACE
+	    WHERE
+	         PLACE_LOCATION LIKE '%'||#{placeLocation}||'%'
+	     AND
+	         PLACE_TYPE = #{placeType}
+	</select>
+
+	<select id="bestPlaceList" parameterType="place" resultMap="placeResultSet">
+		SELECT * FROM (select  ROWNUM RNUM, A.* FROM( SELECT 
+		      PLACE_NO 
+		      ,PLACE_TYPE
+		      ,PLACE_NAME
+		      ,PLACE_LOCATION
+		      ,PLACE_LNG
+		      ,PLACE_LAT
+		      ,PLACE_PHONE
+		      ,PLACE_INFO
+		      ,PLACE_ORIGIN_NAME
+		      ,PLACE_CHANGE_NAME
+		      ,PLACE_FILE_PATH
+		      ,PLACE_COUNT
+	    FROM PLACE 
+	    WHERE
+	         PLACE_LOCATION LIKE '%'||#{placeLocation}||'%'
+            AND PLACE_TYPE=#{placeType}
+        ORDER BY PLACE_COUNT DESC) A)
+        WHERE RNUM BETWEEN 1 AND 3
+	</select>
+	
+	<insert id="insertPlace" parameterType="place">
+	   INSERT
+	     INTO
+	         PLACE
+	         (
+	          PLACE_NO
+	         ,PLACE_TYPE
+	         ,PLACE_NAME
+	         ,PLACE_LOCATION
+	         ,PLACE_LAT
+	         ,PLACE_LNG
+	         ,PLACE_PHONE
+	         ,PLACE_INFO
+	         ,PLACE_ORIGIN_NAME
+	         ,PLACE_CHANGE_NAME
+	         ,PLACE_FILE_PATH
+	         )
+	   VALUES
+	        (
+	        SEQ_PLACE_NO.NEXTVAL
+	       ,#{placeType}
+	       ,#{placeName}
+	       ,#{placeLocation}
+	       ,#{placeLat}
+	       ,#{placeLng}
+	       ,#{placePhone}
+	       ,#{placeInfo}
+	       ,#{placeOriginName}
+	       ,#{placeChangeName}
+	       ,#{placeFilePath}
+	         )
+	</insert>
+	
+	<select id="checkMyCourse" resultType="int">
+		SELECT
+		      NVL(SUM
+		      (COURSE_SE),0)
+		  FROM
+		      (
+		       SELECT 
+		             COURSE_SE
+		        FROM
+		            MY_PLACE
+		        WHERE 
+		             MEM_ID = #{memId}       
+		        GROUP
+		          BY 
+		            COURSE_SE
+		      )
+	</select>
+	
+	<insert id="saveMyCourse" parameterType="R_myPlace">
+		INSERT
+		  INTO
+		      MY_PLACE
+		      (
+		       PLACE_NO
+		      ,COURSE_SE
+		      ,PLACE_SE
+		      ,MEM_ID
+		      )
+	     VALUES
+	           (
+	           #{placeNo}
+	          ,#{courseSe}
+	          ,SEQ_MY_pLACE_NO.NEXTVAL
+	          ,#{memId}    
+	           )
+	</insert>
+	
+	<update id="increaseCount" parameterType="String">
+		UPDATE 
+		      PLACE
+		  SET
+		      PLACE_COUNT = PLACE_COUNT + 1
+		WHERE 
+		     PLACE_NO = #{placeNo}
+	</update>
+	
+	<select id="detailPlace" resultMap="placeResultSet" >
+		SELECT
+		      PLACE_NO
+		     ,PLACE_TYPE
+		     ,PLACE_NAME
+		     ,PLACE_LOCATION
+		     ,PLACE_PHONE
+		     ,PLACE_INFO
+		     ,PLACE_ORIGIN_NAME
+		     ,PLACE_CHANGE_NAME
+		     ,PLACE_COUNT
+		 FROM
+		      PLACE
+	   WHERE
+	        PLACE_NO = #{placeNo}
+	</select>
+	
+	<select id="checkTransportation" resultType="_int">
+		SELECT 
+		      COUNT(TR_NO)
+		  FROM
+		      TRANSPORTATION 
+		 WHERE 
+		      TR_TYPE = #{trType}
+	       AND
+	          TR_TYPE2 = #{trType2}
+	</select>
+	
+	<select id ="checkTReservation" resultType="_int">
+		SELECT
+		      COUNT(TR_NO)
+		  FROM
+		      TAXI_RESERVATION JOIN TRANSPORTATION USING(TR_NO)
+		 WHERE
+		      TR_TYPE2 = #{trType2}
+		   AND
+		      TAXI_RTIME = #{taxiRTime}
+		   AND 
+		      TAXI_RDATE = #{taxiRDate}
+		   AND 
+		      STATUS = 'Y'
+	</select>
+	
+	<select id="findTaxiNo" resultType="_int">
+		SELECT 
+		      NVL(MIN(TR_NO),0)TR_NO 
+		 FROM 
+		      TRANSPORTATION 
+		WHERE 
+		      NOT TR_NO IN
+				(SELECT 
+				       TR_NO 
+				   FROM
+		 				(SELECT 
+		 				       * 
+		 				   FROM
+		 						(SELECT 
+		 						       TR_NO
+		 						      ,TR_TYPE
+		 						      ,TR_tYPE2
+		 						      ,TAXI_RDATE
+		 						      ,TAXI_RTIME 
+		 						      ,STATUS
+		 						  FROM 
+		 						       TRANSPORTATION LEFT JOIN 
+		 			 			  	   TAXI_RESERVATION USING(TR_NO))
+		 			  			 WHERE 
+		 			  				   TR_TYPE = 'T' AND 
+		 			  				   TR_Type2 = #{trType2} AND
+		 			  				   STATUS = 'Y')
+		 			   	 			   WHERE 
+		 			   	 			         TAXI_RDATE = #{taxiRDate} AND 
+		 			   	 			         TAXI_RTIME = #{taxiRTime}) AND 
+		 			   	 			         TR_TYPE= 'T' AND 
+		 			   	 			         TR_TYPE2 = #{trType2}
+	</select>
+	
+	<insert id="taxiReservation" parameterType="taxiReservation">
+		INSERT 
+		  INTO 
+		      TAXI_RESERVATION
+		      (
+		      TAXI_RNO
+		     ,TR_NO
+		     ,TAXI_RDATE
+		     ,TAXI_RTIME
+		     ,STATUS
+		     ,MEM_ID
+		     )
+		VALUES
+		     (
+		     SEQ_TAXI_RNO.NEXTVAL
+		    ,#{trNo}
+		    ,#{taxiRDate}
+		    ,#{taxiRTime}
+		    ,DEFAULT
+		    ,#{memId}
+		    )
+	</insert>
+	
+	<select id="checkCReservation" resultType="_int">
+		SELECT
+		      COUNT(TR_NO)
+		  FROM
+		      (SELECT 
+		             TR_NO
+		         FROM
+		             CAR_RESERVATION JOIN TRANSPORTATION USING(TR_NO)
+		        WHERE
+		             TR_TYPE2 = #{trType2}
+		          AND
+		             END_DATE >= #{startDate} 
+		          AND
+		             STATUS = 'Y'
+		       GROUP
+		          BY
+		            TR_NO)
+	</select>
+	
+	<select id="findCarNo" resultType="_int">
+		SELECT 
+		      NVL(MIN(TR_NO),0)TR_NO 
+		  FROM 
+		      TRANSPORTATION 
+		 WHERE 
+		      NOT TR_NO IN                     
+ 				(SELECT 
+ 				       TR_NO 
+ 				   FROM                        
+						(SELECT 
+						       * 
+						   FROM  
+							    (SELECT 
+							           TR_NO
+							          ,TR_TYPE
+							          ,TR_TYPE2
+							          ,START_DATE
+							          ,END_DATE 
+							          ,STATUS
+							      FROM 
+							          TRANSPORTATION LEFT JOIN 
+		 			 			  CAR_RESERVATION USING(TR_NO)) 
+		 			 			  WHERE 
+		 			 			       TR_TYPE='C' AND 
+		 			 			       TR_TYPE2 = #{trType2} AND
+		 			 			       STATUS = 'Y') 
+		 			 			  WHERE 
+		 			 			       END_DATE >= #{startDate}) AND 
+		 			 			       TR_TYPE='C' AND 
+		 			 			       TR_TYPE2 = #{trType2}
+	</select>
+	
+	<select id="checkFee" resultType="_int">
+		SELECT 
+		      TR_FEE
+		 FROM
+		      TRANSPORTATION 
+		 WHERE
+		      TR_NO = #{trNo}
+	</select>
+	
+	<insert id="carReservation" parameterType="carReservation">
+		INSERT
+		  INTO
+		      CAR_RESERVATION
+		      (
+		      CAR_RNO
+		     ,TR_NO
+		     ,START_DATE
+		     ,END_DATE
+		     ,STATUS
+		     ,MEM_ID
+		     ,TR_PAYMENT_NO
+		     ,TR_PAYMENT_DATE
+		     ,TR_CARD_NO
+		      )
+	    VALUES 
+	          (
+	          SEQ_CAR_RNO.NEXTVAL
+	         ,#{trNo}
+	         ,#{startDate}
+	         ,#{endDate}
+	         ,'Y'
+	         ,#{memId}
+	         ,SEQ_TR_PAYNO.NEXTVAL
+	         ,SYSDATE
+	         ,SUBSTR(#{trCardNo},-4,4)
+	          )
+	</insert>
+
+	
+</mapper>

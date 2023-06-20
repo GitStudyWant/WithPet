@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="boardMapper">
+	
+	<resultMap id="boardResultSet" type="board">
+		<result column="BOARD_NO" 		property="boardNo"/>
+		<result column="BOARD_TITLE" 	property="boardTitle"/>
+		<result column="BOARD_WRITER" 	property="boardWriter"/>
+		<result column="VIEW_COUNT" 			property="viewCount"/>
+		<result column="ENROLLDATE" 	property="enrolldate"/>
+		<result column="RATING" 	property="rating"/>
+		<result column="STATUS" 	property="status"/>
+		<result column="BOARD_CONTENT" 	property="boardContent"/>
+		<result column="BOARD_NUM" 	property="boardNum"/>
+	</resultMap>
+	
+	<resultMap id="tagResultSet" type="tag">
+		<result column="TAG_NAME" 		property="tagName"/>
+		<result column="TAG_ID" 	property="tagId"/>
+	</resultMap>
+	<resultMap id="tbResultSet" type="tbridge">
+		<result column="BRIDGE_NO"	property="bridgeNo"/>
+		<result column="BRIDGE_ID" 	property="bridgeid"/>
+	</resultMap>	
+	
+	<select id="selectFrListCount" resultType="_int">
+			SELECT
+					COUNT(*)
+			FROM
+					BOARD
+			WHERE
+					STATUS = 'Y'				
+	</select>
+	
+	<select id="selectFrList" resultMap="boardResultSet">
+			SELECT
+					BOARD_NO
+					,BOARD_TITLE
+					,BOARD_WRITER
+					,BOARD_CONTENT
+					,VIEW_COUNT
+					,TO_CHAR(ENROLLDATE, 'YYYY-MM-DD') AS "ENROLLDATE"
+			FROM 
+					BOARD
+			WHERE						
+					STATUS = 'Y'
+			AND
+					BOARD_NUM = 1	
+			ORDER
+				BY
+					BOARD_NO DESC
+	</select>
+	
+	<select id="insertFrBoard" parameterType="board">
+		INSERT
+			INTO
+					BOARD
+					(
+					BOARD_NO
+					,BOARD_TITLE
+					,BOARD_CONTENT
+					,BOARD_WRITER
+					,ORIGIN_NAME
+					,CHANGE_NAME
+					,BOARD_NUM
+					)
+			VALUES
+					(
+					SEQ_BNO.NEXTVAL
+					,#{boardTitle}
+					,#{boardContent}
+					,#{boardWriter}
+					,#{originName}
+					,#{changeName}
+					,1
+					)		
+	</select>
+ 
+	<select id="insertTagBridge" parameterType="tbridge">
+		INSERT
+			INTO
+					TAG_BRIDGE
+					(
+					BRIDGE_NO
+					,BRIDGE_ID
+					)
+			VALUES
+					(
+					SEQ_BNO.CURRVAL
+					,#{tagId}
+					)		
+	
+	</select>
+    <select id="searchTagId" resultType="int">
+        SELECT 
+        		TAG_ID
+        FROM
+         		TAG 
+        WHERE 
+        		TAG_NAME=#{tagName}
+    </select>
+
+	<update id="increaseCount">
+		UPDATE
+				BOARD
+		SET
+				VIEW_COUNT = VIEW_COUNT + 1
+		WHERE
+				BOARD_NO = #{boardNo}
+		AND
+				STATUS = 'Y'						
+	</update>
+	
+	<select id="selectBoard" resultMap="boardResultSet">
+		SELECT
+				BOARD_NO
+				,BOARD_TITLE
+				,BOARD_WRITER
+				,BOARD_CONTENT
+				,ORIGIN_NAME
+				,CHANGE_NAME
+				,VIEW_COUNT
+				,TO_CHAR(ENROLLDATE, 'YYYY-MM-DD') AS "ENROLLDATE"
+		FROM
+				BOARD
+		WHERE
+				STATUS = 'Y'
+		AND
+				BOARD_NO = #{boardNo}				
+	</select>
+	
+	<update id="deleteBoard" parameterType="board">
+			UPDATE
+					BOARD
+				SET
+					STATUS = 'N'
+			WHERE
+					BOARD_NO=#{boardNo}			
+	</update>
+	<select id="selectCommentsList" resultType="comments">
+		SELECT
+				COMMENT_NO commentNo,
+				COMMENT_WRITER commentWriter,
+				COMMENT_TEXT commentText,
+				TO_CHAR(REG_DATE, 'YYYY-MM-DD') AS "regDate"
+			FROM
+				COMMENTS
+			WHERE
+					COMMENT_STATUS = 'Y'
+			AND
+					BOARD_NO = #{boardNo}
+			ORDER
+			BY
+					COMMENT_NO DESC						
+	</select>
+	
+	<insert id="insertComments" parameterType="comments">
+		INSERT
+			INTO
+				COMMENTS
+				(
+				COMMENT_NO
+				,COMMENT_TEXT
+				,COMMENT_WRITER
+				,BOARD_NO
+				)
+			VALUES
+				(
+				SEQ_C_NO.NEXTVAL
+				,#{commentText}
+				,#{commentWriter}
+				,#{boardNo}
+				)
+	</insert>
+	<insert id="addTag" parameterType="tag">
+		INSERT
+			INTO
+				TAG
+				(
+				TAG_ID
+				,TAG_NAME
+				)
+			VALUES
+				(
+				SEQ_TNO.NEXTVAL
+				,#{tagName}
+				)
+	</insert>
+	<delete id="removeTag" parameterType="tag">
+			DELETE
+		    FROM	
+		        TAG
+		    WHERE
+		        TAG_NAME=#{tagName}
+		</delete>
+    
+    <select id="selectTag" resultType="string">
+        SELECT 
+        		TAG_NAME
+        FROM
+         		TAG 
+        WHERE 
+        		TAG_NAME=#{tagName}
+    </select>
+    <select id="selectTagId" resultType="string">
+        SELECT 
+        		TAG_ID
+        FROM
+         		TAG 
+        WHERE 
+        		TAG_NAME=#{tagName}
+    </select>
+    <select id="selectTagName" resultMap="tagResultSet">
+    	 SELECT 
+        		TAG_NAME
+    	FROM
+        		TAG 
+    	WHERE 
+		        TAG_ID IN (
+		            SELECT
+		                BRIDGE_ID
+		            FROM
+		                TAG_BRIDGE
+		            WHERE
+		                BRIDGE_NO = #{boardNo}
+		        )
+    </select>
+    
+    
+    
+</mapper>

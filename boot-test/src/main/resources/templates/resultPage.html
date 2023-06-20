@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+    <h1><span th:text="${name}"></span>님의 구매 목록</h1>
+
+    <h2>검은 펜 <span th:text="${Count[0]}"></span>개 : <span th:text="${Price[0]}"></span></h2>
+    <h2>빨간 펜 <span th:text="${Count[1]}"></span>개 : <span th:text="${Price[1]}"></span></h2>
+    <h2>파란 펜 <span th:text="${Count[2]}"></span>개 : <span th:text="${Price[2]}"></span></h2>
+    <h2>화이트 <span th:text="${Count[3]}"></span>개 : <span th:text="${Price[3]}"></span></h2>
+    <hr>
+    <h2>총합 <span th:text="${total}"></span>원을 결제하셨습니다.</h2>
+</body>
+</html>

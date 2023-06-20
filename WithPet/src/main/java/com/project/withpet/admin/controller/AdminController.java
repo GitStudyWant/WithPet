@@ -220,7 +220,20 @@ public class AdminController {
 		}	
 		
 	}
-	
+
+	@ResponseBody
+	@RequestMapping("adminStatusUpdate")
+	public String adminStatusUpdate(Member m, HttpSession session) {
+		System.out.println(m);
+		
+		if(adminService.adminStatusUpdate(m) > 0) {
+			session.setAttribute("alertMsg","상태가 변경되었습니다.");
+			return "Y";
+		} else {
+			return "N";
+		}	
+		
+	}
 	
 	@RequestMapping(value="cafeResManagement",produces="application/json; charset=UTF-8")
 	public String cafeResManagement(Model m) {

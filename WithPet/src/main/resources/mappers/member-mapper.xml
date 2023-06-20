@@ -402,6 +402,26 @@
 				)
 	</insert>
 	
+	<insert id="insertChatMemo" parameterType="memo">
+		INSERT
+		INTO
+				memo
+		VALUES
+				(
+				SEQ_MEMO_NO.NEXTVAL
+				,'A'
+				,#{memoReceiver}
+				,'새 채팅방이 열렸습니다.'
+				,''
+				,sysdate
+				,null
+				,null
+				,default
+				,default
+				,default
+				)
+	</insert>
+	
 	
 	
 	

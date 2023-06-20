@@ -197,10 +197,19 @@
             MEM_ID = #{memId}
 	</update>
 	
+	<update id="adminStatusUpdate" parameterType="member">
+      UPDATE 
+            MEMBER
+         SET 
+           MEM_STATUS = #{memStatus}
+       WHERE 
+            MEM_ID = #{memId}
+	</update>	
+	
 	<select id="cafeResManagement" resultType="caferes">
 		SELECT 
 		      CAFE_RES_NO cafeResNo
-		     ,MEM_ID    memId
+		     ,USER_ID memId
 		     ,TO_CHAR(RES_DATE,'YY/MM/DD') resDate
 		     ,RES_TIME resTime
 		     ,CAFE_RES_STATUS cafeResStatus
