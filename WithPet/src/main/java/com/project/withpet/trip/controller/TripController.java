@@ -200,12 +200,7 @@ public class TripController {
 			Transportation t = new Transportation();
 			t.setTrType2(r.getTrType2());
 			t.setTrType("T");
-			
-			String taxiRDate2 = r.getTaxiRDate().substring(0,3);
-			String taxiRDate3 = r.getTaxiRDate().substring(3,6);
-			String taxiRDate4 = taxiRDate3+taxiRDate2 + "23";
-			r.setTaxiRDate(taxiRDate4);
-			//System.out.println(r);
+			System.out.println(r);
 			int result1 = tripService.checkTransportation(t);
 			
 			int result2 = tripService.checkTReservation(r);
@@ -227,12 +222,10 @@ public class TripController {
 			session.setAttribute("alertMsg","로그인 후 이용해주세요~");
 			return "common/main";
 		} else {
-			String taxiRDate2 = r.getTaxiRDate().substring(0,3);
-			String taxiRDate3 = r.getTaxiRDate().substring(3,6);
-			String taxiRDate4 = taxiRDate3+taxiRDate2 + "23";
-			r.setTaxiRDate(taxiRDate4);
-			r.setTrNo(tripService.findTaxiNo(r));
 			
+			int trNo = tripService.findTaxiNo(r);
+			r.setTrNo(trNo);
+			System.out.println(trNo);
 			System.out.println(r);
 			if(tripService.taxiReservation(r)>0) {
 				session.setAttribute("alertMsg","택시 예약에 성공했습니다.");
@@ -248,10 +241,11 @@ public class TripController {
 	@RequestMapping(value="checkCReservation",produces="application/json; charset=UTF-8")
 	public String checkCReservation(CarReservation c) {
 		
+		//System.out.println(c);
 		Transportation t = new Transportation();
-		t.setTrType2(c.getTrType2());
+		t.setTrType2(c.getTrType22());
 		t.setTrType("C");
-		
+		System.out.println(c);
 		String startDate2 = c.getStartDate().substring(0,3);
 		String startDate3 = c.getStartDate().substring(3,6);
 		String startDate4 = startDate3+startDate2 + "23";
@@ -261,8 +255,9 @@ public class TripController {
 		String endDate3 = c.getEndDate().substring(3,6);
 		String endDate4 = endDate3+endDate2 + "23";
 		c.setEndDate(endDate4);
-		c.setTrNo(tripService.findCarNo(c));
-		System.out.println(c);
+		
+		int trNo = tripService.findCarNo(c);
+		c.setTrNo(trNo);
 		
 		int result1 = tripService.checkTransportation(t);
 		

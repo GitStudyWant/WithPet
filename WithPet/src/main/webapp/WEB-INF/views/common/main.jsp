@@ -88,7 +88,7 @@
 					console.log(searchKey);
 					
 					if($(e).val() == '' || result.length == 0){
-						$('#keywordResult').html('');
+						//$('#keywordResult').html('');
 					}else {
 						$('#keywordResult').html(searchKey);
 						$('#keywordResult').css('display','block');
@@ -96,7 +96,8 @@
 					
 					$('#keywordResult>p').click(function(){
 						var keywordPick = $(this).text();
-						$('#keyword').val(keywordPick);
+						console.log('클릭한거?' + keywordPick);
+						$('#searchKeyword').val(keywordPick);
 						$('#keywordResult').css('display', 'none');
 					})
 				},

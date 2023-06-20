@@ -78,8 +78,8 @@ public interface AdminService {
 	
 	int deleteInquiry(int inquiryNo);
 	
-	ArrayList<Board> goSearch(String keyword);
+	ArrayList<Board> goSearch(String searchKeyword);
 	
-	int addSearchKeyword(String keyword);
+	int addSearchKeyword(String searchKeyword);
 
 }

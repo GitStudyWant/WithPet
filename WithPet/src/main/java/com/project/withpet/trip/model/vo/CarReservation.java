@@ -14,7 +14,7 @@ public class CarReservation {
 	private String trPaymentNo;
 	private String trPaymentDate;
 	private String trCardNo;
-	private String trType2;
+	private String trType22;
 	private int trFee;
 	private String reservationDay;
 	
