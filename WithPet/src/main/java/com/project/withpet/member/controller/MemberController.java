@@ -650,6 +650,21 @@ public class MemberController {
 		return mv;
 	}
 	
+	@RequestMapping("insertChatMemo")
+	public ModelAndView insertChatMemo(Memo memo, HttpSession session, ModelAndView mv){
+						
+		int count = memberService.insertChatMemo(memo);
+		
+		if(count > 0) {
+			mv.setViewName("redirect:/newMemo");
+		} else {
+			mv.addObject("errorMsg", "채팅창 오픈 메세지 전송에 실패했습니다.");
+			mv.setViewName("redirect:/newMemo");
+		}
+		
+		return mv;
+	}
+	
 	@RequestMapping("memberModifyFrontMove")
 	public String memberModifyFrontMove(){		
 		return "member/modify/memberModifyFront";

@@ -167,7 +167,10 @@ public class MemberServiceImpl implements MemberService {
 		return memberDao.insertMemo(sqlSession, memo);
 	}
 
-	
+	@Override
+	public int insertChatMemo(Memo memo) {
+		return memberDao.insertChatMemo(sqlSession, memo);
+	}
 	
 	
 	

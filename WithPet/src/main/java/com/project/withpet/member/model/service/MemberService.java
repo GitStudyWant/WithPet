@@ -75,6 +75,8 @@ public interface MemberService {
 		
 	public int insertMemo(Memo memo);
 	
+	public int insertChatMemo(Memo memo);
+	
 	// 코스
 	// 예약
 	// 결제
