@@ -14,6 +14,8 @@
 		<result column="STATUS" 	property="status"/>
 		<result column="BOARD_CONTENT" 	property="boardContent"/>
 		<result column="BOARD_NUM" 	property="boardNum"/>
+		<result column="ORIGIN_NAME" 	property="originName"/>
+		<result column="CHANGE_NAME" 	property="changeName"/>
 	</resultMap>
 	
 	<resultMap id="tagResultSet" type="tag">
@@ -23,7 +25,18 @@
 	<resultMap id="tbResultSet" type="tbridge">
 		<result column="BRIDGE_NO"	property="bridgeNo"/>
 		<result column="BRIDGE_ID" 	property="bridgeid"/>
-	</resultMap>	
+	</resultMap>
+	
+	<resultMap id="commentsResult" type="comments">
+	  <result property="commentNo" column="COMMENT_NO"/>
+	  <result property="boardNo" column="BOARD_NO"/>
+	  <result property="commentWriter" column="COMMENT_WRITER"/>
+	  <result property="commentText" column="COMMENT_TEXT"/>
+	  <result property="commentStatus" column="COMMENT_STATUS"/>
+	  <result property="commentGroup" column="COMMENT_GROUP"/>
+	  <result property="commentLevel" column="COMMENT_LEVEL"/>
+	  <result property="regDate" column="REG_DATE" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP"/>
+	</resultMap>
 	
 	<select id="selectFrListCount" resultType="_int">
 			SELECT
@@ -31,9 +44,40 @@
 			FROM
 					BOARD
 			WHERE
-					STATUS = 'Y'				
+					STATUS = 'Y'
+			AND
+					BOARD_NUM = 1		
 	</select>
-	
+	<select id="selectReListCount" resultType="_int">
+			SELECT
+					COUNT(*)
+			FROM
+					BOARD
+			WHERE
+					STATUS = 'Y'
+			AND
+					BOARD_NUM = 2		
+	</select>
+	<select id="selectQnListCount" resultType="_int">
+			SELECT
+					COUNT(*)
+			FROM
+					BOARD
+			WHERE
+					STATUS = 'Y'
+			AND
+					BOARD_NUM = 3		
+	</select>
+	<select id="selectNoListCount" resultType="_int">
+			SELECT
+					COUNT(*)
+			FROM
+					BOARD
+			WHERE
+					STATUS = 'Y'
+			AND
+					BOARD_NUM = 6		
+	</select>
 	<select id="selectFrList" resultMap="boardResultSet">
 			SELECT
 					BOARD_NO
@@ -48,6 +92,60 @@
 					STATUS = 'Y'
 			AND
 					BOARD_NUM = 1	
+			ORDER
+				BY
+					BOARD_NO DESC
+	</select>
+	<select id="selectReList" resultMap="boardResultSet">
+			SELECT
+					BOARD_NO
+					,BOARD_TITLE
+					,BOARD_WRITER
+					,BOARD_CONTENT
+					,VIEW_COUNT
+					,TO_CHAR(ENROLLDATE, 'YYYY-MM-DD') AS "ENROLLDATE"
+			FROM 
+					BOARD
+			WHERE						
+					STATUS = 'Y'
+			AND
+					BOARD_NUM = 2	
+			ORDER
+				BY
+					BOARD_NO DESC
+	</select>
+	<select id="selectQnList" resultMap="boardResultSet">
+			SELECT
+					BOARD_NO
+					,BOARD_TITLE
+					,BOARD_WRITER
+					,BOARD_CONTENT
+					,VIEW_COUNT
+					,TO_CHAR(ENROLLDATE, 'YYYY-MM-DD') AS "ENROLLDATE"
+			FROM 
+					BOARD
+			WHERE						
+					STATUS = 'Y'
+			AND
+					BOARD_NUM = 3	
+			ORDER
+				BY
+					BOARD_NO DESC
+	</select>
+	<select id="selectNoList" resultMap="boardResultSet">
+			SELECT
+					BOARD_NO
+					,BOARD_TITLE
+					,BOARD_WRITER
+					,BOARD_CONTENT
+					,VIEW_COUNT
+					,TO_CHAR(ENROLLDATE, 'YYYY-MM-DD') AS "ENROLLDATE"
+			FROM 
+					BOARD
+			WHERE						
+					STATUS = 'Y'
+			AND
+					BOARD_NUM = 6	
 			ORDER
 				BY
 					BOARD_NO DESC
@@ -77,21 +175,37 @@
 					,1
 					)		
 	</select>
+	<update id="updateFrBoard">
+				UPDATE
+						BOARD
+				SET
+						BOARD_TITLE = #{boardTitle}
+						,BOARD_CONTENT = #{boardContent}
+						,ORIGIN_NAME = #{originName}
+						,CHANGE_NAME = #{changeName}
+				WHERE
+						BOARD_NO = #{boardNo}
+				AND
+						BOARD_NUM =1		
+	</update>
  
 	<select id="insertTagBridge" parameterType="tbridge">
-		INSERT
-			INTO
-					TAG_BRIDGE
-					(
-					BRIDGE_NO
-					,BRIDGE_ID
-					)
-			VALUES
-					(
-					SEQ_BNO.CURRVAL
-					,#{tagId}
-					)		
-	
+    INSERT INTO 
+    			TAG_BRIDGE
+    			(BRIDGE_NO, BRIDGE_ID)
+    VALUES 
+    			(SEQ_BNO.CURRVAL, #{bridgeId})		
+	</select>
+	<delete id="deleteTagBridges">
+	DELETE FROM TAG_BRIDGE
+	WHERE BRIDGE_NO= #{boardNo}					
+	</delete>
+	<select id="updateTagBridge" parameterType="tbridge">
+    INSERT INTO
+    			TAG_BRIDGE
+    			(BRIDGE_NO, BRIDGE_ID)
+    VALUES 
+    			(#{bridgeNo}, #{bridgeId})		
 	</select>
     <select id="searchTagId" resultType="int">
         SELECT 
@@ -139,21 +253,28 @@
 			WHERE
 					BOARD_NO=#{boardNo}			
 	</update>
-	<select id="selectCommentsList" resultType="comments">
-		SELECT
-				COMMENT_NO commentNo,
-				COMMENT_WRITER commentWriter,
-				COMMENT_TEXT commentText,
-				TO_CHAR(REG_DATE, 'YYYY-MM-DD') AS "regDate"
-			FROM
-				COMMENTS
-			WHERE
-					COMMENT_STATUS = 'Y'
-			AND
-					BOARD_NO = #{boardNo}
-			ORDER
-			BY
-					COMMENT_NO DESC						
+	<select id="selectCommentsList" resultMap="commentsResult">
+	    SELECT
+	        COMMENT_NO,
+	        COMMENT_WRITER,
+	        COMMENT_TEXT,
+	        REG_DATE
+	    FROM
+	        COMMENTS
+	    WHERE
+	        COMMENT_STATUS = 'Y'
+	        AND BOARD_NO = #{boardNo}
+	    ORDER BY
+	        COMMENT_NO DESC
+	</select>
+	<select id="CommentsCount" resultType="_int">
+	    SELECT
+	        COUNT(*)
+	    FROM
+	        COMMENTS
+	    WHERE
+	        COMMENT_STATUS = 'Y'
+	        AND BOARD_NO = #{boardNo}
 	</select>
 	
 	<insert id="insertComments" parameterType="comments">
@@ -204,7 +325,7 @@
         WHERE 
         		TAG_NAME=#{tagName}
     </select>
-    <select id="selectTagId" resultType="tag">
+    <select id="selectTagId" resultMap="tagResultSet">
         SELECT 
         		TAG_ID
         FROM
@@ -215,6 +336,21 @@
     <select id="selectTagName" resultMap="tagResultSet">
     	 SELECT 
         		TAG_NAME
+    	FROM
+        		TAG 
+    	WHERE 
+		        TAG_ID IN (
+		            SELECT
+		                BRIDGE_ID
+		            FROM
+		                TAG_BRIDGE
+		            WHERE
+		                BRIDGE_NO = #{boardNo}
+		        )
+    </select>
+    <select id="selectTagAll" resultMap="tagResultSet">
+    	 SELECT 
+        		*
     	FROM
         		TAG 
     	WHERE 

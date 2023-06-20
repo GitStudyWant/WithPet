@@ -170,12 +170,26 @@
 				<span id="userId">작성자 : ${ b.boardWriter }</span>
 				<br>
 				</div>
+				<br>
+				<div style="float: right;"><span style="background-color: lightgray; color: white;">
+				<c:choose>
+                    	<c:when test="${ empty b.originName }">
+                    			첨부파일이 존재하지 않습니다.
+                    	</c:when>
+                    	<c:otherwise>
+                        	
+                        	첨부파일 : <a href="${b.changeName}" download="${b.originName}">${b.originName}</a>
+                    
+                    	</c:otherwise>
+                    </c:choose>
+				</span></div>
+				<br>
                 <div style="padding-top: 30px; padding-bottom: 30px; border-bottom: 1px solid gray;">
                 <span id="boardContent">${ b.boardContent }</span>
                 </div>
                 <div style="border-bottom: 1px solid gray;">
                 <c:forEach var="tag" items="${t}">
-				    <span>${tag.tagName}</span>
+				    <span id="tag">${tag.tagName}</span>
 				  </c:forEach>
                 </div>
                 <div style="margin-top: 5px; margin-bottom: 5px;">
@@ -187,7 +201,7 @@
 				</div>   
             </div>
             
-                        <br>
+                       
             <form action="" method="post" id="updateForm">
             	<input type="hidden" name="bno" value="${ b.boardNo }" >
             	<input type="hidden" name="filePath" value="${ b.changeName }" >
@@ -195,10 +209,9 @@
 	
 			<c:if test="${ loginMember.memId eq b.boardWriter }">
             <div align="center">
-            
                 <!-- 수정하기, 삭제하기 버튼은 이 글이 본인이 작성한 글일 경우에만 보여져야 함 -->
                 <a class="btn btn-primary" onclick="updateFormSubmit(1);">수정하기</a>
-                <button class="btn btn-danger" onclick="updateFormSubmit(2);">삭제하기</button>
+                <a class="btn btn-danger" onclick="updateFormSubmit(2);">삭제하기</a>
             </div>
             </c:if>
             

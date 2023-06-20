@@ -18,6 +18,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,45 +53,26 @@ public class BoardController {
 								Model model) {
 		
 		PageInfo pi = Pagination.getPageInfo(boardService.selectFrListCount(), currentPage, 3, 10);
-		model.addAttribute("pi", pi);
-		model.addAttribute("list", boardService.selectFrList(pi));
+		model.addAttribute("pi", pi);;
+        model.addAttribute("list", boardService.selectFrList(pi));
 		return "board/FreeBoard";
 	}
-	
-	@RequestMapping("list.review")
-	public String selectReList() {
-		return "board/ReviewBoard";
+	@ResponseBody
+	@PostMapping("select.co")
+	public int getCommentCount(@RequestParam("boardNo") int boardNo) {
+	    return boardService.getCommentCount(boardNo);
 	}
-	
+	@ResponseBody
+	@PostMapping("select.tag")
+	public ArrayList<Tag> getTag(@RequestParam("boardNo") int boardNo) {
+	    return boardService.selectTagAll(boardNo);
+	}
 	
 	@RequestMapping("enrollForm.fr")
 	public String enrollForm() {
 		return "board/FreeBoardEnroll";
 	}
-	/*
-	@RequestMapping("insert.free")
-	public String insertFrBoard(Board b,
-								MultipartFile upfile, // 여러개의 첨부파일을 전달받을시 MultipartFile[]로 받으면됨
-								HttpSession session,
-								Model model) {
-		
-		
-		
-		
-		if(!upfile.getOriginalFilename().equals("")) {
-			b.setOriginName(upfile.getOriginalFilename());
-			b.setChangeName("resources/uploadFiles/" + saveFile(upfile, session));
-		}
 	
-		if(boardService.insertFrBoard(b)>0) {
-			session.setAttribute("alertMsg", "게시글 등록 성공");
-			return "redirect:list.free";
-		} else {
-			model.addAttribute("errorMsg","게시글 작성 실패...");
-			return "redirect:list.free";
-		}
-		
-	}*/
 	
 	@RequestMapping("insert.free")
 	public String insertFrBoard(Board b,
@@ -103,7 +85,7 @@ public class BoardController {
 		
 	    if (!upfile.getOriginalFilename().equals("")) {
 	        b.setOriginName(upfile.getOriginalFilename());
-	        b.setChangeName("resources/uploadFiles/" + saveFile(upfile, session));
+	        b.setChangeName("resources/BoardFiles/Free/" + saveFile(upfile, session));
 	    }
 
 	    
@@ -112,18 +94,14 @@ public class BoardController {
 	            List<TagBridge> tagBridges = new ArrayList<>();
 
 	            for (String tagName : tagNames) {
-	                Tag tag = new Tag();
-	                tag.setTagName(tagName);
-
-	                int tagId = boardService.selectTagId(tagName);
-	                if (tagId != 0) {
+	                Tag tag = boardService.selectTagId(tagName);
+	                if (tag != null) {
 	                    TagBridge tagBridge = new TagBridge();
 	                    tagBridge.setBridgeNo(b.getBoardNo());
-	                    tagBridge.setBridgeId(tagId);
+	                    tagBridge.setBridgeId(tag.getTagId());
 	                    tagBridges.add(tagBridge);
 	                }
 	            }
-
 	            if (!tagBridges.isEmpty()) {
 	                boardService.insertTagBridges(tagBridges);
 	            }
@@ -140,21 +118,6 @@ public class BoardController {
 	
 	
 	
-	/* 	
-	@RequestMapping(value = "insert.free", method = RequestMethod.POST)
-	public void insertFree(MultipartHttpServletRequest request) {
-	    String[] tagsArray = request.getParameterValues("tags");
-	    if (tagsArray != null) {
-	        Tag[] tags = new Tag[tagsArray.length];
-	        for (int i = 0; i < tagsArray.length; i++) {
-	            String tagName = tagsArray[i];
-	            int tagId = boardService.searchTagId(tagName);
-	            tags[i] = new Tag(tagId, tagName);
-	            System.out.println(tags[i]);
-	        }
-	    }
-	}
-	 */
 	public String saveFile(MultipartFile upfile, HttpSession session) {
 		
 					String originName =upfile.getOriginalFilename();
@@ -162,7 +125,7 @@ public class BoardController {
 					int ranNum = (int)(Math.random() * 90000+10000);
 					String ext = originName.substring(originName.lastIndexOf("."));
 					String changeName = "WITHPET"+currentTime + ranNum + ext;
-					String savePath = session.getServletContext().getRealPath("resources/BoardFiles/Free");
+					String savePath = session.getServletContext().getRealPath("resources/BoardFiles/Free/");
 					
 					try {
 						upfile.transferTo(new File(savePath+changeName));
@@ -208,12 +171,78 @@ public class BoardController {
 		 
 	}
 	}
+	@RequestMapping("updateForm.fr")
+	public ModelAndView updateForm(int bno, ModelAndView mv) {
+		 ArrayList<Tag> tagList = boardService.selectTagName(bno);
+
+	        System.out.println(tagList.size());
+	        for (Tag tag : tagList) {
+	            System.out.println(tag.getTagName());
+	        }
+		mv.addObject("b", boardService.selectBoard(bno)).addObject("t", tagList).setViewName("board/FreeBoardUpdate");
+		return mv;
+	}
+	@RequestMapping("update.fr")
+	public String updateFrBoard(Board b,
+					            MultipartFile reUpfile,
+					            @RequestParam(value = "tagNames", required = false) String[] tagNames,
+					            HttpSession session,
+					            Model model) {
+		
+		if(!reUpfile.getOriginalFilename().equals("")) {
+			
+			if(b.getOriginName() != null) {
+				new File(session.getServletContext().getRealPath(b.getChangeName())).delete();
+			}
+			
+			String changeName = saveFile(reUpfile,session);
+			
+			b.setOriginName(reUpfile.getOriginalFilename());
+			b.setChangeName("resources/BoardFiles/Free/" + changeName);
+		}
+		
+		if(boardService.updateFrBoard(b) >0) {
+			boardService.deleteTagBridges(b.getBoardNo());
+			if (tagNames != null && tagNames.length > 0) {
+	            List<TagBridge> tagBridges = new ArrayList<>();
+
+	            for (String tagName : tagNames) {
+	                Tag tag = boardService.selectTagId(tagName);
+	                if (tag != null) {
+	                    TagBridge tagBridge = new TagBridge();
+	                    tagBridge.setBridgeNo(b.getBoardNo());
+	                    tagBridge.setBridgeId(tag.getTagId());
+	                    tagBridges.add(tagBridge);
+	                }
+	            }
+	            if (!tagBridges.isEmpty()) {
+	                boardService.updateTagBridges(tagBridges);
+	            }
+	        }
+			session.setAttribute("alertMsg", "수정 성공");
+			return "redirect:detail.fr?bno=" + b.getBoardNo();
+		}else {
+			session.setAttribute("errorMsg", "수정 실패");
+			return "common/errorPage";
+		}
+	}
+	
+	@RequestMapping("list.review")
+	public String selectReList(@RequestParam(value="cPage", defaultValue = "1") int currentPage,
+								Model model) {
+		PageInfo pi = Pagination.getPageInfo(boardService.selectReListCount(), currentPage, 3, 10);
+		model.addAttribute("pi", pi);
+		model.addAttribute("list", boardService.selectReList(pi));
+		return "board/ReviewBoard";
+	}
+	
 	
 	@RequestMapping("list.qna")
-	public String selectQnList() {
-		
-		
-		
+	public String selectQnList(@RequestParam(value="cPage", defaultValue = "1") int currentPage,
+								Model model) {
+		PageInfo pi = Pagination.getPageInfo(boardService.selectQnListCount(), currentPage, 3, 10);
+		model.addAttribute("pi", pi);
+		model.addAttribute("list", boardService.selectQnList(pi));
 		return "board/QnaBoard";
 	}
 	
@@ -234,10 +263,11 @@ public class BoardController {
 	}
 	
 	@RequestMapping("list.notice")
-	public String selectNoticeList() {
-		
-		
-		
+	public String selectNoticeList(@RequestParam(value="cPage", defaultValue = "1") int currentPage,
+									Model model) {
+		PageInfo pi = Pagination.getPageInfo(boardService.selectNoListCount(), currentPage, 10, 10);
+		model.addAttribute("pi", pi);
+		model.addAttribute("list", boardService.selectNoList(pi));
 		return "board/Notice";
 	}
 	

@@ -13,8 +13,20 @@ public interface BoardService {
 
 	ArrayList<Board> selectFrList(PageInfo pi);
 
+	ArrayList<Board> selectReList(PageInfo pi);
+	
+	ArrayList<Board> selectQnList(PageInfo pi);
+	
+	ArrayList<Board> selectNoList(PageInfo pi);
+	
 	int selectFrListCount();
-
+	
+	int selectReListCount();
+	
+	int selectQnListCount();
+	
+	int selectNoListCount();
+	
 	int insertFrBoard(Board b);
 
 	int increaseCount(int boardNo);
@@ -37,9 +49,27 @@ public interface BoardService {
 
 	ArrayList<Tag> selectTagName(int boardNo);
 
-	int selectTagId(String tagName);
+	Tag selectTagId(String tagName);
 
 	void insertTagBridges(List<TagBridge> tagBridges);
+
+	int getCommentCount(int boardNo);
+
+	ArrayList<Tag> selectTagAll(int boardNo);
+
+	int updateFrBoard(Board b);
+
+	void updateTagBridges(List<TagBridge> tagBridges);
+
+	void deleteTagBridges(int boardNo);
+
+
+
+	
+
+
+	
+
 
 	
 	
