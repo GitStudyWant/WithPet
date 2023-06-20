@@ -159,8 +159,12 @@
             </tr>
             <tr>
                 <th colspan="5"><b></b></th>
-                <th><button class="actBtn" onclick="return updateMemType2();">상태 변경</button></th>
+                <th><button class="actBtn" onclick="return updateMemType2();">등급 변경</button></th>
             </tr>
+            <tr>
+                <th colspan="5"><b></b></th>
+                <th><button class="actBtn" onclick="updateMemType3();">상태 변경</button></th>
+            </tr>            
             <tr></tr>
             <tr height="20"></tr>
             <tr>
@@ -188,20 +192,20 @@
 				    		<td class="member${m.memId}">
 				    			<c:choose>
 				    				<c:when test="${m.memStatus eq 'Y' }">
-		                       			 <select name="memStatus" id="${m.memId}memStatus">
+		                       			 <select name="${m.memId}memStatus" id="${m.memId}memStatus">
 			                                <option value="Y" disabled selected>정상</option>
 			                                <option value="N">정지</option>
 		                            	</select> 
 				    				</c:when>
 				    				<c:otherwise>
-				    					<select name="memStatus" id="${m.memId}memStatus">
+				    					<select name="${m.memId}memStatus" id="${m.memId}memStatus">
 			                                <option value="Y">정상</option>
 			                                <option value="N" disabled selected>정지</option>
 		                            	</select> 
 				    				</c:otherwise>
 				    			</c:choose>
                             </td>		
-                    		<td><input type="checkbox" name="memStaus" value="${m.memId}"></td>                            
+                    		<td><input type="checkbox" name="memStatus" value="${m.memId}"></td>                            
 				    		<td class="member${m.memId}">
 				    			<c:choose>
 				    				<c:when test="${m.memGrade eq 'ADMIN' }">
@@ -280,6 +284,42 @@
 			}
 		
            </script>
+           
+		<script>
+		
+		
+			function updateMemType3() {
+			  var selectedMembers = $('input[name="memStatus"]:checked');
+			  console.log(selectedMembers.val());
+			  if (selectedMembers.length === 0) {
+			  }
+				
+			  selectedMembers.each(function() {
+			    var memId = $(this).val();
+			    var memStatus = $('#'+memId+'memStatus').val();
+			   // console.log("memId " + memId);
+			   // console.log("memGrade " + memGrade);
+			    
+			   
+			    $.ajax({
+			      url: 'adminStatusUpdate',
+			      type: 'post',
+			      data: { memId: memId, memStatus: memStatus },
+			      success: function(result) {
+			    	  
+			    	  if(result === 'Y'){
+			        $('#'+memId+'memStatus').val(memStatus);
+			        console.log("회원 상태가 변경되었습니다.");
+			    	  }
+			      },
+			      error: function(error) {
+			        console.error("회원 상태 변경 중 오류가 발생했습니다.");
+			      }
+			    });
+			  })
+			}
+		
+           </script>           
            
            
            

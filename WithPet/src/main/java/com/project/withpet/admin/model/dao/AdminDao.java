@@ -85,7 +85,11 @@ public class AdminDao {
 	public int adminGradeUpdate(SqlSessionTemplate sqlSession, Member m) {
 		return sqlSession.update("adminMapper.adminGradeUpdate", m);
 	}
-
+	
+	public int adminStatusUpdate(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.update("adminMapper.adminStatusUpdate", m);
+	}
+	
 	public ArrayList<CafeRes> cafeResManagement(SqlSessionTemplate sqlSession){
 		return (ArrayList)sqlSession.selectList("adminMapper.cafeResManagement");
 	}

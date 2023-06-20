@@ -216,7 +216,7 @@ public class MemberController {
 		HashMap<String, Object> userInfo = getKakaoUserInfo(accessToken);
 		
 		HttpSession session = request.getSession();
-		session.setAttribute("accessToken", userInfo.get("accessToken"));
+		//session.setAttribute("accessToken", userInfo.get("accessToken"));
 		session.setAttribute("kakaoId", userInfo.get("id"));
 		
         response.setContentType("text/html; charset=UTF-8");
@@ -645,6 +645,21 @@ public class MemberController {
 		} else {
 			mv.addObject("errorMsg", "수신자가 존재하지 않습니다");
 			mv.setViewName("member/memo/newMemo");
+		}
+		
+		return mv;
+	}
+	
+	@RequestMapping("insertChatMemo")
+	public ModelAndView insertChatMemo(Memo memo, HttpSession session, ModelAndView mv){
+						
+		int count = memberService.insertChatMemo(memo);
+		
+		if(count > 0) {
+			mv.setViewName("redirect:/newMemo");
+		} else {
+			mv.addObject("errorMsg", "채팅창 오픈 메세지 전송에 실패했습니다.");
+			mv.setViewName("redirect:/newMemo");
 		}
 		
 		return mv;
