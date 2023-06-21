@@ -2,8 +2,6 @@ package com.project.withpet.member.model.service;
 
 import java.util.ArrayList;
 
-import javax.websocket.OnMessage;
-
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,13 +10,14 @@ import com.project.withpet.board.common.model.vo.PageInfo;
 import com.project.withpet.board.model.vo.Board;
 import com.project.withpet.board.model.vo.Comments;
 import com.project.withpet.member.model.dao.MemberDao;
+import com.project.withpet.member.model.vo.AllChatting;
 import com.project.withpet.member.model.vo.CertVO;
 import com.project.withpet.member.model.vo.Friend;
 import com.project.withpet.member.model.vo.Inquiry;
 import com.project.withpet.member.model.vo.Member;
 import com.project.withpet.member.model.vo.Memo;
+import com.project.withpet.member.model.vo.OneChatting;
 import com.project.withpet.member.model.vo.Passward;
-import com.project.withpet.member.model.vo.Point;
 import com.project.withpet.member.model.vo.Schedule;
 import com.project.withpet.trip.model.vo.CarReservation;
 import com.project.withpet.trip.model.vo.MyPlace;
@@ -360,6 +359,11 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
+	public int friendInsert(Friend f) {
+		return memberDao.friendInsert(sqlSession, f);
+	}
+	
+	@Override
 	public ArrayList<Inquiry> inquiry(PageInfo pi){
 		return memberDao.inquiry(sqlSession, pi);
 	}
@@ -382,6 +386,82 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int inquiryInsert(Inquiry i) {
 		return memberDao.inquiryInsert(sqlSession, i);
+	}
+
+	@Override
+	public ArrayList<AllChatting> allChattingInsert(String memberId) {
+		int result = 0;
+		ArrayList<AllChatting> a = null;
+		if(memberDao.allChattingSelect(sqlSession, memberId) > 0) {
+			if(memberDao.allChattingUpdate(sqlSession, memberId) > 0){
+				result =+ 1;
+			}
+		}else {
+			if(memberDao.allChattingInsert(sqlSession, memberId) > 0){
+				result =+ 1;
+			}
+		}
+		
+		if(result > 0) {
+			 a = memberDao.allChattingList(sqlSession);
+		}
+		return a;
+	}
+	
+	@Override
+	public int allChatList(AllChatting a) {
+		return memberDao.allChatList(sqlSession, a);
+	}
+	
+	@Override
+	public AllChatting allChatLast() {
+		return memberDao.allChatLast(sqlSession);
+	}
+
+	@Override
+	public OneChatting oneChatInsert(OneChatting one) {
+		OneChatting chat = null;
+		chat = memberDao.oneChatSelect(sqlSession, one);
+		if(chat != null) {
+			return chat;
+		} else {
+			if(memberDao.oneChattingInsert(sqlSession, one) > 0) {
+				memberDao.oneChatFrist(sqlSession, one);
+				chat = memberDao.oneChatSelect(sqlSession, one);
+				return chat;
+			} else {
+				return null;
+			}
+		}
+	}
+	
+	@Override
+	public ArrayList<OneChatting> oneChatList(String memberId) {
+		return memberDao.oneChatList(sqlSession, memberId);
+	}
+
+	@Override
+	public ArrayList<OneChatting> oneChattingSelect(int oneChatNo) {
+		return memberDao.oneChattingSelect(sqlSession, oneChatNo);
+	}
+	
+	@Override
+	public OneChatting oneRoomIn(OneChatting one) {
+		return memberDao.oneRoomIn(sqlSession, one);
+	}
+	
+	@Override
+	public int oneChatContentInsert(OneChatting one) {
+		return memberDao.oneChatContentInsert(sqlSession, one);
+	}
+	
+	@Override
+	public int boardSelectDelete(int[] intArray) {
+		int result = 1;
+		for(int i = 0; i < intArray.length; i++) {
+			result *= memberDao.boardSelectDelete(sqlSession, intArray[i]);
+		}
+		return result;
 	}
 
 	

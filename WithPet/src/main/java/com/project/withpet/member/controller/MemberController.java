@@ -45,11 +45,13 @@ import com.project.withpet.board.common.template.Pagination;
 import com.project.withpet.board.model.vo.Board;
 import com.project.withpet.board.model.vo.Comments;
 import com.project.withpet.member.model.service.MemberService;
+import com.project.withpet.member.model.vo.AllChatting;
 import com.project.withpet.member.model.vo.CertVO;
 import com.project.withpet.member.model.vo.Friend;
 import com.project.withpet.member.model.vo.Inquiry;
 import com.project.withpet.member.model.vo.Member;
 import com.project.withpet.member.model.vo.Memo;
+import com.project.withpet.member.model.vo.OneChatting;
 import com.project.withpet.member.model.vo.Passward;
 import com.project.withpet.member.model.vo.Schedule;
 import com.project.withpet.trip.model.vo.CarReservation;
@@ -1423,344 +1425,404 @@ public class MemberController {
 		
 		
 		// 메일 보내기
-		@Autowired
-		private JavaMailSenderImpl sender;
+	@Autowired
+	private JavaMailSenderImpl sender;
+	
+	@ResponseBody
+	@PostMapping("sendMail.bo")
+	public int sendMail(String email, HttpServletRequest request) throws MessagingException {
+		System.out.println("오냐?");
+		System.out.println(email);
+		MimeMessage message = sender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 		
-		@ResponseBody
-		@PostMapping("sendMail.bo")
-		public int sendMail(String email, HttpServletRequest request) throws MessagingException {
-			System.out.println("오냐?");
-			System.out.println(email);
-			MimeMessage message = sender.createMimeMessage();
-			MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-			
-			String ip = request.getRemoteAddr();
-			String secret = generateSecret();
-			
-			CertVO certvo = CertVO.builder()
-					  .who(ip)
-					  .secret(secret)
-					  .build();
-			
-			int result = memberService.sendMail(certvo);
-			
-			helper.setTo(email);
-			helper.setSubject("인증번호 보내드립니다");
-			helper.setText("인증번호 : " + secret);
-			
-			sender.send(message);
-			
-			return result;
-			
-		}
+		String ip = request.getRemoteAddr();
+		String secret = generateSecret();
 		
-		public String generateSecret() {
-		Random r = new Random();
-		int i = r.nextInt(100000);
-		Format f= new DecimalFormat("000000");
-		String secret = f.format(i);
+		CertVO certvo = CertVO.builder()
+				  .who(ip)
+				  .secret(secret)
+				  .build();
 		
-		return secret;
-		}
+		int result = memberService.sendMail(certvo);
+		
+		helper.setTo(email);
+		helper.setSubject("인증번호 보내드립니다");
+		helper.setText("인증번호 : " + secret);
+		
+		sender.send(message);
+		
+		return result;
+		
+	}
+	
+	public String generateSecret() {
+	Random r = new Random();
+	int i = r.nextInt(100000);
+	Format f= new DecimalFormat("000000");
+	String secret = f.format(i);
+	
+	return secret;
+	}
 
+	
+	@ResponseBody
+	@PostMapping("check")
+	public int checkCode(String code, HttpServletRequest request) {
+		CertVO certVo = CertVO.builder().who(request.getRemoteAddr()).secret(code).build();
+		return memberService.validata(certVo);
+	}
+	
+	@ResponseBody
+	@PostMapping(value="idFind", produces="application/json; charset=UTF-8")
+	public String idFind(String email, HttpServletRequest request) {
+		return new Gson().toJson(memberService.idFind(email));
+	}
+	
+	@ResponseBody
+	@PostMapping("pwdMail.bo")
+	public int pwdMail(String email, HttpServletRequest request) throws MessagingException {
+		System.out.println("오냐?");
+		System.out.println(email);
+		MimeMessage message = sender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 		
-		@ResponseBody
-		@PostMapping("check")
-		public int checkCode(String code, HttpServletRequest request) {
-			CertVO certVo = CertVO.builder().who(request.getRemoteAddr()).secret(code).build();
-			return memberService.validata(certVo);
-		}
+		String ip = request.getRemoteAddr();
+		String secret = generateSecret();
 		
-		@ResponseBody
-		@PostMapping(value="idFind", produces="application/json; charset=UTF-8")
-		public String idFind(String email, HttpServletRequest request) {
-			return new Gson().toJson(memberService.idFind(email));
-		}
+		CertVO certvo = CertVO.builder()
+				  .who(ip)
+				  .secret(secret)
+				  .build();
 		
-		@ResponseBody
-		@PostMapping("pwdMail.bo")
-		public int pwdMail(String email, HttpServletRequest request) throws MessagingException {
-			System.out.println("오냐?");
-			System.out.println(email);
-			MimeMessage message = sender.createMimeMessage();
-			MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-			
-			String ip = request.getRemoteAddr();
-			String secret = generateSecret();
-			
-			CertVO certvo = CertVO.builder()
-					  .who(ip)
-					  .secret(secret)
-					  .build();
-			
-			int result = memberService.sendMail(certvo);
-			
-			helper.setTo(email);
-			helper.setSubject("인증번호 보내드립니다");
-			helper.setText("인증번호 : " + secret);
-			
-			sender.send(message);
-			
-			return result;
-			
-		}
+		int result = memberService.sendMail(certvo);
 		
-		@ResponseBody
-		@PostMapping("pwdCheck")
-		public int pwdCheck(String code, HttpServletRequest request) {
-			CertVO certVo = CertVO.builder().who(request.getRemoteAddr()).secret(code).build();
-			return memberService.validata(certVo);
-		}
+		helper.setTo(email);
+		helper.setSubject("인증번호 보내드립니다");
+		helper.setText("인증번호 : " + secret);
+		
+		sender.send(message);
+		
+		return result;
+		
+	}
+	
+	@ResponseBody
+	@PostMapping("pwdCheck")
+	public int pwdCheck(String code, HttpServletRequest request) {
+		CertVO certVo = CertVO.builder().who(request.getRemoteAddr()).secret(code).build();
+		return memberService.validata(certVo);
+	}
 
-		@ResponseBody
-		@PostMapping("pwdFind")
-		public ModelAndView pwdFind(Passward p, HttpServletRequest request, ModelAndView mv) {
-			if(memberService.pwdFind(p) > 0) {
-				mv.addObject("alertMsg", "비밀번호가 변경되었습니다!");
-				mv.setViewName("common/main");
-			}else {
-				mv.addObject("errorMsg", "비밀번호변경에 실패하였습니다!");
-				mv.setViewName("common/main");
-			}
-			return mv;
+	@ResponseBody
+	@PostMapping("pwdFind")
+	public ModelAndView pwdFind(Passward p, HttpServletRequest request, ModelAndView mv) {
+		if(memberService.pwdFind(p) > 0) {
+			mv.addObject("alertMsg", "비밀번호가 변경되었습니다!");
+			mv.setViewName("common/main");
+		}else {
+			mv.addObject("errorMsg", "비밀번호변경에 실패하였습니다!");
+			mv.setViewName("common/main");
 		}
-		
-		@PostMapping("myPage")
-		public String myPage(@RequestParam(value="mPage", defaultValue="1") int currentPage, String memberId, HttpServletRequest request, Model m) {
-			
-			PageInfo pi = Pagination.getPageInfo(memberService.boardCount(memberId), currentPage, 10, 10);
-			pi.setMemberId(memberId);
-			ArrayList<Board> list = memberService.myPage(pi);
-			if(list.isEmpty()) {
-				m.addAttribute("boardList", list);
-				return "member/myPageMain";
+		return mv;
+	}
+	
+	@RequestMapping("myPage")
+	public String myPage(@RequestParam(value="mPage", defaultValue="1") int currentPage, HttpServletRequest request, Model m) {
+		String memberId = ((Member)request.getSession().getAttribute("loginMember")).getMemId();
+		PageInfo pi = Pagination.getPageInfo(memberService.boardCount(memberId), currentPage, 10, 10);
+		pi.setMemberId(memberId);
+		ArrayList<Board> list = memberService.myPage(pi);
+		if(list.isEmpty()) {
+			m.addAttribute("boardList", list);
+			return "member/myPageMain";
 
-			}else {
-				m.addAttribute("number", 1);
-				m.addAttribute("pi", pi);
-				m.addAttribute("boardList", list);
-				return "member/myPageMain";
-			}
+		}else {
+			m.addAttribute("number", 1);
+			m.addAttribute("pi", pi);
+			m.addAttribute("boardList", list);
+			return "member/myPageMain";
 		}
+	}
+	
+	@PostMapping("myPageReply")
+	public String myPageReply(@RequestParam(value="mPage", defaultValue="1") int currentPage, String memberId, HttpServletRequest request, Model m) {
 		
-		@PostMapping("myPageReply")
-		public String myPageReply(@RequestParam(value="mPage", defaultValue="1") int currentPage, String memberId, HttpServletRequest request, Model m) {
-			
-			PageInfo pi = Pagination.getPageInfo(memberService.replyCount(memberId), currentPage, 10, 10);
-			pi.setMemberId(memberId);
-			ArrayList<Comments> list = memberService.myPageReply(pi);
-			if(list.isEmpty()) {
-				m.addAttribute("boardList", list);
-				return "member/myPageMain";
+		PageInfo pi = Pagination.getPageInfo(memberService.replyCount(memberId), currentPage, 10, 10);
+		pi.setMemberId(memberId);
+		ArrayList<Comments> list = memberService.myPageReply(pi);
+		if(list.isEmpty()) {
+			m.addAttribute("boardList", list);
+			return "member/myPageMain";
 
-			}else {
-				m.addAttribute("number", 2);
-				m.addAttribute("pi", pi);
-				m.addAttribute("ReplyList", list);
-				return "member/myPageMain";
-			}
+		}else {
+			m.addAttribute("number", 2);
+			m.addAttribute("pi", pi);
+			m.addAttribute("ReplyList", list);
+			return "member/myPageMain";
 		}
-		@PostMapping("myPageLike")
-		public String myPageLike(@RequestParam(value="mPage", defaultValue="1") int currentPage, String memberId, HttpServletRequest request, Model m) {
-			
-			PageInfo pi = Pagination.getPageInfo(memberService.likeCount(memberId), currentPage, 10, 10);
-			pi.setMemberId(memberId);
-			ArrayList<Board> list = memberService.myPageLike(pi);
-			if(list.isEmpty()) {
-				m.addAttribute("boardList", list);
-				return "member/myPageMain";
+	}
+	@PostMapping("myPageLike")
+	public String myPageLike(@RequestParam(value="mPage", defaultValue="1") int currentPage, String memberId, HttpServletRequest request, Model m) {
+		
+		PageInfo pi = Pagination.getPageInfo(memberService.likeCount(memberId), currentPage, 10, 10);
+		pi.setMemberId(memberId);
+		ArrayList<Board> list = memberService.myPageLike(pi);
+		if(list.isEmpty()) {
+			m.addAttribute("boardList", list);
+			return "member/myPageMain";
 
-			}else {
-				m.addAttribute("number", 3);
-				m.addAttribute("pi", pi);
-				m.addAttribute("boardList", list);
-				return "member/myPageMain";
-			}
+		}else {
+			m.addAttribute("number", 3);
+			m.addAttribute("pi", pi);
+			m.addAttribute("boardList", list);
+			return "member/myPageMain";
 		}
+	}
+	
+	
+	@PostMapping("myPageDelete")
+	public String myPageDelete(@RequestParam(value="mPage", defaultValue="1") int currentPage, String memberId, HttpServletRequest request, Model m) {
 		
-		
-		@PostMapping("myPageDelete")
-		public String myPageDelete(@RequestParam(value="mPage", defaultValue="1") int currentPage, String memberId, HttpServletRequest request, Model m) {
-			
-			PageInfo pi = Pagination.getPageInfo(memberService.deleteCount(memberId), currentPage, 10, 10);
-			pi.setMemberId(memberId);
-			ArrayList<Board> list = memberService.myPageDelete(pi);
-			if(list.isEmpty()) {
-				m.addAttribute("boardList", list);
-				return "member/myPageMain";
+		PageInfo pi = Pagination.getPageInfo(memberService.deleteCount(memberId), currentPage, 10, 10);
+		pi.setMemberId(memberId);
+		ArrayList<Board> list = memberService.myPageDelete(pi);
+		if(list.isEmpty()) {
+			m.addAttribute("boardList", list);
+			return "member/myPageMain";
 
-			}else {
-				m.addAttribute("number", 5);
-				m.addAttribute("pi", pi);
-				m.addAttribute("boardList", list);
-				return "member/myPageMain";
-			}
-			
+		}else {
+			m.addAttribute("number", 5);
+			m.addAttribute("pi", pi);
+			m.addAttribute("boardList", list);
+			return "member/myPageMain";
 		}
 		
-		@RequestMapping("myPageFriend.me")
-		public String myPageFriend(@RequestParam(value="mPage", defaultValue="1") int currentPage, HttpServletRequest request, Model m) {
-			HttpSession session = request.getSession();
-			String memberId = (String)((Member)session.getAttribute("loginMember")).getMemId();
-			PageInfo pi = Pagination.getPageInfo(memberService.friendCount(memberId), currentPage, 6, 10);
-			pi.setMemberId(memberId);
-			
-			ArrayList<Member> list = memberService.myPageFriend(pi);
-			if(list.isEmpty()) {
-				m.addAttribute("friendList", list);
-				return "member/friend/myPageFriend";
+	}
+	
+	@RequestMapping("myPageFriend.me")
+	public String myPageFriend(@RequestParam(value="mPage", defaultValue="1") int currentPage, HttpServletRequest request, Model m) {
+		HttpSession session = request.getSession();
+		String memberId = (String)((Member)session.getAttribute("loginMember")).getMemId();
+		PageInfo pi = Pagination.getPageInfo(memberService.friendCount(memberId), currentPage, 6, 10);
+		pi.setMemberId(memberId);
+		
+		ArrayList<Member> list = memberService.myPageFriend(pi);
+		if(list.isEmpty()) {
+			m.addAttribute("friendList", list);
+			return "member/friend/myPageFriend";
 
-			}else {
-				m.addAttribute("pi", pi);
-				m.addAttribute("friendList", list);
-				return "member/friend/myPageFriend";
+		}else {
+			m.addAttribute("pi", pi);
+			m.addAttribute("friendList", list);
+			return "member/friend/myPageFriend";
+		}
+	}
+	
+	@PostMapping("friendDelete.me")
+	public String friendDelete(String memberId, String friendId, Model m){
+		Friend fri = new Friend(memberId, friendId);
+		
+		if(memberService.friendDelete(fri) > 0) {
+			m.addAttribute("alertMsg", "친구 삭제에 성공하셨습니다.");
+			return "redirect:myPageFriend.me";
+		}else {
+			m.addAttribute("alertMsg", "친구 삭제에 실패하셨습니다.");
+			return "redirect:myPageFriend.me";
+		}
+	}
+	
+	@PostMapping("freindSharing.me")
+	public String freindSharing(String memberId, String friendId, Model m) {
+		Friend fri = new Friend(memberId, friendId);
+		
+		if(memberService.freindSharing(fri) > 0) {
+			m.addAttribute("alertMsg", "친구 일정 공유에 성공하셨습니다.");
+			return "redirect:myPageFriend.me";
+		} else {
+			m.addAttribute("alertMsg", "친구 일정 공유에 실패하셨습니다.");
+			return "redirect:myPageFriend.me";
+		}
+	}
+	
+	@PostMapping("sharingCancellation.me")
+	public String sharingCancellation(String memberId, String friendId, Model m) {
+		Friend fri = new Friend(memberId, friendId);
+		
+		if(memberService.sharingCancellation(fri) > 0) {
+			m.addAttribute("alertMsg", "친구 일정 공유 취소에 성공하셨습니다.");
+			return "redirect:myPageFriend.me";
+		} else {
+			m.addAttribute("alertMsg", "친구 일정 공유 취소에 실패하셨습니다.");
+			return "redirect:myPageFriend.me";
+		}
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="friendSearch.me", produces="application/json; charset=UTF-8")
+	public String friendSearch(String friendSearch, String memberId, Model m) {
+		Friend fri = new Friend(memberId, friendSearch);
+		Member member = memberService.friendSearch(fri);
+		System.out.println(member);
+		if(member != null) {
+			return new Gson().toJson(member);
+		}else {
+			return new Gson().toJson("없음");
+		}
+	}
+	
+	
+	@ResponseBody
+	@RequestMapping(value="liveSearch.me", produces="application/json; charset=UTF-8")
+	public String liveSearch(String keyword) {
+		ArrayList<Member> list = memberService.liveSearch(keyword +"%");
+		if(list != null) {
+			return new Gson().toJson(list);
+		}else {
+			return new Gson().toJson("없음");
+		}
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="findMember.me", produces="application/json; charset=UTF-8")
+	public String findMember(String findMember) {
+		Member member = memberService.findMember(findMember);
+		if(member != null) {
+			return new Gson().toJson(member);
+		}else {
+			return new Gson().toJson("없음");
+		}
+	}
+	
+	@PostMapping("friendInsert.me")
+	public String friendInsert(String friendId, String memberId, Model m) {
+		Friend f = new Friend(friendId, memberId);
+		if(memberService.friendInsert(f) > 0) {
+			m.addAttribute("alertMsg", "친구 추가에 실패하셨습니다.");
+			return "redirect:myPageFriend.me";
+		}else {
+			m.addAttribute("alertMsg", "친구 추가에 실패하셨습니다.");
+			return "redirect:myPageFriend.me";
+		}
+	}
+	@RequestMapping("inquiry.me")
+	public String inquiry(@RequestParam(value="iPage", defaultValue="1") int currentPage, HttpServletRequest request, Model m) {
+		HttpSession session = request.getSession();
+		String memberId = ((Member)session.getAttribute("loginMember")).getMemId();
+		PageInfo pi = Pagination.getPageInfo(memberService.inquiryCount(memberId), currentPage, 10, 10);
+		pi.setMemberId(memberId);
+		ArrayList<Inquiry> list = memberService.inquiry(pi);
+		if(list.isEmpty()) {
+			m.addAttribute("inquiryList", list);
+			return "member/inquiry/memberInquiry";
+		}else {
+			m.addAttribute("pi", pi);
+			m.addAttribute("inquiryList", list);
+			return "member/inquiry/memberInquiry";
+		}
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="inquiryDetail.me", produces="application/json; charset=UTF-8")
+	public String inquiryDetail(int inquiryNo, String memberId) {
+		System.out.println(memberId);
+		Inquiry i = new Inquiry(memberId, inquiryNo);
+		Inquiry inquiry = memberService.inquiryDetail(i);
+		if(inquiry != null) {
+			if(inquiry.getInquiryAnswer() == null) {
+				inquiry.setInquiryAnswer("답변 내용이 아직 작성되지 않았습니다.");
 			}
+			return new Gson().toJson(inquiry);
+		}else {
+			return new Gson().toJson("없음");
+		}
+	}
+	
+	@RequestMapping("inuqiryDelete.me")
+	public String inquiryDelete(int ino, Model m) {
+		if(memberService.inquiryDelete(ino) > 0) {
+			m.addAttribute("alertMsg", "삭제에 성공하셨습니다.");
+			return "redirect:inquiry.me";
+		}else {
+			m.addAttribute("alertMsg", "삭제에 실패하셨습니다.");
+			return "redirect:inquiry.me";
+		}
+	}
+	
+	@RequestMapping("inquiryInsertPage.me")
+	public String inquiryInsertPage() {
+		return "member/modal/memberinquiryModal";
+	}
+	
+	@RequestMapping("inquiryInsert.me")
+	public String inquiryInsert(String memberId, String inquiryTitle, String inquiryContent, Model m) {
+		Inquiry i = new Inquiry();
+		i.setMemberId(memberId);
+		i.setInquiryTitle(inquiryTitle);
+		i.setInquiryContent(inquiryContent);
+		System.out.println(i);
+		if(memberService.inquiryInsert(i) > 0) {
+			m.addAttribute("alertMsg", "작성에 성공하셨습니다.");
+			return "redirect:inquiry.me";
+		}else {
+			m.addAttribute("alertMsg", "작성에 실패하셨습니다.");
+			return "redirect:inquiry.me";
 		}
 		
-		@PostMapping("friendDelete.me")
-		public String friendDelete(String memberId, String friendId, Model m){
-			Friend fri = new Friend(memberId, friendId);
-			
-			if(memberService.friendDelete(fri) > 0) {
-				m.addAttribute("alertMsg", "친구 삭제에 성공하셨습니다.");
-				return "redirect:myPageFriend.me";
-			}else {
-				m.addAttribute("alertMsg", "친구 삭제에 실패하셨습니다.");
-				return "redirect:myPageFriend.me";
-			}
-		}
+	}
+	
+	@RequestMapping("chatting.me")
+	public String chatting(HttpServletRequest request,Model m) {
+		AllChatting all= memberService.allChatLast();
+		HttpSession session = request.getSession();
+		String memberId = ((Member)session.getAttribute("loginMember")).getMemId();
+		System.out.println(memberId);
+		ArrayList<OneChatting> one = memberService.oneChatList(memberId);
+		System.out.println(all);
+		System.out.println(one);
+		m.addAttribute("oneChatList", one);
+		m.addAttribute("lastChat", all);
+		return "member/chatting/memberChatting";
+				
+	}
+	@ResponseBody
+	@RequestMapping(value="allChattingInsert.me", produces="application/json; charset=UTF-8")
+	public String allChattingInsert(String memberId) {
+		ArrayList<AllChatting> a = memberService.allChattingInsert(memberId);
+		return new Gson().toJson(a);
+	}
+	
+	@PostMapping("oneChatInsert.me")
+	public String oneChatInsert(String friendId, String memberId, Model m, HttpServletRequest request) {
+		System.out.println(1111);
+		OneChatting one = new OneChatting();
+		one.setMemberOne(friendId);
+		one.setMemberTwo(memberId);
+		one.setOneChatContent(memberId + "님이 " + friendId + "님을 초대하였습니다.");
 		
-		@PostMapping("freindSharing.me")
-		public String freindSharing(String memberId, String friendId, Model m) {
-			Friend fri = new Friend(memberId, friendId);
-			
-			if(memberService.freindSharing(fri) > 0) {
-				m.addAttribute("alertMsg", "친구 일정 공유에 성공하셨습니다.");
-				return "redirect:myPageFriend.me";
-			} else {
-				m.addAttribute("alertMsg", "친구 일정 공유에 실패하셨습니다.");
-				return "redirect:myPageFriend.me";
-			}
+		//System.out.println(one);
+		one = memberService.oneChatInsert(one);
+		System.out.println(one);
+		request.getSession().setAttribute("onChat", one);
+		return "redirect:chatting.me";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="oneChattingSelect.me", produces="application/json; charset=UTF-8")
+	public String oneChattingSelect(int oneChatNo) {
+		ArrayList<OneChatting> one = memberService.oneChattingSelect(oneChatNo);
+		return new Gson().toJson(one);
+	}
+	
+	@PostMapping(value="boardSelectDelete", produces="application/json; charset=UTF-8")
+	public String boardSelectDelete(String numbers) {
+		String[] num = numbers.split(",");
+		int[] intArray = new int[num.length];
+		for(int i = 0; i < num.length; i++) {
+			intArray[i] = Integer.parseInt(num[i]);
 		}
-		
-		@PostMapping("sharingCancellation.me")
-		public String sharingCancellation(String memberId, String friendId, Model m) {
-			Friend fri = new Friend(memberId, friendId);
-			
-			if(memberService.sharingCancellation(fri) > 0) {
-				m.addAttribute("alertMsg", "친구 일정 공유 취소에 성공하셨습니다.");
-				return "redirect:myPageFriend.me";
-			} else {
-				m.addAttribute("alertMsg", "친구 일정 공유 취소에 실패하셨습니다.");
-				return "redirect:myPageFriend.me";
-			}
-		}
-		
-		@ResponseBody
-		@RequestMapping(value="friendSearch.me", produces="application/json; charset=UTF-8")
-		public String friendSearch(String friendSearch, String memberId, Model m) {
-			Friend fri = new Friend(memberId, friendSearch);
-			Member member = memberService.friendSearch(fri);
-			System.out.println(member);
-			if(member != null) {
-				return new Gson().toJson(member);
-			}else {
-				return new Gson().toJson("없음");
-			}
-		}
-		
-		
-		@ResponseBody
-		@RequestMapping(value="liveSearch.me", produces="application/json; charset=UTF-8")
-		public String liveSearch(String keyword) {
-			ArrayList<Member> list = memberService.liveSearch(keyword +"%");
-			if(list != null) {
-				return new Gson().toJson(list);
-			}else {
-				return new Gson().toJson("없음");
-			}
-		}
-		
-		@ResponseBody
-		@RequestMapping(value="findMember.me", produces="application/json; charset=UTF-8")
-		public String findMember(String findMember) {
-			Member member = memberService.findMember(findMember);
-			if(member != null) {
-				return new Gson().toJson(member);
-			}else {
-				return new Gson().toJson("없음");
-			}
-		}
-		
-		@PostMapping("friendInsert.me")
-		public String friendInsert(String friendId, String memberId, Model m) {
-			return null;
-		}
-		
-		@RequestMapping("inquiry.me")
-		public String inquiry(@RequestParam(value="iPage", defaultValue="1") int currentPage, HttpServletRequest request, Model m) {
-			HttpSession session = request.getSession();
-			String memberId = ((Member)session.getAttribute("loginMember")).getMemId();
-			PageInfo pi = Pagination.getPageInfo(memberService.inquiryCount(memberId), currentPage, 10, 10);
-			pi.setMemberId(memberId);
-			ArrayList<Inquiry> list = memberService.inquiry(pi);
-			if(list.isEmpty()) {
-				m.addAttribute("inquiryList", list);
-				return "member/inquiry/memberInquiry";
-			}else {
-				m.addAttribute("pi", pi);
-				m.addAttribute("inquiryList", list);
-				return "member/inquiry/memberInquiry";
-			}
-		}
-		
-		@ResponseBody
-		@RequestMapping(value="inquiryDetail.me", produces="application/json; charset=UTF-8")
-		public String inquiryDetail(int inquiryNo, String memberId) {
-			System.out.println(memberId);
-			Inquiry i = new Inquiry(memberId, inquiryNo);
-			Inquiry inquiry = memberService.inquiryDetail(i);
-			if(inquiry != null) {
-				if(inquiry.getInquiryAnswer() == null) {
-					inquiry.setInquiryAnswer("답변 내용이 아직 작성되지 않았습니다.");
-				}
-				return new Gson().toJson(inquiry);
-			}else {
-				return new Gson().toJson("없음");
-			}
-		}
-		
-		@RequestMapping("inuqiryDelete.me")
-		public String inquiryDelete(int ino, Model m) {
-			if(memberService.inquiryDelete(ino) > 0) {
-				m.addAttribute("alertMsg", "삭제에 성공하셨습니다.");
-				return "redirect:inquiry.me";
-			}else {
-				m.addAttribute("alertMsg", "삭제에 실패하셨습니다.");
-				return "redirect:inquiry.me";
-			}
-		}
-		
-		@RequestMapping("inquiryInsertPage.me")
-		public String inquiryInsertPage() {
-			return "member/modal/memberinquiryModal";
-		}
-		
-		@RequestMapping("inquiryInsert.me")
-		public String inquiryInsert(String memberId, String inquiryTitle, String inquiryContent, Model m) {
-			Inquiry i = new Inquiry();
-			i.setMemberId(memberId);
-			i.setInquiryTitle(inquiryTitle);
-			i.setInquiryContent(inquiryContent);
-			System.out.println(i);
-			if(memberService.inquiryInsert(i) > 0) {
-				m.addAttribute("alertMsg", "작성에 성공하셨습니다.");
-				return "redirect:inquiry.me";
-			}else {
-				m.addAttribute("alertMsg", "작성에 실패하셨습니다.");
-				return "redirect:inquiry.me";
-			}
-			
-		}
+		 memberService.boardSelectDelete(intArray);
+		return "redirect:myPage";
+	}
 		
 	}
