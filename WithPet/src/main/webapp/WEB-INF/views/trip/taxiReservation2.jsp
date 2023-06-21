@@ -11,7 +11,7 @@
 		#total_wrap{
 			margin: auto;
 			width: 1200px;
-			border: 0.1px solid sandybrown;
+			/*border: 0.1px solid sandybrown;*/
 			box-sizing: border-box;
 			text-align: center;
 		}
@@ -21,20 +21,20 @@
 			width: 100%;
 			text-align: center;
 			margin: 0px;
-			border: 0.1px solid sandybrown;
+			/*border: 0.1px solid sandybrown;*/
 		}
 		
 		#content_wrap{
 			height : 200px;
 			width: 100%;
 			text-align: center;
-			border: 0.1px solid sandybrown;
+			/*border: 0.1px solid sandybrown;*/
 		}
 
 		#tmap_wrap{
 			height: 480px;
 			width: 100%;
-			border: 0.1px solid sandybrown;
+			/*border: 0.1px solid sandybrown;*/
 			text-align: center;
 			align : center;
 			margin: auto;
@@ -650,22 +650,32 @@ $(function(){
 	
 	$(function(){
 		$('#taxiRDate').datepicker({
-			dateFormat: 'dd/mm/yy'
+			dateFormat: 'dd/mm/yy',
+			minDate: +1
 		});
 		
 		$('#taxiRDate').click(function(){
 			$('#taxiRDate').datepicker({
 			});
 			var choiceDate = $('#taxiRDate').val();
-			//console.log('날짜?'+choiceDate);
-			
 		})
+		
+		
+		$('#startDate').datepicker({
+			dateFormat: 'dd/mm/yy',
+			minDate: +1
+		});
 		
 		$('#startDate').click(function(){
 			$('#startDate').datepicker({
 			});
 			var startDate = $('#startDate').val();
 		})
+		
+		$('#endDate').datepicker({
+			dateFormat: 'dd/mm/yy'
+			,minDate: +1
+		});
 		
 		$('#endDate').click(function(){
 			$('#endDate').datepicker({
@@ -676,15 +686,11 @@ $(function(){
 		$('#checkTR').click(function(){
 			
 			var choiceDate = $('#taxiRDate').val();
-			console.log(choiceDate);
-			console.log($('input[name=trType2]:checked').val());
-			console.log($('#taxiRTime').val());
 			if(choiceDate == ''){
 				alert('날짜를 선택해주세요!');
 				return false;
 			}
 			else{
-				
 			
 			$.ajax({
 					url : 'checkTReservation',
@@ -693,7 +699,6 @@ $(function(){
 							 trType2 : $('input[name=trType2]:checked').val(),
 							 taxiRTime : $('#taxiRTime').val()},
 					success : function(result){
-						//console.log(result);
 						if(result == "Yes"){
 							alert('예약이 가능합니다.');
 							$('#submitBtn').attr('disabled',false).css('background-color','rgb(73, 166, 112)')
@@ -706,7 +711,6 @@ $(function(){
 					}
 				});
 			}
-
 		})
 
 		
@@ -738,13 +742,14 @@ $(function(){
 					data : { 
 							 startDate : startDate,
 							 endDate : endDate,
-							 trType2 : $('input[name=trType22]:checked').val()
+							 trType22 : $('input[name=trType22]:checked').val()
 							},
 					success : function(result){
 						console.log($('input[name=trType22]:checked').val());
 						console.log(result);
 						if(result.trFee == 0){
 							alert('선택하신 차량은 해당 날짜에 이미 예약이 다 완료되었습니다.');
+							$('#paymentChk').html('');
 						} else {
 							alert('예약이 가능 합니다.');
 							console.log(result);

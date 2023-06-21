@@ -292,14 +292,15 @@
 						for(var i in resultArr){
 							
 							let result = resultArr[i];
-							
 								
 									if(result.status == 'Y'){
-										value +=  '<tr>' + '<th><input type="radio" name="trNo" style="margin-left:20px" value="'+result.carRno+'"/></th>'
-										  + '<td>'+result.carRno+'</td><td>'+result.trNo+'</td>'
+										value += '<tr>' 
+										      + '<th><input type="radio" name="trNo" style="margin-left:20px" value="'+result.carRno+'"/></th>'
+										 	  + '<td>'+result.carRno+'</td><td>'+result.trNo+'</td>'
 									} else {
-										value +=  '<tr>' + '<th><input type="radio" name="trNo" disabled style="margin-left:20px" value="'+result.carRno+'"/></th>'
-										  + '<td>'+result.carRno+'</td><td>'+result.trNo+'</td>'
+										value += '<tr>' 
+										      + '<th><input type="radio" name="trNo" disabled style="margin-left:20px" value="'+result.carRno+'"/></th>'
+										  	  + '<td>'+result.carRno+'</td><td>'+result.trNo+'</td>'
 									}
 							
 							      
@@ -311,6 +312,7 @@
 								   	 } else{
 								   		 value+='<td>대형세단</td>'
 								   	 }
+								   	 
 						    value += '<td>'+result.startDate+'</td>'
 						          + '<td>'+result.endDate+'</td>'
 								  + '<td>'+result.memId+'</td>'
@@ -321,16 +323,12 @@
 								  
 						}
 						$('#naviTable').html(value);
-					
 					}
 				},
 				error : function(){
 					console.log('카예약 목록 불러오기 실패 ㅠㅠ');
 				}
-	
 			})
-			
-			
 		})
 		
 	$('#taxiList').click(function(){

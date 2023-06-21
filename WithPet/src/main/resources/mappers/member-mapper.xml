@@ -978,9 +978,9 @@
 		     ,TO_CHAR(END_DATE,'YY/MM/DD') endDate
 		     ,STATUS status
 		     ,TR_PAYMENT_NO trPaymentNo
-		     ,TO_CHAR(TR_PAYMENT_DATE,'DD/MM/YY') trPaymentDate
+		     ,TO_CHAR(TR_PAYMENT_DATE,'YY/MM/DD') trPaymentDate
 		     ,TR_CARD_NO trCardNo
-		     ,TR_TYPE2 trType2
+		     ,TR_TYPE2 trType22
 		     ,TR_FEE trFee
 		     ,TRUNC((TO_DATE(END_DATE, 'YY/MM/DD') - TO_DATE(START_DATE, 'YY/MM/DD'))/365) reservationDay
 		     ,MEM_ID memId

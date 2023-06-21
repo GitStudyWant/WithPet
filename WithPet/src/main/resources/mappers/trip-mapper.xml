@@ -179,7 +179,7 @@
 		   AND
 		      TAXI_RTIME = #{taxiRTime}
 		   AND 
-		      TO_CHAR(TAXI_RDATE, 'DD/MM/YY') = #{taxiRDate}
+		       TAXI_RDATE = TO_DATE(#{taxiRDate}, 'DD/MM/YY')
 		   AND 
 		      STATUS = 'Y'
 	</select>
@@ -252,7 +252,7 @@
 		        WHERE
 		             TR_TYPE2 = #{trType22}
 		          AND
-		             END_DATE >= #{startDate} 
+		              END_DATE >= TO_DATE(#{startDate}, 'DD/MM/YY') 
 		          AND
 		             STATUS = 'Y'
 		       GROUP
@@ -288,7 +288,7 @@
 		 			 			       TR_TYPE2 = #{trType22} AND
 		 			 			       STATUS = 'Y') 
 		 			 			  WHERE 
-		 			 			       TO_CHAR(END_DATE,'DD/MM/YYYY') >= #{startDate}) AND 
+		 			 			       END_DATE >= TO_DATE(#{startDate},'DD/MM/YY')) AND 
 		 			 			       TR_TYPE='C' AND 
 		 			 			       TR_TYPE2 = #{trType22}
 	</select>
@@ -321,8 +321,8 @@
 	          (
 	          SEQ_CAR_RNO.NEXTVAL
 	         ,#{trNo}
-	         ,#{startDate}
-	         ,#{endDate}
+	         ,TO_DATE(#{startDate}, 'DD/MM/YY')
+	         ,TO_DATE(#{endDate}, 'DD/MM/YY')
 	         ,'Y'
 	         ,#{memId}
 	         ,SEQ_TR_PAYNO.NEXTVAL

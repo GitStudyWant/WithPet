@@ -619,13 +619,13 @@
 				data : { placeLocation : $('#location').val(),
 						placeType : $('#type').val()},
 				success : function(result){
-					console.log('전체는 성공!');
-					console.log(result);
 					let placeList ='';
 					for(let i in result){
 						placeList+= '<tr>'
-								 + '<td>'+'<input type="hidden" value="'+result[i].placeLng+'" id="'+result[i].placeNo+'placeLng">'+'</td>'
-								 + '<td>'+'<input type="hidden" value="'+result[i].placeLat+'" id="'+result[i].placeNo+'placeLat">'+'</td>'
+								 + '<td>'
+								 + '<input type="hidden" value="'+result[i].placeLng+'" id="'+result[i].placeNo+'placeLng">'+'</td>'
+								 + '<td>'
+								 + '<input type="hidden" value="'+result[i].placeLat+'" id="'+result[i].placeNo+'placeLat">'+'</td>'
 								 + '<td>' + '<input type="radio" name="pick" value="'+result[i].placeNo+'"></td>'
 								 + '<td>'+ result[i].placeNo+ '</td>'
 								 + '<td class="placeName" id="'+result[i].placeNo+'placeName">'+ result[i].placeName + '<td>'
@@ -636,7 +636,6 @@
 					$('#allList>tbody>tr>.placeName').click(function(){
 						$('#placeDetailModal').modal("show");
 						let placeNo = $(this).prev().text();
-						//console.log(placeNo);
 						placedetail(placeNo);
 					})
 				},
@@ -655,8 +654,10 @@
 					console.log('베스트도 성공');
 					for(let i in result){	
 						bestList += '<tr>'
-							     + '<td>'+'<input type="hidden" value="'+result[i].placeLng+'" id="'+result[i].placeNo+'placeLng">'+'</td>'
-							     + '<td>'+'<input type="hidden" value="'+result[i].placeLat+'" id="'+result[i].placeNo+'placeLat">'+'</td>'
+							     + '<td>'
+							     + '<input type="hidden" value="'+result[i].placeLng+'" id="'+result[i].placeNo+'placeLng">'+'</td>'
+							     + '<td>'
+							     + '<input type="hidden" value="'+result[i].placeLat+'" id="'+result[i].placeNo+'placeLat">'+'</td>'
 							     + '<td>' + '<input type="radio" name="pick" value="'+result[i].placeNo+'"></td>'
 							     + '<td>'+ result[i].placeNo+ '</td>'
 							     + '<td class="placeName" id="'+result[i].placeNo+'placeName">'+ result[i].placeName + '<td>'
