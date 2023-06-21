@@ -201,8 +201,8 @@ public class TripController {
 			t.setTrType2(r.getTrType2());
 			t.setTrType("T");
 			System.out.println(r);
-			int result1 = tripService.checkTransportation(t);
 			
+			int result1 = tripService.checkTransportation(t);
 			int result2 = tripService.checkTReservation(r);
 			
 			//System.out.println(result1);
@@ -222,7 +222,6 @@ public class TripController {
 			session.setAttribute("alertMsg","로그인 후 이용해주세요~");
 			return "common/main";
 		} else {
-			
 			int trNo = tripService.findTaxiNo(r);
 			r.setTrNo(trNo);
 			System.out.println(trNo);
@@ -241,28 +240,27 @@ public class TripController {
 	@RequestMapping(value="checkCReservation",produces="application/json; charset=UTF-8")
 	public String checkCReservation(CarReservation c) {
 		
-		//System.out.println(c);
 		Transportation t = new Transportation();
 		t.setTrType2(c.getTrType22());
 		t.setTrType("C");
 		System.out.println(c);
-		String startDate2 = c.getStartDate().substring(0,3);
-		String startDate3 = c.getStartDate().substring(3,6);
-		String startDate4 = startDate3+startDate2 + "23";
-		c.setStartDate(startDate4);
+		//System.out.println(c);
+		//String startDate2 = c.getStartDate().substring(0,3);
+		//String startDate3 = c.getStartDate().substring(3,6);
+		//String startDate4 = startDate3+startDate2 + "23";
+		//c.setStartDate(startDate4);
 		
-		String endDate2 = c.getEndDate().substring(0,3);
-		String endDate3 = c.getEndDate().substring(3,6);
-		String endDate4 = endDate3+endDate2 + "23";
-		c.setEndDate(endDate4);
+		//String endDate2 = c.getEndDate().substring(0,3);
+		//String endDate3 = c.getEndDate().substring(3,6);
+		//String endDate4 = endDate3+endDate2 + "23";
+		//c.setEndDate(endDate4);
 		
 		int trNo = tripService.findCarNo(c);
 		c.setTrNo(trNo);
+		System.out.println(trNo);
 		
 		int result1 = tripService.checkTransportation(t);
-		
 		int result2 = tripService.checkCReservation(c);
-		
 		
 		System.out.println(result1);
 		System.out.println(result2);
@@ -283,15 +281,15 @@ public class TripController {
 			session.setAttribute("alertMsg","로그인 후 이용해주세요~");
 			return "common/main";
 		} else {
-			String startDate2 = c.getStartDate().substring(0,3);
-			String startDate3 = c.getStartDate().substring(3,6);
-			String startDate4 = startDate3+startDate2 + "23";
-			c.setStartDate(startDate4);
+			//String startDate2 = c.getStartDate().substring(0,3);
+			//String startDate3 = c.getStartDate().substring(3,6);
+			//String startDate4 = startDate3+startDate2 + "23";
+			//c.setStartDate(startDate4);
 			
-			String endDate2 = c.getEndDate().substring(0,3);
-			String endDate3 = c.getEndDate().substring(3,6);
-			String endDate4 = endDate3+endDate2 + "23";
-			c.setEndDate(endDate4);
+			//String endDate2 = c.getEndDate().substring(0,3);
+			//String endDate3 = c.getEndDate().substring(3,6);
+			//String endDate4 = endDate3+endDate2 + "23";
+			//c.setEndDate(endDate4);
 			
 			int result = tripService.carReservation(c);
 			

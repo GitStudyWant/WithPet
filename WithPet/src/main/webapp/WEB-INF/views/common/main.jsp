@@ -53,15 +53,12 @@
 	
 	<div id="body">
 		<div id="searchBar">
-		<form action="goSearch" method="GET">
-			<input type="text" style="margin-left:700px; margin-top:30px; width: 400px" id="searchKeyword" name="searchKeyword" onkeyup="searchKeyword1(this);">
-			<div id="keywordResult" style="margin-left:700px;"></div> 
-			<button type="submit" class="btnn" id="searchBtn">검색</button><br>
-			<div id="bestKeyword"></div>
-		</form>
-		</div>
-		<div>
-		
+			<form action="goSearch" method="GET">
+				<input type="text" style="margin-left:700px; margin-top:30px; width: 400px" id="searchKeyword" name="searchKeyword" onkeyup="searchKeyword1(this);">
+				<div id="keywordResult" style="margin-left:700px;"></div> 
+				<button type="submit" class="btnn" id="searchBtn">검색</button><br>
+				<div id="bestKeyword"></div>
+			</form>
 		</div>
 	</div>
 	
@@ -69,9 +66,6 @@
 	<script>
 	
 	function searchKeyword1(e){
-		
-		console.log($(e).val());
-		
 		$.ajax({
 			url : 'searchKeyword',
 			data : {
@@ -79,24 +73,22 @@
 			},
 			success : function(result){
 				console.log(result);
-				var searchKey = '';
+				let searchKey = '';
 					for(let i in result){
 						if($(e).val() != ''){
 							searchKey += '<p>' + result[i].searchKeyword + '<p>'
 						}
 					}
-					console.log(searchKey);
-					
 					if($(e).val() == '' || result.length == 0){
-						//$('#keywordResult').html('');
-					}else {
+						$('#keywordResult').css('display','none');
+					}
+					else {
 						$('#keywordResult').html(searchKey);
 						$('#keywordResult').css('display','block');
 					} 
-					
+				
 					$('#keywordResult>p').click(function(){
-						var keywordPick = $(this).text();
-						console.log('클릭한거?' + keywordPick);
+						let keywordPick = $(this).text();
 						$('#searchKeyword').val(keywordPick);
 						$('#keywordResult').css('display', 'none');
 					})
@@ -108,30 +100,23 @@
 		
 	}
 	
-	
-	
-	
+
 	$(function(){
 	
 		$.ajax({
 			url : 'bestKeyword',
 			success : function(result){
-				console.log(result);
 				var value= '<b>인기검색어 : </b>';
 				for(let i in result){
-					value+='<a class="goBestSearch" href="goSearch?searchKeyword='+result[i].searchKeyword+'">'+result[i].searchKeyword+'</a>'+' | ';
+					value +='<a class="goBestSearch" href="goSearch?searchKeyword='+result[i].searchKeyword+'">'
+					      + result[i].searchKeyword + '</a>' + ' | ';
 				}
-				
 				$('#bestKeyword').html(value);
-				console.log(value);
-				
 			},
-			errorr : function(){
+			error : function(){
 				console.log('인기 검색어 조회 실패 ㅜㅜ');
 			}
-		
 		});
-		
 	})
 	
 	
