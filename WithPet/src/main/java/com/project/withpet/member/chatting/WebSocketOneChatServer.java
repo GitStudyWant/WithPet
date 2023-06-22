@@ -24,7 +24,7 @@ import com.project.withpet.member.model.vo.AllChatting;
  */
 import com.project.withpet.member.model.vo.OneChatting;
 
-public class WebSocketBasicServer extends TextWebSocketHandler{
+public class WebSocketOneChatServer extends TextWebSocketHandler{
 
 		private Set<WebSocketSession> users = new CopyOnWriteArraySet();
 		private Map<String, Object> userMap = new HashMap<String, Object>();

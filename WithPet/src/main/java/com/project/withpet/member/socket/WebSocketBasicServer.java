@@ -23,7 +23,7 @@ public class WebSocketBasicServer extends TextWebSocketHandler{
 
 		String memId = message.getPayload();
 
-		TextMessage sendmsg = new TextMessage(String.valueOf(memberService.selectReceiveMemoCountCheck(memId)));
+		TextMessage sendmsg = new TextMessage(String.valueOf(memberService.selectReceiveMemoCountCheck(memId)) + "@t");
 		
 		session.sendMessage(sendmsg);
 		

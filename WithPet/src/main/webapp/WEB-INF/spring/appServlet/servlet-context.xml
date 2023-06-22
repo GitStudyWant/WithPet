@@ -27,7 +27,7 @@
 	
 	<context:component-scan base-package="com.kh.chatting" />
 	
-	<beans:bean class="com.project.withpet.member.chatting.WebSocketBasicServer" id="basicServer"/>
+	<beans:bean class="com.project.withpet.member.chatting.WebSocketOneChatServer" id="OneChatServer"/>
 	<beans:bean class="com.project.withpet.member.chatting.WebSocketGroupServer" id="groupServer"/>
 	<beans:bean class="com.project.withpet.member.socket.WebSocketBasicServer" id="memberServer" />
 	
@@ -37,7 +37,7 @@
 		</websocket:handlers>
 		
 		<websocket:handlers>
-			<websocket:mapping handler="basicServer" path="sc" />
+			<websocket:mapping handler="OneChatServer" path="one" />
 			<websocket:handshake-interceptors>
 				<beans:bean class="com.project.withpet.member.WebSocketHandShakeInterceptor"/>
 			</websocket:handshake-interceptors>

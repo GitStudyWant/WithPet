@@ -1431,8 +1431,6 @@ public class MemberController {
 	@ResponseBody
 	@PostMapping("sendMail.bo")
 	public int sendMail(String email, HttpServletRequest request) throws MessagingException {
-		System.out.println("오냐?");
-		System.out.println(email);
 		MimeMessage message = sender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 		
@@ -1482,8 +1480,6 @@ public class MemberController {
 	@ResponseBody
 	@PostMapping("pwdMail.bo")
 	public int pwdMail(String email, HttpServletRequest request) throws MessagingException {
-		System.out.println("오냐?");
-		System.out.println(email);
 		MimeMessage message = sender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 		
@@ -1760,7 +1756,6 @@ public class MemberController {
 		i.setMemberId(memberId);
 		i.setInquiryTitle(inquiryTitle);
 		i.setInquiryContent(inquiryContent);
-		System.out.println(i);
 		if(memberService.inquiryInsert(i) > 0) {
 			m.addAttribute("alertMsg", "작성에 성공하셨습니다.");
 			return "redirect:inquiry.me";
@@ -1776,10 +1771,7 @@ public class MemberController {
 		AllChatting all= memberService.allChatLast();
 		HttpSession session = request.getSession();
 		String memberId = ((Member)session.getAttribute("loginMember")).getMemId();
-		System.out.println(memberId);
 		ArrayList<OneChatting> one = memberService.oneChatList(memberId);
-		System.out.println(all);
-		System.out.println(one);
 		m.addAttribute("oneChatList", one);
 		m.addAttribute("lastChat", all);
 		return "member/chatting/memberChatting";

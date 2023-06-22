@@ -604,7 +604,7 @@
 					nickName = '${loginMember.memId}';
 					
 					console.log(socket);
-					var uri = 'ws://localhost:8787/withpet/sc?chat='+ oneChatNo;
+					var uri = 'ws://localhost:8787/withpet/one?chat='+ oneChatNo;
 				
 					if(socket == undefined){
 					socket = new WebSocket(uri);
