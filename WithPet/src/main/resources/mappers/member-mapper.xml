@@ -504,7 +504,7 @@
 	
 	<select id="idFind" resultType="member" parameterType="string">
 		select
-		     	MEM_ID memId
+		     MEM_ID memId
 				,MEM_NICK memNick
 				,MEM_PWD memPwd
 				,MEM_PHONE memPhone
@@ -515,11 +515,12 @@
 				,MEM_GRADE memGrade
 				,MEM_DATE memDate
 				,MEM_MEMO memMemo
-				,MEM_POINT memPoint
 				,MEM_REPORT memReport
+				,MEM_POPUP memPopup
 				,MEM_STATUS memStatus
 				,MEM_UPDATE memUpdate
 				,MEM_KAKAOID memKakaoId
+				,MEM_NAVERID memNaverId
 		  from
 		      member
 		 where
@@ -713,7 +714,7 @@
 	
 	<select id="myPageFriend" resultType="member" parameterType="pageInfo">
 		select
-			   	MEM_ID memId
+			 MEM_ID memId
 				,MEM_NICK memNick
 				,MEM_PWD memPwd
 				,MEM_PHONE memPhone
@@ -724,11 +725,12 @@
 				,MEM_GRADE memGrade
 				,MEM_DATE memDate
 				,MEM_MEMO memMemo
-				,MEM_POINT memPoint
 				,MEM_REPORT memReport
+				,MEM_POPUP memPopup
 				,MEM_STATUS memStatus
 				,MEM_UPDATE memUpdate
 				,MEM_KAKAOID memKakaoId
+				,MEM_NAVERID memNaverId
 				,(select count(*) from diary_share where share_sender = #{memberId} and share_receiver = member.mem_id) friendShare
 		   from
 		       member
@@ -775,7 +777,7 @@
 	
 	<select id="friendSearch" resultType="member" parameterType="friend">
 		select
-		      MEM_ID memId
+		     MEM_ID memId
 				,MEM_NICK memNick
 				,MEM_PWD memPwd
 				,MEM_PHONE memPhone
@@ -786,11 +788,12 @@
 				,MEM_GRADE memGrade
 				,MEM_DATE memDate
 				,MEM_MEMO memMemo
-				,MEM_POINT memPoint
 				,MEM_REPORT memReport
+				,MEM_POPUP memPopup
 				,MEM_STATUS memStatus
 				,MEM_UPDATE memUpdate
 				,MEM_KAKAOID memKakaoId
+				,MEM_NAVERID memNaverId
 				,(select count(*) from diary_share where share_sender = #{friendSender} and share_receiver = member.mem_id) friendShare
 				,(select count(*) from friend where friend_sender = #{friendSender} and friend_receiver = #{friendReceiver}) "resultSearch"
 		  from
@@ -806,22 +809,23 @@
                *
           from(
                SELECT
-				   	MEM_ID memId
-					,MEM_NICK memNick
-					,MEM_PWD memPwd
-					,MEM_PHONE memPhone
-					,MEM_EMAIL memEmail
-					,MEM_PHOTO memPhoto
-					,MEM_PATH memPath
-					,MEM_INTRO memIntro
-					,MEM_GRADE memGrade
-					,MEM_DATE memDate
-					,MEM_MEMO memMemo
-					,MEM_POINT memPoint
-					,MEM_REPORT memReport
-					,MEM_STATUS memStatus
-					,MEM_UPDATE memUpdate
-					,MEM_KAKAOID memKakaoId
+				 MEM_ID memId
+				,MEM_NICK memNick
+				,MEM_PWD memPwd
+				,MEM_PHONE memPhone
+				,MEM_EMAIL memEmail
+				,MEM_PHOTO memPhoto
+				,MEM_PATH memPath
+				,MEM_INTRO memIntro
+				,MEM_GRADE memGrade
+				,MEM_DATE memDate
+				,MEM_MEMO memMemo
+				,MEM_REPORT memReport
+				,MEM_POPUP memPopup
+				,MEM_STATUS memStatus
+				,MEM_UPDATE memUpdate
+				,MEM_KAKAOID memKakaoId
+				,MEM_NAVERID memNaverId
 		  		from
 		       		member
 		 		where
@@ -835,7 +839,7 @@
 	
 	<select id="findMember" resultType="member" parameterType="string">
 		select
-		        MEM_ID memId
+		       MEM_ID memId
 				,MEM_NICK memNick
 				,MEM_PWD memPwd
 				,MEM_PHONE memPhone
@@ -846,11 +850,12 @@
 				,MEM_GRADE memGrade
 				,MEM_DATE memDate
 				,MEM_MEMO memMemo
-				,MEM_POINT memPoint
 				,MEM_REPORT memReport
+				,MEM_POPUP memPopup
 				,MEM_STATUS memStatus
 				,MEM_UPDATE memUpdate
 				,MEM_KAKAOID memKakaoId
+				,MEM_NAVERID memNaverId
 	      from
 	            member
 	     where

@@ -158,7 +158,7 @@
                         <th><a href="receiveMemo">쪽지</a></th>
                     </tr>
                     <tr>
-                        <th><a onclick="myPage();">채팅</a></th>
+                        <th><a href="chatting.me">채팅</a></th>
                     </tr>
                     <tr>
                         <th><a href="memberDiaryMain">다이어리</a></th>
