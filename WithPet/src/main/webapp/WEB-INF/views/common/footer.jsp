@@ -34,12 +34,10 @@
     
     	<script>
     	if(${ (!(empty loginMember))} && ${empty clear}){
-		    $(function(){
-		    	console.log(${ (!(empty loginMember))} && ${empty clear});
-		    	
+		    $(function(){		    	
 		    	socketConnect();
 		    	
-		    	let interval = setInterval(function(){
+		    	setInterval(function(){
 		    		if(true){
 		    			socketReceive();
 		    		}
