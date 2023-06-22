@@ -19,6 +19,7 @@
 		<typeAlias type="com.project.withpet.board.model.vo.Tag" alias="tag" />
 		<typeAlias type="com.project.withpet.board.model.vo.TagBridge" alias="tbridge" />
 		<typeAlias type="com.project.withpet.board.model.vo.Comments" alias="comments" />
+		<typeAlias type="com.project.withpet.board.model.vo.Likes" alias="likes" />
 		<typeAlias type="com.project.withpet.member.model.vo.CertVO" alias="cert" />
 		<typeAlias type="com.project.withpet.member.model.vo.Passward" alias="passward" />
 		<typeAlias type="com.project.withpet.board.common.model.vo.PageInfo" alias="pageInfo" />

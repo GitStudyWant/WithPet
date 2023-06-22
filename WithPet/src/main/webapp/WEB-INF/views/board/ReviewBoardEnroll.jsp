@@ -123,6 +123,30 @@
             background-color: rgb(73, 166, 112);
     }
     
+	    #myform {
+	    direction: rtl;
+	    border:0;
+	}
+	#myform legend{
+	    text-align: right;
+	}
+	#myform input[type=radio]{
+	    display: none;
+	}
+	#myform label{
+	    font-size: 2em;
+	    color: transparent;
+	    text-shadow: 0 0 0 #f0f0f0;
+	}
+	#myform label:hover{
+	    text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
+	}
+	#myform label:hover ~ label{
+	    text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
+	}
+	#myform input[type=radio]:checked ~ label{
+	    text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
+	}
 
 </style>
 </head>
@@ -142,20 +166,38 @@
 
             <br><br><br>
             
-            <label for="" id="board-head">자유게시판</label>
+            <label for="" id="board-head">리뷰게시판</label>
             <br>
-            <label for="" id="board-subtext">자유롭게 이야기해봐요~&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+            <label for="" id="board-subtext">고객님의 소중한 리뷰, 감사합니다.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
         
 
             <br><br><br>
             
             
             <div style="width: 60%; margin: auto;">
-				<form method="post" action="insert.free" enctype="multipart/form-data" id="boardInsert">
+				<form method="post" action="insert.review" enctype="multipart/form-data" id="boardInsert">
 					<input type="hidden" id="boardWriter" name="boardWriter" value="${ loginMember.memId }">
 					<input type="text" name="boardTitle" style="width: 40%;" placeholder="제목" required/>
 					<br><br> 
 					<input type="file" id="upfile" class="form-control-file border" name="upfile" style="border:solid 1px lightgray;display: inline-block;">
+					<br>
+					<br>
+					<div class="mb-3" name="myform" id="myform" style="height: auto; width: auto;  background-color: #f8f9fa; display: inline-block; padding: 5px;" align="center">
+				       <span class="text-bold"></span>
+				       <input type="radio" name="rating" value="5" id="rate1"><label
+				           for="rate1">★</label>
+				       <input type="radio" name="rating" value="4" id="rate2"><label
+				           for="rate2">★</label>
+				       <input type="radio" name="rating" value="3" id="rate3"><label
+				           for="rate3">★</label>
+				       <input type="radio" name="rating" value="2" id="rate4"><label
+				           for="rate4">★</label>
+				       <input type="radio" name="rating" value="1" id="rate5"><label
+				           for="rate5">★</label>
+				           <br>
+				           <input type="text" name="department" value="~소중한 별점 부탁드립니다" readonly style="background-color: #f8f9fa;border: none;">
+				           <br>
+				    </div>	
 					<textarea id="summernote" name="boardContent">
 					</textarea>
 

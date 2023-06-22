@@ -26,6 +26,10 @@
 		<result column="BRIDGE_NO"	property="bridgeNo"/>
 		<result column="BRIDGE_ID" 	property="bridgeid"/>
 	</resultMap>
+	<resultMap id="likeResultSet" type="likes">
+		<result column="LIKE_NO"	property="likeNo"/>
+		<result column="LIKE_ID" 	property="likeId"/>
+	</resultMap>
 	
 	<resultMap id="commentsResult" type="comments">
 	  <result property="commentNo" column="COMMENT_NO"/>
@@ -38,6 +42,7 @@
 	  <result property="regDate" column="REG_DATE" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP"/>
 	</resultMap>
 	
+	<!-- 자유게시판 -->
 	<select id="selectFrListCount" resultType="_int">
 			SELECT
 					COUNT(*)
@@ -48,6 +53,72 @@
 			AND
 					BOARD_NUM = 1		
 	</select>
+	
+	<select id="selectFrList" resultMap="boardResultSet">
+			SELECT
+					BOARD_NO
+					,BOARD_TITLE
+					,BOARD_WRITER
+					,BOARD_CONTENT
+					,VIEW_COUNT
+					,TO_CHAR(ENROLLDATE, 'YYYY-MM-DD') AS "ENROLLDATE"
+			FROM 
+					BOARD
+			WHERE						
+					STATUS = 'Y'
+			AND
+					BOARD_NUM = 1	
+			ORDER
+				BY
+					BOARD_NO DESC
+	</select>
+	
+	<select id="insertFrBoard" parameterType="board">
+		INSERT
+			INTO
+					BOARD
+					(
+					BOARD_NO
+					,BOARD_TITLE
+					,BOARD_CONTENT
+					,BOARD_WRITER
+					,ORIGIN_NAME
+					,CHANGE_NAME
+					,BOARD_NUM
+					)
+			VALUES
+					(
+					SEQ_BNO.NEXTVAL
+					,#{boardTitle}
+					,#{boardContent}
+					,#{boardWriter}
+					,#{originName}
+					,#{changeName}
+					,1
+					)		
+	</select>
+	
+	<update id="updateFrBoard">
+				UPDATE
+						BOARD
+				SET
+						BOARD_TITLE = #{boardTitle}
+						,BOARD_CONTENT = #{boardContent}
+						,ORIGIN_NAME = #{originName}
+						,CHANGE_NAME = #{changeName}
+				WHERE
+						BOARD_NO = #{boardNo}
+				AND
+						BOARD_NUM =1		
+	</update>
+	<!-- 자유게시판 끝 -->
+	
+	
+	
+	
+	
+	
+	<!-- 리뷰게시판 -->
 	<select id="selectReListCount" resultType="_int">
 			SELECT
 					COUNT(*)
@@ -58,6 +129,102 @@
 			AND
 					BOARD_NUM = 2		
 	</select>
+	<select id="insertReBoard" parameterType="board">
+		INSERT
+			INTO
+					BOARD
+					(
+					BOARD_NO
+					,BOARD_TITLE
+					,BOARD_CONTENT
+					,BOARD_WRITER
+					,RATING
+					,ORIGIN_NAME
+					,CHANGE_NAME
+					,BOARD_NUM
+					)
+			VALUES
+					(
+					SEQ_BNO.NEXTVAL
+					,#{boardTitle}
+					,#{boardContent}
+					,#{boardWriter}
+					,#{rating}
+					,#{originName}
+					,#{changeName}
+					,2
+					)		
+	</select>
+	
+	<update id="updateReBoard">
+				UPDATE
+						BOARD
+				SET
+						BOARD_TITLE = #{boardTitle}
+						,BOARD_CONTENT = #{boardContent}
+						,RATING=#{rating}
+						,ORIGIN_NAME = #{originName}
+						,CHANGE_NAME = #{changeName}
+				WHERE
+						BOARD_NO = #{boardNo}
+				AND
+						BOARD_NUM =2	
+	</update>
+	
+	<select id="selectReList" resultMap="boardResultSet">
+			SELECT
+					BOARD_NO
+					,BOARD_TITLE
+					,BOARD_WRITER
+					,BOARD_CONTENT
+					,RATING
+					,VIEW_COUNT
+					,TO_CHAR(ENROLLDATE, 'YYYY-MM-DD') AS "ENROLLDATE"
+			FROM 
+					BOARD
+			WHERE						
+					STATUS = 'Y'
+			AND
+					BOARD_NUM = 2	
+			ORDER
+				BY
+					BOARD_NO DESC
+	</select>
+	
+	
+	<select id="selectReBoard" resultMap="boardResultSet">
+		SELECT
+				BOARD_NO
+				,BOARD_TITLE
+				,BOARD_WRITER
+				,BOARD_CONTENT
+				,RATING
+				,ORIGIN_NAME
+				,CHANGE_NAME
+				,VIEW_COUNT
+				,TO_CHAR(ENROLLDATE, 'YYYY-MM-DD') AS "ENROLLDATE"
+		FROM
+				BOARD
+		WHERE
+				STATUS = 'Y'
+		AND
+				BOARD_NO = #{boardNo}				
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	<select id="selectQnListCount" resultType="_int">
 			SELECT
 					COUNT(*)
@@ -78,42 +245,8 @@
 			AND
 					BOARD_NUM = 6		
 	</select>
-	<select id="selectFrList" resultMap="boardResultSet">
-			SELECT
-					BOARD_NO
-					,BOARD_TITLE
-					,BOARD_WRITER
-					,BOARD_CONTENT
-					,VIEW_COUNT
-					,TO_CHAR(ENROLLDATE, 'YYYY-MM-DD') AS "ENROLLDATE"
-			FROM 
-					BOARD
-			WHERE						
-					STATUS = 'Y'
-			AND
-					BOARD_NUM = 1	
-			ORDER
-				BY
-					BOARD_NO DESC
-	</select>
-	<select id="selectReList" resultMap="boardResultSet">
-			SELECT
-					BOARD_NO
-					,BOARD_TITLE
-					,BOARD_WRITER
-					,BOARD_CONTENT
-					,VIEW_COUNT
-					,TO_CHAR(ENROLLDATE, 'YYYY-MM-DD') AS "ENROLLDATE"
-			FROM 
-					BOARD
-			WHERE						
-					STATUS = 'Y'
-			AND
-					BOARD_NUM = 2	
-			ORDER
-				BY
-					BOARD_NO DESC
-	</select>
+	
+	
 	<select id="selectQnList" resultMap="boardResultSet">
 			SELECT
 					BOARD_NO
@@ -151,43 +284,56 @@
 					BOARD_NO DESC
 	</select>
 	
-	<select id="insertFrBoard" parameterType="board">
-		INSERT
-			INTO
-					BOARD
-					(
-					BOARD_NO
-					,BOARD_TITLE
-					,BOARD_CONTENT
-					,BOARD_WRITER
-					,ORIGIN_NAME
-					,CHANGE_NAME
-					,BOARD_NUM
-					)
-			VALUES
-					(
-					SEQ_BNO.NEXTVAL
-					,#{boardTitle}
-					,#{boardContent}
-					,#{boardWriter}
-					,#{originName}
-					,#{changeName}
-					,1
-					)		
-	</select>
-	<update id="updateFrBoard">
-				UPDATE
-						BOARD
-				SET
-						BOARD_TITLE = #{boardTitle}
-						,BOARD_CONTENT = #{boardContent}
-						,ORIGIN_NAME = #{originName}
-						,CHANGE_NAME = #{changeName}
-				WHERE
-						BOARD_NO = #{boardNo}
-				AND
-						BOARD_NUM =1		
-	</update>
+	
+	
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
  
 	<select id="insertTagBridge" parameterType="tbridge">
     INSERT INTO 
@@ -197,8 +343,10 @@
     			(SEQ_BNO.CURRVAL, #{bridgeId})		
 	</select>
 	<delete id="deleteTagBridges">
-	DELETE FROM TAG_BRIDGE
-	WHERE BRIDGE_NO= #{boardNo}					
+	DELETE FROM 
+				TAG_BRIDGE
+	WHERE 
+				BRIDGE_NO= #{boardNo}					
 	</delete>
 	<select id="updateTagBridge" parameterType="tbridge">
     INSERT INTO
@@ -207,15 +355,6 @@
     VALUES 
     			(#{bridgeNo}, #{bridgeId})		
 	</select>
-    <select id="searchTagId" resultType="int">
-        SELECT 
-        		TAG_ID
-        FROM
-         		TAG 
-        WHERE 
-        		TAG_NAME=#{tagName}
-    </select>
-
 	<update id="increaseCount">
 		UPDATE
 				BOARD
@@ -276,6 +415,47 @@
 	        COMMENT_STATUS = 'Y'
 	        AND BOARD_NO = #{boardNo}
 	</select>
+	<select id="likeCount" resultType="_int">
+	    SELECT
+	        COUNT(*)
+	    FROM
+	        LIKES
+	    WHERE
+	        LIKE_NO = #{boardNo}
+	</select>
+	<select id="likeAdd" parameterType="likes">
+	    INSERT INTO
+	    			LIKES
+	    			(
+	    			LIKE_NO,
+	    			LIKE_ID
+	    			)
+	    	VALUES
+	    			(
+	    			#{likeNo},
+	    			#{likeId}
+	    			)		
+	</select>
+	<select id="likeChk" resultMap="likeResultSet">
+	    SELECT
+	        LIKE_NO,
+	        LIKE_ID
+	    FROM
+	        LIKES
+	    WHERE
+	        LIKE_NO=#{likeNo}
+        AND
+	        LIKE_ID=#{likeId}
+	</select>
+	
+	<delete id="likeCancle">
+	DELETE FROM 
+				LIKES
+	WHERE 
+				LIKE_NO=#{likeNo}
+        AND
+	        	LIKE_ID=#{likeId}					
+	</delete>
 	
 	<insert id="insertComments" parameterType="comments">
 		INSERT
@@ -309,13 +489,6 @@
 				,#{tagName}
 				)
 	</insert>
-	<delete id="removeTag" parameterType="tag">
-			DELETE
-		    FROM	
-		        TAG
-		    WHERE
-		        TAG_NAME=#{tagName}
-		</delete>
     
     <select id="selectTag" resultType="string">
         SELECT 

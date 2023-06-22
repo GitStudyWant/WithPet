@@ -50,7 +50,7 @@
         border-bottom: 1.5px solid gray;
         float: left;
         width: 100%;
-        height: 300px;
+        height: auto;
     }
     .board-element2{
         border-bottom: 1.5px solid gray;
@@ -74,6 +74,7 @@
         display:inline-block;
         width: 60%;
         margin-left: 10px;
+        overflow: hidden;
     }    
 
     #userImg{
@@ -96,9 +97,13 @@
     }
     
     #boardContent{
-        display:inline-block;
-        margin-left: 10px;
-        width: 80%; height: 150px;
+         display: block;
+		  margin-left: 10px;
+		  width: 80%;
+		  height: 150px;
+		  overflow: hidden;
+		  text-overflow: ellipsis;
+		  white-space: pre-wrap;
     }    
 
     #tag, #tag2, #tag3, #tag4, #tag5{
@@ -120,6 +125,8 @@
         display:inline-block;
         width: 30px;
         height: 30px;
+        font-size: 1.5em;
+        text-align: center;
     }
     #comment{
         margin-left: 20px;
@@ -172,7 +179,7 @@
             </c:if>
             <br>
             <label for="" id="board-subtext">자유롭게 이야기해봐요~&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-        
+        	
             <label style="float: right; margin-right: 100px;">
                 <input type="radio" id="new" name="order" value="N" onchange="changeOrder(this.value)">
 				<label for="new">최신순</label>&nbsp;&nbsp;&nbsp;
@@ -185,17 +192,21 @@
             <c:forEach items="${ list }" var="b" >
 
                     		<div class="board-element">
+                    		<div class="clickZone">
                 <input type="hidden" name="bno" value="${ b.boardNo }" >
                 <span id="boardTitle" >${ b.boardTitle }</span><span id="userImg"  >작성자프로필</span><span id="userId">${ b.boardWriter }</span><span id="thumbnail" style="float: right;"> <img src="https://i.namu.wiki/i/uIt7OBpwNR2Cgk90eW_s_0iAZ6628xqGiRY1YyG5drpYaFwXo4ZAKKLltMDxLc2qPyky0s6D9bociJ770v2mwA.webp" alt=""></span>
                 <span id="boardContent">${ b.boardContent }</span>
                
                 <br>
-                <div id="tag-list_${b.boardNo}" style="height: 45px;"></div>
-                <span id="heart"><img src="https://media.istockphoto.com/id/1294470271/ko/%EB%B2%A1%ED%84%B0/%EC%8B%AC%EC%9E%A5-%EC%8B%AC%ED%94%8C%ED%95%98%EA%B3%A0-%EA%B9%A8%EB%81%97%ED%95%9C-%EB%B9%88-%ED%95%98%ED%8A%B8-%EB%AA%A8%EC%96%91-%EB%82%99%EC%84%9C-%EC%8A%A4%ED%83%80%EC%9D%BC-%EC%86%90%EC%9C%BC%EB%A1%9C-%EA%B7%B8%EB%A6%B0-%EB%B2%A1%ED%84%B0.jpg?s=612x612&w=0&k=20&c=kOhcsR7-s7nt3m83Y4LrfJm_rjmJ8dqhVpCpJDEoy_k=" alt=""></span>
-                <span id="heartCount">좋아요개수</span>
+                </div>
+                <div id="tag-list_${b.boardNo}" style="height: auto;"></div>
+                <div style="margin-bottom: 5px;margin-top: 5px;">
+                <span id="heart" class="heart" data-board-no="${b.boardNo}">♡</span>
+                <span id="heartCount_${b.boardNo}"></span>
                 <span id="comment"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chat-right" viewBox="0 0 16 16">
   <path d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z"/>
 </svg></span> <span class="commentCount" id="commentCount_${b.boardNo}"></span><span id="create">작성일자 : </span><span id="createDate">${ b.enrolldate }</XXXX-XX-XX></span>    
+				</div>
             </div>
                     		
                     		
@@ -240,7 +251,7 @@
     </div>
     <script>
 				    $(function() {
-				        $('.board-element').click(function() {
+				        $('.clickZone').click(function() {
 				            var bno = $(this).find('input[name="bno"]').val();
 				            location.href = 'http://localhost:8787/withpet/detail.fr?bno=' + bno;
 				        });
@@ -258,7 +269,7 @@
 				                    $("#commentCount_" + boardNo).text(commentCount);
 				                },
 				                error: function() {
-				                	console.log('AJAX 댓글 목록 조회 실패!');
+				                	console.log('댓글수 목록 조회 실패!');
 				                }
 				            });
 				        });
@@ -279,11 +290,105 @@
 				                    });
 				                },
 				                error: function() {
-				                	console.log('AJAX 댓글 목록 조회 실패!');
+				                	console.log('태그 목록 조회 실패!');
 				                }
 				            });
 				        });
 				    });
+				    $(document).ready(function() {
+				        $(".commentCount").each(function() {
+				            var boardNo = $(this).attr("id").split("_")[1];
+				            
+				            $.ajax({
+				                url: "like.bo",
+				                method: "POST",
+				                data: { boardNo: boardNo },
+				                success: function(response) {
+				                    var likeCount = response;
+				                    $("#heartCount_" + boardNo).text(likeCount);
+				                },
+				                error: function() {
+				                	console.log('좋아요 개수 조회 실패!');
+				                }
+				            });
+				        });
+				    });
+				    $(document).ready(function() {
+				        $(".commentCount").each(function() {
+				            var boardNo = $(this).attr("id").split("_")[1];
+				            var memberId = $("input[name='memberId']").val();
+				            var heartIcon = $(this).parent().find(".heart");
+
+				            $.ajax({
+				                url: "like.chk",
+				                method: "POST",
+				                data: { memId: memberId, boardNo: boardNo },
+				                success: function(result) {
+				                    if (result === 'success') {
+				                        heartIcon.text("♥");
+				                    }
+				                },
+				                error: function() {
+				                    console.log('게시글 목록 좋아요 조회 실패!');
+				                }
+				            });
+				        });
+				    });
+				    
+				    $(document).on('click', '.board-element .heart', function() {
+				        var memberId = $("input[name='memberId']").val();
+				        if (memberId === "") {
+				            alert("로그인이 필요합니다.");
+				        } else {
+				            var boardNo = $(this).closest('.board-element').find('input[name="bno"]').val();
+				            var heartElement = $(this);
+
+				            $.ajax({
+				                url: 'like.add',
+				                method: 'POST',
+				                data: { memId: memberId, boardNo: boardNo },
+				                success: function(result) {
+				                    if (result === 'success') {
+				                        heartElement.text('♥');
+				                        alert("좋아요 성공!");
+
+				                        $.ajax({
+				                            url: 'like.bo',
+				                            method: 'POST',
+				                            data: { boardNo: boardNo },
+				                            success: function(response) {
+				                                var likeCount = response;
+				                                $("#heartCount_" + boardNo).text(likeCount);
+				                            },
+				                            error: function() {
+				                                console.log('좋아요 개수 조회 실패!');
+				                            }
+				                        });
+				                    } else if (result === 'fail') {
+				                    	heartElement.text('♡');
+				                        alert("좋아요 취소!");
+				                        
+				                        $.ajax({
+				                            url: 'like.bo',
+				                            method: 'POST',
+				                            data: { boardNo: boardNo },
+				                            success: function(response) {
+				                                var likeCount = response;
+				                                $("#heartCount_" + boardNo).text(likeCount);
+				                            },
+				                            error: function() {
+				                                console.log('좋아요 개수 조회 실패!');
+				                            }
+				                        });
+				                    }
+				                },
+				                error: function() {
+				                    console.log('좋아요 실패!');
+				                }
+				            });
+				        }
+				    });
+				    
     </script>
 </body>
 </html>

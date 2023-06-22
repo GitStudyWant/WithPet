@@ -83,8 +83,11 @@
      .tag {
             display: inline-block;
             margin-top: 5px;
+            margin-top: 5px;
             margin-left: 10px;
-            height: 40px;
+            padding:5px;
+            width: auto;
+			height: auto;
             line-height: 40px;
             text-align: center;
             color: white;
@@ -94,22 +97,25 @@
      .tag-item{
       		float: left;
       		text-align:center;
+      		margin-top: 5px;
       		margin-bottom: 10px; 			
        		margin-right: 10px;
        		margin-left: 10px;
    			background-color: rgb(73, 166, 112);
    			color: white;
             font-weight: bolder;
-            width: 55px;
-            height: 30px;
-            vertical-align:middle;
-            
+            padding:5px;
+            width: auto;
+			height: auto;
+			vertical-align:middle;
       }
     #tag, #tag2, #tag3, #tag4, #tag5{
        display: inline-block;
             margin-top: 5px;
             margin-left: 10px;
-            height: 40px;
+            padding:5px;
+            width: auto;
+			height: auto;
             line-height: 40px;
             text-align: center;
             color: white;
@@ -162,7 +168,7 @@
 
 					<div align="center">
 						<br>
-						 <div class="tag-list-board" id="tagBridge" style="margin: auto; width: 100%; height: 50px; border: 1px solid lightgray;" align="center">
+						 <div class="tag-list-board" id="tagBridge" style="margin: auto; width: 100%; height: auto; border: 1px solid lightgray;display: inline-block;" align="center" >
 					        <c:forEach var="tag" items="${t}">
 					            <span class="tag-item">${tag.tagName}<span class="close-btn">&times;</span></span>
 					        </c:forEach>
