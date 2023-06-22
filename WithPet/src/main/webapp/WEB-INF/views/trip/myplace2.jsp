@@ -378,7 +378,7 @@
 		<div id="title_wrap">
 			<p><h4 align="center">여행 코스 짜기</h4></p>
 			<hr>
-			<select id="location">
+				<select id="location">
 					<option value="서울">서울</option>
 					<option value="경기">경기도</option>
 					<option value="대구">대구</option>
@@ -400,7 +400,7 @@
 							<button onclick="addMyPlace1(3);">3번 경유지 추가</button>
 							<button onclick="addMyPlace1(4);">4번 경유지 추가</button>
 							<button onclick="addMyPlace1(5);">도착지 추가</button>
-							<Br>
+							<br>
 							
 							<b>[ BEST 3 ]</b>
 							<table id="bestlist">
@@ -415,7 +415,6 @@
 								
 								</tbody>
 							</table>
-
 							<hr>
 
 							<b>[ 전체 목록  ]</b>
@@ -501,30 +500,27 @@
 					<option value="2" >교통최적+최소시간</option>
 					<option value="3" >교통최적+초보</option>
 				</select>
-		<button id="btn_select" style="display:none">거리 조회</button>
-			<p><b id="result"></b></p>
+				<button id="btn_select" style="display:none">거리 조회</button>
+				<p><b id="result"></b></p>
 			<div id="map_div"></div>
 		</div>
 	</div>
 	
 	<script>
 	
-	
-	function addMyPlace1(num){
-		var checkbox = $("input[name=pick]:checked");
-		var pnum = $("input[name=pick]:checked").val();
-		var pname = $('#'+pnum+'placeName').text();
-		var g = $('#'+pnum+'placeLng').val();
-		var w = $('#'+pnum+'placeLat').val();
-		console.log(w);
-		console.log(g);
-		var choice = '#my'+num;
-		var choice2 = '#my'+(num-1);
+		function addMyPlace1(num){
+			let checkbox = $("input[name=pick]:checked");
+			let pnum = $("input[name=pick]:checked").val();
+			let pname = $('#'+pnum+'placeName').text();
+			let g = $('#'+pnum+'placeLng').val();
+			let w = $('#'+pnum+'placeLat').val();
+			let choice = '#my'+num;
+			let choice2 = '#my'+(num-1);
 
 		if(pnum !='' && pnum == $(choice2).children().eq(1).text()){
 			if(!confirm("이전 장소가 추가하려는 장소와 동일합니다. 계속 하시겠습니까?")){
 				return false;
-			} else {}
+			}
 		}
 
 		$('#pn'+num).text(pnum);
@@ -535,7 +531,7 @@
 		if(pnum != ''){
 			$('.placeName').click(function(){
 				$('#placeDetailModal').modal("show");
-				var placeNo = $(this).prev().text();
+				let placeNo = $(this).prev().text();
 				console.log(placeNo);
 				placedetail(placeNo);
 			})
@@ -563,34 +559,22 @@
 	}
 
 	function saveMyCourse(){
-		// 먼저 해당 회원의 저장 되어 있는 코스가 몇개인지 조회 해오기 
-		// 2개 이하면 => myCourse테이블에 인서트 해주기 순서(1~5)
-		//console.log('${loginMember.memId}');
 		if($('#1pname').text() != '' && $('#5pname').text() != ''){
 			
 			$.ajax({
 				url :'checkMyCourse',
 				data : { memId : '${loginMember.memId}'},
 				success : function(result){
-					//console.log(result);
-					//console.log($('#pn1').val());
-					//console.log($('#pn2').val());
-					//console.log($('#pn3').val());
-					//console.log($('#pn4').val());
-					//console.log($('#pn5').val());
-					
 					if(result == 9){
 						if(confirm('이미 3개의 코스를 저장하셨습니다. 내 코스 페이지로 이동하시겠습니까?')){
 							location.href="myCourse"
 						} 
 					} else {
 						
-						var courseSe;
+						let courseSe;
 						if(result == 0 || result == 8) courseSe = 1;
 						else if(result == 1 || result == 6) courseSe = 3;
 						else courseSe = 5;
-						
-						console.log('courseSe : ' + courseSe);
 	
 						$.ajax({
 							url : 'saveMyCourse',
@@ -603,7 +587,6 @@
 									placeNo5 : $('#pn5').text()
 							},
 							success : function(result){
-								console.log(result);
 								if(result == 'S'){
 									alert('코스 저장에 성공했습니다.');
 									$('#myChoice>tbody>tr').children().eq(1).text('');
@@ -621,7 +604,7 @@
 				},
 				error : function(){
 					console.log('실패');
-				}
+						}
 				})
 			} else {
 				alert('저장할 장소를 추가해주세요.');
@@ -636,23 +619,23 @@
 				data : { placeLocation : $('#location').val(),
 						placeType : $('#type').val()},
 				success : function(result){
-					console.log('전체는 성공!');
-					console.log(result);
 					let placeList ='';
 					for(let i in result){
 						placeList+= '<tr>'
-								 + '<td>'+'<input type="hidden" value="'+result[i].placeLng+'" id="'+result[i].placeNo+'placeLng">'+'</td>'
-								 + '<td>'+'<input type="hidden" value="'+result[i].placeLat+'" id="'+result[i].placeNo+'placeLat">'+'</td>'
+								 + '<td>'
+								 + '<input type="hidden" value="'+result[i].placeLng+'" id="'+result[i].placeNo+'placeLng">'+'</td>'
+								 + '<td>'
+								 + '<input type="hidden" value="'+result[i].placeLat+'" id="'+result[i].placeNo+'placeLat">'+'</td>'
 								 + '<td>' + '<input type="radio" name="pick" value="'+result[i].placeNo+'"></td>'
 								 + '<td>'+ result[i].placeNo+ '</td>'
 								 + '<td class="placeName" id="'+result[i].placeNo+'placeName">'+ result[i].placeName + '<td>'
 								 + '</tr>'
 					}
+					
 					$('#allList>tbody').html(placeList);
 					$('#allList>tbody>tr>.placeName').click(function(){
 						$('#placeDetailModal').modal("show");
-						var placeNo = $(this).prev().text();
-						//console.log(placeNo);
+						let placeNo = $(this).prev().text();
 						placedetail(placeNo);
 					})
 				},
@@ -671,8 +654,10 @@
 					console.log('베스트도 성공');
 					for(let i in result){	
 						bestList += '<tr>'
-							     + '<td>'+'<input type="hidden" value="'+result[i].placeLng+'" id="'+result[i].placeNo+'placeLng">'+'</td>'
-							     + '<td>'+'<input type="hidden" value="'+result[i].placeLat+'" id="'+result[i].placeNo+'placeLat">'+'</td>'
+							     + '<td>'
+							     + '<input type="hidden" value="'+result[i].placeLng+'" id="'+result[i].placeNo+'placeLng">'+'</td>'
+							     + '<td>'
+							     + '<input type="hidden" value="'+result[i].placeLat+'" id="'+result[i].placeNo+'placeLat">'+'</td>'
 							     + '<td>' + '<input type="radio" name="pick" value="'+result[i].placeNo+'"></td>'
 							     + '<td>'+ result[i].placeNo+ '</td>'
 							     + '<td class="placeName" id="'+result[i].placeNo+'placeName">'+ result[i].placeName + '<td>'
@@ -682,7 +667,6 @@
 					$('.placeName').click(function(){
 						$('#placeDetailModal').modal("show");
 						var placeNo = $(this).prev().text();
-						console.log(placeNo);
 						placedetail(placeNo);
 					})
 				},
@@ -693,8 +677,6 @@
 		}
 		
 		function placedetail(placeNo){
-			
-			console.log(placeNo);
 			
 		 	$.ajax({
 					url : 'detail.place',
@@ -729,59 +711,55 @@
 	
 	<!-- 모달 창 -->
 	<div class="modal fade" id="placeDetailModal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-   <div class="modal-dialog modal-dialog-centered">
-     <div class="modal-content">
-     
-       <div class="modal-header" style="height:15px; background-color:lightgray">
-         <h5 class="modal-title"></h5>
-         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-       </div>
+   		<div class="modal-dialog modal-dialog-centered">
+     		<div class="modal-content">
+       			<div class="modal-header" style="height:15px; background-color:lightgray">
+         		<h5 class="modal-title"></h5>
+        		 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+       			</div>
        
-       <div class="modal-body">
-            <p class="modal-title" style="font-size:15px; text-align:center; margin-top:15px; margin-bottom:5px"><b>상세 정보</b></p>
-            <br>
-             <table width="100%" style="text-align:center">
-             	 <tr>
-                    <td style="font-size:13px; color:gray; width: 30px; height: 10px;" colspan="2" id="photo">
-                    	
-                    </td>
-                 </tr>
-                 <tr>
-                    <td style="font-size:13px; color:gray; width: 30px; height: 10px;">분류 : </td>
-                    <td id="placeType"></td>
-                 </tr>
-                 <tr style="height: 10px;"></tr>
-                 <tr style="margin-top:5px">
-                     <td width="80" height="25" style="font-size:13px; color:gray; width: 30px">장소명 : </td>
-                     <td width="100" id="placeName"></td>
-                </tr>
-                <tr style="height: 10px;"></tr>
-                <tr style="margin-top:5px">
-                     <td width="80" height="25" style="font-size:13px; color:gray; width: 30px">저장된 수 : </td>
-                     <td width="100" id="placeCount"></td>
-                </tr>
-                 <tr style="height: 10px;"></tr>
-                 <tr>
-                     <td style="font-size:13px; color:gray; width: 30px">주소 : </td>
-                     <td id="placeLocation"></td>
-                 </tr>
-                 <tr style="height: 10px;"></tr>
-                 <tr>
-                    <td style="font-size:13px; color:gray; width: 30px">연락처 : </td>
-                    <td id="placePhone"></td>
-                </tr>
-                <tr style="height: 10px;"></tr>
-                <tr>
-                     <td style="font-size:13px; color:gray; width: 30px">상세 정보 : </td>
-                     <td>
-                        <textarea id="placeInfo" style="resize: none; border:solid 1px lightgray; width: 90%; height: 200px;" readonly></textarea>
-                    </td>
-                </tr>
-            
-             </table>
-       </div>
-     </div>
-   </div>
+       			<div class="modal-body">
+            	<p class="modal-title" style="font-size:15px; text-align:center; margin-top:15px; margin-bottom:5px"><b>상세 정보</b></p>
+           		<br>
+             	<table width="100%" style="text-align:center">
+	             	 <tr>
+	                    <td style="font-size:13px; color:gray; width: 30px; height: 10px;" colspan="2" id="photo"></td>
+	                 </tr>
+	                 <tr>
+	                    <td style="font-size:13px; color:gray; width: 30px; height: 10px;">분류 : </td>
+	                    <td id="placeType"></td>
+	                 </tr>
+	                 <tr style="height: 10px;"></tr>
+	                 <tr style="margin-top:5px">
+	                     <td width="80" height="25" style="font-size:13px; color:gray; width: 30px">장소명 : </td>
+	                     <td width="100" id="placeName"></td>
+	                </tr>
+	                <tr style="height: 10px;"></tr>
+	                <tr style="margin-top:5px">
+	                     <td width="80" height="25" style="font-size:13px; color:gray; width: 30px">저장된 수 : </td>
+	                     <td width="100" id="placeCount"></td>
+	                </tr>
+	                <tr style="height: 10px;"></tr>
+	                <tr>
+	                     <td style="font-size:13px; color:gray; width: 30px">주소 : </td>
+	                     <td id="placeLocation"></td>
+	                </tr>
+	                <tr style="height: 10px;"></tr>
+	                <tr>
+	                    <td style="font-size:13px; color:gray; width: 30px">연락처 : </td>
+	                    <td id="placePhone"></td>
+	                </tr>
+	                <tr style="height: 10px;"></tr>
+	                <tr>
+	                     <td style="font-size:13px; color:gray; width: 30px">상세 정보 : </td>
+	                     <td>
+	                        <textarea id="placeInfo" style="resize: none; border:solid 1px lightgray; width: 90%; height: 200px;" readonly></textarea>
+	                    </td>
+	                </tr>
+             	</table>
+       		</div>
+     	</div>
+   	</div>
  </div>
 	
 	<jsp:include page="insertPlace.jsp" />

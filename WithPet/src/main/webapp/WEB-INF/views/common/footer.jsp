@@ -77,7 +77,7 @@
     function updateloginMemberMemo(memMemo){
     	
     	if(memMemo != 0){
-    		$('#memoBellMain').css("display", "block");
+    		$('#memoBellMain').css("display", "inline-block");
     	} else {
     		$('#memoBellMain').css("display", "none");
     	}

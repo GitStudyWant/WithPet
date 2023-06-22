@@ -28,6 +28,8 @@
 		<typeAlias type="com.project.withpet.member.model.vo.Friend" alias="friend" />
 		<typeAlias type="com.project.withpet.member.model.vo.Inquiry" alias="inquiry" />
 		<typeAlias type="com.project.withpet.trip.model.vo.MyPlace" alias="myPlace" />
+		<typeAlias type="com.project.withpet.member.model.vo.AllChatting" alias="allChatting" />
+		<typeAlias type="com.project.withpet.member.model.vo.OneChatting" alias="OneChatting" />
 
 		<typeAlias type="com.project.withpet.cafe.model.vo.Cafe" alias="cafe" />
 		<typeAlias type="com.project.withpet.cafe.model.vo.CafePicture" alias="cafepicture" />

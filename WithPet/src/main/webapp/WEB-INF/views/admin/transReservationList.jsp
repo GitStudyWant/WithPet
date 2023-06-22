@@ -108,7 +108,16 @@
 						<c:when test="${ not empty tList }">
 						  	<c:forEach items="${tList}" var="i">
 								<tr>
-								<th><input type="radio" name="trNo" style="margin-left:20px" value="${ i.taxiRno }"/></th>
+								<th>
+								<c:choose>
+									<c:when test="${ i.status eq 'Y' }">
+										<input type="radio" name="trNo" style="margin-left:20px" value="${ i.taxiRno }"/>
+									</c:when>
+									<c:otherwise>
+										<input type="radio" name="trNo" disabled style="margin-left:20px" value="${ i.taxiRno }"/>
+									</c:otherwise>
+								</c:choose>
+								</th>
 								<td>${ i.taxiRno }</td>
 								<td>${ i.trNo }</td>
 								<c:choose>
@@ -248,6 +257,7 @@
 						console.log(result);
 						if(result == 'Y'){
 							alert('취소 처리 되었습니다.');
+							location.href=location.href;
 						}else{
 							alert('취소 처리가 실패했습니다. 다시 시도해주세요.');
 						}
@@ -282,10 +292,18 @@
 						for(var i in resultArr){
 							
 							let result = resultArr[i];
+								
+									if(result.status == 'Y'){
+										value += '<tr>' 
+										      + '<th><input type="radio" name="trNo" style="margin-left:20px" value="'+result.carRno+'"/></th>'
+										 	  + '<td>'+result.carRno+'</td><td>'+result.trNo+'</td>'
+									} else {
+										value += '<tr>' 
+										      + '<th><input type="radio" name="trNo" disabled style="margin-left:20px" value="'+result.carRno+'"/></th>'
+										  	  + '<td>'+result.carRno+'</td><td>'+result.trNo+'</td>'
+									}
 							
-							value += '<tr>'
-							      + '<th><input type="radio" name="trNo" style="margin-left:20px" value="'+result.carRno+'"/></th>'
-								  + '<td>'+result.carRno+'</td><td>'+result.trNo+'</td>'
+							      
 								   	 
 								   	 if(result.trType2 == 'J'){
 								   		 value+='<td>중형세단</td>'
@@ -294,6 +312,7 @@
 								   	 } else{
 								   		 value+='<td>대형세단</td>'
 								   	 }
+								   	 
 						    value += '<td>'+result.startDate+'</td>'
 						          + '<td>'+result.endDate+'</td>'
 								  + '<td>'+result.memId+'</td>'
@@ -304,16 +323,12 @@
 								  
 						}
 						$('#naviTable').html(value);
-						
 					}
 				},
 				error : function(){
 					console.log('카예약 목록 불러오기 실패 ㅠㅠ');
 				}
-	
 			})
-			
-			
 		})
 		
 	$('#taxiList').click(function(){

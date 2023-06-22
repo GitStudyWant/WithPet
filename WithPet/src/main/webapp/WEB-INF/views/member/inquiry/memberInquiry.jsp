@@ -200,7 +200,7 @@
 	.inquiryTable{
 		width : 100%;
 		height : 40%;
-		border-style : 1px soide #dee2e6 !important;
+		border : 1px soide #dee2e6 !important;
 	}
 	
 

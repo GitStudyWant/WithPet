@@ -298,10 +298,11 @@
 		      	      ROWNUM RNUM, A.* 
 		      	                  FROM  
 		      	                     (
-		      	                      SELECT SEARCH_KEYWORD searchKeyword
-		      	                     ,COUNT(SEARCH_KEYWORD) COUNT 
-		      	                      FROM 
-		      	                          SEARCH 
+		      	                      SELECT 
+		      	                            SEARCH_KEYWORD searchKeyword
+		      	                     	   ,COUNT(SEARCH_KEYWORD) COUNT 
+		      	                       FROM 
+		      	                           SEARCH 
 		      	                      WHERE 
 		      	                           TO_DATE(SEARCH_DATE,'YY/MM/DD') > 
                                            TO_DATE(SYSDATE,'YY/MM/DD') - 7 
@@ -314,7 +315,7 @@
                                        DESC) 
                                             A) 
                                        WHERE 
-                                        RNUM BETWEEN 1 AND 5
+                                            RNUM BETWEEN 1 AND 5
 	</select>
 	
 
