@@ -47,7 +47,7 @@
     })
     
     function socketConnect(){
-    	var uri = 'ws://localhost:8787/withpet/member';
+    	var uri = 'ws://localhost:8787/withpet/member?style=memo';
 		socket = new WebSocket(uri);
     	
 		socket.onopen = () => {
