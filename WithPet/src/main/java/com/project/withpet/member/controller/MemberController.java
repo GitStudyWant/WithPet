@@ -218,7 +218,6 @@ public class MemberController {
 		HashMap<String, Object> userInfo = getKakaoUserInfo(accessToken);
 		
 		HttpSession session = request.getSession();
-		//session.setAttribute("accessToken", userInfo.get("accessToken"));
 		session.setAttribute("kakaoId", userInfo.get("id"));
 		
         response.setContentType("text/html; charset=UTF-8");

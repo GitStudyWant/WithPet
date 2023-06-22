@@ -130,7 +130,15 @@
         width: 100%;
         height: 100%;
         object-fit:fill;
-     }   
+     }
+	#starRating{
+		padding-left: 10px;
+		font-size: 2em;
+	    color: transparent;
+	    border:0;
+	    text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
+	    float: right;
+	}
 </style>
 </head>
 <body>
@@ -153,12 +161,12 @@
             </form>
             <br><br><br>
             
-            <label for="" id="board-head">자유게시판</label>
+            <label for="" id="board-head">리뷰게시판</label>
             <c:if test="${ not empty sessionScope.loginMember }">
-            <a class="btn btn-secondary" style="float:right; margin-right: 100px; width: 150px;" href="enrollForm.fr">글쓰기</a>
+            <a class="btn btn-secondary" style="float:right; margin-right: 100px; width: 150px;" href="enrollForm.re">글쓰기</a>
             </c:if>
             <br>
-            <label for="" id="board-subtext">자유롭게 이야기해봐요~&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+            <label for="" id="board-subtext">고객님의 소중한 리뷰, 감사합니다.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
         
             <br><br>
             
@@ -184,6 +192,30 @@
                     	</c:otherwise>
                     </c:choose>
 				</span></div>
+				<br>
+				<div id="starRating">
+				<c:choose>
+				<c:when test="${b.rating == 0}">
+				☆☆☆☆☆
+				</c:when>
+				<c:when test="${b.rating == 1}">
+				★☆☆☆☆
+				</c:when>
+				<c:when test="${b.rating == 2}">
+				★★☆☆☆
+				</c:when>
+				<c:when test="${b.rating == 3}">
+				★★★☆☆
+				</c:when>
+				<c:when test="${b.rating == 4}">
+				★★★★☆
+				</c:when>
+				<c:otherwise>
+				★★★★★
+				</c:otherwise>
+				</c:choose>
+       			</div>
+       			<div style="clear:both;"></div>
 				<br>
                 <div style="padding-top: 30px; padding-bottom: 30px; border-bottom: 1px solid gray;">
                 <span id="boardContent">${ b.boardContent }</span>
@@ -226,10 +258,10 @@
            			
            			if(num==1){
            			// 수정하기 클릭시
-           				$('#updateForm').attr('action','updateForm.fr').submit();
+           				$('#updateForm').attr('action','updateForm.re').submit();
            			}else{
            			// 삭제하기 클리시
-           				$('#updateForm').attr('action','delete.fr').submit();
+           				$('#updateForm').attr('action','delete.re').submit();
            			}
 				}
            	</script>

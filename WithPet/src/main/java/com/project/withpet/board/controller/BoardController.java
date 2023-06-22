@@ -36,6 +36,7 @@ import com.project.withpet.board.model.service.BoardService;
 import com.project.withpet.board.model.vo.Board;
 import com.project.withpet.board.model.vo.BoardAttachment;
 import com.project.withpet.board.model.vo.Comments;
+import com.project.withpet.board.model.vo.Likes;
 import com.project.withpet.board.model.vo.Tag;
 import com.project.withpet.board.model.vo.TagBridge;
 
@@ -47,8 +48,8 @@ public class BoardController {
 	@Autowired
 	private BoardService boardService;
 	
-	
-	@RequestMapping("list.free")
+	//자유게시판 관련
+	@RequestMapping("list.free")//페이징처리및,한페이지에 보여줄 게시글수 조절
 	public String selectFrList(@RequestParam(value="cPage", defaultValue = "1") int currentPage,
 								Model model) {
 		
@@ -58,15 +59,57 @@ public class BoardController {
 		return "board/FreeBoard";
 	}
 	@ResponseBody
-	@PostMapping("select.co")
+	@PostMapping("select.co") //게시물 목록에서 보여주는 댓글수 
 	public int getCommentCount(@RequestParam("boardNo") int boardNo) {
 	    return boardService.getCommentCount(boardNo);
 	}
 	@ResponseBody
-	@PostMapping("select.tag")
+	@PostMapping("select.tag")//게시물 목록에서 보여주는 태그
 	public ArrayList<Tag> getTag(@RequestParam("boardNo") int boardNo) {
 	    return boardService.selectTagAll(boardNo);
 	}
+	@ResponseBody
+	@PostMapping("like.bo") //좋아요숫자조회 
+	public int likeCount(@RequestParam("boardNo") int boardNo) {
+	    return boardService.likeCount(boardNo);
+	}
+	@ResponseBody
+	@PostMapping("like.chk") //좋아요목록
+	 public String checkLike(@RequestParam("boardNo") int boardNo,
+							@RequestParam("memId") String memberId) {
+		
+		Likes like = new Likes();
+		like.setLikeNo(boardNo);
+		like.setLikeId(memberId);
+		
+		Likes chk = boardService.likeChk(like);
+		
+	    return (chk != null) ? "success" : "fail";
+		
+	}
+	@ResponseBody
+	@RequestMapping("like.add")//좋아요 누르기
+	public String likeAdd(@RequestParam("boardNo") int boardNo,
+            				@RequestParam("memId") String memberId) {
+	Likes like = new Likes();
+	like.setLikeNo(boardNo);
+	like.setLikeId(memberId);
+	
+	Likes chk = boardService.likeChk(like);
+	if (chk != null) {
+		boardService.likeCancle(like);
+        return "fail";
+    } else {
+        int result = boardService.likeAdd(like);
+        return result > 0 ? "success" : "fail";
+    }
+	
+}
+	
+	
+	
+	
+	
 	
 	@RequestMapping("enrollForm.fr")
 	public String enrollForm() {
@@ -85,7 +128,7 @@ public class BoardController {
 		
 	    if (!upfile.getOriginalFilename().equals("")) {
 	        b.setOriginName(upfile.getOriginalFilename());
-	        b.setChangeName("resources/BoardFiles/Free/" + saveFile(upfile, session));
+	        b.setChangeName("resources/BoardFiles/" + saveFile(upfile, session));
 	    }
 
 	    
@@ -117,23 +160,6 @@ public class BoardController {
 	}
 	
 	
-	
-	public String saveFile(MultipartFile upfile, HttpSession session) {
-		
-					String originName =upfile.getOriginalFilename();
-					String currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-					int ranNum = (int)(Math.random() * 90000+10000);
-					String ext = originName.substring(originName.lastIndexOf("."));
-					String changeName = "WITHPET"+currentTime + ranNum + ext;
-					String savePath = session.getServletContext().getRealPath("resources/BoardFiles/Free/");
-					
-					try {
-						upfile.transferTo(new File(savePath+changeName));
-					} catch (IllegalStateException | IOException e) {
-						e.printStackTrace();
-					}
-					return changeName;
-	}		
 	
 	@RequestMapping("detail.fr")
 	public ModelAndView selectBoard(ModelAndView mv, int bno) {
@@ -198,7 +224,7 @@ public class BoardController {
 			String changeName = saveFile(reUpfile,session);
 			
 			b.setOriginName(reUpfile.getOriginalFilename());
-			b.setChangeName("resources/BoardFiles/Free/" + changeName);
+			b.setChangeName("resources/BoardFiles/" + changeName);
 		}
 		
 		if(boardService.updateFrBoard(b) >0) {
@@ -226,7 +252,23 @@ public class BoardController {
 			return "common/errorPage";
 		}
 	}
+	//자유게시판 끝
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//리뷰 게시판
 	@RequestMapping("list.review")
 	public String selectReList(@RequestParam(value="cPage", defaultValue = "1") int currentPage,
 								Model model) {
@@ -235,6 +277,166 @@ public class BoardController {
 		model.addAttribute("list", boardService.selectReList(pi));
 		return "board/ReviewBoard";
 	}
+	
+	@RequestMapping("enrollForm.re")
+	public String enrollReForm() {
+		return "board/ReviewBoardEnroll";
+	}
+	
+	
+	@RequestMapping("insert.review")
+	public String insertReBoard(Board b,
+	                            MultipartFile upfile,
+	                            @RequestParam(value = "tagNames", required = false) String[] tagNames,
+	                            HttpSession session,
+	                            Model model) {
+			
+		System.out.println("전달된 태그값들은: " + Arrays.toString(tagNames));
+		
+	    if (!upfile.getOriginalFilename().equals("")) {
+	        b.setOriginName(upfile.getOriginalFilename());
+	        b.setChangeName("resources/BoardFiles/" + saveFile(upfile, session));
+	    }
+
+	    
+	    if (boardService.insertReBoard(b) > 0) {// 게시글 insert시 발동(게시글 등록의 bno.nextval을 태그브릿지의 bno.currval로 쓰려고)
+	    	if (tagNames != null && tagNames.length > 0) {
+	            List<TagBridge> tagBridges = new ArrayList<>();
+
+	            for (String tagName : tagNames) {
+	                Tag tag = boardService.selectTagId(tagName);
+	                if (tag != null) {
+	                    TagBridge tagBridge = new TagBridge();
+	                    tagBridge.setBridgeNo(b.getBoardNo());
+	                    tagBridge.setBridgeId(tag.getTagId());
+	                    tagBridges.add(tagBridge);
+	                }
+	            }
+	            if (!tagBridges.isEmpty()) {
+	                boardService.insertTagBridges(tagBridges);
+	            }
+	        }
+
+
+	        session.setAttribute("alertMsg", "게시글 등록 성공");
+	        return "redirect:list.review";
+	    } else {
+	        model.addAttribute("errorMsg", "게시글 작성 실패...");
+	        return "redirect:list.review";
+	    }
+	}
+	
+	
+	
+	@RequestMapping("detail.re")
+	public ModelAndView selectReBoard(ModelAndView mv, int bno) {
+	    if (boardService.increaseCount(bno) > 0) {
+	        ArrayList<Tag> tagList = boardService.selectTagName(bno);
+
+	        System.out.println(tagList.size());
+	        for (Tag tag : tagList) {
+	            System.out.println(tag.getTagName());
+	        }
+	        System.out.println(boardService.selectReBoard(bno));
+	        mv.addObject("b", boardService.selectReBoard(bno)).addObject("t", tagList).setViewName("board/ReviewBoardDetail");
+	    } else {
+	        mv.addObject("errorMsg", "상세조회실패~").setViewName("common/errorPage");
+	    }
+	    return mv;
+	}
+	
+	@RequestMapping("delete.re")
+	public String deleteReBoard(@RequestParam(value="bno")int bno, String filePath,HttpSession session) {
+		
+		if(boardService.deleteBoard(bno)> 0) {
+			
+			if(filePath.equals("")) { 
+				new File(session.getServletContext().getRealPath(filePath)).delete();
+			
+		}
+		session.setAttribute("alertMsg", "삭제 성공");
+		System.out.println(bno+"번 게시물 삭제!");
+		return "redirect:list.review";
+	}else {
+		session.setAttribute("errorMsg", "삭제 실패");
+		System.out.println(bno+"번 게시물 삭제 실패!");
+		return "common/errorPage";
+		 
+		 
+	}
+	}
+	@RequestMapping("updateForm.re")
+	public ModelAndView updateReForm(int bno, ModelAndView mv) {
+		 ArrayList<Tag> tagList = boardService.selectTagName(bno);
+
+	        System.out.println(tagList.size());
+	        for (Tag tag : tagList) {
+	            System.out.println(tag.getTagName());
+	        }
+		mv.addObject("b", boardService.selectReBoard(bno)).addObject("t", tagList).setViewName("board/ReviewBoardUpdate");
+		return mv;
+	}
+	@RequestMapping("update.re")
+	public String updateReBoard(Board b,
+					            MultipartFile reUpfile,
+					            @RequestParam(value = "tagNames", required = false) String[] tagNames,
+					            HttpSession session,
+					            Model model) {
+		
+		if(!reUpfile.getOriginalFilename().equals("")) {
+			
+			if(b.getOriginName() != null) {
+				new File(session.getServletContext().getRealPath(b.getChangeName())).delete();
+			}
+			
+			String changeName = saveFile(reUpfile,session);
+			
+			b.setOriginName(reUpfile.getOriginalFilename());
+			b.setChangeName("resources/BoardFiles/" + changeName);
+		}
+		
+		if(boardService.updateReBoard(b) >0) {
+			boardService.deleteTagBridges(b.getBoardNo());
+			if (tagNames != null && tagNames.length > 0) {
+	            List<TagBridge> tagBridges = new ArrayList<>();
+
+	            for (String tagName : tagNames) {
+	                Tag tag = boardService.selectTagId(tagName);
+	                if (tag != null) {
+	                    TagBridge tagBridge = new TagBridge();
+	                    tagBridge.setBridgeNo(b.getBoardNo());
+	                    tagBridge.setBridgeId(tag.getTagId());
+	                    tagBridges.add(tagBridge);
+	                }
+	            }
+	            if (!tagBridges.isEmpty()) {
+	                boardService.updateTagBridges(tagBridges);
+	            }
+	        }
+			session.setAttribute("alertMsg", "수정 성공");
+			return "redirect:detail.re?bno=" + b.getBoardNo();
+		}else {
+			session.setAttribute("errorMsg", "수정 실패");
+			return "common/errorPage";
+		}
+	}
+	//리뷰 게시판 끝
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	@RequestMapping("list.qna")
@@ -271,18 +473,49 @@ public class BoardController {
 		return "board/Notice";
 	}
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//댓글 조회
 	@ResponseBody
 	@RequestMapping(value="rlist.bo", produces="application/json; charset=UTF-8")
 	public String ajaxSelectCommentsList(int bno) {
 		return new Gson().toJson(boardService.selectCommentsList(bno));
 	}
-	
+	// 댓글 추가
 	@ResponseBody
 	@RequestMapping("rinsert.bo")
 	public String ajaxInsertComments(Comments c) {
 		return boardService.insertComments(c) > 0 ? "success" : "fail";	
 	}
-	
+	//태그추가
 	@ResponseBody
 	@RequestMapping(value = "addtag.bo", produces = "text/html; charset=UTF-8")
 	public String addTag(@RequestBody Map<String, String> requestData) {
@@ -298,4 +531,21 @@ public class BoardController {
 	    	return (result > 0) ? "success" : "fail";
 	    }
 	}
+	//첨부파일 관련
+	public String saveFile(MultipartFile upfile, HttpSession session) {
+		
+		String originName =upfile.getOriginalFilename();
+		String currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+		int ranNum = (int)(Math.random() * 90000+10000);
+		String ext = originName.substring(originName.lastIndexOf("."));
+		String changeName = "WITHPET"+currentTime + ranNum + ext;
+		String savePath = session.getServletContext().getRealPath("resources/BoardFiles/");
+		
+		try {
+			upfile.transferTo(new File(savePath+changeName));
+		} catch (IllegalStateException | IOException e) {
+			e.printStackTrace();
+		}
+		return changeName;
+	}		
 }

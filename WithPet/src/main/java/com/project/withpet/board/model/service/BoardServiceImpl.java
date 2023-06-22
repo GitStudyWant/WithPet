@@ -12,6 +12,7 @@ import com.project.withpet.board.common.model.vo.PageInfo;
 import com.project.withpet.board.model.dao.BoardDao;
 import com.project.withpet.board.model.vo.Board;
 import com.project.withpet.board.model.vo.Comments;
+import com.project.withpet.board.model.vo.Likes;
 import com.project.withpet.board.model.vo.Tag;
 import com.project.withpet.board.model.vo.TagBridge;
 
@@ -25,14 +26,60 @@ public class BoardServiceImpl implements BoardService {
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	
+	//자유게시판
 	@Override
 	public int selectFrListCount() {
 		return boardDao.selectFrListCount(sqlSession);
 	}
+	
+	@Override
+	public ArrayList<Board> selectFrList(PageInfo pi) {
+		return boardDao.selectFrList(sqlSession,pi);
+	}
+	
+	@Override
+	public int insertFrBoard(Board b) {
+		return boardDao.insertFrBoard(sqlSession,b);
+	}
+	
+	@Override
+	public int updateFrBoard(Board b) {
+		return boardDao.updateFrBoard(sqlSession,b);
+	}
+	
+	
+	
+	
+	
+	//리뷰게시판
 	@Override
 	public int selectReListCount() {
 		return boardDao.selectReListCount(sqlSession);
 	}
+	
+	@Override
+	public ArrayList<Board> selectReList(PageInfo pi) {
+		return boardDao.selectReList(sqlSession,pi);
+	}
+	
+	@Override
+	public int insertReBoard(Board b) {
+		return boardDao.insertReBoard(sqlSession,b);
+	}
+	@Override
+	public int updateReBoard(Board b) {
+		return boardDao.updateReBoard(sqlSession,b);
+	}
+	
+	@Override
+	public Board selectReBoard(int boardNo) {
+		return boardDao.selectReBoard(sqlSession,boardNo);
+	}
+	
+	
+	
+	
+	
 	@Override
 	public int selectQnListCount() {
 		return boardDao.selectQnListCount(sqlSession);
@@ -42,14 +89,8 @@ public class BoardServiceImpl implements BoardService {
 	public int selectNoListCount() {
 		return boardDao.selectNoListCount(sqlSession);
 	}
-	@Override
-	public ArrayList<Board> selectFrList(PageInfo pi) {
-		return boardDao.selectFrList(sqlSession,pi);
-	}
-	@Override
-	public ArrayList<Board> selectReList(PageInfo pi) {
-		return boardDao.selectReList(sqlSession,pi);
-	}
+	
+	
 	@Override
 	public ArrayList<Board> selectQnList(PageInfo pi) {
 		return boardDao.selectQnList(sqlSession,pi);
@@ -60,10 +101,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 
-	@Override
-	public int insertFrBoard(Board b) {
-		return boardDao.insertFrBoard(sqlSession,b);
-	}
+	
 
 	@Override
 	public int increaseCount(int boardNo) {
@@ -95,15 +133,7 @@ public class BoardServiceImpl implements BoardService {
 		return boardDao.addTag(sqlSession,tagName);
 	}
 
-	@Override
-	public int removeTag(String tagName) {
-	        return boardDao.removeTag(sqlSession,tagName);
-	}
 
-	@Override
-	public int searchTagId(String tagName) {
-		return boardDao.searchTagId(sqlSession,tagName);
-	}
 
 	@Override
 	public String selectTag(String tagName) {
@@ -133,10 +163,6 @@ public class BoardServiceImpl implements BoardService {
 		return boardDao.selectTagAll(sqlSession, boardNo);
 	}
 	@Override
-	public int updateFrBoard(Board b) {
-		return boardDao.updateFrBoard(sqlSession,b);
-	}
-	@Override
 	public void updateTagBridges(List<TagBridge> tagBridges) {
 		 boardDao.updateTagBridge(sqlSession, tagBridges);
 	}
@@ -145,6 +171,29 @@ public class BoardServiceImpl implements BoardService {
 		boardDao.deleteTagBridges(sqlSession, boardNo);
 		
 	}
+
+	@Override
+	public int likeCount(int boardNo) {
+		return boardDao.likeCount(sqlSession, boardNo);
+	}
+
+	@Override
+	public int likeAdd(Likes l) {
+		return boardDao.likeAdd(sqlSession,l);
+	}
+
+	@Override
+	public Likes likeChk(Likes l) {
+		return boardDao.likeChk(sqlSession,l);
+	}
+
+	@Override
+	public void likeCancle(Likes l) {
+		boardDao.likeCancle(sqlSession,l);
+	}
+
+	
+	
 
 
 
