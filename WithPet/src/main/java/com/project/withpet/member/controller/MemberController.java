@@ -44,6 +44,7 @@ import com.project.withpet.board.common.model.vo.PageInfo;
 import com.project.withpet.board.common.template.Pagination;
 import com.project.withpet.board.model.vo.Board;
 import com.project.withpet.board.model.vo.Comments;
+import com.project.withpet.cafe.model.vo.CafeRes;
 import com.project.withpet.member.model.service.MemberService;
 import com.project.withpet.member.model.vo.CertVO;
 import com.project.withpet.member.model.vo.Friend;
@@ -772,11 +773,15 @@ public class MemberController {
 		String memId = ((Member)session.getAttribute("loginMember")).getMemId();
 			ArrayList<TaxiReservation> tList = memberService.selectMyTaxiRes(memId);
 			ArrayList<CarReservation> cList = memberService.selectMyCarRes(memId);
+			ArrayList<CafeRes> cpList = memberService.selectMyCafeRes(memId);
 			
 			//System.out.println(tList);
 			//System.out.println(cList);
 			m.addAttribute("tList", tList);
 			m.addAttribute("cList", cList);
+			m.addAttribute("cpList", cpList);
+			
+			System.out.println(cpList);
 			
 		return "member/reservation/myReservation";
 		}
@@ -830,7 +835,15 @@ public class MemberController {
 		
 	}
 	
-	
+	@ResponseBody
+	@RequestMapping("deleteCafeRes")
+	public String deleteCafeRes(int cafeResNo) {
+		if(memberService.deleteCafeRes(cafeResNo) > 0) {
+			return "Y";
+		} else {
+			return "N";
+		}
+	}	
 	
 	
 	

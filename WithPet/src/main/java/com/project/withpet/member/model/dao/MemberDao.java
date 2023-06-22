@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.project.withpet.board.common.model.vo.PageInfo;
 import com.project.withpet.board.model.vo.Board;
 import com.project.withpet.board.model.vo.Comments;
+import com.project.withpet.cafe.model.vo.CafeRes;
 import com.project.withpet.member.model.vo.CertVO;
 import com.project.withpet.member.model.vo.Friend;
 import com.project.withpet.member.model.vo.Inquiry;
@@ -201,6 +202,10 @@ public class MemberDao {
 		return (ArrayList)sqlSession.selectList("memberMapper.selectMyCarRes", memId);
 	}
 	
+	public ArrayList<CafeRes> selectMyCafeRes(SqlSessionTemplate sqlSession, String memId) {
+		return (ArrayList)sqlSession.selectList("memberMapper.selectMyCafeRes", memId);
+	}
+	
 	public int deleteTRes(SqlSessionTemplate sqlSession, int resNo) {
 		return sqlSession.update("memberMapper.deleteTRes", resNo);
 	}
@@ -209,6 +214,10 @@ public class MemberDao {
 		return sqlSession.update("memberMapper.deleteCRes", resNo);
 	}
 
+	public int deleteCafeRes(SqlSessionTemplate sqlSession, int cafeResNo) {
+		return sqlSession.update("memberMapper.deleteCafeRes", cafeResNo);
+	}
+	
 	
 	
 	
