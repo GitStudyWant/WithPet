@@ -14,18 +14,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class ApiController {
 public static final String SERVICEKEY = "AIzaSyCBaU0zaiVMD6_Y31125K8iQDxIoUEQxwU";
-	
+
 	@ResponseBody
 	@RequestMapping(value="findXY", produces="application/json; charset=UTF-8")
-	public String findXY(String location) throws IOException {
+	public String findXY(String location2) throws IOException {
 
 		String url = "https://maps.googleapis.com/maps/api/geocode/json";
-		url += "?address=" + URLEncoder.encode(location, "UTF-8");
+		url += "?address=" + URLEncoder.encode(location2, "UTF-8");
 		url += "&key=" + SERVICEKEY;
 	
 		URL requestUrl = new URL(url);
 		HttpURLConnection urlConnection = (HttpURLConnection)requestUrl.openConnection();
-		urlConnection.setRequestMethod("GET"); // GET¹æ½ÄÀ¸·Î ¿äÃ»ÇÏ°Ú´Ù
+		urlConnection.setRequestMethod("GET"); // GETï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½Ï°Ú´ï¿½
 		BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
 		
 		String responseText = "";

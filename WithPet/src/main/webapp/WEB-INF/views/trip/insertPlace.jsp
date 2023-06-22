@@ -46,7 +46,7 @@
                  <tr>
                      <td style="font-size:13px; color:gray; width: 30px">주소 </td>
                      <td>
-                        <input type="text" name="placeLocation" id="placeLocation" required style="width:70%; border:solid 1px lightgray" placeholder="도로명 주소로 정확히 입력해주세요">
+                        <input type="text" name="placeLocation" id="placeLocation2" required style="width:70%; border:solid 1px lightgray" placeholder="도로명 주소로 정확히 입력해주세요">
                         <button onclick="findXy();" type="button">주소 확인</button>
                         <input type="hidden" name="placeLat" id="placeLat">
                         <input type="hidden" name="placeLng" id="placeLng">
@@ -91,7 +91,7 @@
 
         $.ajax({
             url : 'findXY',
-            data : {location : $('#placeLocation').val()},
+            data : {location2 : $('#placeLocation2').val()},
             success : function(result){
 
                 alert('주소 확인이 완료되었습니다.');
@@ -105,6 +105,7 @@
 
             },
             error : function(){
+            	console.log(location2);
                 console.log('위도 경도 찾기 실패 ㅠㅠ');
             }
         })
