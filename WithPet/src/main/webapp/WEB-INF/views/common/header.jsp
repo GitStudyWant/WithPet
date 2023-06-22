@@ -32,10 +32,10 @@
         #header_1 {width: 10%; height:100%; float:left;}
         #header_2 {width: 15%; height:100%; float:left;}
         #header_3 {width: 15%; height:100%; float:left;}
-        #header_4 {width: 21%; height:100%; float:left;}
+        #header_4 {width: 15%; height:100%; float:left;}
         #header_5 {width: 12%; height:100%; float:left;}
         #header_6 {width: 12%; height:100%; float:left;}
-        #header_7 {width: 15%; height:100%; float:left;}
+        #header_7 {width: 21%; height:100%; float:left;}
 
         #header_1>img {height:100%; position:absolute; margin:auto; top:0px; bottom:0px; right:0px; left:0px;}
 
