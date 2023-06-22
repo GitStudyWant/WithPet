@@ -1,4 +1,6 @@
-package com.project.withpet.member.socket;
+package com.project.withpet.member.chatting;
+
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.socket.CloseStatus;
@@ -14,24 +16,20 @@ public class WebSocketBasicServer extends TextWebSocketHandler{
 	private MemberService memberService;
 	
 	@Override
-	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-		//System.out.println("접속 : ");
-	}
+	public void afterConnectionEstablished(WebSocketSession session) throws Exception {}
 	
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 
+		
 		String memId = message.getPayload();
-
+			
 		TextMessage sendmsg = new TextMessage(String.valueOf(memberService.selectReceiveMemoCountCheck(memId)));
-		
-		session.sendMessage(sendmsg);
-		
+			
+		session.sendMessage(sendmsg);		
 	}
 	
 	@Override
-	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-		//System.out.println("전화 끊었다");
-	}
+	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {}
 
 }

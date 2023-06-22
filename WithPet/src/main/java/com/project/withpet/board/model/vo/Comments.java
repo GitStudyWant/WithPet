@@ -1,6 +1,10 @@
 package com.project.withpet.board.model.vo;
 
-import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 import lombok.Data;
 
@@ -14,5 +18,8 @@ public class Comments {
 	private String commentStatus;	//VARCHAR2(10 BYTE)
 	private int commentGroup;	//NUMBER
 	private int commentLevel;	//NUMBER
-	private Date regDate;	//DATE
+	private Timestamp regDate;	//Timestamp
+	
+
+	
 }

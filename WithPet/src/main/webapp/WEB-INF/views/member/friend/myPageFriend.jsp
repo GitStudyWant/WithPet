@@ -197,7 +197,7 @@
 										<tr align="center">
 											<td><button class="btn btn-success marginBotton20px btn-Size">쪽지</button></td>
 											<td></td>
-											<td><button class="btn btn-success marginBotton20px btn-Size">채팅</button></td>
+											<td><button class="btn btn-success marginBotton20px btn-Size" onclick="oneChatInsert('${i.memId}');">채팅</button></td>
 										</tr>
 										<tr>
 											<c:choose>

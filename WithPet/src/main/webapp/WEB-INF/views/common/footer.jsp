@@ -31,20 +31,26 @@
         </div>
     </div>
     
+    
+    	<script>
+    	if(${ (!(empty loginMember))} && ${empty clear}){
+		    $(function(){		    	
+		    	socketConnect();
+		    	
+		    	setInterval(function(){
+		    		if(true){
+		    			socketReceive();
+		    		}
+		    		
+		    	}, 3000)
+		    })
+    	}
+    	</script>
     <script>
     
     var socket;
     
-    $(function(){
-    	socketConnect();
-    	
-    	setInterval(function(){
-    		if(true){
-    			socketReceive();
-    		}
-    		
-    	}, 3000)
-    })
+    
     
     function socketConnect(){
     	var uri = 'ws://localhost:8787/withpet/member';
@@ -77,7 +83,7 @@
     function updateloginMemberMemo(memMemo){
     	
     	if(memMemo != 0){
-    		$('#memoBellMain').css("display", "block");
+    		$('#memoBellMain').css("display", "inline-block");
     	} else {
     		$('#memoBellMain').css("display", "none");
     	}

@@ -10,12 +10,17 @@ import org.springframework.stereotype.Repository;
 import com.project.withpet.board.common.model.vo.PageInfo;
 import com.project.withpet.board.model.vo.Board;
 import com.project.withpet.board.model.vo.Comments;
+
 import com.project.withpet.cafe.model.vo.CafeRes;
+
+import com.project.withpet.member.model.vo.AllChatting;
+
 import com.project.withpet.member.model.vo.CertVO;
 import com.project.withpet.member.model.vo.Friend;
 import com.project.withpet.member.model.vo.Inquiry;
 import com.project.withpet.member.model.vo.Member;
 import com.project.withpet.member.model.vo.Memo;
+import com.project.withpet.member.model.vo.OneChatting;
 import com.project.withpet.member.model.vo.Passward;
 import com.project.withpet.member.model.vo.Schedule;
 import com.project.withpet.trip.model.vo.CarReservation;
@@ -439,6 +444,10 @@ public class MemberDao {
 		return sqlSession.selectOne("memberMapper.findMember", findMember);
 	}
 	
+	public int friendInsert(SqlSessionTemplate sqlSession, Friend f) {
+		return sqlSession.insert("memberMapper.friendInsert", f);
+	}
+	
 	public int inquiryCount(SqlSessionTemplate sqlSession, String memberId) {
 		return sqlSession.selectOne("memberMapper.inquiryCount", memberId);
 	}
@@ -460,6 +469,62 @@ public class MemberDao {
 	
 	public int inquiryInsert(SqlSessionTemplate sqlSession, Inquiry i) {
 		return sqlSession.insert("memberMapper.inquiryInsert", i);
+	}
+	
+	public int allChattingSelect(SqlSessionTemplate sqlSession, String memberId) {
+		return sqlSession.selectOne("memberMapper.allChattingSelect", memberId);
+	}
+	
+	public int allChattingInsert(SqlSessionTemplate sqlSession, String memberId) {
+		return sqlSession.insert("memberMapper.allChattingInsert", memberId);
+	}
+	
+	public int allChattingUpdate(SqlSessionTemplate sqlSession, String memberId) {
+		return sqlSession.update("memberMapper.allChattingUpdate", memberId);
+	}
+	
+	public int allChatList(SqlSessionTemplate sqlSession, AllChatting a) {
+		return sqlSession.insert("memberMapper.allChatList", a);
+	}
+	
+	public AllChatting allChatLast (SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("memberMapper.allChatLast");
+	}
+	
+	public ArrayList allChattingList(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("memberMapper.allChattingList");
+	}
+	
+	public int oneChattingInsert(SqlSessionTemplate sqlSession, OneChatting one) {
+		return sqlSession.insert("memberMapper.oneChattingInsert", one);
+	}
+	
+	public OneChatting oneChatSelect(SqlSessionTemplate sqlSession, OneChatting one) {
+		return sqlSession.selectOne("memberMapper.oneChatSelect", one);
+	}
+	
+	public ArrayList<OneChatting> oneChatList(SqlSessionTemplate sqlSession, String memberId){
+		return (ArrayList)sqlSession.selectList("memberMapper.oneChatList", memberId);
+	}
+	
+	public ArrayList<OneChatting> oneChattingSelect(SqlSessionTemplate sqlSession, int oneChatNo){
+		return (ArrayList)sqlSession.selectList("memberMapper.oneChattingSelect", oneChatNo);
+	}
+	
+	public OneChatting oneRoomIn(SqlSessionTemplate sqlSession, OneChatting one) {
+		return sqlSession.selectOne("memberMapper.oneRoomIn", one);
+	}
+	
+	public int oneChatContentInsert(SqlSessionTemplate sqlSession, OneChatting one) {
+		return sqlSession.insert("memberMapper.oneChatContentInsert", one);
+	}
+	
+	public int oneChatFrist(SqlSessionTemplate sqlSession, OneChatting one) {
+		return sqlSession.insert("memberMapper.oneChatFrist", one);
+	}
+	
+	public int boardSelectDelete(SqlSessionTemplate sqlSession, int num) {
+		return sqlSession.update("memberMapper.boardSelectDelete", num);
 	}
 	
 	

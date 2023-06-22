@@ -179,7 +179,7 @@
 		   AND
 		      TAXI_RTIME = #{taxiRTime}
 		   AND 
-		      TAXI_RDATE = #{taxiRDate}
+		       TAXI_RDATE = TO_DATE(#{taxiRDate}, 'DD/MM/YY')
 		   AND 
 		      STATUS = 'Y'
 	</select>
@@ -212,7 +212,7 @@
 		 			  				   TR_Type2 = #{trType2} AND
 		 			  				   STATUS = 'Y')
 		 			   	 			   WHERE 
-		 			   	 			         TAXI_RDATE = #{taxiRDate} AND 
+		 			   	 			         TAXI_RDATE = TO_DATE(#{taxiRDate},'DD/MM/YY') AND 
 		 			   	 			         TAXI_RTIME = #{taxiRTime}) AND 
 		 			   	 			         TR_TYPE= 'T' AND 
 		 			   	 			         TR_TYPE2 = #{trType2}
@@ -234,7 +234,7 @@
 		     (
 		     SEQ_TAXI_RNO.NEXTVAL
 		    ,#{trNo}
-		    ,#{taxiRDate}
+		    ,TO_DATE(#{taxiRDate},'DD/MM/YY')
 		    ,#{taxiRTime}
 		    ,DEFAULT
 		    ,#{memId}
@@ -250,9 +250,9 @@
 		         FROM
 		             CAR_RESERVATION JOIN TRANSPORTATION USING(TR_NO)
 		        WHERE
-		             TR_TYPE2 = #{trType2}
+		             TR_TYPE2 = #{trType22}
 		          AND
-		             END_DATE >= #{startDate} 
+		              END_DATE >= TO_DATE(#{startDate}, 'DD/MM/YY') 
 		          AND
 		             STATUS = 'Y'
 		       GROUP
@@ -285,12 +285,12 @@
 		 			 			  CAR_RESERVATION USING(TR_NO)) 
 		 			 			  WHERE 
 		 			 			       TR_TYPE='C' AND 
-		 			 			       TR_TYPE2 = #{trType2} AND
+		 			 			       TR_TYPE2 = #{trType22} AND
 		 			 			       STATUS = 'Y') 
 		 			 			  WHERE 
-		 			 			       END_DATE >= #{startDate}) AND 
+		 			 			       END_DATE >= TO_DATE(#{startDate},'DD/MM/YY')) AND 
 		 			 			       TR_TYPE='C' AND 
-		 			 			       TR_TYPE2 = #{trType2}
+		 			 			       TR_TYPE2 = #{trType22}
 	</select>
 	
 	<select id="checkFee" resultType="_int">
@@ -321,8 +321,8 @@
 	          (
 	          SEQ_CAR_RNO.NEXTVAL
 	         ,#{trNo}
-	         ,#{startDate}
-	         ,#{endDate}
+	         ,TO_DATE(#{startDate}, 'DD/MM/YY')
+	         ,TO_DATE(#{endDate}, 'DD/MM/YY')
 	         ,'Y'
 	         ,#{memId}
 	         ,SEQ_TR_PAYNO.NEXTVAL

@@ -214,13 +214,13 @@
 		         				<td id="${c.carRno}startDate">${ c.startDate }</td>
 		         				<td>${ c.endDate }</td>
 		         				<c:choose>
-         							<c:when test="${ c.trType2 eq 'J' }">
+         							<c:when test="${ c.trType22 eq 'J' }">
          								<td>중형세단</td>
          							</c:when>
-         							<c:when test="${ c.trType2 eq 'D' }">
+         							<c:when test="${ c.trType22 eq 'D' }">
          								<td>대형세단</td>
          							</c:when>
-         							<c:when test="${ c.trType2 eq 'S' }">
+         							<c:when test="${ c.trType22 eq 'S' }">
          								<td>SUV</td>
          							</c:when>
        							</c:choose>
@@ -346,8 +346,8 @@
 					return false;
 				} else {
 					
-					if(month2 == carMonth && carDay-day2 < 3){
-						alert('예약일 2일전부터는 취소가 불가능 합니다. 문의사항을 따로 남겨주세요.');
+					if(month2 == carMonth && carDay-day2 < 2){
+						alert('예약일 1일전부터는 취소가 불가능 합니다. 문의사항을 따로 남겨주세요.');
 						return false;
 					} 
 				}

@@ -19,7 +19,7 @@
 </head>
 <body>
 
-	<div class="modal fade" id="friendFind" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+	<div class="modal fade" id="chattingFind" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
 	    <div class="modal-dialog">
 	      <div class="modal-content">
 	       
@@ -89,15 +89,15 @@
 							if(result === '없음'){
 								$('#alertTag').text('검색결과가 존재하지 않습니다.');
 							} else{
-								let friendId = "'"+ result.memId +"'";
-								console.log(friendId);
+								let memberId = '';
+								memberId = result.memId;
 								value += '<div>'
 									 + '<img id="friendImg" src="resources/myPage/user.png" alt="">'
 								 	 + '<p class="marginTop0px" id="searchId">아이디 : '+ result.memId +'</p>'
 								     + '<p class="marginTop0px" id="searchNick">닉네임 : '+ result.memNick +'</p>'
 								     + '<table id="buttonTable">'
 									 + '<tr align="center">'
-									 + '<td><button class="btn btn-success marginBotton20px btn-Size" onclick="friendInsert('+ friendId +');">친구 추가</button></td>'
+									 + '<td><button class="btn btn-success marginBotton20px btn-Size" onclick="oneChatInsert('+"'" + result.memId + "'"+');">1대1일 채팅 </button></td>'
 									 + '</tr>'
 									 + '<tr>'
 									 + '</tr>'
@@ -113,14 +113,9 @@
 					})
 				}
 
-				function friendInsert(friendId){
-					$('#friendId').val(friendId);
-					$('#friendForm').attr('action', 'friendInsert.me').submit();
-				}
-
 				function oneChatInsert(friendId){
 					$('#friendId').val(friendId);
-					$('#friendForm').attr('action', 'oneChatInsert.me').submit();
+					$('#oneChatForm').attr('action', 'oneChatInsert.me').submit();
 				}
 
 	          </script>

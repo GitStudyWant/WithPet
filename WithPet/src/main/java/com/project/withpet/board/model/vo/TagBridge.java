@@ -4,16 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-@AllArgsConstructor
 public class TagBridge {
-	
-	private int bridgeNo;	//NUMBER
-	private int bridgeId;	//NUMBER
-	
-	public TagBridge() {
-	}
+    private int bridgeNo;
+    private int bridgeId;
 
-	public void setBridgeId(int bridgeId) {
-        this.bridgeId = bridgeId;
+    public TagBridge() {
     }
 }

@@ -6,11 +6,13 @@ import com.project.withpet.board.common.model.vo.PageInfo;
 import com.project.withpet.board.model.vo.Board;
 import com.project.withpet.board.model.vo.Comments;
 import com.project.withpet.cafe.model.vo.CafeRes;
+import com.project.withpet.member.model.vo.AllChatting;
 import com.project.withpet.member.model.vo.CertVO;
 import com.project.withpet.member.model.vo.Friend;
 import com.project.withpet.member.model.vo.Inquiry;
 import com.project.withpet.member.model.vo.Member;
 import com.project.withpet.member.model.vo.Memo;
+import com.project.withpet.member.model.vo.OneChatting;
 import com.project.withpet.member.model.vo.Passward;
 import com.project.withpet.member.model.vo.Schedule;
 import com.project.withpet.trip.model.vo.CarReservation;
@@ -283,6 +285,8 @@ public ArrayList<Member> liveSearch(String keyword);
 	
 	public Member findMember(String findMember);
 	
+	public int friendInsert(Friend f);
+	
 	public ArrayList<Inquiry> inquiry(PageInfo pi);
 	
 	public int inquiryCount(String memberId);
@@ -292,5 +296,23 @@ public ArrayList<Member> liveSearch(String keyword);
 	public int inquiryDelete(int ino);
 	
 	public int inquiryInsert(Inquiry i);
+	
+	public ArrayList<AllChatting> allChattingInsert(String memberId);
+	
+	public int allChatList(AllChatting a);
+	
+	public AllChatting allChatLast();
+	
+	public OneChatting oneChatInsert(OneChatting one); 
+	
+	public ArrayList<OneChatting> oneChatList(String memberId);
+	
+	public ArrayList<OneChatting> oneChattingSelect(int oneChatNo);
+	
+	public OneChatting oneRoomIn(OneChatting one);
+	
+	public int oneChatContentInsert(OneChatting one);
+	
+	public int boardSelectDelete(int[] intArray);
 	
 }
