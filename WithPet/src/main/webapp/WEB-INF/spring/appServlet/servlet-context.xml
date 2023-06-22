@@ -29,18 +29,21 @@
 	
 	<beans:bean class="com.project.withpet.member.chatting.WebSocketOneChatServer" id="OneChatServer"/>
 	<beans:bean class="com.project.withpet.member.chatting.WebSocketGroupServer" id="groupServer"/>
-	<beans:bean class="com.project.withpet.member.socket.WebSocketBasicServer" id="memberServer" />
+	<beans:bean class="com.project.withpet.member.chatting.WebSocketBasicServer" id="memberServer" />
 	
 	<websocket:handlers>
 			<websocket:mapping handler="groupServer" path="gp"/>
-			<websocket:mapping handler="memberServer" path="member" />
+
 		</websocket:handlers>
 		
 		<websocket:handlers>
 			<websocket:mapping handler="OneChatServer" path="one" />
+			<websocket:mapping handler="memberServer" path="member" />
 			<websocket:handshake-interceptors>
 				<beans:bean class="com.project.withpet.member.WebSocketHandShakeInterceptor"/>
 			</websocket:handshake-interceptors>
 		</websocket:handlers>
+		
+		
 	
 </beans:beans>

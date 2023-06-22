@@ -505,7 +505,6 @@
 				}
 				
 				function allConnect(){
-					
 					nickName = '${loginMember.memId}';
 					
 					console.log(socket);
@@ -600,11 +599,10 @@
 				}
 				
 				function oneConnect(oneChatNo){
-					
 					nickName = '${loginMember.memId}';
 					
 					console.log(socket);
-					var uri = 'ws://localhost:8787/withpet/one?chat='+ oneChatNo;
+					var uri = 'ws://localhost:8787/withpet/one?chat='+ oneChatNo + '&style=asd';
 				
 					if(socket == undefined){
 					socket = new WebSocket(uri);

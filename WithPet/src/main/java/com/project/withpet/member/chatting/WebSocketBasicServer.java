@@ -1,4 +1,4 @@
-package com.project.withpet.member.socket;
+package com.project.withpet.member.chatting;
 
 import java.util.Map;
 
@@ -23,9 +23,6 @@ public class WebSocketBasicServer extends TextWebSocketHandler{
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 
-		String memId = message.getPayload();
-
-		TextMessage sendmsg = new TextMessage(String.valueOf(memberService.selectReceiveMemoCountCheck(memId)) + "@t");
 		Map<String, Object> map = session.getAttributes();
 		
 		String style = (String)map.get("style");

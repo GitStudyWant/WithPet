@@ -31,23 +31,31 @@
         </div>
     </div>
     
+    
+    	<script>
+    	if(${ (!(empty loginMember))} && ${empty clear}){
+		    $(function(){
+		    	console.log(${ (!(empty loginMember))} && ${empty clear});
+		    	
+		    	socketConnect();
+		    	
+		    	let interval = setInterval(function(){
+		    		if(true){
+		    			socketReceive();
+		    		}
+		    		
+		    	}, 3000)
+		    })
+    	}
+    	</script>
     <script>
     
     var socket;
     
-    $(function(){
-    	socketConnect();
-    	
-    	setInterval(function(){
-    		if(true){
-    			socketReceive();
-    		}
-    		
-    	}, 3000)
-    })
+    
     
     function socketConnect(){
-    	var uri = 'ws://localhost:8787/withpet/member?style=memo';
+    	var uri = 'ws://localhost:8787/withpet/member?style=memo&chat=4';
 		socket = new WebSocket(uri);
     	
 		socket.onopen = () => {
