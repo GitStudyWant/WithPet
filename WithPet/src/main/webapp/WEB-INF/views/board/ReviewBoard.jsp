@@ -201,6 +201,7 @@
             <c:forEach items="${ list }" var="b" >
 
                     		<div class="board-element">
+                    		<div class="clickZone">
                 <input type="hidden" name="bno" value="${ b.boardNo }" >
                 <span id="boardTitle" >${ b.boardTitle }</span><span id="userImg"  >작성자프로필</span><span id="userId">${ b.boardWriter }</span><span id="thumbnail" style="float: right;"> <img src="https://i.namu.wiki/i/uIt7OBpwNR2Cgk90eW_s_0iAZ6628xqGiRY1YyG5drpYaFwXo4ZAKKLltMDxLc2qPyky0s6D9bociJ770v2mwA.webp" alt=""></span>
                 <span id="boardContent">${ b.boardContent }</span>
@@ -229,14 +230,15 @@
 				</c:choose>
        			</div>
        			<div style="clear:both; height: 0px;"></div>
+       			</div>
 				<br>
                 <div id="tag-list_${b.boardNo}" style="height: auto;"></div>
                 <div style="margin-bottom: 5px;margin-top: 5px;">
-                <span id="heart">♡</span>
+                <span id="heart" class="heart" data-board-no="${b.boardNo}">♡</span>
                 <span id="heartCount_${b.boardNo}"></span>
                 <span id="comment"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chat-right" viewBox="0 0 16 16">
   <path d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z"/>
-</svg></span> <span class="commentCount" id="commentCount_${b.boardNo}"></span><span id="create">작성일자 : </span><span id="createDate">${ b.enrolldate }</XXXX-XX-XX></span>    
+</svg></span> <span class="commentCount" id="commentCount_${b.boardNo}"></span><span id="create">작성일자 : </span><span id="createDate">${ b.enrolldate }</span>    
             	</div>
             </div>
                     		
@@ -281,70 +283,144 @@
         </div>
     </div>
     <script>
-				$(function() {
-					$('.board-element').click(function() {
-						var bno = $(this).find('input[name="bno"]').val();
-						
-				        location.href = 'http://localhost:8787/withpet/detail.re?bno=' + bno;
-					})				
-				})
-				 $(document).ready(function() {
-				        $(".commentCount").each(function() {
-				            var boardNo = $(this).attr("id").split("_")[1];
-				            
-				            $.ajax({
-				                url: "select.co",
-				                method: "POST",
-				                data: { boardNo: boardNo },
-				                success: function(response) {
-				                    var commentCount = response;
-				                    $("#commentCount_" + boardNo).text(commentCount);
-				                },
-				                error: function() {
-				                	console.log('AJAX 댓글 목록 조회 실패!');
-				                }
-				            });
-				        });
-				    });
-				    $(document).ready(function() {
-				        $(".commentCount").each(function() {
-				            var boardNo = $(this).attr("id").split("_")[1];
-				            
-				            $.ajax({
-				                url: "select.tag",
-				                method: "POST",
-				                data: { boardNo: boardNo },
-				                success: function(response) {
-				                    response.forEach(function(item) {
-				                        var tag = item.tagName;
-				                        var spanElement = $('<span>').attr('id', 'tag').text(tag);
-				                        $('#tag-list_' + boardNo).append(spanElement);
-				                    });
-				                },
-				                error: function() {
-				                	console.log('AJAX 댓글 목록 조회 실패!');
-				                }
-				            });
-				        });
-				    });
-				    $(document).ready(function() {
-				        $(".commentCount").each(function() {
-				            var boardNo = $(this).attr("id").split("_")[1];
-				            
-				            $.ajax({
-				                url: "like.bo",
-				                method: "POST",
-				                data: { boardNo: boardNo },
-				                success: function(response) {
-				                    var likeCount = response;
-				                    $("#heartCount_" + boardNo).text(likeCount);
-				                },
-				                error: function() {
-				                	console.log('좋아요 개수 조회 실패!');
-				                }
-				            });
-				        });
-				    });
+					    $(function() {
+					        $('.clickZone').click(function() {
+					            var bno = $(this).find('input[name="bno"]').val();
+					            location.href = 'http://localhost:8787/withpet/detail.re?bno=' + bno;
+					        });
+					    });
+					    $(document).ready(function() {
+					        $(".commentCount").each(function() {
+					            var boardNo = $(this).attr("id").split("_")[1];
+					            
+					            $.ajax({
+					                url: "select.co",
+					                method: "POST",
+					                data: { boardNo: boardNo },
+					                success: function(response) {
+					                    var commentCount = response;
+					                    $("#commentCount_" + boardNo).text(commentCount);
+					                },
+					                error: function() {
+					                	console.log('댓글수 목록 조회 실패!');
+					                }
+					            });
+					        });
+					    });
+					    $(document).ready(function() {
+					        $(".commentCount").each(function() {
+					            var boardNo = $(this).attr("id").split("_")[1];
+					            
+					            $.ajax({
+					                url: "select.tag",
+					                method: "POST",
+					                data: { boardNo: boardNo },
+					                success: function(response) {
+					                    response.forEach(function(item) {
+					                        var tag = item.tagName;
+					                        var spanElement = $('<span>').attr('id', 'tag').text(tag);
+					                        $('#tag-list_' + boardNo).append(spanElement);
+					                    });
+					                },
+					                error: function() {
+					                	console.log('태그 목록 조회 실패!');
+					                }
+					            });
+					        });
+					    });
+					    $(document).ready(function() {
+					        $(".commentCount").each(function() {
+					            var boardNo = $(this).attr("id").split("_")[1];
+					            
+					            $.ajax({
+					                url: "like.bo",
+					                method: "POST",
+					                data: { boardNo: boardNo },
+					                success: function(response) {
+					                    var likeCount = response;
+					                    $("#heartCount_" + boardNo).text(likeCount);
+					                },
+					                error: function() {
+					                	console.log('좋아요 개수 조회 실패!');
+					                }
+					            });
+					        });
+					    });
+					    $(document).ready(function() {
+					        $(".commentCount").each(function() {
+					            var boardNo = $(this).attr("id").split("_")[1];
+					            var memberId = $("input[name='memberId']").val();
+					            var heartIcon = $(this).parent().find(".heart");
+					
+					            $.ajax({
+					                url: "like.chk",
+					                method: "POST",
+					                data: { memId: memberId, boardNo: boardNo },
+					                success: function(result) {
+					                    if (result === 'success') {
+					                        heartIcon.text("♥");
+					                    }
+					                },
+					                error: function() {
+					                    console.log('게시글 목록 좋아요 조회 실패!');
+					                }
+					            });
+					        });
+					    });
+					    
+					    $(document).on('click', '.board-element .heart', function() {
+					        var memberId = $("input[name='memberId']").val();
+					        if (memberId === "") {
+					            alert("로그인이 필요합니다.");
+					        } else {
+					            var boardNo = $(this).closest('.board-element').find('input[name="bno"]').val();
+					            var heartElement = $(this);
+					
+					            $.ajax({
+					                url: 'like.add',
+					                method: 'POST',
+					                data: { memId: memberId, boardNo: boardNo },
+					                success: function(result) {
+					                    if (result === 'success') {
+					                        heartElement.text('♥');
+					                        alert("좋아요 성공!");
+					
+					                        $.ajax({
+					                            url: 'like.bo',
+					                            method: 'POST',
+					                            data: { boardNo: boardNo },
+					                            success: function(response) {
+					                                var likeCount = response;
+					                                $("#heartCount_" + boardNo).text(likeCount);
+					                            },
+					                            error: function() {
+					                                console.log('좋아요 개수 조회 실패!');
+					                            }
+					                        });
+					                    } else if (result === 'fail') {
+					                    	heartElement.text('♡');
+					                        alert("좋아요 취소!");
+					                        
+					                        $.ajax({
+					                            url: 'like.bo',
+					                            method: 'POST',
+					                            data: { boardNo: boardNo },
+					                            success: function(response) {
+					                                var likeCount = response;
+					                                $("#heartCount_" + boardNo).text(likeCount);
+					                            },
+					                            error: function() {
+					                                console.log('좋아요 개수 조회 실패!');
+					                            }
+					                        });
+					                    }
+					                },
+					                error: function() {
+					                    console.log('좋아요 실패!');
+					                }
+					            });
+					        }
+					    });
 			</script>
 </body>
 </html>

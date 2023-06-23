@@ -107,10 +107,13 @@
         background-color: rgb(73, 166, 112);
     }
     #heart{
+        margin-top: 5px;
         margin-left: 10px;
         display:inline-block;
         width: 30px;
         height: 30px;
+        font-size: 1.5em;
+        text-align: center;
     }
     #comment{
         margin-left: 20px;
@@ -226,8 +229,8 @@
 				  </c:forEach>
                 </div>
                 <div style="margin-top: 5px; margin-bottom: 5px;">
-                <span id="heart"><img src="https://media.istockphoto.com/id/1294470271/ko/%EB%B2%A1%ED%84%B0/%EC%8B%AC%EC%9E%A5-%EC%8B%AC%ED%94%8C%ED%95%98%EA%B3%A0-%EA%B9%A8%EB%81%97%ED%95%9C-%EB%B9%88-%ED%95%98%ED%8A%B8-%EB%AA%A8%EC%96%91-%EB%82%99%EC%84%9C-%EC%8A%A4%ED%83%80%EC%9D%BC-%EC%86%90%EC%9C%BC%EB%A1%9C-%EA%B7%B8%EB%A6%B0-%EB%B2%A1%ED%84%B0.jpg?s=612x612&w=0&k=20&c=kOhcsR7-s7nt3m83Y4LrfJm_rjmJ8dqhVpCpJDEoy_k=" alt=""></span>
-                <span id="heartCount">좋아요개수</span>
+                <span id="heart" class="heart">♡</span>
+                <span id="heartCount"></span>
                 <span id="comment"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chat-right" viewBox="0 0 16 16">
   <path d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z"/>
 </svg></span> <span id="commentCount"></span>
@@ -365,7 +368,94 @@
 				}
     		});
 		};
-    
+		
+		$(document).ready(function() {
+	            var boardNo = ${b.boardNo}
+	            
+	            $.ajax({
+	                url: "like.bo",
+	                method: "POST",
+	                data: { boardNo: boardNo },
+	                success: function(response) {
+	                    var likeCount = response;
+	                    $("#heartCount").text(likeCount);
+	                },
+	                error: function() {
+	                	console.log('좋아요 개수 조회 실패!');
+	                }
+	        });
+	    });
+		
+		$(document).ready(function() {
+				var boardNo = ${b.boardNo}
+	            var memberId = $("input[name='memberId']").val();
+	            $.ajax({
+	                url: "like.chk",
+	                method: "POST",
+	                data: { memId: memberId, boardNo: boardNo },
+	                success: function(result) {
+	                    if (result === 'success') {
+	                    	$("#heart").text('♥');
+	                    }
+	                },
+	                error: function() {
+	                    console.log('게시글 목록 좋아요 조회 실패!');
+	                }
+	        });
+	    });
+	    
+		$(document).on('click', '.board-element .heart', function() {
+	        var memberId = $("input[name='memberId']").val();
+	        if (memberId === "") {
+	            alert("로그인이 필요합니다.");
+	        } else {
+	        	var boardNo = ${b.boardNo};
+	
+	            $.ajax({
+	                url: 'like.add',
+	                method: 'POST',
+	                data: { memId: memberId, boardNo: boardNo },
+	                success: function(result) {
+	                    if (result === 'success') {
+	                    	$("#heart").text('♥');
+	                        alert("좋아요 성공!");
+	
+	                        $.ajax({
+	                            url: 'like.bo',
+	                            method: 'POST',
+	                            data: { boardNo: boardNo },
+	                            success: function(response) {
+	                                var likeCount = response;
+	                                $("#heartCount").text(likeCount);
+	                            },
+	                            error: function() {
+	                                console.log('좋아요 개수 조회 실패!');
+	                            }
+	                        });
+	                    } else if (result === 'fail') {
+	                    	$("#heart").text('♡');
+	                        alert("좋아요 취소!");
+	                        
+	                        $.ajax({
+	                            url: 'like.bo',
+	                            method: 'POST',
+	                            data: { boardNo: boardNo },
+	                            success: function(response) {
+	                                var likeCount = response;
+	                                $("#heartCount").text(likeCount);
+	                            },
+	                            error: function() {
+	                                console.log('좋아요 개수 조회 실패!');
+	                            }
+	                        });
+	                    }
+	                },
+	                error: function() {
+	                    console.log('좋아요 실패!');
+	                }
+	            });
+	        }
+	    });
     </script>
 </body>
 </html>
