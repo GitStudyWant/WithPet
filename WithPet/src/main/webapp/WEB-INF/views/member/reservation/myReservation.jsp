@@ -241,8 +241,53 @@
 		        </div>
 		        <br>
 		        <div>
-					<h5>카페 예약</h5>        
+					<h5>카페 예약</h5>     
+		         		<button class="btnn" style="margin-left:900px" onclick="deleteCafeRes();">취소</button>
+		         		<button class="btnn"><a class="aTag" href="cafe.bo">예약하러 가기</a></button>
+		         		<br><br>					   
 		        	<table id="cafeList">
+		         		<c:choose>
+		         		<c:when test="${ not empty cpList }">
+		         		<thead>
+		         			<tr>
+								<th width="100">선택</th>
+								<th width="100">카페예약번호</th>
+								<th width="120">카페번호</th>
+								<th width="120">카페명</th>
+								<th width="120">카페주소</th>
+								<th width="120">예약일</th>
+								<th width="120">예약시간</th>
+								<th width="120">예약상태</th>
+		         			</tr>
+		         		</thead>
+		         		<tbody>
+		         			<c:forEach var="cp" items="${ cpList }">
+		         			<tr>
+		         				<td>
+		         					<c:choose>
+		         						<c:when test="${cp.cafeResStatus eq 'N'}">
+		         						<input type="radio" value="${ cp.cafeResNo }" name="cafeResNo" disabled>
+		         						</c:when>
+		         						<c:otherwise>
+		         						<input type="radio" value="${ cp.cafeResNo }" name="cafeResNo">
+		         						</c:otherwise>
+		         					</c:choose>
+		         				</td>
+		         				<td>${ cp.cafeResNo }</td>
+		         				<td>${ cp.cafeNo }</td>
+		         				<td>${ cp.cafeTitle }</td>
+		         				<td>${ cp.cafeAddress }</td>
+		         				<td>${ cp.resDate }</td>
+		         				<td>${ cp.resTime }</td>
+		         				<td>${ cp.cafeResStatus }</td>
+		         			</tr>
+		         			</c:forEach>
+		         		</tbody>
+		         		</c:when>
+		         		<c:otherwise>
+		         		카페 예약내역이 없습니다.
+		         		</c:otherwise>
+		         		</c:choose>		         				        	
 		        	</table>
 		        
 		        </div>
@@ -260,26 +305,27 @@
 				resNo = $('input[name=tRno]:checked').val();
 				console.log(resNo);
 				taxiRDate = $('#'+resNo+'taxiRDate').text();
-				taxiDay = taxiRDate.substr(0, 2);
-				//console.log(taxiDay);
+				taxiDay = taxiRDate.substr(-1);
+				console.log(taxiDay);
 				taxiMonth = taxiRDate.substr(3, 2);
-				//console.log(taxiMonth);
+				console.log(taxiMonth);
 				let today = new Date();
 				let month2 = today.getMonth()+1;
 				let day2 = today.getDate();
-				//console.log(day2+'/'+month2+'/');
+				console.log(day2+'/'+month2+'/');
 				
-				if(month2 == taxiMonth && taxiDay-day2 < 0 ){
-					alert('이미 지난 예약입니다.');
-					return false;
-				} else {
-					if(month2 == taxiMonth && taxiDay-day2 < 3){
-						alert('예약일 2일전부터는 취소가 불가능 합니다. 문의사항을 따로 남겨주세요.');
+				if(month2 == taxiMonth && taxiDay-day2 < 2){
+					
+					if(month2 == taxiMonth && taxiDay-day2 < 0 ){
+						alert('이미 지난 예약입니다.');
 						return false;
-						}
+					}
+					
+				alert('예약일 1일전부터는 취소가 불가능 합니다. 문의사항을 따로 남겨주세요.');
+				return false;
+					
 				} 
-				
-				
+					
 			} else {
 				
 				trType = 'C';
@@ -288,7 +334,7 @@
 				
 				carSDate = $('#'+resNo+'startDate').text();
 				console.log(carSDate);
-				carDay = carSDate.substr(0, 2);
+				carDay = carSDate.substr(-1);
 				console.log(carDay);
 				carMonth = carSDate.substr(3, 2);
 				console.log(carMonth);
@@ -296,17 +342,17 @@
 				let month2 = today.getMonth()+1;
 				let day2 = today.getDate();
 				
-				if(month2 == carMonth && carDay-day2 < 0){
-					alert('이미 지난 예약입니다.');
-					return false;
-				} else {
+				if(month2 == carMonth && carDay-day2 < 2){
 					
-					if(month2 == carMonth && carDay-day2 < 2){
-						alert('예약일 1일전부터는 취소가 불가능 합니다. 문의사항을 따로 남겨주세요.');
+					if(month2 == carMonth && carDay-day2 < 0 ){
+						alert('이미 지난 예약입니다.');
 						return false;
-					} 
-				}
-				
+					}
+					
+				alert('예약일 1일전부터는 취소가 불가능 합니다. 문의사항을 따로 남겨주세요.');
+				return false;
+					
+				} 
 				
 				
 			}
@@ -334,6 +380,33 @@
 				
 		}
 		
+	</script>
+	
+	<script>
+		function deleteCafeRes(){
+			
+			cafeResNo = $('input[name=cafeResNo]:checked').val();
+			
+			$.ajax({
+				url : 'deleteCafeRes',
+				data : { cafeResNo : cafeResNo },
+				success : function(result){
+					console.log(result);
+					if(result == 'Y'){
+						alert('예약 취소가 완료 되었습니다.');
+						location.href=location.href;
+					
+					} else {
+						alert('예약 취소가 실패했습니다. 다시 시도해주세요');
+					}
+				},
+				error : function(){
+					console.log('취소 요청 실패');
+				}
+			})
+			
+			
+		}
 	</script>
 	
 	

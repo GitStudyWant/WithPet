@@ -108,7 +108,8 @@
 			success : function(result){
 				var value= '<b>인기검색어 : </b>';
 				for(let i in result){
-					value +='<a class="goBestSearch" href="goSearch?searchKeyword='+result[i].searchKeyword+'">'
+					value +='<a class="goBestSearch" href="goSearch?searchKeyword='
+					      + result[i].searchKeyword+'">'
 					      + result[i].searchKeyword + '</a>' + ' | ';
 				}
 				$('#bestKeyword').html(value);

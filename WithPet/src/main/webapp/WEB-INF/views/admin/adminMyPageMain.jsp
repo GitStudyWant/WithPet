@@ -109,7 +109,7 @@
         height : 100%;
     }
     button{
-        color:white ;
+        color:white;
         background-color: green;
         border: 1px #C2E5F2;
     }
@@ -119,7 +119,7 @@
    text-align : center;
     font-size : 13px;
    
-   }
+   } 
     #actH2{
         text-align: center;
        font-weight: 1000;
@@ -142,21 +142,12 @@
 
 	<div id="body">
 		<div id="mainmain">
-		<h1>회원 관리</h1>	
+		<h1 style="text-align:center;">회원 관리</h1>	
     <hr>
     <br><br>
     <form action="adminMemberList" method="post">
         <table id="memberlist" align="center">
            <thead>
-            <tr>
-                <td colspan="7">
-                    <select id="search" name="search">
-                        <option name="search" value="memId">아이디</option>
-                        <option name="search" value="memNick">닉네임</option>
-                    </select> : <input type="text" name="Skeyword" id="searchGo" onclick="noSearch();">
-                    <button class="actBtn" type="submit">검색</button>
-                </td>
-            </tr>
             <tr>
                 <th colspan="5"><b></b></th>
                 <th><button class="actBtn" onclick="return updateMemType2();">등급 변경</button></th>
@@ -259,9 +250,6 @@
 			  selectedMembers.each(function() {
 			    var memId = $(this).val();
 			    var memGrade = $('#'+memId+'memGrade').val();
-			   // console.log("memId " + memId);
-			   // console.log("memGrade " + memGrade);
-			    
 			   
 			    $.ajax({
 			      url: 'adminGradeUpdate',
@@ -283,7 +271,7 @@
 			
 			}
 		
-           </script>
+        </script>
            
 		<script>
 		
@@ -297,9 +285,6 @@
 			  selectedMembers.each(function() {
 			    var memId = $(this).val();
 			    var memStatus = $('#'+memId+'memStatus').val();
-			   // console.log("memId " + memId);
-			   // console.log("memGrade " + memGrade);
-			    
 			   
 			    $.ajax({
 			      url: 'adminStatusUpdate',
@@ -319,7 +304,7 @@
 			  })
 			}
 		
-           </script>           
+        </script>           
            
            
            

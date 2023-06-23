@@ -46,6 +46,10 @@
 </style>
 </head>
 <body>
+
+	<jsp:include page="../common/header.jsp" />	
+	<br>
+	
 <h1><b>키워드를 통하여 검색 해주세요!</b></h1>
  <h4>ex) 동물병원,애견카페</h4>
 
@@ -292,5 +296,8 @@ function removeAllChildNods(el) {
 
  
 </script>
+
+	<div id="mypageFooter"><jsp:include page="../common/footer.jsp" /></div>
+	
 </body>
 </html>

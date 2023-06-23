@@ -44,6 +44,7 @@ import com.project.withpet.board.common.model.vo.PageInfo;
 import com.project.withpet.board.common.template.Pagination;
 import com.project.withpet.board.model.vo.Board;
 import com.project.withpet.board.model.vo.Comments;
+import com.project.withpet.cafe.model.vo.CafeRes;
 import com.project.withpet.member.model.service.MemberService;
 import com.project.withpet.member.model.vo.AllChatting;
 import com.project.withpet.member.model.vo.CertVO;
@@ -218,7 +219,6 @@ public class MemberController {
 		HashMap<String, Object> userInfo = getKakaoUserInfo(accessToken);
 		
 		HttpSession session = request.getSession();
-		//session.setAttribute("accessToken", userInfo.get("accessToken"));
 		session.setAttribute("kakaoId", userInfo.get("id"));
 		
         response.setContentType("text/html; charset=UTF-8");
@@ -774,11 +774,15 @@ public class MemberController {
 		String memId = ((Member)session.getAttribute("loginMember")).getMemId();
 			ArrayList<TaxiReservation> tList = memberService.selectMyTaxiRes(memId);
 			ArrayList<CarReservation> cList = memberService.selectMyCarRes(memId);
+			ArrayList<CafeRes> cpList = memberService.selectMyCafeRes(memId);
 			
 			//System.out.println(tList);
 			//System.out.println(cList);
 			m.addAttribute("tList", tList);
 			m.addAttribute("cList", cList);
+			m.addAttribute("cpList", cpList);
+			
+			System.out.println(cpList);
 			
 		return "member/reservation/myReservation";
 		}
@@ -832,7 +836,15 @@ public class MemberController {
 		
 	}
 	
-	
+	@ResponseBody
+	@RequestMapping("deleteCafeRes")
+	public String deleteCafeRes(int cafeResNo) {
+		if(memberService.deleteCafeRes(cafeResNo) > 0) {
+			return "Y";
+		} else {
+			return "N";
+		}
+	}	
 	
 	
 	
@@ -1431,8 +1443,6 @@ public class MemberController {
 	@ResponseBody
 	@PostMapping("sendMail.bo")
 	public int sendMail(String email, HttpServletRequest request) throws MessagingException {
-		System.out.println("오냐?");
-		System.out.println(email);
 		MimeMessage message = sender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 		
@@ -1482,8 +1492,6 @@ public class MemberController {
 	@ResponseBody
 	@PostMapping("pwdMail.bo")
 	public int pwdMail(String email, HttpServletRequest request) throws MessagingException {
-		System.out.println("오냐?");
-		System.out.println(email);
 		MimeMessage message = sender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 		
@@ -1632,6 +1640,12 @@ public class MemberController {
 		}
 	}
 	
+	@RequestMapping("goMemo")
+	public String goMemo(String memId, HttpServletRequest request) {
+		request.setAttribute("newMemo", memId);
+		return "memo/newMemo";
+	}
+	
 	@PostMapping("freindSharing.me")
 	public String freindSharing(String memberId, String friendId, Model m) {
 		Friend fri = new Friend(memberId, friendId);
@@ -1760,7 +1774,6 @@ public class MemberController {
 		i.setMemberId(memberId);
 		i.setInquiryTitle(inquiryTitle);
 		i.setInquiryContent(inquiryContent);
-		System.out.println(i);
 		if(memberService.inquiryInsert(i) > 0) {
 			m.addAttribute("alertMsg", "작성에 성공하셨습니다.");
 			return "redirect:inquiry.me";
@@ -1772,14 +1785,12 @@ public class MemberController {
 	}
 	
 	@RequestMapping("chatting.me")
-	public String chatting(HttpServletRequest request,Model m) {
+	public String chatting(HttpServletRequest request, Model m) {
 		AllChatting all= memberService.allChatLast();
 		HttpSession session = request.getSession();
 		String memberId = ((Member)session.getAttribute("loginMember")).getMemId();
-		System.out.println(memberId);
 		ArrayList<OneChatting> one = memberService.oneChatList(memberId);
-		System.out.println(all);
-		System.out.println(one);
+		session.setAttribute("clear", "clear");
 		m.addAttribute("oneChatList", one);
 		m.addAttribute("lastChat", all);
 		return "member/chatting/memberChatting";

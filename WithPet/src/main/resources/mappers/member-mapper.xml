@@ -261,8 +261,8 @@
 	<select id="selectMemoGet" resultType="memo">
 		SELECT
 				memo_no memoNo,
-				memo_sender memoSender,
-				memo_receiver memoReceiver,
+				A.mem_nick memoSender,
+				B.mem_nick memoReceiver,
 				memo_title memoTitle,
 				memo_content memoContent,
 				to_char(memo_senddate, 'YYYY-MM-DD HH24:MI') as memoSendDate,
@@ -272,7 +272,11 @@
 				memo_receiverstatus memoReceiverStatus,
 				memo_senderstatus memoSenderStatus
 		FROM
-				memo			
+				memo
+		JOIN
+                member A on (memo_sender = A.mem_id)
+        JOIN
+                member B on (memo_receiver = B.mem_id)
 		WHERE
 				memo_receiver = #{memId}
 		AND
@@ -285,8 +289,8 @@
 	<select id="selectMemoSend" resultType="memo">
 		SELECT
 				memo_no memoNo,
-				memo_sender memoSender,
-				memo_receiver memoReceiver,
+				A.mem_nick memoSender,
+				B.mem_nick memoReceiver,
 				memo_title memoTitle,
 				memo_content memoContent,
 				to_char(memo_senddate, 'YYYY-MM-DD HH24:MI') as memoSendDate,
@@ -297,6 +301,10 @@
 				memo_senderstatus memoSenderStatus
 		FROM
 				memo
+		JOIN
+                member A on (memo_sender = A.mem_id)
+        JOIN
+                member B on (memo_receiver = B.mem_id)
 		WHERE
 				memo_sender = #{memId}
 		AND
@@ -329,8 +337,8 @@
 	<select id="selectMemoDetail" resultType="memo">
 		SELECT
 				memo_no memoNo,
-				memo_sender memoSender,
-				memo_receiver memoReceiver,
+				A.mem_nick memoSender,
+				B.mem_nick memoReceiver,
 				memo_title memoTitle,
 				memo_content memoContent,
 				to_char(memo_senddate, 'YYYY-MM-DD HH24:MI') as memoSendDate,
@@ -341,6 +349,10 @@
 				memo_senderstatus memoSenderStatus
 		FROM
 				memo
+		JOIN
+                member A on (memo_sender = A.mem_id)
+        JOIN
+                member B on (memo_receiver = B.mem_id)
 		WHERE
 				memo_No = #{memoNo}
 	</select>
@@ -1008,6 +1020,33 @@
 		     CAR_RNO
 	</select>
 	
+	<select id="selectMyCafeRes" resultType="caferes">
+		SELECT
+		      CAFE_RES_NO cafeResNo
+		     ,CAFE_NO cafeNo
+		     ,CAFE_TITLE cafeTitle
+		     ,CAFE_ADDRESS cafeAddress
+		     ,TO_CHAR(RES_DATE,'DD/MM/YY') resDate
+		     ,RES_TIME resTime
+		     ,CAFE_RES_STATUS cafeResStatus
+		 FROM
+		     CAFE_RES JOIN CAFE USING(CAFE_NO)
+		WHERE
+		     USER_ID = #{memId}
+		ORDER
+		   BY
+		     CAFE_RES_NO
+	</select>	
+	
+	<update id="deleteCafeRes" parameterType="_int">
+		UPDATE
+		      CAFE_RES
+		  SET
+		     CAFE_RES_STATUS = 'N'
+		WHERE
+		     CAFE_RES_NO = #{ cafeResNo }
+	</update>	
+	
 	<update id="deleteTRes" parameterType="_int">
 		UPDATE
 		      TAXI_RESERVATION
@@ -1140,7 +1179,7 @@
 						  from
 						       onechatparticipants
 						 group by onechat_no)
-						 order by onechat_time
+						 order by onechat_time desc
 		       
 	</select>
 	

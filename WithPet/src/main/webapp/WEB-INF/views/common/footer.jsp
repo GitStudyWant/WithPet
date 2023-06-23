@@ -30,21 +30,33 @@
             <b class="btag-fontSize">회사소개 제휴제안 이용약관 개인정보처리방침 크리에이터 신청</b>
         </div>
     </div>
+    	<c:if test="${empty clear}">
+						<script>
+						socket.close();
+						</script>
+			<c:remove var="clear" scope="session"/>
+		</c:if>
     
+    	<script>
+    	if(${ (!(empty loginMember))} && ${empty clear}){
+		    $(function(){		    	
+		    	socketConnect();
+		    	
+		    	setInterval(function(){
+		    		if(true){
+		    			socketReceive();
+		    		}
+		    		
+		    	}, 3000)
+		    })
+    	}
+    	</script>
+    	
     <script>
     
     var socket;
     
-    $(function(){
-    	socketConnect();
-    	
-    	setInterval(function(){
-    		if(true){
-    			socketReceive();
-    		}
-    		
-    	}, 3000)
-    })
+    
     
     function socketConnect(){
     	var uri = 'ws://localhost:8787/withpet/member';

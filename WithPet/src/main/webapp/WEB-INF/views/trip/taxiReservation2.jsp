@@ -718,19 +718,11 @@ $(function(){
 			
 			var startDate = $('#startDate').val();
 			var endDate = $('#endDate').val();
-			//console.log(startDate);
-			//console.log(endDate);
-			//console.log($('input[name=trType2]:checked').val());
 			var value = '';
 			
 			var date1 = new Date($("#startDate").datepicker("getDate"));
 		    var date2 = new Date($("#endDate").datepicker("getDate"));
 		    var date3 = date2.getDate() - date1.getDate();
-		    //console.log(date4);
-		    //var date4 = new Date(date1.)
-		    //console.log(date3);
-			//console.log(date1);
-			//console.log(date2);
 			if(date2 - date1 < 0){
 				alert('종료 날짜는 시작 날짜보다 이전일 수 없습니다. 올바른 날짜를 선택 해 주세요.');
 				return false;
