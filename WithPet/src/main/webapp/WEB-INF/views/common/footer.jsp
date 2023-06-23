@@ -45,6 +45,10 @@
 		    	}, 3000)
 		    })
     	}
+    	
+    	if(!${empty clear}){
+    		socket.close();
+    	}
     	</script>
     <script>
     
