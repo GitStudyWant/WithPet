@@ -45,6 +45,10 @@
 		height : 750px;
 		position : relative;
 	}
+	
+	.pTagMargin-Top{
+		margin-top : 15px;
+	}
 
 	#mainTable p{
 		margin-top: 10px;
@@ -202,7 +206,9 @@
 		height : 40%;
 		border : 1px soide #dee2e6 !important;
 	}
+
 	
+
 
 
 
@@ -221,38 +227,39 @@
 					</tr>
 				</table>						
 					<div id="detailView">
-					<c:choose>
-						<c:when test="${ not empty inquiryList }">
-							<table class="table table-hover" id="mainTable">
-	
-								<thead>
-									<tr align="center">
-									<th scope="col"><p>번호</p></th>
-									<th scope="col"><p>제목</p></th>
-									<th scope="col"><p>작성일</p></th>
-									<th scope="col"><p>상태</p></th>
-									</tr>
-								  </thead>
-								  <tbody align="center">
-								  
-								  	<c:forEach items="${inquiryList}" var="i">
-										<tr onclick="inquiryDetail(${i.inquiryNo},'${loginMember.memId}');">
-										<td scope="row"><p>${ i.inquiryNo }</p></td>
-										<td><p>${ i.inquiryTitle }</p></td>
-										<td><p>${ i.inquiryCreateDate }</p></td>
-										<c:choose>
-											<c:when test="${i.inquiryStatus eq 'Y' }">
-												<td><img class="statusBtn" src="resources/myPage/blue.png" alt=""></td>
-											</c:when>
-											<c:when test="${i.inquiryStatus eq 'N' }">
-												<td><img class="statusBtn" src="resources/myPage/red.png" alt=""></td>
-											</c:when>
-										</c:choose>
-										</tr>
-									</c:forEach>
-								  </tbody>
-						</table>
-	
+						<div id="mainTable">
+							<c:choose>
+								<c:when test="${ not empty inquiryList }">
+									<table class="table table-hover">
+			
+										<thead>
+											<tr align="center">
+											<th scope="col"><p>번호</p></th>
+											<th scope="col"><p>제목</p></th>
+											<th scope="col"><p>작성일</p></th>
+											<th scope="col"><p>상태</p></th>
+											</tr>
+										  </thead>
+										  <tbody align="center">
+										  
+										  	<c:forEach items="${inquiryList}" var="i">
+												<tr style="height:70px;" onclick="inquiryDetail(${i.inquiryNo},'${loginMember.memId}');">
+												<td scope="row"><p class="pTagMargin-Top">${ i.inquiryNo }</p></td>
+												<td><p class="pTagMargin-Top">${ i.inquiryTitle }</p></td>
+												<td><p class="pTagMargin-Top">${ i.inquiryCreateDate }</p></td>
+												<c:choose>
+													<c:when test="${i.inquiryStatus eq 'Y' }">
+														<td><img class="statusBtn" src="resources/myPage/blue.png" alt=""></td>
+													</c:when>
+													<c:when test="${i.inquiryStatus eq 'N' }">
+														<td><img class="statusBtn" src="resources/myPage/red.png" alt=""></td>
+													</c:when>
+												</c:choose>
+												</tr>
+											</c:forEach>
+										  </tbody>
+								</table>
+						</div>
 						<table id="foogg">
 							<thead>
 								<tr align="center">
@@ -362,6 +369,7 @@
 									value += '<hr>' 
 										  + '<div class="detail">'
 							              + '<h2>문의 상세보기</h2>'
+										  + '<hr>'
 							              + '<table class="inquiryTable">'
 							              + '<tr>'
 							              + '<th class="text-alignC tr-td-70pxsize">제목</th>'
@@ -389,7 +397,7 @@
 							              + '<table id="inquiryAnswer" style="width:100%;">'
 							              + '<thead>'
 							              + '<tr>'
-							              + '<th>'
+							              + '<th class="anwTh">'
 							              + '<h3 class="text-alignC">답변 내용</h3>'
 							              + '</th>'
 							              + '</tr>'
