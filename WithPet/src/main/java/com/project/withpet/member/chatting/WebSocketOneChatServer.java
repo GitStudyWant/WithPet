@@ -67,11 +67,13 @@ public class WebSocketOneChatServer extends TextWebSocketHandler{
 		    one.setOneChatNo(roomNo);
 		    OneChatting oneChat = memberService.oneRoomIn(one);
 
-			for(int i = 0; i < arr.length; i++) {
-			}
 			OneChatting o = new OneChatting();
 			o.setMemberId(arr[0]);
-			o.setOneChatContent(arr[1]);
+			if(arr.length == 2) {
+				o.setOneChatContent(arr[1]);
+			}else {
+				o.setOneChatContent("　");
+			}
 			o.setOneChatNo(roomNo);
 			TextMessage newMessage = new TextMessage(message.getPayload()); // payload필드에 사용자가 실제 보낸 내용
 			if(memberService.oneChatContentInsert(o) > 0) {
@@ -86,7 +88,6 @@ public class WebSocketOneChatServer extends TextWebSocketHandler{
 		    		for(WebSocketSession ws : users) {
 		    			if(wss == ws) {
 				    			wss.sendMessage(newMessage);
-				    			session.sendMessage(newMessage);
 		    			}
 		    		}
 		    		
@@ -95,7 +96,6 @@ public class WebSocketOneChatServer extends TextWebSocketHandler{
 		    		for(WebSocketSession ws : users) {
 		    			if(wss == ws) {
 				    			wss.sendMessage(newMessage);
-				    			session.sendMessage(newMessage);
 		    			}
 		    		}
 		    	}

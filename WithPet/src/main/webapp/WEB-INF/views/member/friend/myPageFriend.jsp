@@ -195,7 +195,7 @@
 									<p class="marginTop0px">닉네임 : ${ i.memNick }</p>
 									<table id="buttonTable">
 										<tr align="center">
-											<td><button class="btn btn-success marginBotton20px btn-Size">쪽지</button></td>
+											<td><button class="btn btn-success marginBotton20px btn-Size" onclick="goMemo('${i.memId}');">쪽지</button></td>
 											<td></td>
 											<td><button class="btn btn-success marginBotton20px btn-Size" onclick="oneChatInsert('${i.memId}');">채팅</button></td>
 										</tr>
@@ -216,6 +216,7 @@
 									<br>
 								</div>
 							</c:forEach>
+							
 						
 						<table id="foogg">
 							<thead>
@@ -255,12 +256,15 @@
 			         <input type="hidden" id="memberId" name="memberId" value="${ loginMember.memId }"/>
 			         <input id="hidden-page" type="hidden" name="mPage" value="1"/>
 			          <input id="friendId" type="hidden" name="friendId" value=""/>
+			         <input id="memoDetailSender" type="hidden" name="memoDetailSender"/>
 			    </form>
 			    
 			 
 			    
 			    <script>
-			    	
+			    	function goMemo(memId){
+			    		$('#memoDetailSender').val(memId); $('#friendForm').attr('action', 'replyMemo').submit();
+			    	}
 			    	
 					function friendPage(num){
 							console.log(num);

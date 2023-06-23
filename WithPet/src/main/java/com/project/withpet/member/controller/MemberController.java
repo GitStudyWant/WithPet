@@ -1627,6 +1627,12 @@ public class MemberController {
 		}
 	}
 	
+	@RequestMapping("goMemo")
+	public String goMemo(String memId, HttpServletRequest request) {
+		request.setAttribute("newMemo", memId);
+		return "memo/newMemo";
+	}
+	
 	@PostMapping("freindSharing.me")
 	public String freindSharing(String memberId, String friendId, Model m) {
 		Friend fri = new Friend(memberId, friendId);

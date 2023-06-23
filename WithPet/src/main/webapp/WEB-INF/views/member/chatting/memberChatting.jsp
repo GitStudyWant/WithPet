@@ -552,6 +552,7 @@
 				function send(){
 					let text = $('#allChat-input').val();
 					let memberId = '${loginMember.memId}';
+					
 					socket.send(memberId + ':' + text);
 					$('#allChat-input').val('');
 				}
