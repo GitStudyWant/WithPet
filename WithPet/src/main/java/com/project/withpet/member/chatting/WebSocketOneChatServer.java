@@ -77,28 +77,32 @@ public class WebSocketOneChatServer extends TextWebSocketHandler{
 			o.setOneChatNo(roomNo);
 			TextMessage newMessage = new TextMessage(message.getPayload()); // payload필드에 사용자가 실제 보낸 내용
 			if(memberService.oneChatContentInsert(o) > 0) {
+				System.out.println("??");
+			    if(oneChat.getMemberOne() != null) {
+			    	if(((String)oneChat.getMemberOne()).equals((String)memberId)) {
+			    		System.out.println("옴?");
+			    		WebSocketSession wss = (WebSocketSession)userMap.get((String)oneChat.getMemberTwo()); 
+			    		session.sendMessage(newMessage);
+			    		for(WebSocketSession ws : users) {
+			    			if(wss == ws) {
+					    			wss.sendMessage(newMessage);
+					    			
+			    			}
+			    		}
+			    		
+			    	}else {
+			    		System.out.println("안옴?");
+			    		WebSocketSession wss = (WebSocketSession)userMap.get((String)oneChat.getMemberOne());
+			    		session.sendMessage(newMessage);
+			    		for(WebSocketSession ws : users) {
+			    			if(wss == ws) {
+					    			wss.sendMessage(newMessage);
+					    			
+			    			}
+			    		}
+			    	}
+			    }
 			}
-			
-			
-			
-		    if(oneChat.getMemberOne() != null) {
-		    	if(((String)oneChat.getMemberOne()).equals((String)memberId)) {
-		    		WebSocketSession wss = (WebSocketSession)userMap.get((String)oneChat.getMemberTwo()); 
-		    		for(WebSocketSession ws : users) {
-		    			if(wss == ws) {
-				    			wss.sendMessage(newMessage);
-		    			}
-		    		}
-		    		
-		    	}else {
-		    		WebSocketSession wss = (WebSocketSession)userMap.get((String)oneChat.getMemberOne());
-		    		for(WebSocketSession ws : users) {
-		    			if(wss == ws) {
-				    			wss.sendMessage(newMessage);
-		    			}
-		    		}
-		    	}
-		    }
 		}
 
 		public void afterConnectionClosed(WebSocketSession session, CloseStatus status, HttpServletRequest requests) throws Exception {
