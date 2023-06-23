@@ -173,7 +173,7 @@
 				</c:choose>
 				<c:choose>
 					<c:when test="${ loginMember.memGrade eq 'ADMIN'}">
-						<a href="logout.me">Logout</a> / <a href="adminPage">AdminPage</a>
+						<a href="logout.me">Logout</a> / <a href="adminMemberList">AdminPage</a>
         			</c:when>
         			<c:otherwise>
         				<a href="logout.me">Logout</a> / <a id="myPage" onclick="myPage();">MyPage</a>
