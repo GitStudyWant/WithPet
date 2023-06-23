@@ -77,7 +77,6 @@ public class WebSocketOneChatServer extends TextWebSocketHandler{
 			o.setOneChatNo(roomNo);
 			TextMessage newMessage = new TextMessage(message.getPayload()); // payload필드에 사용자가 실제 보낸 내용
 			if(memberService.oneChatContentInsert(o) > 0) {
-				session.sendMessage(newMessage);
 			}
 			
 			
