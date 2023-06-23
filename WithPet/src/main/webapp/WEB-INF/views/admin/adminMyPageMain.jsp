@@ -119,7 +119,7 @@
    text-align : center;
     font-size : 13px;
    
-   }
+   } 
     #actH2{
         text-align: center;
        font-weight: 1000;

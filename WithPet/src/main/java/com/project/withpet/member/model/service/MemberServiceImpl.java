@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.project.withpet.board.common.model.vo.PageInfo;
 import com.project.withpet.board.model.vo.Board;
 import com.project.withpet.board.model.vo.Comments;
+import com.project.withpet.cafe.model.vo.CafeRes;
 import com.project.withpet.member.model.dao.MemberDao;
 import com.project.withpet.member.model.vo.AllChatting;
 import com.project.withpet.member.model.vo.CertVO;
@@ -389,6 +390,16 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
+
+	public ArrayList<CafeRes> selectMyCafeRes(String memId) {
+		return memberDao.selectMyCafeRes(sqlSession, memId);
+	}
+
+	@Override
+	public int deleteCafeRes(int cafeResNo) {
+		return memberDao.deleteCafeRes(sqlSession, cafeResNo);
+	}
+
 	public ArrayList<AllChatting> allChattingInsert(String memberId) {
 		int result = 0;
 		ArrayList<AllChatting> a = null;
