@@ -88,7 +88,7 @@
         width: 10%; height: 40px;
     }    
     
-    #thumbnail{
+    .thumbnail{
         margin-left: 50px;
         margin-top: 10px;
         margin-right: 50px;
@@ -96,7 +96,7 @@
         width: 150px; height: 150px;
     }
 
-    #btn1{
+    .btn1{
         margin-right: 50px;
         margin-top: 15px;
         float: right;
@@ -131,99 +131,43 @@
             </form>
             <br><br><br>
             <label for="" id="board-head">크리에이터 게시판</label>
-            <a class="btn btn-secondary" style="float:right; margin-right: 100px; width: 150px;" href="enrollForm.bo">글쓰기</a>
+            <c:if test="${not empty sessionScope.loginMember and sessionScope.loginMember.memGrade eq 'CREATOR'}">
+            <a class="btn btn-secondary" style="float:right; margin-right: 100px; width: 150px;" href="enrollForm.cr">글쓰기</a>
+            </c:if>
             <br>
             <label for="" id="board-subtext">크리에이터분들의 창작 마당!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
             <br><br>
+            <c:forEach items="${ list }" var="b" >
             <div class="board-element">
-                <span id="creator" >Creator1</span> <span id="btn1"><button type="button" class="btn btn-primary">더보기</button></span>
+                <span id="creator" >Creator1</span> <span class="btn1"><button type="button" class="btn btn-primary">더보기</button></span>
                 <br>
-                <div id="thumbnail">
+                <div class="thumbnail">
                     <img alt="" src="https://via.placeholder.com/150">
                     <br>
                     <p id="boardTitle">제목</p>
                 </div>
-                <div id="thumbnail">
+                <div class="thumbnail">
                     <img alt="" src="https://via.placeholder.com/150">
                     <br>
                     <p id="boardTitle">제목</p>
                 </div>
-                <div id="thumbnail">
+                <div class="thumbnail">
                     <img alt="" src="https://via.placeholder.com/150">
                     <br>
                     <p id="boardTitle">제목</p>
                 </div>
-                <div id="thumbnail">
+                <div class="thumbnail">
                     <img alt="" src="https://via.placeholder.com/150">
                     <br>
                     <p id="boardTitle">제목</p>
                 </div>
-                <div id="thumbnail">
+                <div class="thumbnail">
                     <img alt="" src="https://via.placeholder.com/150">
                     <br>
                     <p id="boardTitle">제목</p>
                 </div>
             </div>
-            <div class="board-element">
-                <span id="creator" >Creator2</span> <span id="btn1"><button type="button" class="btn btn-primary">더보기</button></span>
-                <br>
-                <div id="thumbnail">
-                    <img alt="" src="https://via.placeholder.com/150">
-                    <br>
-                    <p id="boardTitle">제목</p>
-                </div>
-                <div id="thumbnail">
-                    <img alt="" src="https://via.placeholder.com/150">
-                    <br>
-                    <p id="boardTitle">제목</p>
-                </div>
-                <div id="thumbnail">
-                    <img alt="" src="https://via.placeholder.com/150">
-                    <br>
-                    <p id="boardTitle">제목</p>
-                </div>
-                <div id="thumbnail">
-                    <img alt="" src="https://via.placeholder.com/150">
-                    <br>
-                    <p id="boardTitle">제목</p>
-                </div>
-                <div id="thumbnail">
-                    <img alt="" src="https://via.placeholder.com/150">
-                    <br>
-                    <p id="boardTitle">제목</p>
-                </div>
-            </div>
-            <div class="board-element">
-                <span id="creator" >Creator3</span> <span id="btn1"><button type="button" class="btn btn-primary">더보기</button></span>
-                <br>
-                <div id="thumbnail">
-                    <img alt="" src="https://via.placeholder.com/150">
-                    <br>
-                    <p id="boardTitle">제목</p>
-                </div>
-                <div id="thumbnail">
-                    <img alt="" src="https://via.placeholder.com/150">
-                    <br>
-                    <p id="boardTitle">제목</p>
-                </div>
-                <div id="thumbnail">
-                    <img alt="" src="https://via.placeholder.com/150">
-                    <br>
-                    <p id="boardTitle">제목</p>
-                </div>
-                <div id="thumbnail">
-                    <img alt="" src="https://via.placeholder.com/150">
-                    <br>
-                    <p id="boardTitle">제목</p>
-                </div>
-                <div id="thumbnail">
-                    <img alt="" src="https://via.placeholder.com/150">
-                    <br>
-                    <p id="boardTitle">제목</p>
-                </div>
-            </div>
-
-            
+            </c:forEach>
         </div>
     </div>
 </body>
