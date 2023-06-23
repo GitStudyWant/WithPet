@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.project.withpet.board.common.model.vo.PageInfo;
 import com.project.withpet.board.model.vo.Board;
 import com.project.withpet.board.model.vo.Comments;
+import com.project.withpet.cafe.model.vo.CafeRes;
 import com.project.withpet.member.model.vo.AllChatting;
 import com.project.withpet.member.model.vo.CertVO;
 import com.project.withpet.member.model.vo.Friend;
@@ -91,10 +92,13 @@ public interface MemberService {
 	
 	public ArrayList<CarReservation> selectMyCarRes(String memId);
 	
+	public ArrayList<CafeRes> selectMyCafeRes(String memId);
+	
 	public int deleteTRes(int resNo);
 	
 	public int deleteCRes(int resNo);
 	
+	public int deleteCafeRes(int cafeResNo);
 	
 	
 	

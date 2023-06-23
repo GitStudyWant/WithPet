@@ -33,16 +33,16 @@
 	
 	<websocket:handlers>
 			<websocket:mapping handler="groupServer" path="gp"/>
-
-		</websocket:handlers>
-		
-		<websocket:handlers>
-			<websocket:mapping handler="OneChatServer" path="one" />
 			<websocket:mapping handler="memberServer" path="member" />
+	</websocket:handlers>
+		
+	<websocket:handlers>
+			<websocket:mapping handler="OneChatServer" path="one" />
+			
 			<websocket:handshake-interceptors>
 				<beans:bean class="com.project.withpet.member.WebSocketHandShakeInterceptor"/>
 			</websocket:handshake-interceptors>
-		</websocket:handlers>
+	</websocket:handlers>
 		
 		
 	

@@ -16,30 +16,20 @@ public class WebSocketBasicServer extends TextWebSocketHandler{
 	private MemberService memberService;
 	
 	@Override
-	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-		//System.out.println("접속 : ");
-	}
+	public void afterConnectionEstablished(WebSocketSession session) throws Exception {}
 	
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 
-		Map<String, Object> map = session.getAttributes();
 		
-		String style = (String)map.get("style");
-		
-		if(style.contentEquals("memo")) {
-			String memId = message.getPayload();
+		String memId = message.getPayload();
 			
-			TextMessage sendmsg = new TextMessage(String.valueOf(memberService.selectReceiveMemoCountCheck(memId)));
+		TextMessage sendmsg = new TextMessage(String.valueOf(memberService.selectReceiveMemoCountCheck(memId)));
 			
-			session.sendMessage(sendmsg);
-		}
-		
+		session.sendMessage(sendmsg);		
 	}
 	
 	@Override
-	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-		//System.out.println("전화 끊었다");
-	}
+	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {}
 
 }

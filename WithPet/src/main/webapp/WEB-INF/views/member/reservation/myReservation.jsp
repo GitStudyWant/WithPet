@@ -241,8 +241,53 @@
 		        </div>
 		        <br>
 		        <div>
-					<h5>카페 예약</h5>        
+					<h5>카페 예약</h5>     
+		         		<button class="btnn" style="margin-left:900px" onclick="deleteCafeRes();">취소</button>
+		         		<button class="btnn"><a class="aTag" href="cafe.bo">예약하러 가기</a></button>
+		         		<br><br>					   
 		        	<table id="cafeList">
+		         		<c:choose>
+		         		<c:when test="${ not empty cpList }">
+		         		<thead>
+		         			<tr>
+								<th width="100">선택</th>
+								<th width="100">카페예약번호</th>
+								<th width="120">카페번호</th>
+								<th width="120">카페명</th>
+								<th width="120">카페주소</th>
+								<th width="120">예약일</th>
+								<th width="120">예약시간</th>
+								<th width="120">예약상태</th>
+		         			</tr>
+		         		</thead>
+		         		<tbody>
+		         			<c:forEach var="cp" items="${ cpList }">
+		         			<tr>
+		         				<td>
+		         					<c:choose>
+		         						<c:when test="${cp.cafeResStatus eq 'N'}">
+		         						<input type="radio" value="${ cp.cafeResNo }" name="cafeResNo" disabled>
+		         						</c:when>
+		         						<c:otherwise>
+		         						<input type="radio" value="${ cp.cafeResNo }" name="cafeResNo">
+		         						</c:otherwise>
+		         					</c:choose>
+		         				</td>
+		         				<td>${ cp.cafeResNo }</td>
+		         				<td>${ cp.cafeNo }</td>
+		         				<td>${ cp.cafeTitle }</td>
+		         				<td>${ cp.cafeAddress }</td>
+		         				<td>${ cp.resDate }</td>
+		         				<td>${ cp.resTime }</td>
+		         				<td>${ cp.cafeResStatus }</td>
+		         			</tr>
+		         			</c:forEach>
+		         		</tbody>
+		         		</c:when>
+		         		<c:otherwise>
+		         		카페 예약내역이 없습니다.
+		         		</c:otherwise>
+		         		</c:choose>		         				        	
 		        	</table>
 		        
 		        </div>
@@ -334,6 +379,33 @@
 				
 		}
 		
+	</script>
+	
+	<script>
+		function deleteCafeRes(){
+			
+			cafeResNo = $('input[name=cafeResNo]:checked').val();
+			
+			$.ajax({
+				url : 'deleteCafeRes',
+				data : { cafeResNo : cafeResNo },
+				success : function(result){
+					console.log(result);
+					if(result == 'Y'){
+						alert('예약 취소가 완료 되었습니다.');
+						location.href=location.href;
+					
+					} else {
+						alert('예약 취소가 실패했습니다. 다시 시도해주세요');
+					}
+				},
+				error : function(){
+					console.log('취소 요청 실패');
+				}
+			})
+			
+			
+		}
 	</script>
 	
 	

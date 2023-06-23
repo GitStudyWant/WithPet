@@ -27,7 +27,6 @@ public class WebSocketHandShakeInterceptor extends HttpSessionHandshakeIntercept
 		String memberId = ((Member)session.getAttribute("loginMember")).getMemId();
 		attributes.put("memberId", memberId);
 		attributes.put("roomNo", ssreq.getServletRequest().getParameter("chat"));
-		attributes.put("style", ssreq.getServletRequest().getParameter("style"));
 		return super.beforeHandshake(request, response, wsHandler, attributes);
 		
 	}
