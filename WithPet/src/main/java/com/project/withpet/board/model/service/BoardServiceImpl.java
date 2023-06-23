@@ -79,30 +79,85 @@ public class BoardServiceImpl implements BoardService {
 	
 	
 	
-	
+	//qna게시판
 	@Override
 	public int selectQnListCount() {
 		return boardDao.selectQnListCount(sqlSession);
 	}
 	
 	@Override
+	public ArrayList<Board> selectQnList(PageInfo pi) {
+		return boardDao.selectQnList(sqlSession,pi);
+	}
+	
+	@Override
+	public int insertQnBoard(Board b) {
+		return boardDao.insertQnBoard(sqlSession,b);
+	}
+
+	@Override
+	public int updateQnBoard(Board b) {
+		return boardDao.updateQnBoard(sqlSession,b);
+	}
+	
+	
+	// 나눔게시판
+	@Override
+	public ArrayList<Board> selectShList(PageInfo pi) {
+		return boardDao.selectShList(sqlSession,pi);
+	}
+
+	@Override
+	public int selectShListCount() {
+		return boardDao.selectShListCount(sqlSession);
+	}
+	
+	@Override
+	public int insertShBoard(Board b) {
+		return boardDao.insertShBoard(sqlSession,b);
+	}
+
+	@Override
+	public int updateShBoard(Board b) {
+		return boardDao.updateShBoard(sqlSession,b);
+	}
+
+	
+	
+	
+	
+	// 공지사항
+	@Override
 	public int selectNoListCount() {
 		return boardDao.selectNoListCount(sqlSession);
 	}
 	
-	
-	@Override
-	public ArrayList<Board> selectQnList(PageInfo pi) {
-		return boardDao.selectQnList(sqlSession,pi);
-	}
 	@Override
 	public ArrayList<Board> selectNoList(PageInfo pi) {
-		return boardDao.selectQnList(sqlSession,pi);
+		return boardDao.selectNoList(sqlSession,pi);
+	}
+	
+	@Override
+	public int insertNoBoard(Board b) {
+		return boardDao.insertNoBoard(sqlSession,b);
 	}
 
+	@Override
+	public int updateNoBoard(Board b) {
+		return boardDao.updateNoBoard(sqlSession,b);
+	}
 
 	
-
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//공통
 	@Override
 	public int increaseCount(int boardNo) {
 		return boardDao.increaseCount(sqlSession,boardNo);
@@ -191,6 +246,12 @@ public class BoardServiceImpl implements BoardService {
 	public void likeCancle(Likes l) {
 		boardDao.likeCancle(sqlSession,l);
 	}
+
+	
+	
+	
+
+	
 
 	
 	

@@ -172,24 +172,27 @@
                 <button type="submit" class="searchBtn btn btn-secondary">검색</button>
             </form>
             <br><br><br>
-            <label for="" id="board-head">Q&A게시판</label>
+            
+            <label for="" id="board-head">공유게시판</label>
             <c:if test="${ not empty sessionScope.loginMember }">
-            <a class="btn btn-secondary" style="float:right; margin-right: 100px; width: 150px;" href="enrollForm.qna">글쓰기</a>
+            <a class="btn btn-secondary" style="float:right; margin-right: 100px; width: 150px;" href="enrollForm.sh">글쓰기</a>
             </c:if>
             <br>
-            <label for="" id="board-subtext">각자 고민을 나눠봐요&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+            <label for="" id="board-subtext">각자 필요한걸 나눠봐요&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+        	
             <label style="float: right; margin-right: 100px;">
-                <input type="radio" id="new" name="order" value="N">
-                <label for="radioF">최신순</label>&nbsp;&nbsp;&nbsp;
-                <input type="radio" id="popular" name="order" value="P">
-                <label for="radioF">인기순</label>
+                <input type="radio" id="new" name="order" value="N" onchange="changeOrder(this.value)">
+				<label for="new">최신순</label>&nbsp;&nbsp;&nbsp;
+				<input type="radio" id="popular" name="order" value="P" onchange="changeOrder(this.value)">
+				<label for="popular">인기순</label>
             </label>
             <br><br>
             
+
             <c:forEach items="${ list }" var="b" >
 
                     		<div class="board-element">
-                <div class="clickZone">
+                    		<div class="clickZone">
                 <input type="hidden" name="bno" value="${ b.boardNo }" >
                 <span id="boardTitle" >${ b.boardTitle }</span><span id="userImg"  >작성자프로필</span><span id="userId">${ b.boardWriter }</span><span id="thumbnail" style="float: right;"> <img src="https://i.namu.wiki/i/uIt7OBpwNR2Cgk90eW_s_0iAZ6628xqGiRY1YyG5drpYaFwXo4ZAKKLltMDxLc2qPyky0s6D9bociJ770v2mwA.webp" alt=""></span>
                 <span id="boardContent">${ b.boardContent }</span>
@@ -221,14 +224,14 @@
                 		<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
                 		</c:when>
                 		<c:otherwise>
-                		<li class="page-item"><a class="page-link" href="list.qna?cPage=${pi.currentPage-1 }">Previous</a></li>
+                		<li class="page-item"><a class="page-link" href="list.sh?cPage=${pi.currentPage-1 }">Previous</a></li>
                 		</c:otherwise>
                 	</c:choose>
                 	
                     
 					
 					<c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
-						<li class="page-item"><a class="page-link" href="list.qna?cPage=${p }">${p}</a></li>
+						<li class="page-item"><a class="page-link" href="list.sh?cPage=${p }">${p}</a></li>
 					</c:forEach>
 					
                     <c:choose>
@@ -236,7 +239,7 @@
                 		<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
                 		</c:when>
                 		<c:otherwise>
-                		<li class="page-item"><a class="page-link" href="list.qna?cPage=${pi.currentPage+1 }">Next</a></li>
+                		<li class="page-item"><a class="page-link" href="list.sh?cPage=${pi.currentPage+1 }">Next</a></li>
                 		</c:otherwise>
                 	</c:choose>
                     
@@ -247,14 +250,13 @@
         </div>
     </div>
     <script>
-				$(function() {
-					$('.clickZone').click(function() {
-						var bno = $(this).find('input[name="bno"]').val();
-						
-				        location.href = 'http://localhost:8787/withpet/detail.qna?bno=' + bno;
-					})				
-				})
-				$(document).ready(function() {
+				    $(function() {
+				        $('.clickZone').click(function() {
+				            var bno = $(this).find('input[name="bno"]').val();
+				            location.href = 'http://localhost:8787/withpet/detail.sh?bno=' + bno;
+				        });
+				    });
+				    $(document).ready(function() {
 				        $(".commentCount").each(function() {
 				            var boardNo = $(this).attr("id").split("_")[1];
 				            
@@ -387,8 +389,6 @@
 				        }
 				    });
 				    
-			</script>
-
-            
+    </script>
 </body>
 </html>
