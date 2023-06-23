@@ -261,8 +261,8 @@
 	<select id="selectMemoGet" resultType="memo">
 		SELECT
 				memo_no memoNo,
-				memo_sender memoSender,
-				memo_receiver memoReceiver,
+				A.mem_nick memoSender,
+				B.mem_nick memoReceiver,
 				memo_title memoTitle,
 				memo_content memoContent,
 				to_char(memo_senddate, 'YYYY-MM-DD HH24:MI') as memoSendDate,
@@ -272,7 +272,11 @@
 				memo_receiverstatus memoReceiverStatus,
 				memo_senderstatus memoSenderStatus
 		FROM
-				memo			
+				memo
+		JOIN
+                member A on (memo_sender = A.mem_id)
+        JOIN
+                member B on (memo_receiver = B.mem_id)
 		WHERE
 				memo_receiver = #{memId}
 		AND
@@ -285,8 +289,8 @@
 	<select id="selectMemoSend" resultType="memo">
 		SELECT
 				memo_no memoNo,
-				memo_sender memoSender,
-				memo_receiver memoReceiver,
+				A.mem_nick memoSender,
+				B.mem_nick memoReceiver,
 				memo_title memoTitle,
 				memo_content memoContent,
 				to_char(memo_senddate, 'YYYY-MM-DD HH24:MI') as memoSendDate,
@@ -297,6 +301,10 @@
 				memo_senderstatus memoSenderStatus
 		FROM
 				memo
+		JOIN
+                member A on (memo_sender = A.mem_id)
+        JOIN
+                member B on (memo_receiver = B.mem_id)
 		WHERE
 				memo_sender = #{memId}
 		AND
@@ -329,8 +337,8 @@
 	<select id="selectMemoDetail" resultType="memo">
 		SELECT
 				memo_no memoNo,
-				memo_sender memoSender,
-				memo_receiver memoReceiver,
+				A.mem_nick memoSender,
+				B.mem_nick memoReceiver,
 				memo_title memoTitle,
 				memo_content memoContent,
 				to_char(memo_senddate, 'YYYY-MM-DD HH24:MI') as memoSendDate,
@@ -341,6 +349,10 @@
 				memo_senderstatus memoSenderStatus
 		FROM
 				memo
+		JOIN
+                member A on (memo_sender = A.mem_id)
+        JOIN
+                member B on (memo_receiver = B.mem_id)
 		WHERE
 				memo_No = #{memoNo}
 	</select>
