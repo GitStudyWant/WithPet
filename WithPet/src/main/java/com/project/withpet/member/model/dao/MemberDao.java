@@ -96,7 +96,7 @@ public class MemberDao {
 	}
 	
 	public ArrayList<Memo> selectMemoGet(SqlSession sqlSession, String memId, PageInfo pi){
-		
+
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		

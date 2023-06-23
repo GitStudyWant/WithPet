@@ -239,6 +239,7 @@
 	.trSize{
 		width: 100%;
 		height: 10%;
+		background-color: rgb(73, 166, 112);
 	}
 	#chattingListTable td{
 		border-bottom: 1px solid #dee2e6;
@@ -354,6 +355,12 @@
 	.tdUserChat{
 		width: 80%;
 	}
+	
+	.trHovers:hover{
+		background-color: rgb(152, 239, 126);
+	}
+	
+	
 </style>
 </head>
 <body>
@@ -383,7 +390,7 @@
 									<tr>
 										<td class="tdSize2" onclick="allChatting();">
 											<div class="text-alignC">
-												<table class="text-alignC">
+												<table class="text-alignC trHovers">
 													<tr>
 														<td rowspan="3" class="tdSize3 noBorder"><img class="userImg" src="resources/myPage/user.png" alt=""></td>
 														<td class="noBorder"><h3>전체 채팅방입니다.</h3></td>
@@ -401,7 +408,7 @@
 										<c:choose>
 											<c:when test="${ not empty oneChatList }">
 												<c:forEach items="${oneChatList}" var="one">
-													<tr class="oneChatTr">
+													<tr class="oneChatTr trHovers">
 														<td>
 															<table class="text-alignC tablechat" onclick="oneChatting('${one.oneChatNo}');">
 																<tr>
@@ -552,6 +559,7 @@
 				function send(){
 					let text = $('#allChat-input').val();
 					let memberId = '${loginMember.memId}';
+					
 					socket.send(memberId + ':' + text);
 					$('#allChat-input').val('');
 				}
