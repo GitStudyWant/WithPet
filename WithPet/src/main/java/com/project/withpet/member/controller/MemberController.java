@@ -1785,12 +1785,12 @@ public class MemberController {
 	}
 	
 	@RequestMapping("chatting.me")
-	public String chatting(HttpServletRequest request,Model m) {
+	public String chatting(HttpServletRequest request, Model m) {
 		AllChatting all= memberService.allChatLast();
 		HttpSession session = request.getSession();
 		String memberId = ((Member)session.getAttribute("loginMember")).getMemId();
 		ArrayList<OneChatting> one = memberService.oneChatList(memberId);
-		request.setAttribute("clear", "clear");
+		session.setAttribute("clear", "clear");
 		m.addAttribute("oneChatList", one);
 		m.addAttribute("lastChat", all);
 		return "member/chatting/memberChatting";
