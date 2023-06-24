@@ -181,10 +181,8 @@
             <label for="" id="board-subtext">자유롭게 이야기해봐요~&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
         	
             <label style="float: right; margin-right: 100px;">
-                <input type="radio" id="new" name="order" value="N" onchange="changeOrder(this.value)">
-				<label for="new">최신순</label>&nbsp;&nbsp;&nbsp;
-				<input type="radio" id="popular" name="order" value="P" onchange="changeOrder(this.value)">
-				<label for="popular">인기순</label>
+                <button type="button" class="btn btn-success" id="new" style="background-color: rgb(73, 166, 112); border: rgb(73, 166, 112); color: white;" >최신순</button>
+				<button type="button" class="btn btn-success" id="popular" style="background-color: rgb(73, 166, 112); border: rgb(73, 166, 112); color: white;"  >인기순</button>
             </label>
             <br><br>
             
@@ -388,6 +386,23 @@
 				            });
 				        }
 				    });
+
+			 		$('#new').on('click', function() {
+						$.ajax({
+							method: 'POST',
+							url : '/product',
+							dataType: 'json'
+						}).done(function(result){
+							console.log(result);
+							$('.board-element').remove();
+							for(var b of result){
+								
+							}
+						}).fail(function(result){
+							console.log('에러');
+							console.log(result);
+						});;
+					});
 				    
     </script>
 </body>

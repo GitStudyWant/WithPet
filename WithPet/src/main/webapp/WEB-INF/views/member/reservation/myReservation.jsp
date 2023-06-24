@@ -305,26 +305,27 @@
 				resNo = $('input[name=tRno]:checked').val();
 				console.log(resNo);
 				taxiRDate = $('#'+resNo+'taxiRDate').text();
-				taxiDay = taxiRDate.substr(0, 2);
-				//console.log(taxiDay);
+				taxiDay = taxiRDate.substr(-1);
+				console.log(taxiDay);
 				taxiMonth = taxiRDate.substr(3, 2);
-				//console.log(taxiMonth);
+				console.log(taxiMonth);
 				let today = new Date();
 				let month2 = today.getMonth()+1;
 				let day2 = today.getDate();
-				//console.log(day2+'/'+month2+'/');
+				console.log(day2+'/'+month2+'/');
 				
-				if(month2 == taxiMonth && taxiDay-day2 < 0 ){
-					alert('이미 지난 예약입니다.');
-					return false;
-				} else {
-					if(month2 == taxiMonth && taxiDay-day2 < 3){
-						alert('예약일 2일전부터는 취소가 불가능 합니다. 문의사항을 따로 남겨주세요.');
+				if(month2 == taxiMonth && taxiDay-day2 < 2){
+					
+					if(month2 == taxiMonth && taxiDay-day2 < 0 ){
+						alert('이미 지난 예약입니다.');
 						return false;
-						}
+					}
+					
+				alert('예약일 1일전부터는 취소가 불가능 합니다. 문의사항을 따로 남겨주세요.');
+				return false;
+					
 				} 
-				
-				
+					
 			} else {
 				
 				trType = 'C';
@@ -333,7 +334,7 @@
 				
 				carSDate = $('#'+resNo+'startDate').text();
 				console.log(carSDate);
-				carDay = carSDate.substr(0, 2);
+				carDay = carSDate.substr(-1);
 				console.log(carDay);
 				carMonth = carSDate.substr(3, 2);
 				console.log(carMonth);
@@ -341,17 +342,17 @@
 				let month2 = today.getMonth()+1;
 				let day2 = today.getDate();
 				
-				if(month2 == carMonth && carDay-day2 < 0){
-					alert('이미 지난 예약입니다.');
-					return false;
-				} else {
+				if(month2 == carMonth && carDay-day2 < 2){
 					
-					if(month2 == carMonth && carDay-day2 < 2){
-						alert('예약일 1일전부터는 취소가 불가능 합니다. 문의사항을 따로 남겨주세요.');
+					if(month2 == carMonth && carDay-day2 < 0 ){
+						alert('이미 지난 예약입니다.');
 						return false;
-					} 
-				}
-				
+					}
+					
+				alert('예약일 1일전부터는 취소가 불가능 합니다. 문의사항을 따로 남겨주세요.');
+				return false;
+					
+				} 
 				
 				
 			}

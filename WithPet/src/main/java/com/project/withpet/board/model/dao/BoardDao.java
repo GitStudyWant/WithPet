@@ -65,28 +65,67 @@ public class BoardDao {
 	
 	
 	
-	
+	//qna게시판
 	public ArrayList<Board> selectQnList(SqlSessionTemplate sqlSession, PageInfo pi) {
 		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return (ArrayList)sqlSession.selectList("boardMapper.selectQnList", null, rowBounds);
 	}
+	public int selectQnListCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("boardMapper.selectQnListCount");
+	}
+	public int insertQnBoard(SqlSessionTemplate sqlSession, Board b) {
+		return sqlSession.insert("boardMapper.insertQnBoard", b);
+	}
+
+	public int updateQnBoard(SqlSessionTemplate sqlSession, Board b) {
+		return sqlSession.insert("boardMapper.updateQnBoard", b);
+	}
+	
+	//나눔게시판
+	public ArrayList<Board> selectShList(SqlSessionTemplate sqlSession, PageInfo pi) {
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("boardMapper.selectShList", null, rowBounds);
+	}
+
+	public int selectShListCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("boardMapper.selectShListCount");
+	}
+
+	public int insertShBoard(SqlSessionTemplate sqlSession, Board b) {
+		return sqlSession.insert("boardMapper.insertShBoard", b);
+	}
+
+	public int updateShBoard(SqlSessionTemplate sqlSession, Board b) {
+		return sqlSession.insert("boardMapper.updateShBoard", b);
+	}
+	
+	
+	
+	//공지사항
 	public ArrayList<Board> selectNoList(SqlSessionTemplate sqlSession, PageInfo pi) {
 		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return (ArrayList)sqlSession.selectList("boardMapper.selectNoList", null, rowBounds);
 	}
-
 	
-	
-	public int selectQnListCount(SqlSessionTemplate sqlSession) {
-		return sqlSession.selectOne("boardMapper.selectQnListCount");
-	}
 	public int selectNoListCount(SqlSessionTemplate sqlSession) {
 		return sqlSession.selectOne("boardMapper.selectNoListCount");
 	}
 	
+	public int insertNoBoard(SqlSessionTemplate sqlSession, Board b) {
+		return sqlSession.insert("boardMapper.insertNoBoard", b);
+	}
 
+	public int updateNoBoard(SqlSessionTemplate sqlSession, Board b) {
+		return sqlSession.insert("boardMapper.updateNoBoard", b);
+	}
+
+	
+	
+	
+	//공통
 	public int increaseCount(SqlSessionTemplate sqlSession, int boardNo) {
 		return sqlSession.update("boardMapper.increaseCount", boardNo);
 	}
@@ -162,6 +201,11 @@ public class BoardDao {
 		sqlSession.delete("boardMapper.likeCancle",l);
 		
 	}
+
+	
+	
+
+	
 	
 	
 	

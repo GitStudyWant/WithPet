@@ -390,11 +390,6 @@ img {
 	</div>
 	<h2 class="title_dogCafe">애견카페 안내</h2>
 			<div class="search_box">
-				<ul class="search_form">
-					<li class="search_input">
-						<input type="text" name="q_searchVal" id="q_searchVal" title="애견카페 검색어 입력" placeholder="검색하실 애견카페명을 입력해주세요." value="">
-					</li>
-				</ul>
 				<ul class="area_pc_chk area_chk">
 					<li><input type="checkbox" name="area_all" id="area_all" value=""><label for="area_all">전체</label></li>
 					<li><input type="checkbox" class="chk11" name="cafeAddress" id="area_1" value="서울"><label for="area_1">서울</label></li>
@@ -403,13 +398,6 @@ img {
 					<li><input type="checkbox" class="chk11" name="cafeAddress" id="area_4" value="대구"><label for="area_4">대구</label></li>
 					<li><input type="checkbox" class="chk11" name="cafeAddress" id="area_5" value="부산"><label for="area_5">부산</label></li>
 				</ul>
-				<ul class="search_form search_form_bt">
-					<li class="search_btn">
-						<a href="#" onclick="searchVal();">
-							<img src="" alt="">검색
-						</a>
-					</li>
-				</ul>	
 			</div>
 
 	<br><br><br>

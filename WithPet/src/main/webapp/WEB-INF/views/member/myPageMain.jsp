@@ -178,54 +178,6 @@
 							</thead>
 						</table>
 					</c:when>
-					<c:when test="${ empty boardList }">
-						<table class="table table-hover" id="mainTable">
-	
-							<thead>
-								<tr align="center">
-								<th scope="col"><p>선택</p></th>
-								<th scope="col"><p>제목</p></th>
-								<th scope="col"><p>작성일</p></th>
-								<th scope="col"><p>조회수</p></th>
-								</tr>
-							  </thead>
-							  <tbody align="center">
-								 <th colspan="4">게시글이 존재하지 않습니다.</th>
-							  </tbody>
-					</table>
-					
-					<table id="foogg">
-						<thead>
-							<tr align="center">
-								<th style="width : 30%;"><input onclick="allSelectCansel();" class="inCheck" type="checkbox"/><button class="btn btn-success" onclick="allSelect();">전체 선택</button></th>
-								<th style="width : 50%;">
-									<c:choose>
-										<c:when test="${ pi.currentPage eq 1 }">
-											   <button class="btn btn-success">&lt</button>
-										</c:when>
-										<c:otherwise>
-											<button class="btn btn-success" onclick="memberBoard('${pi.currentPage-1}');">&lt</button>
-										</c:otherwise>
-										</c:choose>
-										   <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
-												<button class="btn btn-success" onclick="memberBoard('${p}');">${ p }</button>
-										</c:forEach>
-										<c:choose>
-										<c:when test="${ pi.currentPage eq pi.maxPage }">
-											   <button class="btn btn-success">&gt</button>
-										</c:when>
-										<c:otherwise>
-											<button class="btn btn-success" onclick="memberBoard('${pi.currentPage+1}');">&gt</button>
-										</c:otherwise>
-									</c:choose>
-										
-								</th>
-								<th style="width : 10%;"><button class="btn btn-success">선택 삭제</button></th>
-								<th style="width : 10%;" ><button class="btn btn-success">글쓰기</button></th>
-							</tr>
-						</thead>
-					</table>
-					</c:when>
 					<c:when test="${ not empty ReplyList }">
 							<table class="table table-hover" id="mainTable">
 	
@@ -281,6 +233,54 @@
 							</thead>
 						</table>
 					</c:when>
+					<c:otherwise>
+						<table class="table table-hover" id="mainTable">
+	
+							<thead>
+								<tr align="center">
+								<th scope="col"><p>선택</p></th>
+								<th scope="col"><p>제목</p></th>
+								<th scope="col"><p>작성일</p></th>
+								<th scope="col"><p>조회수</p></th>
+								</tr>
+							  </thead>
+							  <tbody align="center">
+								 <th colspan="4">게시글이 존재하지 않습니다.</th>
+							  </tbody>
+					</table>
+					
+					<table id="foogg">
+						<thead>
+							<tr align="center">
+								<th style="width : 30%;"><input onclick="allSelectCansel();" class="inCheck" type="checkbox"/><button class="btn btn-success" onclick="allSelect();">전체 선택</button></th>
+								<th style="width : 50%;">
+									<c:choose>
+										<c:when test="${ pi.currentPage eq 1 }">
+											   <button class="btn btn-success">&lt</button>
+										</c:when>
+										<c:otherwise>
+											<button class="btn btn-success" onclick="memberBoard('${pi.currentPage-1}');">&lt</button>
+										</c:otherwise>
+										</c:choose>
+										   <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
+												<button class="btn btn-success" onclick="memberBoard('${p}');">${ p }</button>
+										</c:forEach>
+										<c:choose>
+										<c:when test="${ pi.currentPage eq pi.maxPage }">
+											   <button class="btn btn-success">&gt</button>
+										</c:when>
+										<c:otherwise>
+											<button class="btn btn-success" onclick="memberBoard('${pi.currentPage+1}');">&gt</button>
+										</c:otherwise>
+									</c:choose>
+										
+								</th>
+								<th style="width : 10%;"><button class="btn btn-success">선택 삭제</button></th>
+								<th style="width : 10%;" ><button class="btn btn-success">글쓰기</button></th>
+							</tr>
+						</thead>
+					</table>
+					</c:otherwise>
 				</c:choose>
 				
 				<form action="" method="post" id="boardPostForm">
