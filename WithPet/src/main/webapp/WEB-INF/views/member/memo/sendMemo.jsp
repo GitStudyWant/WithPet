@@ -267,6 +267,9 @@
 				type : "get",
 				data : {deleteMemoNo : MemoNo},
 				success : function(result){
+					if(result === "실패"){
+						alert("메세지 삭제에 실패했습니다.")
+					}
 					if(triger == 1){
 						location.href="http://localhost:8787/withpet/sendMemo";
 					}
@@ -283,7 +286,9 @@
 				success : function(result){
 					location.href="http://localhost:8787/withpet/sendMemo";
 				},
-				error : function(error){}
+				error : function(error){
+					console.log(error)
+				}
 			})	
 		}
 		

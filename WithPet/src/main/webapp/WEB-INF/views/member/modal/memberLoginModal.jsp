@@ -150,8 +150,10 @@
 	  		if('${sessionScope.kakaoId}' != ""){
 	  			$.ajax({
  		 	    	url : "kakaoLogin.me",
- 		 	    	type : 'POST',
- 		 	    	data : {kakaoId : '${sessionScope.kakaoId}'},
+ 		 	    	type : 'get',
+ 		 	    	data : {
+ 		 	    		kakaoId : '${sessionScope.kakaoId}'
+ 		 	    	},
  		 	    	success : function(result){
  		 	    		if(result == "1"){
  		 	    			location.href = "http://localhost:8787/withpet";
@@ -165,7 +167,7 @@
 	  		if('${sessionScope.naverId}' != ""){
 	  			$.ajax({
  		 	    	url : "naverLogin.me",
- 		 	    	type : 'POST',
+ 		 	    	type : 'get',
  		 	    	data : {naverId : '${sessionScope.naverId}'},
  		 	    	success : function(result){
  		 	    		if(result == "1"){
@@ -186,8 +188,7 @@
 	    function kakaoLogin(){	    	
 	    	$.ajax({
 	 	    	url : "kakaoGetCodeUrl",
-	 	    	type : 'GET',
-	 	    	data : {},
+	 	    	type : 'get',
 	 	    	success : function(result){
 	 	    		location.href = result;
 	 	    	}
@@ -197,8 +198,7 @@
 	 	function naverLogin(){	    	
 	    	$.ajax({
 	 	    	url : "naverGetCodeUrl",
-	 	    	type : 'GET',
-	 	    	data : {},
+	 	    	type : 'get',
 	 	    	success : function(result){
 	 	    		location.href = result;
 	 	    	}

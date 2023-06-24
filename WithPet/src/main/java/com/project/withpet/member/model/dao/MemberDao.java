@@ -71,6 +71,10 @@ public class MemberDao {
 		return (ArrayList)sqlSession.selectList("memberMapper.selectSchedules", schedule);
 	}
 	
+	public ArrayList<Member> findDiaryFriends(SqlSession sqlSession, String memId) {
+		return (ArrayList)sqlSession.selectList("memberMapper.findDiaryFriends", memId);
+	}
+	
 	public int insertSchedule(SqlSession sqlSession, Schedule schedule) {
 	    return sqlSession.insert("memberMapper.insertSchedule", schedule);
 	}

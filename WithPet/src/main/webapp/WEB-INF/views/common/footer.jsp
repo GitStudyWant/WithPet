@@ -57,7 +57,7 @@
     
     
     function socketConnect(){
-    	var uri = 'ws://localhost:8787/withpet/member';
+    	var uri = 'ws://localhost:8787/withpet/memo';
 		socket = new WebSocket(uri);
     	
 		socket.onopen = () => {
@@ -95,7 +95,7 @@
     	$.ajax({
     		url : "updateloginMemberMemo",
     		type : "get",
-    		data : {memMemoSend : memMemo},
+    			data : {memMemoSend : memMemo},
     		success : function(result){
     			if(($('#memoBell').text() != "") && ($('#memoBell').text() < memMemo)){
     				$('#memoBell').text(memMemo);

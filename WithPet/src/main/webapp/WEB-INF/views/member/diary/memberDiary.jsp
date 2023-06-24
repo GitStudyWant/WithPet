@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>메인</title>
+<title>내 다이어리</title>
 
     
 	<link rel="stylesheet" href="resources/css/fullCalendar/main.css">
@@ -45,7 +45,7 @@
 	}
 
 	#schedulemain{
-		width : 85%;
+		width : 70%;
 		height : 1000px;
 		padding-top : 15px;
 		float:left;
@@ -61,12 +61,27 @@
 	}
 	
 	.containerInput{
-		width : 15%;
+		width : 30%;
 		float : left;
 	}
 	
 	#schInsert input, #schInsert select, #schUpdate input, #schUpdate select{
 		border  :solid 1px lightgray;
+	}
+	
+	#scheduleFriendList{
+		width:100%;
+		height:150px;
+		overflow-y: scroll;
+	}
+	
+	.friendListOne{
+		border:solid 1px black;
+	}
+	
+	.friendListOne:hover{
+		background-color:green;
+		cursor:pointer;
 	}
 
 </style>
@@ -83,8 +98,8 @@
 	<div id="body">	
 		    <div id="schedulemain">
 		    <br>
-		    <p>[${ loginMember.memNick }] 님의 다이어리</p>
-		    <div class="container" style="width:75%;">
+		    <p id="diaryOwner">[${ loginMember.memNick }] 님의 다이어리</p>
+		    <div class="container" style="width:90%;">
 				<br><br><br>
 		        <div id="calendar"></div>
 		        
@@ -163,7 +178,7 @@
 				        <div class="modal-body">
 				        
 				          <p class="modal-title" style="font-size:15px; text-align:center; margin-top:15px; margin-bottom:30px">일정 확인</p>
-				          <form action="updateSchedule" method="POST">
+				          <form action="updateSchedule" method="post">
 				          <input id="hidden" type="hidden" value="${ loginMember.memId }" name="updateId">
 				          	<table width="80%" style="text-align:center; margin:auto">
 					          	<tr>
@@ -226,120 +241,71 @@
 		          
 		    </div>
 		    
-		   
-		    
-		    <!-- /.container -->
 		    <script src="resources/js/fullCalendar/vendor/bootstrap.min.js"></script>
 		    <script src="resources/js/fullCalendar/vendor/moment.min.js"></script>
 		    <script src="resources/js/fullCalendar/vendor/fullcalendar.min.js"></script>
 		    <script src="resources/js/fullCalendar/vendor/ko.js"></script>
 		    <script src="resources/js/fullCalendar/vendor/select2.min.js"></script>
-		    <!-- <script src="resources/js/fullCalendar/main.js"></script>  -->
 		    <script src="resources/js/fullCalendar/editEvent.js"></script>
 		    <script src="resources/js/fullCalendar/etcSetting.js"></script>
 		    
 		   
 		  </div>
-		  <div class="containerInput" style="margin-top:60px"><button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#schInsert" style="width:70%; height:20%; font-size:15px; margin-top:90px">일정추가</button></div>
+		  <div class="containerInput" style="margin-top:60px">
+		  		<button class="btn btn-primary" id="buttonToggle1" data-bs-toggle="modal" data-bs-target="#schInsert" style="display:none; width:50%; height:20%; font-size:15px;  margin-left:25%; margin-top:20px">일정추가</button>
+		  		<button class="btn btn-primary" id="buttonToggle2" style="display:none; width:50%; height:20%; font-size:15px; margin-left:25%; margin-top:20px;" onclick="myCalendar('${loginMember.memId}', '${loginMember.memNick}');">내 달력 보기</button>
+		  		<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+					<c:if test="${ not empty friendList }">
+		  				<p style="font-size:18px; text-align:center">친구 달력 보기</p>
+			  			<div style="width:80%; height:400px; margin:auto; overflow-y: scroll;">
+			  			<table id="scheduleFriendList" style="height:0px;">
+			  				<tbody>
+			  				<c:forEach items="${ friendList }" var="i">
+			  				<tr class="friendListOne">
+			  					<td>
+			  						<table>
+			  							<tr>
+			  								<td rowspan="2" style="width:20%; height:100%; text-align:center">
+			  									<input type="hidden" value="${i.memId}">
+			  									<input type="hidden" value="${i.memNick}">
+			  									<c:choose>
+				  									<c:when test="${i.memPath != null}">
+				  										<img id="memberimg" style="width:100%; height:100%; margin:0px" src="${i.memPath}" alt="메인사진">
+								    				</c:when>
+									    			<c:otherwise>
+								    					<img id="memberimg" style="width:100%; height:100%; margin:0px;" src="https://moyeoyou.kr/assets/common/img/user/default_photo.jpg" alt="메인사진">
+									    			</c:otherwise>
+								    			</c:choose>
+			    							</td>
+			  								<td><p style="width:100%; margin:0px; font-size:13px; padding-left:10%; padding-bottom:5px">${ i.memNick }</p></td>
+			  							</tr>
+			  							<tr>
+			  								<td>
+			  									<c:choose>
+				  									<c:when test="${i.memIntro != null}">
+				  										<p style="width:100%; margin:0px; font-size:10px; padding-left:10%; color:gray;">${ i.memIntro }</p>
+								    				</c:when>
+									    			<c:otherwise>
+								    					<p style="width:100%; margin:0px; font-size:10px; padding-left:10%; color:gray">&nbsp;</p>
+									    			</c:otherwise>
+								    			</c:choose>
+								    		</td>
+			  							</tr>
+			  						</table>
+			  					</td>
+			  				</tr>
+			  				
+			  				</c:forEach>
+			  				</tbody>	  			
+			  			</table>
+			  			</div>
+			  		</c:if>
+		  </div>
 	</div>
 	
 	<div id="diaryFooter"><jsp:include page="../../common/footer.jsp" /></div>
 	
-	<script>
-	
-	var activeInactiveWeekends = true;
-		
-	$('#calendar').fullCalendar({
-	    locale: 'ko',
-	    height: 800,
-	    timezone: "local", 
-	    nextDayThreshold: "09:00:00",
-	    displayEventTime: false,
-	    displayEventEnd: false,
-	    firstDay: 0,
-	    selectable: false,
-	    editable: false,
-	    eventLimit: true,
-	    views: {
-	        month: { eventLimit: 4 }
-	    },
-	    eventLimitClick: 'week',
-	    navLinks: true,
-	    defaultDate: moment(),
-	    timeFormat: 'HH:mm',
-	    weekends: true,
-	    nowIndicator: true,
-	    dayPopoverFormat: 'MM/DD dddd',
-	    longPressDelay: 0,
-	    eventLongPressDelay: 0,
-	    selectLongPressDelay: 0,
-	    
-	    header: {
-	        left: 'today, prevYear, nextYear, viewWeekends',
-	        center: 'month, listWeek',
-	        right: 'prev, title, next'
-
-	    },
-	    
-	    customButtons: {
-	        viewWeekends: {
-	            text: '주말',
-	            click: function () {
-	                activeInactiveWeekends ? activeInactiveWeekends = false : activeInactiveWeekends = true;
-	                $('#calendar').fullCalendar('option', {
-	                    weekends: activeInactiveWeekends
-	                });
-	            }
-	        }
-	    },
-	    
-	    events: function (start, end, timezone, callback) {
-	        $.ajax({
-	            type: "get",
-	            url: "selectSchedules",
-	            data: {
-	                memId: '${loginMember.memId}',
-	                scheduleStart: moment(start).format('YYYY-MM-DD'),
-	                scheduleEnd: moment(end).format('YYYY-MM-DD')
-	            },
-	            success: function (response) {
-	                var events = [];
-	                var scheduleEndReal;
-
-	                for (var i = 0; i < response.length; i++) {
-	                    if (response[i].scheduleStart !== response[i].scheduleEnd) {
-	                        scheduleEndReal = moment(response[i].scheduleEnd).add(1, 'days');
-	                    } else {
-	                        scheduleEndReal = response[i].scheduleEnd
-	                    }
-
-	                    var event = {
-	                    	title : response[i].scheduleCate,
-	                    	id : response[i].scheduleNo,
-	                        cate: response[i].scheduleCate,
-	                        start: response[i].scheduleStart,
-	                        end: scheduleEndReal,
-	                        content: response[i].scheduleContent,
-	                        backgroundColor: response[i].scheduleColor,
-	                        textColor: "#ffffff"
-	                    };
-	                    
-	                    events.push(event);
-	                }
-
-	                callback(events);
-	            },
-	            error: function (error) {
-	            }
-	        });
-	    },
-	    
-	    eventClick: function (event, jsEvent, view) {
-	        editEvent(event);
-	    }
-	})
-	
-	</script>
 	
 	<script>
 	$(function() {
@@ -350,6 +316,121 @@
 			$('.dateChoice').datepicker();
 		});
     });
+	</script>
+	
+	<script>
+	let activeInactiveWeekends = true;
+	
+	function myCalendar(id, nick) {
+		if ('${loginMember.memId}' == id) {
+		    $('#buttonToggle1').show();
+		    $('#buttonToggle2').hide();
+		} else {
+		    $('#buttonToggle1').hide();
+		    $('#buttonToggle2').show();
+		}
+		
+		$('#diaryOwner').text('[' + nick + '] 님의 다이어리')
+		
+		$('#calendar').fullCalendar('destroy');
+		
+		$('#calendar').fullCalendar({
+		    locale: 'ko',
+		    height: 800,
+		    timezone: "local", 
+		    nextDayThreshold: "09:00:00",
+		    displayEventTime: false,
+		    displayEventEnd: false,
+		    firstDay: 0,
+		    selectable: false,
+		    editable: false,
+		    eventLimit: true,
+		    views: {
+		        month: { eventLimit: 4 }
+		    },
+		    eventLimitClick: 'week',
+		    navLinks: true,
+		    defaultDate: moment(),
+		    timeFormat: 'HH:mm',
+		    weekends: true,
+		    nowIndicator: true,
+		    dayPopoverFormat: 'MM/DD dddd',
+		    longPressDelay: 0,
+		    eventLongPressDelay: 0,
+		    selectLongPressDelay: 0,
+		    
+		    header: {
+		        left: 'today, prevYear, nextYear, viewWeekends',
+		        center: 'month, listWeek',
+		        right: 'prev, title, next'
+	
+		    },
+		    
+		    customButtons: {
+		        viewWeekends: {
+		            text: '주말',
+		            click: function () {
+		                activeInactiveWeekends ? activeInactiveWeekends = false : activeInactiveWeekends = true;
+		                $('#calendar').fullCalendar('option', {
+		                    weekends: activeInactiveWeekends
+		                });
+		            }
+		        }
+		    },
+		    
+		    events: function (start, end, timezone, callback) {
+		        $.ajax({
+		            type: "get",
+		            url: "selectSchedules",
+		            data: {
+		                memId: id,
+		                scheduleStart: moment(start).format('YYYY-MM-DD'),
+		                scheduleEnd: moment(end).format('YYYY-MM-DD')
+		            },
+		            success: function (response) {
+		                let events = [];
+		                let scheduleEndReal;
+	
+		                for (var i = 0; i < response.length; i++) {
+		                    if (response[i].scheduleStart !== response[i].scheduleEnd) {
+		                        scheduleEndReal = moment(response[i].scheduleEnd).add(1, 'days');
+		                    } else {
+		                        scheduleEndReal = response[i].scheduleEnd
+		                    }
+	
+		                    let event = {
+		                    	title : response[i].scheduleCate,
+		                    	id : response[i].scheduleNo,
+		                        cate: response[i].scheduleCate,
+		                        start: response[i].scheduleStart,
+		                        end: scheduleEndReal,
+		                        content: response[i].scheduleContent,
+		                        backgroundColor: response[i].scheduleColor,
+		                        textColor: "#ffffff"
+		                    };
+		                    
+		                    events.push(event);
+		                }
+	
+		                callback(events);
+		            }
+		        });
+		    },
+		    
+		    eventClick: function (event, jsEvent, view) {
+		        editEvent(event);
+		    }
+		})
+		
+	}
+	
+	$(function() {
+		myCalendar('${loginMember.memId}', '${loginMember.memNick}');
+	});
+	
+	$('.friendListOne').on("click", function(){
+		myCalendar($(this).find("input").eq(0).val(), $(this).find("input").eq(1).val());
+	});
 	</script>
 	
 	<script>

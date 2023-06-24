@@ -185,21 +185,43 @@
 				schedule_start BETWEEN #{scheduleStart} and #{scheduleEnd}
 	</select>
 	
+	<select id="findDiaryFriends" resultType="member">
+		select
+		        mem_nick memNick,
+		        mem_id memId,
+		        mem_path memPath,
+		        mem_intro memIntro
+		from
+		        (select 
+		                share_sender
+		        from
+		                member
+		        join
+		                diary_share on(mem_id = share_receiver)
+		        where
+		                share_receiver = #{memId})
+		join
+		        member on(mem_id = share_sender)
+	</select>
+	
 	<insert id="insertSchedule" parameterType="schedule">
-		INSERT
-		INTO
-				schedule
-		VALUES
-				(
-				#{memId}
-				,SEQ_SCHEDULE_NO.NEXTVAL
-				,#{scheduleCate}
-				,#{scheduleStart}
-				,#{scheduleEnd}
-				,#{scheduleContent}
-				,#{scheduleColor}
-				,sysdate
-				)
+		
+		INSERT INTO schedule
+		VALUES (
+			#{memId},
+			SEQ_SCHEDULE_NO.NEXTVAL,
+			#{scheduleCate},
+			#{scheduleStart},
+			<if test="scheduleEnd != ''">
+				#{scheduleEnd},
+			</if>
+			<if test="scheduleEnd == ''">
+				#{scheduleStart},
+			</if>
+			#{scheduleContent},
+			#{scheduleColor},
+			sysdate
+		)
 	</insert>
 	
 	<update id="updateSchedule" parameterType="schedule">

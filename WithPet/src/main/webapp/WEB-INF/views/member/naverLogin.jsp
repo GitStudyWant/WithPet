@@ -20,7 +20,7 @@
         		
         		$.ajax({
          	    	url : "naverGetTokenUser",
-         	    	type : 'get',
+         	    		type : 'get',
          	    	data : {
          	    	code : code,
          	    	},

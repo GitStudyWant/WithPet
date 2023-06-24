@@ -106,7 +106,10 @@
 		    <table id="newMemoTable" style="margin:auto">
 		    		<input class="newMemoIssue" id="newMemoSender" name="memoSender" type="hidden">
 				    <tr><td><p>수신인</p><td></tr>
-				    <tr><td><input class="newMemoIssue" id="newMemoReceiver" name="memoReceiver" type="text"></td></tr>
+				    <tr><td>
+				    	<input class="newMemoIssue" id="newMemoReceiver" name="memoReceiver" type="text">
+				    	<div id="receiverSearchList"></div>
+				 	</td></tr>
 				    <tr><td><p>쪽지제목</p></td></tr>
 				    <tr><td><input class="newMemoIssue" id="newMemoTitle" name="memoTitle" type="text"></td></tr>
 				    <tr><td><p>내용</p></td></tr>
@@ -142,6 +145,65 @@
 		
 	})
 	
+	
+	$(function(){
+		$('#newMemoReceiver').keyup(function(){
+  			$.ajax({
+  				url : 'liveSearch.me',
+  				data : {
+  					keyword : $('#newMemoReceiver').val()
+  				},
+  				type : 'get',
+  				success : function(result){
+  					var val = "";
+  					if(result != ''){
+  						for(let i in result){
+  						val += '<p class="searchResult">'+ result[i].memNick +'</p>';
+  						};
+						$('#receiverSearchList').css('display','block');
+  						$('#receiverSearchList').html(val);
+  						$('.searchResult').css({
+  						  'background-color': 'white',
+  						  'border': '1px solid black',
+  						  'font-size': '14px',
+  						  'width': '60%',
+  						  'height' : '35px'
+  						}).hover(function() {
+  						  $(this).css('cursor', 'pointer');
+  						});
+  					} else{
+  						val += '<p class="searchResult">조회결과가 없습니다</p>';
+						$('#receiverSearchList').css('display','block');
+  						$('#receiverSearchList').html(val);
+  						$('.searchResult').css({
+  						  'background-color': 'white',
+  						  'border': '1px solid black',
+  						  'font-size': '14px',
+  						  'width': '60%',
+  						  'height' : '35px'
+  						}).hover(function() {
+    						$(this).css('cursor', 'pointer');
+    					});
+  					}
+  					
+  					$('.searchResult').on("click", function() {
+    				 	$('#newMemoReceiver').val($(this).text());
+    				 	$('.searchResult').css("display","none");
+    				});
+  					
+  					$('#newMemoReceiver').on("focusout", function() {
+  					    setTimeout(function() {
+  					        $('.searchResult').css("display", "none");
+  					    }, 125);
+  					});
+  				},
+  				error : function(){
+  					console.log('실패');
+  				}
+  			});
+  		});
+  	});
+	          		
 	
 	
 	</script>

@@ -260,9 +260,12 @@
 		function deleteReceiveMemo(memoNo, triger){
 			$.ajax({
 				url : "deleteReceiveMemo",
-				type : "get",
+				type : "post",
 				data : {deleteMemoNo : memoNo},
 				success : function(result){
+					if(result === "실패"){
+						alert("메세지 삭제에 실패했습니다.")
+					}
 					if(triger == 1){
 						socketReceive();
 						location.href="http://localhost:8787/withpet/receiveMemo";

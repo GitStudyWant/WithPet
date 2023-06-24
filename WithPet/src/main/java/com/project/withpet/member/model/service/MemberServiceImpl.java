@@ -87,6 +87,11 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
+	public ArrayList<Member> findDiaryFriends(String memId) {
+		return memberDao.findDiaryFriends(sqlSession, memId);
+	}
+	
+	@Override
 	public int insertSchedule(Schedule schedule) {
 		return memberDao.insertSchedule(sqlSession, schedule);
 	}

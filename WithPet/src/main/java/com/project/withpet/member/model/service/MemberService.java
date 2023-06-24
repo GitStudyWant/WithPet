@@ -44,6 +44,8 @@ public interface MemberService {
 	// 스케쥴
 	public ArrayList<Schedule> selectSchedules(Schedule schedule);
 	
+	public ArrayList<Member> findDiaryFriends(String memId);
+	
 	public int insertSchedule(Schedule schedule);
 	
 	public int updateSchedule(Schedule schedule);
