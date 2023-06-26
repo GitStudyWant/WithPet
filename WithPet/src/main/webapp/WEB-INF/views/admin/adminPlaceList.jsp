@@ -8,13 +8,13 @@
 <title>장소 관리하기</title>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
-	function kakaopost1(){
+	function kakaopost1(num){
 	    new daum.Postcode({
 	        oncomplete: function(data) {
 	        	if(num == 1){
-		        	document.querySelector("#findS").value = data.address;
+		        	document.querySelector("#placeLocation").value = data.address;
 	        	} else {
-	        		document.querySelector("#findE").value = data.address;
+	        		document.querySelector("#MplaceLocation").value = data.address;
 	        	}
 	        }
 	    }).open();
@@ -270,14 +270,14 @@
 			
 			if(num == 1){
 				
-				location = $('#placeLocation').val();
+				location2 = $('#placeLocation').val();
 				placeLat = $('#placeLat');
 				placeLng = $('#placeLng');
 				subBtn = $('#subBtn'); 
 				
 			} else {
 				
-				location = $('#MplaceLocation').val();
+				location2 = $('#MplaceLocation').val();
 				placeLat = $('#MplaceLat');
 				placeLng = $('#MplaceLng');
 				subBtn = $('#MsubBtn');
@@ -286,7 +286,7 @@
 			
 			 $.ajax({
 		            url : 'findXY',
-		            data : {location : location },
+		            data : {location2 : location2 },
 		            success : function(result){
 
 		                alert('주소 확인이 완료되었습니다.');
@@ -324,6 +324,9 @@
 				$('#MplaceLat').val('');
 				$('#MplaceLng').val('');
 				$('#MsubBtn').attr('disabled',true).css('background-color','gray');
+				$('#MplaceLocation').click(function(){
+					kakaopost1(2);
+				})
 			} 
 		}
 	
@@ -368,7 +371,7 @@
                  <tr>
                      <td style="font-size:13px; color:gray; width: 30px">주소 </td>
                      <td>
-                        <input type="text" name="placeLocation" id="placeLocation" required style="width:70%; border:solid 1px lightgray" placeholder="도로명 주소로 정확히 입력해주세요">
+                        <input type="text" name="placeLocation" id="placeLocation" required style="width:70%; border:solid 1px lightgray" placeholder="도로명 주소로 정확히 입력해주세요" onclick="kakaopost1(1)">
                         <button onclick="findXy(1);" class="btnn" type="button">주소 확인</button>
                         <input type="hidden" name="placeLat" id="placeLat">
                         <input type="hidden" name="placeLng" id="placeLng">
