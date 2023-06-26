@@ -30,7 +30,7 @@
             <b class="btag-fontSize">회사소개 제휴제안 이용약관 개인정보처리방침 크리에이터 신청</b>
         </div>
     </div>
-    	<c:if test="${empty clear}">
+    	<c:if test="${not empty clear}">
 						<script>
 						socket.close();
 						</script>
@@ -38,7 +38,7 @@
 		</c:if>
     
     	<script>
-    	
+    	console.log(${clear});
     	if(${ (!(empty loginMember))} && ${empty clear}){
 		    $(function(){		    	
 		    	socketConnect();
