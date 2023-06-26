@@ -817,6 +817,7 @@ public class MemberController {
 			
 			//System.out.println(tList);
 			//System.out.println(cList);
+			
 			m.addAttribute("tList", tList);
 			m.addAttribute("cList", cList);
 			m.addAttribute("cpList", cpList);
@@ -1598,7 +1599,9 @@ public class MemberController {
 		PageInfo pi = Pagination.getPageInfo(memberService.replyCount(memberId), currentPage, 10, 10);
 		pi.setMemberId(memberId);
 		ArrayList<Comments> list = memberService.myPageReply(pi);
+		System.out.println(list);
 		if(list.isEmpty()) {
+			System.out.println("??");
 			m.addAttribute("boardList", list);
 			return "member/myPageMain";
 
@@ -1873,6 +1876,11 @@ public class MemberController {
 		}
 		 memberService.boardSelectDelete(intArray);
 		return "redirect:myPage";
+	}
+	
+	@RequestMapping("roulette")
+	public String roulette() {
+		return "member/modal/memberRoulette";
 	}
 		
 	}

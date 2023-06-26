@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,12 +33,7 @@ public class TripController {
 	
 	@RequestMapping("placeList")
 	public String placeList(HttpSession session) {
-		if(session.getAttribute("loginMember") == null) {
-			session.setAttribute("alertMsg","로그인 후 이용해주세요~");
-			return "common/main";
-		} else {
 			return "trip/myplace2";		
-		}
 	}
 	
 	
@@ -45,7 +41,6 @@ public class TripController {
 	@RequestMapping(value="placeAllList", produces="application/json; charset=UTF-8")
 	public String placeAllList(Place p) {
 		ArrayList<Place> pList = tripService.selectPlaceList(p);
-		//System.out.println(pList);
 		return new Gson().toJson(pList);	
 	}
 	
@@ -53,7 +48,6 @@ public class TripController {
 	@RequestMapping(value="placeBestList", produces="application/json; charset=UTF-8")
 	public String placeBestList(Place p) {
 		ArrayList<Place> bList = tripService.bestPlaceList(p);
-		//System.out.println(bList);
 		return new Gson().toJson(bList);
 	}
 	
@@ -63,17 +57,17 @@ public class TripController {
 			                   HttpSession session) {
 		 
 		if(!upfile.getOriginalFilename().equals("")) {
-			//System.out.println(saveFile(upfile, session));
 			p.setPlaceOriginName(upfile.getOriginalFilename());
 			p.setPlaceChangeName("resources/uploadFiles/places/" + saveFile(upfile, session));
 		}
+		
 		if(tripService.insertPlace(p)>0) {
 			session.setAttribute("alertMsg","장소 추가에 성공했습니다.");
-			return "redirect:placeList";
 		} else {
 			session.setAttribute("alertMsg","장소 추가에 실패했습니다.");
-			return "redirect:placeList";
-		}
+		} 
+		
+		return "redirect:placeList";
 	}
 	
 	
@@ -89,89 +83,92 @@ public class TripController {
 		
 		try {
 			upfile.transferTo(new File(savePath + changeName));
-			} catch (IllegalStateException | IOException e) {
+			} 
+		catch (IllegalStateException | IOException e) {
 			e.printStackTrace();
 			}
-		
 		return changeName;
-		
-		}
+	}
 	
 	
 	@ResponseBody
 	@RequestMapping("checkMyCourse")
 	public int checkMyCourse(String memId) {
-		System.out.println(memId);
 		return tripService.checkMyCourse(memId);
 	}
 	
+	@Transactional
 	@ResponseBody
 	@RequestMapping("saveMyCourse")
 	public String saveMyCourse(MyPlace myCourse, HttpSession session) {
-		//count 수 먼저 증가 
 		
+		int[] result = new int[5]; 
 
-			int result1 = 0;
-			int result2 = 0;
-			int result5 = 0;
-	
-			R_MyPlace rMyPlace = new R_MyPlace();
+		R_MyPlace rMyPlace = new R_MyPlace();
+		rMyPlace.setCourseSe(myCourse.getCourseSe());
+		rMyPlace.setMemId(myCourse.getMemId());
+		rMyPlace.setPlaceNo(myCourse.getPlaceNo1());
+		/*
+		for(int i = 1; i < result.length; i++) {
+			if(tripService.increaseCount(myCourse.(getPlaceNo))
+			result[i] = tripService.saveMyCourse(rMyPlace);
 			
-			rMyPlace.setCourseSe(myCourse.getCourseSe());
-			rMyPlace.setMemId(myCourse.getMemId());
+		}
+		*/
+		int result1 = 0;
+		int result2 = 0;
+		int result5 = 0;
+		
+		if(tripService.increaseCount(myCourse.getPlaceNo1())>0) {
+			result1 = tripService.saveMyCourse(rMyPlace);
+		}
+		
+		if(tripService.increaseCount(myCourse.getPlaceNo2())>0) {
+			rMyPlace.setPlaceNo(myCourse.getPlaceNo2());
+			result2 = tripService.saveMyCourse(rMyPlace);
+		}
+		
+		if(tripService.increaseCount(myCourse.getPlaceNo5())>0) {				
+			rMyPlace.setPlaceNo(myCourse.getPlaceNo5());
+			result5 = tripService.saveMyCourse(rMyPlace);
+		}
+		
+		int result3 = 1;
+		int result4 = 1;
+		System.out.println("result1:" + result1 + "result2:" + result2 + "result5:" + result5);
+		
+		if(!myCourse.getPlaceNo3().equals("") && !myCourse.getPlaceNo4().equals("")) {
 			
-			rMyPlace.setPlaceNo(myCourse.getPlaceNo1());
-			
-			if(tripService.increaseCount(myCourse.getPlaceNo1())>0) {
-				result1 = tripService.saveMyCourse(rMyPlace);
+			if(tripService.increaseCount(myCourse.getPlaceNo3())>0) {
+				rMyPlace.setPlaceNo(myCourse.getPlaceNo3());
+				result3 = tripService.saveMyCourse(rMyPlace);
 			}
 			
-			if(tripService.increaseCount(myCourse.getPlaceNo2())>0) {
-				rMyPlace.setPlaceNo(myCourse.getPlaceNo2());
-				result2 = tripService.saveMyCourse(rMyPlace);
+			if(tripService.increaseCount(myCourse.getPlaceNo4())>0) {
+				rMyPlace.setPlaceNo(myCourse.getPlaceNo4());
+				result4 = tripService.saveMyCourse(rMyPlace);
 			}
 			
-			if(tripService.increaseCount(myCourse.getPlaceNo5())>0) {				
-				rMyPlace.setPlaceNo(myCourse.getPlaceNo5());
-				result5 = tripService.saveMyCourse(rMyPlace);
+		} else if(myCourse.getPlaceNo3().equals("") && !myCourse.getPlaceNo4().equals("")) {
+			
+			if(tripService.increaseCount(myCourse.getPlaceNo4())>0) {
+				rMyPlace.setPlaceNo(myCourse.getPlaceNo4());
+				result4 = tripService.saveMyCourse(rMyPlace);
 			}
 			
-			int result3 = 1;
-			int result4 = 1;
-			System.out.println("result1:" + result1 + "result2:" + result2 + "result5:" + result5);
+		} else if(myCourse.getPlaceNo4().equals("") && !myCourse.getPlaceNo3().equals("")) {
 			
-			if(!myCourse.getPlaceNo3().equals("") && !myCourse.getPlaceNo4().equals("")) {
-				
-				if(tripService.increaseCount(myCourse.getPlaceNo3())>0) {
-					rMyPlace.setPlaceNo(myCourse.getPlaceNo3());
-					result3 = tripService.saveMyCourse(rMyPlace);
-				}
-				
-				if(tripService.increaseCount(myCourse.getPlaceNo4())>0) {
-					rMyPlace.setPlaceNo(myCourse.getPlaceNo4());
-					result4 = tripService.saveMyCourse(rMyPlace);
-				}
-				
-			} else if(myCourse.getPlaceNo3().equals("") && !myCourse.getPlaceNo4().equals("")) {
-				
-				if(tripService.increaseCount(myCourse.getPlaceNo4())>0) {
-					rMyPlace.setPlaceNo(myCourse.getPlaceNo4());
-					result4 = tripService.saveMyCourse(rMyPlace);
-				}
-				
-			} else if(myCourse.getPlaceNo4().equals("") && !myCourse.getPlaceNo3().equals("")) {
-				
-				if(tripService.increaseCount(myCourse.getPlaceNo3())>0) {
-					rMyPlace.setPlaceNo(myCourse.getPlaceNo3());
-					result3 = tripService.saveMyCourse(rMyPlace);
-				}
+			if(tripService.increaseCount(myCourse.getPlaceNo3())>0) {
+				rMyPlace.setPlaceNo(myCourse.getPlaceNo3());
+				result3 = tripService.saveMyCourse(rMyPlace);
 			}
-			
-			if(result1 * result2 * result3 * result4 * result5 != 0) {
-				return "S";
-			} else {
-				return "F";
-			}
+		}
+		
+		if(result1 * result2 * result3 * result4 * result5 != 0) {
+			return "S";
+		} else {
+			return "F";
+		}
 	}
 	
 	@ResponseBody

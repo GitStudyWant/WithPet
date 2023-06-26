@@ -5,6 +5,16 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+	function kakaopost(){
+	    new daum.Postcode({
+	        oncomplete: function(data) {
+	        	document.querySelector("#placeLocation2").value = data.address;
+	        }
+	    }).open();
+	}
+</script>
 <style>
     input::placeholder { font-size: 70%; }
     textarea::placeholder { font-size: 70%; }
@@ -46,7 +56,7 @@
                  <tr>
                      <td style="font-size:13px; color:gray; width: 30px">주소 </td>
                      <td>
-                        <input type="text" name="placeLocation" id="placeLocation2" required style="width:70%; border:solid 1px lightgray" placeholder="도로명 주소로 정확히 입력해주세요">
+                        <input type="text" name="placeLocation" id="placeLocation2" required style="width:70%; border:solid 1px lightgray" placeholder="도로명 주소로 정확히 입력해주세요" onclick="kakaopost()">
                         <button onclick="findXy();" type="button">주소 확인</button>
                         <input type="hidden" name="placeLat" id="placeLat">
                         <input type="hidden" name="placeLng" id="placeLng">
