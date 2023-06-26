@@ -1835,5 +1835,10 @@ public class MemberController {
 		 memberService.boardSelectDelete(intArray);
 		return "redirect:myPage";
 	}
+	
+	@RequestMapping("roulette")
+	public String roulette() {
+		return "member/modal/memberRoulette";
+	}
 		
 	}
