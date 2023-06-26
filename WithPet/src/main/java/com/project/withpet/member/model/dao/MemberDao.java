@@ -55,6 +55,10 @@ public class MemberDao {
 		return sqlSession.selectOne("memberMapper.selectMember", member);
 	}
 	
+	public Member selectMemberNick(SqlSession sqlSession, Member member) {
+		return sqlSession.selectOne("memberMapper.selectMemberNick", member);
+	}
+	
 	public Member selectKakaoMember(SqlSession sqlSession, String memKakaoId) {
 		return sqlSession.selectOne("memberMapper.selectKakaoMember", memKakaoId);
 	}
@@ -69,6 +73,10 @@ public class MemberDao {
 	   
 	public ArrayList<Schedule> selectSchedules(SqlSession sqlSession, Schedule schedule) {
 		return (ArrayList)sqlSession.selectList("memberMapper.selectSchedules", schedule);
+	}
+	
+	public ArrayList<Member> findDiaryFriends(SqlSession sqlSession, String memId) {
+		return (ArrayList)sqlSession.selectList("memberMapper.findDiaryFriends", memId);
 	}
 	
 	public int insertSchedule(SqlSession sqlSession, Schedule schedule) {

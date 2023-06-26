@@ -35,6 +35,8 @@ public interface MemberService {
 	
 	public Member selectMember(Member member);
 	
+	public Member selectMemberNick(Member member);
+	
 	public Member selectKakaoMember(String memKakaoId);
 	
 	public Member selectNaverMember(String memNaverId);
@@ -43,6 +45,8 @@ public interface MemberService {
 	
 	// 스케쥴
 	public ArrayList<Schedule> selectSchedules(Schedule schedule);
+	
+	public ArrayList<Member> findDiaryFriends(String memId);
 	
 	public int insertSchedule(Schedule schedule);
 	

@@ -144,13 +144,24 @@ public class MemberController {
 
 		int loginMemo = memberService.selectReceiveMemoCountCheck(member.getMemId());
 
-		if(loginMember != null && (member.getMemPwd().equals(loginMember.getMemPwd())) /* && bcryptPasswordEncoder.matches(member.getMemPwd(), loginMember.getMemPwd())*/) {
-			session.setAttribute("loginMember", loginMember);
-			session.setAttribute("loginMemo", loginMemo);
-			mv.setViewName("redirect:/");
+		if(loginMember.getMemPwd().substring(0, 1).equals("$")) {
+			if(loginMember != null && bcryptPasswordEncoder.matches(member.getMemPwd(), loginMember.getMemPwd())) {
+				session.setAttribute("loginMember", loginMember);
+				session.setAttribute("loginMemo", loginMemo);
+				mv.setViewName("redirect:/");
+			} else {
+				mv.addObject("errorMsg", "로그인 실패");
+				mv.setViewName("common/main");
+			}
 		} else {
-			mv.addObject("errorMsg", "응 안돼~");
-			mv.setViewName("common/main");
+			if(loginMember != null && (member.getMemPwd().equals(loginMember.getMemPwd()))){
+				session.setAttribute("loginMember", loginMember);
+				session.setAttribute("loginMemo", loginMemo);
+				mv.setViewName("redirect:/");
+			} else {
+				mv.addObject("errorMsg", "로그인 실패");
+				mv.setViewName("common/main");
+			}
 		}
 		
 		return mv;
@@ -458,7 +469,12 @@ public class MemberController {
 		}
 			
 		int result = memberService.updateMember(member);
-		session.setAttribute("loginMember", memberService.selectMember(member));
+		
+		if(result > 0) {
+			session.setAttribute("loginMember", memberService.selectMember(member));
+		} else {
+			session.setAttribute("errorMsg", "정보 수정에 실패했습니다.");
+		}
 		
 		return "member/modify/memberModify";
 	}
@@ -480,8 +496,19 @@ public class MemberController {
 	}
 	
 	@RequestMapping("memberDiaryMain")
-	public ModelAndView memberDiaryMain(Schedule schedule, ModelAndView mv){
+	public ModelAndView memberDiaryMain(Schedule schedule, ModelAndView mv, HttpServletRequest request){
 		
+		HttpSession session = request.getSession();
+		String memId = (String)((Member)session.getAttribute("loginMember")).getMemId();
+		
+		ArrayList<Member> list = memberService.findDiaryFriends(memId);
+		for(int i = 0; i < list.size(); i++) {
+			if(list.get(i).getMemIntro() != null && list.get(i).getMemIntro().length() > 13){
+				list.get(i).setMemIntro(list.get(i).getMemIntro().substring(0, 13) + "...");
+			}
+		}
+		
+		mv.addObject("friendList", list);
 		mv.setViewName("member/diary/memberDiary");
 		
 		return mv;
@@ -497,26 +524,38 @@ public class MemberController {
 	}
 	
 	@RequestMapping("insertSchedule")
-	public String insertSchedule(Schedule schedule){
+	public String insertSchedule(Schedule schedule, HttpServletRequest request){
 		
 		int schedulecount = memberService.insertSchedule(schedule);
+		
+		if(schedulecount != 0) {
+			request.setAttribute("errorMsg", "일정 추가에 실패했습니다.");
+		}
 
 		return "redirect:/memberDiaryMain";
 	}
 	
 	@RequestMapping("updateSchedule")
-	public String updateSchedule(Schedule schedule){
+	public String updateSchedule(Schedule schedule, HttpServletRequest request){
 		
 		int schedulecount = memberService.updateSchedule(schedule);
+		
+		if(schedulecount != 0) {
+			request.setAttribute("errorMsg", "일정 수정에 실패했습니다.");
+		}
 
 		return "redirect:/memberDiaryMain";
 	}
 	
 	@RequestMapping("deleteSchedule")
-	public String deleteSchedule(int scheduleNo){
+	public String deleteSchedule(int scheduleNo, HttpServletRequest request){
 		
 		int schedulecount = memberService.deleteSchedule(scheduleNo);
 
+		if(schedulecount != 0) {
+			request.setAttribute("errorMsg", "일정 삭제에 실패했습니다.");
+		}
+		
 		return "redirect:/memberDiaryMain";
 	}
 	
@@ -596,25 +635,25 @@ public class MemberController {
 	@RequestMapping("deleteReceiveMemo")
 	public void deleteReceiveMemo(int deleteMemoNo, HttpServletResponse response) {
 		
-		memberService.deleteReceiveMemo(deleteMemoNo);
-		
+		int check = memberService.deleteReceiveMemo(deleteMemoNo);
 		return;
+		
 	}
 	
 	@RequestMapping("deleteSendMemo")
 	public void deleteSendMemo(int deleteMemoNo, HttpServletResponse response) {
 		
-		memberService.deleteSendMemo(deleteMemoNo);
-		
+		int check = memberService.deleteSendMemo(deleteMemoNo);
 		return;
+		
 	}
 	
 	@RequestMapping("rollbackSendMemo")
 	public void rollbackSendMemo(int deleteMemoNo, HttpServletResponse response) {
 		
-		memberService.rollbackSendMemo(deleteMemoNo);
-		
+		int check = memberService.rollbackSendMemo(deleteMemoNo);
 		return;
+		
 	}
 	
 	@RequestMapping("replyMemo")
@@ -629,9 +668,9 @@ public class MemberController {
 	@RequestMapping("insertMemo")
 	public ModelAndView insertMemo(Memo memo, HttpSession session, ModelAndView mv){
 		Member member = new Member();
-		member.setMemId(memo.getMemoReceiver());
+		member.setMemNick(memo.getMemoReceiver());
 		
-		if(memberService.selectMember(member) != null) {
+		if(memberService.selectMemberNick(member) != null) {
 		
 			String memId = (String)((Member)session.getAttribute("loginMember")).getMemId();
 			int discountMemo = memberService.discountMemoCount(memId);
@@ -1837,6 +1876,11 @@ public class MemberController {
 		}
 		 memberService.boardSelectDelete(intArray);
 		return "redirect:myPage";
+	}
+	
+	@RequestMapping("roulette")
+	public String roulette() {
+		return "member/modal/memberRoulette";
 	}
 		
 	}
