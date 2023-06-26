@@ -6,6 +6,20 @@
 <head>
 <meta charset="UTF-8">
 <title>장소 관리하기</title>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+	function kakaopost1(){
+	    new daum.Postcode({
+	        oncomplete: function(data) {
+	        	if(num == 1){
+		        	document.querySelector("#findS").value = data.address;
+	        	} else {
+	        		document.querySelector("#findE").value = data.address;
+	        	}
+	        }
+	    }).open();
+	}
+</script>
 <style>
 
 	body{
