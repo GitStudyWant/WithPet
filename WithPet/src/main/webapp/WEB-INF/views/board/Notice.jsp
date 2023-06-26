@@ -110,19 +110,7 @@
 	<jsp:include page="../common/header.jsp" />
 	<div id="body">
         <div id="wrap">
-	<form id="searchForm" action="" method="get" align="center">
-                <div class="select" align="right">
-                    <select class="custom-select" name="condition" style="height: 100%;">
-                        <option value="writer" wid>작성자</option>
-                        <option value="title">제목</option>
-                        <option value="content">내용</option>
-                    </select>
-                </div>
-                <div class="text">
-                    <input type="text" class="form-control" name="keyword">
-                </div>
-                <button type="submit" class="searchBtn btn btn-secondary">검색</button>
-            </form>
+	
             <br><br><br>
             <label for="" id="board-head">공지게시판</label>
             <c:if test="${not empty sessionScope.loginMember and sessionScope.loginMember.memId eq 'A'}">

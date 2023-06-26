@@ -109,7 +109,7 @@
 			height: auto;
 			vertical-align:middle;
       }
-      #tag, #tag2, #tag3, #tag4, #tag5{
+    #tag, #tag2, #tag3, #tag4, #tag5{
        display: inline-block;
             margin-top: 5px;
             margin-left: 10px;
@@ -122,14 +122,13 @@
             font-weight: bolder;
             background-color: rgb(73, 166, 112);
     }
-    
 
 </style>
 </head>
 <body>
 
 			<!--  비로그인으로 접근시 이전 페이지로
-	        <c:if test="${ empty sessionScope.loginMember }">
+	        <c:if test="${not empty sessionScope.loginMember and sessionScope.loginMember.memGrade eq 'CREATOR'}">
             <script>
             	window.alert('비정상적인 접근입니다. 로그인을 해주세요');
                 history.back();
@@ -142,32 +141,43 @@
 
             <br><br><br>
             
-            <label for="" id="board-head">자유게시판</label>
+            <label for="" id="board-head">크리에이터 게시판</label>
             <br>
-            <label for="" id="board-subtext">자유롭게 이야기해봐요~&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+            <label for="" id="board-subtext">크리에이터분들의 창작 마당!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
         
 
             <br><br><br>
             
             
             <div style="width: 60%; margin: auto;">
-				<form method="post" action="insert.free" enctype="multipart/form-data" id="boardInsert">
+				<form method="post" action="update.cr" enctype="multipart/form-data" id="boardInsert">
 					<input type="hidden" id="boardWriter" name="boardWriter" value="${ loginMember.memId }">
-					<input type="text" name="boardTitle" style="width: 40%;" placeholder="제목" required/>
+					<input type="hidden" name="boardNo" value="${ b.boardNo }" >
+					<input type="text" name="boardTitle" style="width: 40%;" value="${ b.boardTitle }" required/>
 					<br><br> 
-					<input type="file" id="upfile" class="form-control-file border" name="upfile" style="border:solid 1px lightgray;display: inline-block;">
+					<input type="file" id="upfile" class="form-control-file border" name="reUpfile" style="border:solid 1px lightgray;display: inline-block;">
+					<c:if test="${ not empty b.originName }">	
+                            		현재 업로드된 파일 : 
+                            <a href="${ b.changeName }" download="${ b.originName }">${ b.originName }</a>
+                            <input type="hidden" name="originName" value="${ b.originName }" >
+                            <input type="hidden" name="changeName" value="${ b.changeName }" >
+                            </c:if>	
 					<textarea id="summernote" name="boardContent">
+					${ b.boardContent }
 					</textarea>
 
 					<div align="center">
 						<br>
-						<div class="tag-list-board" id="tagBridge" style=" margin: auto; width: 100%; height : 50px;border: 1px solid lightgray;" align="center">
-                		</div>
+						 <div class="tag-list-board" id="tagBridge" style="margin: auto; width: 100%; height: auto; border: 1px solid lightgray;display: inline-block;" align="center" >
+					        <c:forEach var="tag" items="${t}">
+					            <span class="tag-item">${tag.tagName}<span class="close-btn">&times;</span></span>
+					        </c:forEach>
+					    </div>
 						<br>
 						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tagModal">태그추가</button>
                 	
 						<br><br>
-	                    <button type="submit" class="btn btn-primary" form="boardInsert" onclick="setTagNames()">등록하기</button>
+	                    <button type="submit" class="btn btn-primary" form="boardInsert" onclick="setTagNames()">수정하기</button>
 	                    <button type="reset" class="btn btn-danger" >취소하기</button>
                 	</div>
 				</form>
@@ -190,7 +200,9 @@
                     <span style="float: right;" id="tagLength"></span>
                 </div>
                 <div class="tag-list" style="margin: auto;" align="center">
-                	
+                	 <c:forEach var="tag" items="${t}">
+			            <span class="tag-item">${tag.tagName}<span class="close-btn">&times;</span></span>
+			        </c:forEach>
                 </div>
                 <div class="modal-footer">
 					<button type="button" class="btn btn-success" style="background-color: rgb(73, 166, 112); border: rgb(73, 166, 112); color: white;" data-dismiss="modal" onclick="setTagNames()" >완료</button>                
@@ -209,43 +221,6 @@
 			          maxHeight: 500,
 			          focus: true,
 			          lang: 'ko-KR'
-			        	  
-			          var setting = {
-			                  height : 300,
-			                  minHeight : null,
-			                  maxHeight : null,
-			                  focus : true,
-			                  lang : 'ko-KR',
-			                  toolbar : toolbar,
-			                  //콜백 함수
-			                  callbacks : { 
-			                  	onImageUpload : function(files, editor, welEditable) {
-			                  // 파일 업로드(다중업로드를 위해 반복문 사용)
-			                  for (var i = files.length - 1; i >= 0; i--) {
-			                  uploadSummernoteImageFile(files[i],
-			                  this);
-			                  		}
-			                  	}
-			                  }
-			               };
-			              $('#summernote').summernote(setting);
-			              });
-			              
-			              function uploadSummernoteImageFile(file, el) {
-			      			data = new FormData();
-			      			data.append("file", file);
-			      			$.ajax({
-			      				data : data,
-			      				type : "POST",
-			      				url : "uploadSummernoteImageFile",
-			      				contentType : false,
-			      				enctype : 'multipart/form-data',
-			      				processData : false,
-			      				success : function(data) {
-			      					$(el).summernote('editor.insertImage', data.url);
-			      				}
-			      			});
-			      		}
 			        });
 			        
 			        

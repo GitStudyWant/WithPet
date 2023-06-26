@@ -41,6 +41,11 @@
 	  <result property="commentLevel" column="COMMENT_LEVEL"/>
 	  <result property="regDate" column="REG_DATE" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP"/>
 	</resultMap>
+	<resultMap id="MemberResultSet" type="member">
+	 <result property="memNick" column="MEM_NICK"/>
+	  <result property="memGrade" column="MEM_GRADE"/> 
+	  <result property="memId" column="MEM_ID"/>
+	</resultMap>
 	
 	<!-- 자유게시판 -->
 	<select id="selectFrListCount" resultType="_int">
@@ -363,7 +368,125 @@
 	</update>
 	<!-- 나눔게시판 끝 -->
 	
+	<!-- 크리에이터게시판 시작 -->
+	<select id="selectCrListCount" resultType="_int">
+			SELECT
+					COUNT(*)
+			FROM
+					BOARD
+			WHERE
+					STATUS = 'Y'
+			AND
+					BOARD_NUM = 5	
+	</select>
+	<select id="selectCrList" resultMap="boardResultSet">
+			SELECT
+					BOARD_NO
+					,BOARD_TITLE
+					,BOARD_WRITER
+					,BOARD_CONTENT
+					,VIEW_COUNT
+					,TO_CHAR(ENROLLDATE, 'YYYY-MM-DD') AS "ENROLLDATE"
+			FROM 
+					BOARD
+			WHERE						
+					STATUS = 'Y'
+			AND
+					BOARD_NUM = 5	
+			ORDER
+				BY
+					BOARD_NO DESC
+	</select>
+	<select id="searchCrListCount" resultType="_int">
+			SELECT
+					COUNT(*)
+			FROM
+					BOARD
+			WHERE
+					STATUS = 'Y'
+			AND
+					BOARD_NUM = 5
+			AND
+					BOARD_WRITER IN (SELECT
+                                            MEM_ID
+                                    FROM 
+                                            MEMBER
+                                    WHERE
+                                             MEM_NICK = #{memNick})
+	</select>
+	<select id="searchCrList" resultMap="boardResultSet">
+			SELECT
+					BOARD_NO
+					,BOARD_TITLE
+					,BOARD_WRITER
+					,BOARD_CONTENT
+					,VIEW_COUNT
+					,TO_CHAR(ENROLLDATE, 'YYYY-MM-DD') AS "ENROLLDATE"
+			FROM 
+					BOARD
+			WHERE						
+					STATUS = 'Y'
+			AND
+					BOARD_NUM = 5
+            AND
+                    BOARD_WRITER IN (SELECT
+                                            MEM_ID
+                                    FROM 
+                                            MEMBER
+                                    WHERE
+                                             MEM_NICK = #{memNick})
+            ORDER
+				BY
+					BOARD_NO DESC                                 
+	</select>
+	<select id="insertCrBoard" parameterType="board">
+		INSERT
+			INTO
+					BOARD
+					(
+					BOARD_NO
+					,BOARD_TITLE
+					,BOARD_CONTENT
+					,BOARD_WRITER
+					,ORIGIN_NAME
+					,CHANGE_NAME
+					,BOARD_NUM
+					)
+			VALUES
+					(
+					SEQ_BNO.NEXTVAL
+					,#{boardTitle}
+					,#{boardContent}
+					,#{boardWriter}
+					,#{originName}
+					,#{changeName}
+					,5
+					)		
+	</select>
 	
+	<update id="updateCrBoard">
+				UPDATE
+						BOARD
+				SET
+						BOARD_TITLE = #{boardTitle}
+						,BOARD_CONTENT = #{boardContent}
+						,ORIGIN_NAME = #{originName}
+						,CHANGE_NAME = #{changeName}
+				WHERE
+						BOARD_NO = #{boardNo}
+				AND
+						BOARD_NUM = 5		
+	</update>
+	<select id="selectHowList" resultMap="MemberResultSet">
+			SELECT
+                  MEM_NICK
+            FROM 
+                 MEMBER
+            WHERE
+                  MEM_GRADE='CREATOR'
+	</select>
+	
+	<!-- 크리에이터게시판 끝 -->
 	
 	
 	<!-- 공지사항 시작 -->

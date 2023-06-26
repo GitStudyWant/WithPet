@@ -129,7 +129,7 @@
 <body>
 
 			<!--  비로그인으로 접근시 이전 페이지로
-	        <c:if test="${ empty sessionScope.loginMember }">
+	        <c:if test="${not empty sessionScope.loginMember and sessionScope.loginMember.memGrade eq 'CREATOR'}">
             <script>
             	window.alert('비정상적인 접근입니다. 로그인을 해주세요');
                 history.back();
@@ -142,16 +142,16 @@
 
             <br><br><br>
             
-            <label for="" id="board-head">자유게시판</label>
+             <label for="" id="board-head">크리에이터 게시판</label>
             <br>
-            <label for="" id="board-subtext">자유롭게 이야기해봐요~&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+            <label for="" id="board-subtext">크리에이터분들의 창작 마당!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
         
 
             <br><br><br>
             
             
             <div style="width: 60%; margin: auto;">
-				<form method="post" action="insert.free" enctype="multipart/form-data" id="boardInsert">
+				<form method="post" action="insert.cr" enctype="multipart/form-data" id="boardInsert">
 					<input type="hidden" id="boardWriter" name="boardWriter" value="${ loginMember.memId }">
 					<input type="text" name="boardTitle" style="width: 40%;" placeholder="제목" required/>
 					<br><br> 
@@ -209,43 +209,6 @@
 			          maxHeight: 500,
 			          focus: true,
 			          lang: 'ko-KR'
-			        	  
-			          var setting = {
-			                  height : 300,
-			                  minHeight : null,
-			                  maxHeight : null,
-			                  focus : true,
-			                  lang : 'ko-KR',
-			                  toolbar : toolbar,
-			                  //콜백 함수
-			                  callbacks : { 
-			                  	onImageUpload : function(files, editor, welEditable) {
-			                  // 파일 업로드(다중업로드를 위해 반복문 사용)
-			                  for (var i = files.length - 1; i >= 0; i--) {
-			                  uploadSummernoteImageFile(files[i],
-			                  this);
-			                  		}
-			                  	}
-			                  }
-			               };
-			              $('#summernote').summernote(setting);
-			              });
-			              
-			              function uploadSummernoteImageFile(file, el) {
-			      			data = new FormData();
-			      			data.append("file", file);
-			      			$.ajax({
-			      				data : data,
-			      				type : "POST",
-			      				url : "uploadSummernoteImageFile",
-			      				contentType : false,
-			      				enctype : 'multipart/form-data',
-			      				processData : false,
-			      				success : function(data) {
-			      					$(el).summernote('editor.insertImage', data.url);
-			      				}
-			      			});
-			      		}
 			        });
 			        
 			        
