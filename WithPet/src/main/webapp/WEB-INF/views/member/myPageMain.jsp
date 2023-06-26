@@ -136,11 +136,11 @@
 								  <tbody align="center">
 								  
 								  <c:forEach items="${boardList}" var="i">
-										<tr onclick="boardDetail('${i.boardNo}');">
+										<tr>
 										<th scope="row"><p><input class="boardSelect" type="checkbox" value="${i.boardNo}"/></p></th>
-										<td><p>${ i.boardTitle }</p></td>
-										<td><p>${ i.enrolldate }</p></td>
-										<td><p>${ i.viewCount }</p></td>
+										<td onclick="boardDetail('${i.boardNo}');"><p>${ i.boardTitle }</p></td>
+										<td onclick="boardDetail('${i.boardNo}');"><p>${ i.enrolldate }</p></td>
+										<td onclick="boardDetail('${i.boardNo}');"><p>${ i.viewCount }</p></td>
 										</tr>
 									</c:forEach>
 								  </tbody>
@@ -194,9 +194,9 @@
 								  	<c:forEach items="${ReplyList}" var="i">
 										<tr>
 										<th scope="row"><p><input type="checkbox"/></p></th>
-										<td><p>${ i.commentText }</p></td>
-										<td><p>${ i.regDate }</p></td>
-										<td><p>${ i.boardNo }</p></td>
+										<td onclick="boardDetail('${i.boardNo}');"><p>${ i.commentText }</p></td>
+										<td onclick="boardDetail('${i.boardNo}');"><p>${ i.regDate }</p></td>
+										<td onclick="boardDetail('${i.boardNo}');"><p>${ i.boardNo }</p></td>
 										</tr>
 									</c:forEach>
 								  </tbody>
@@ -228,7 +228,7 @@
 					                	</c:choose>
 									</th>
 									<th style="width : 10%;"><button class="btn btn-success">선택 삭제</button></th>
-									<th style="width : 10%;" ><button class="btn btn-success">글쓰기</button></th>
+									<th style="width : 10%;" ><button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#enrollFormSelect">글쓰기</button></th>
 								</tr>
 							</thead>
 						</table>
