@@ -6,6 +6,20 @@
 <meta charset="UTF-8">
 <title>택시 예약하기 화면 </title>
 <jsp:include page="../common/header.jsp"/>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+	function kakaopost1(num){
+	    new daum.Postcode({
+	        oncomplete: function(data) {
+	        	if(num == 1){
+		        	document.querySelector("#findS").value = data.address;
+	        	} else {
+	        		document.querySelector("#findE").value = data.address;
+	        	}
+	        }
+	    }).open();
+	}
+</script>
 	
 	<style>
 		#total_wrap{
@@ -525,10 +539,10 @@
 			</div>
 			<div id="content_wrap">
 			<br>
-		출발지 : <input type="text" id="findS" placeholder="예시 :서울시 중구 남대문로 120 대일빌딩" style="width:300px;"> <button class="findxy">확인</button>
+		출발지 : <input type="text" id="findS" placeholder="예시 :서울시 중구 남대문로 120 대일빌딩" style="width:300px;" onclick="kakaopost1(1)"> <button class="findxy">확인</button>
 		<input type="hidden" id="s_lat">
 		<input type="hidden" id="s_lng"> <br>
-		도착지 : <input type="text" id="findE" placeholder="예시 :서울시 중구 남대문로 120 대일빌딩" style="width:300px;"> <button class="findxy">확인</button>
+		도착지 : <input type="text" id="findE" placeholder="예시 :서울시 중구 남대문로 120 대일빌딩" style="width:300px;" onclick="kakaopost1(2)"> <button class="findxy">확인</button>
 		<input type="hidden" id="e_lat">
 		<input type="hidden" id="e_lng">
 		<br>
@@ -588,9 +602,10 @@ $(function(){
 	
 		$.ajax({
 			url : 'findXY',
-			data : {location : clickbtn.prev().val()},
+			data : {location2 : clickbtn.prev().val()},
 			success : function(result){
 				console.log('성공');
+				alert('확인이 완료되었습니다.');
 				//console.log(result.results[0].geometry.location.lat);
 				//console.log(result.results[0].geometry.location.lng);
 				let lat = result.results[0].geometry.location.lat;
@@ -605,13 +620,10 @@ $(function(){
 					alert('출발지, 도착지 확인이 완료 되었습니다.');
 					$('#btn_select').attr('disabled',false).css('background-color','rgb(73, 166, 112)');
 					
-				} else {
-					
-					
-				}
+				} 
 			},
-			errorr : function(){
-				consol.log('실패 ㅠㅠ')
+			error : function(){
+				console.log('실패 ㅠㅠ')
 			}
 		})
 	})
