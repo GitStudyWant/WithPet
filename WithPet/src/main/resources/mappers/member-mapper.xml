@@ -104,6 +104,33 @@
 				MEM_STATUS = 'Y'
 	</select>
 	
+	<select id="selectMemberNick" parameterType="member" resultType="Member">
+		SELECT
+				MEM_ID memId
+				,MEM_NICK memNick
+				,MEM_PWD memPwd
+				,MEM_PHONE memPhone
+				,MEM_EMAIL memEmail
+				,MEM_PHOTO memPhoto
+				,MEM_PATH memPath
+				,MEM_INTRO memIntro
+				,MEM_GRADE memGrade
+				,MEM_DATE memDate
+				,MEM_MEMO memMemo
+				,MEM_REPORT memReport
+				,MEM_POPUP memPopup
+				,MEM_STATUS memStatus
+				,MEM_UPDATE memUpdate
+				,MEM_KAKAOID memKakaoId
+				,MEM_NAVERID memNaverId
+		FROM
+				MEMBER
+		WHERE
+				MEM_NICK = #{memNick}
+		AND
+				MEM_STATUS = 'Y'
+	</select>
+	
 	<select id="selectKakaoMember" resultType="Member">
 		SELECT
 				MEM_ID memId
@@ -192,14 +219,22 @@
 		        mem_path memPath,
 		        mem_intro memIntro
 		from
-		        (select 
+		        (select
 		                share_sender
-		        from
-		                member
-		        join
-		                diary_share on(mem_id = share_receiver)
-		        where
-		                share_receiver = #{memId})
+		         from
+		                (select
+		                        friend_receiver
+		                from
+		                        friend
+		                where   
+		                        friend_sender = #{memId})
+		         join
+		                (select
+		                        share_sender
+		                from
+		                        diary_share
+		                where
+		                        share_receiver = #{memId}) on(friend_receiver = share_sender))
 		join
 		        member on(mem_id = share_sender)
 	</select>
@@ -228,13 +263,19 @@
 		UPDATE
 				schedule
 		SET
-				schedule_cate = #{scheduleCate}
-				,schedule_start = #{scheduleStart}
-				,schedule_end = #{scheduleEnd}
-				,schedule_content = #{scheduleContent}
-				,schedule_color = #{scheduleColor}
-				,schedule_date = sysdate
-		WHERE
+				schedule_cate = #{scheduleCate},
+				schedule_start = #{scheduleStart},
+				schedule_end = 
+				<if test="scheduleEnd != ''">
+					#{scheduleEnd},
+				</if>
+				<if test="scheduleEnd == ''">
+					#{scheduleStart},
+				</if>
+				schedule_content = #{scheduleContent},
+				schedule_color = #{scheduleColor},
+				schedule_date = sysdate
+		WHERE	
 				schedule_no = #{scheduleNo}
 	</update>
 	
@@ -424,7 +465,7 @@
 				(
 				SEQ_MEMO_NO.NEXTVAL
 				,#{memoSender}
-				,#{memoReceiver}
+				,(select mem_id from member where mem_nick = #{memoReceiver})
 				,#{memoTitle}
 				,#{memoContent}
 				,sysdate

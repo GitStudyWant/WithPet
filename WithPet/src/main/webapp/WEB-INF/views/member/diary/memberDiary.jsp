@@ -51,7 +51,7 @@
 		float:left;
 	}
 	
-	#schedulemain p{
+	#diaryOwner{
 		font-size:25px;
 		margin-left:4%;
 	}
@@ -63,6 +63,7 @@
 	.containerInput{
 		width : 30%;
 		float : left;
+		margin-top:60px;
 	}
 	
 	#schInsert input, #schInsert select, #schUpdate input, #schUpdate select{
@@ -83,7 +84,144 @@
 		background-color:green;
 		cursor:pointer;
 	}
-
+	
+	#modal-header1, #modal-header2{
+		height:15px;
+		background-color:lightgray;
+	}
+	
+	#container{
+		width:90%;
+	}
+	
+	#modalTitle1, #modalTitle2{
+		font-size:15px;
+		text-align:center;
+		margin-top:15px;
+		margin-bottom:30px
+	}
+	
+	#schSubmitTable, #schModifyTable{
+		width:80%;
+		text-align:center;
+		margin:auto;
+	}
+	
+	#schSubmitTableCate{
+		font-size:10px;
+		color:gray;
+		margin-top:12px;
+	}
+	
+	#scheduleCate, #editCate{
+		width:100%;
+		height:23px;
+	}
+	
+	#schSubmit{
+		width:80%;
+		margin:35px 50px;
+	}
+	
+	.schForm1, .schForm2{
+	 	font-size:10px;
+	 	color:gray;
+	 	margin-top:12px;
+	 }
+	 
+	 .schForm1In, .schForm2In{
+	 	width:100%;
+	 }
+	 
+	 #scheduleColor{
+	 	width:100%;;
+	 	height:23px;
+	 	color:#D25565
+	 }
+	 
+	 #editColor{
+	 	width:100%;
+	 	height:23px;
+	 }
+	 
+	 #buttonToggle1{
+	 	display:none;
+	 	width:50%;
+	 	height:20%;
+	 	font-size:15px; 
+	 	margin-left:25%;
+	 	margin-top:20px
+	 }
+	 
+	 #buttonToggle2{
+	 	display:none;
+	 	width:50%;
+	 	height:20%;
+	 	font-size:15px;
+	 	margin-left:25%;
+	 	margin-top:20px;
+	 }
+	 
+	 #viewFriendButton{
+	 	font-size:18px;
+	 	text-align:center
+	 }
+	 
+	 #viewFriendDiv{
+	 	width:80%;
+	 	height:400px;
+	 	margin:auto;
+	 	overflow-y: scroll;
+	 }
+	
+	#scheduleFriendList{
+		height:0px;
+	}
+	
+	#viewFriendTd{
+		width:20%;
+		height:100%;
+		text-align:center;
+	}
+	
+	#viewFriendImg{
+		width:40px;
+		height:40px;
+		margin:0px;
+		padding:5px;
+		border-radius:100%;
+	}
+	
+	#viewFriendNick{
+		width:100%;
+		margin:0px;
+		font-size:13px;
+		padding-left:10%;
+		padding-bottom:5px;
+	}
+	
+	#viewFriendIntro{
+		width:100%;
+		margin:0px;
+		font-size:10px;
+		padding-left:10%;
+		color:gray;
+	}
+	
+	#deleteEvent, #updateEvent{
+		display:none;
+	}
+	
+	.color1{color:#D25565;}
+	.color2{color:#9775fa;}
+	.color3{color:#ffa94d;}
+	.color4{color:#74c0fc;}
+	.color5{color:#f06595;}
+	.color6{color:#63e6be;}
+	.color7{color:#a9e34b;}
+	.color8{color:#4d638c;}
+	.color9{color:#495057;}
+	
 </style>
 </head>
 <body>
@@ -99,7 +237,7 @@
 		    <div id="schedulemain">
 		    <br>
 		    <p id="diaryOwner">[${ loginMember.memNick }] 님의 다이어리</p>
-		    <div class="container" style="width:90%;">
+		    <div class="container" id="container">
 				<br><br><br>
 		        <div id="calendar"></div>
 		        
@@ -107,21 +245,21 @@
 			 	   <div class="modal-dialog modal-dialog-centered">
 				      <div class="modal-content">
 				      
-				        <div class="modal-header" style="height:15px; background-color:lightgray">
+				        <div class="modal-header" id="modal-header1">
 				          <h5 class="modal-title"></h5>
 				          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 				        </div>
 				        
 				        <div class="modal-body">
 				        
-				          <p class="modal-title" style="font-size:15px; text-align:center; margin-top:15px; margin-bottom:30px">일정 등록</p>
+				          <p class="modal-title" id="modalTitle1">일정 등록</p>
 				          <form action="insertSchedule" method="POST">
-				          <input type="hidden" value="${ loginMember.memId }" name="memId">
-				          	<table id="schSubmitTable" width="80%" style="text-align:center; margin:auto">
+				          <input type="hidden" name="memId" value="${ loginMember.memId }">
+				          	<table id="schSubmitTable">
 					          	<tr>
-					          		<td width="30"><p style="font-size:10px; color:gray; margin-top:12px">카테고리</p></td>
+					          		<td width="30"><p id="schSubmitTableCate">카테고리</p></td>
 					          		<td width="80">
-					          		<select name="scheduleCate" style="width:100%; height:23px;">
+					          		<select name="scheduleCate" id="scheduleCate">
 					          			<option value="산책">산책</option>
 					          			<option value="미용">미용</option>
 					          			<option value="여행">여행</option>
@@ -130,35 +268,37 @@
 					          		</td>
 					          	<tr>
 					          	<tr>
-						          	<td><p style="font-size:10px; color:gray; margin-top:12px">시작일</p></td>
-						          	<td><input autocomplete="off" type="text" class="dateChoice" name="scheduleStart" id="scheduleStart" style="width:100%;" placeholder="필수입력입니다" required></td>
+						          	<td><p class="schForm1">시작일</p></td>
+						          	<td><input autocomplete="off" type="text" class="dateChoice schForm1In" name="scheduleStart" id="scheduleStart" placeholder="필수입력입니다" required></td>
 					          	</tr>
 					          	<tr>
-					          		<td><p style="font-size:10px; color:gray; margin-top:12px">종료일</p></td>
-					          		<td><input autocomplete="off" type="text" class="dateChoice" name="scheduleEnd" id="scheduleEnd" style="width:100%;"></td>
+					          		<td><p class="schForm1">종료일</p></td>
+					          		<td><input autocomplete="off" type="text" class="dateChoice schForm1In" name="scheduleEnd" id="scheduleEnd"></td>
 					          	</tr>
 					          	<tr>
-					          		<td><p style="font-size:10px; color:gray; margin-top:12px">일정내용</p></td>
-					          		<td><input type="text" name="scheduleContent" style="width:100%;"></td>
-					          	</tr>
-					          	<tr>
-					          		<td><p style="font-size:10px; color:gray; margin-top:12px">색상</p></td>
+					          		<td><p class="schForm1">일정내용</p></td>
 					          		<td>
-						          		<select name="scheduleColor" id="scheduleColor" style="width:100%; height:23px; color:#D25565">
-		                                    <option value="#D25565" style="color:#D25565;">빨간색</option>
-		                                    <option value="#9775fa" style="color:#9775fa;">보라색</option>
-		                                    <option value="#ffa94d" style="color:#ffa94d;">주황색</option>
-		                                    <option value="#74c0fc" style="color:#74c0fc;">파란색</option>
-		                                    <option value="#f06595" style="color:#f06595;">핑크색</option>
-		                                    <option value="#63e6be" style="color:#63e6be;">연두색</option>
-		                                    <option value="#a9e34b" style="color:#a9e34b;">초록색</option>
-		                                    <option value="#4d638c" style="color:#4d638c;">남색</option>
-		                                    <option value="#495057" style="color:#495057;">검정색</option>
+					          		<input class="schForm1In" type="text" name="scheduleContent">
+					          		</td>
+					          	</tr>
+					          	<tr>
+					          		<td><p class="schForm1">색상</p></td>
+					          		<td>
+						          		<select name="scheduleColor" id="scheduleColor">
+		                                    <option value="#D25565" class="color1">빨간색</option>
+		                                    <option value="#9775fa" class="color2">보라색</option>
+		                                    <option value="#ffa94d" class="color3">주황색</option>
+		                                    <option value="#74c0fc" class="color4">파란색</option>
+		                                    <option value="#f06595" class="color5">핑크색</option>
+		                                    <option value="#63e6be" class="color6">연두색</option>
+		                                    <option value="#a9e34b" class="color7">초록색</option>
+		                                    <option value="#4d638c" class="color8">남색</option>
+		                                    <option value="#495057" class="color9">검정색</option>
 	                                    </select>
                                     </td>
 					          	</tr>
 				          	</table>
-				          	<button type="submit" id="schSubmit" class="btn btn-primary" style="width:80%; margin:35px 50px" disabled>등록</button>
+				          	<button type="submit" class="btn btn-primary" id="schSubmit" disabled>등록</button>
 				       		</form>
 				        </div>
 				      
@@ -170,21 +310,21 @@
 			 	   <div class="modal-dialog modal-dialog-centered">
 				      <div class="modal-content">
 				      
-				        <div class="modal-header" style="height:15px; background-color:lightgray">
+				        <div class="modal-header" id="modal-header2">
 				          <h5 class="modal-title"></h5>
 				          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 				        </div>
 				        
 				        <div class="modal-body">
 				        
-				          <p class="modal-title" style="font-size:15px; text-align:center; margin-top:15px; margin-bottom:30px">일정 확인</p>
+				          <p class="modal-title" id="modalTitle2">일정 확인</p>
 				          <form action="updateSchedule" method="post">
 				          <input id="hidden" type="hidden" value="${ loginMember.memId }" name="updateId">
-				          	<table width="80%" style="text-align:center; margin:auto">
+				          	<table id="schModifyTable">
 					          	<tr>
-					          		<td width="30"><p style="font-size:10px; color:gray; margin-top:12px">카테고리</p></td>
+					          		<td width="30"><p class="schForm2">카테고리</p></td>
 					          		<td width="80">
-					          		<select name="editCate" id="editCate" style="width:100%; height:23px;">
+					          		<select name="editCate" id="editCate">
 					          			<option value="산책">산책</option>
 					          			<option value="미용">미용</option>
 					          			<option value="여행">여행</option>
@@ -193,36 +333,36 @@
 					          		</td>
 					          	<tr>
 					          	<tr>
-						          	<td><p style="font-size:10px; color:gray; margin-top:12px">시작일</p></td>
+						          	<td><p class="schForm2">시작일</p></td>
 						          	<td>
-						          	<input autocomplete="off" type="text" class="dateChoice" name="editStart" id="editStart" style="width:100%" required>
+						          	<input autocomplete="off" type="text" class="dateChoice schForm2In" name="editStart" id="editStart" required>
 						          	</td>
 					          	</tr>
 					          	<tr>
-					          		<td><p style="font-size:10px; color:gray; margin-top:12px">종료일</p></td>
+					          		<td><p class="schForm2">종료일</p></td>
 					          		<td>
-					          		<input autocomplete="off" type="text" class="dateChoice" name="editEnd" id="editEnd" style="width:100%;">
+					          		<input autocomplete="off" type="text" class="dateChoice schForm2In" name="editEnd" id="editEnd">
 					          		</td>
 					          	</tr>
 					          	<tr>
-					          		<td><p style="font-size:10px; color:gray; margin-top:12px">일정내용</p></td>
+					          		<td><p class="schForm2">일정내용</p></td>
 					          		<td>
-					          		<input class="inputModal" type="text" name="editContent" id="editContent" style="width:100%;">
+					          		<input class="schForm2In" type="text" name="editContent">
 					          		</td>
 					          	</tr>
 					          	<tr>
-					          		<td><p style="font-size:10px; color:gray; margin-top:12px">색상</p></td>
+					          		<td><p class="schForm2">색상</p></td>
 					          		<td>
-						          		<select name="editColor" id="editColor" style="width:100%; height:23px;">
-		                                    <option value="#D25565" style="color:#D25565;">빨간색</option>
-		                                    <option value="#9775fa" style="color:#9775fa;">보라색</option>
-		                                    <option value="#ffa94d" style="color:#ffa94d;">주황색</option>
-		                                    <option value="#74c0fc" style="color:#74c0fc;">파란색</option>
-		                                    <option value="#f06595" style="color:#f06595;">핑크색</option>
-		                                    <option value="#63e6be" style="color:#63e6be;">연두색</option>
-		                                    <option value="#a9e34b" style="color:#a9e34b;">초록색</option>
-		                                    <option value="#4d638c" style="color:#4d638c;">남색</option>
-		                                    <option value="#495057" style="color:#495057;">검정색</option>
+						          		<select name="editColor" id="editColor">
+		                                    <option value="#D25565" class="color1">빨간색</option>
+		                                    <option value="#9775fa" class="color2">보라색</option>
+		                                    <option value="#ffa94d" class="color3">주황색</option>
+		                                    <option value="#74c0fc" class="color4">파란색</option>
+		                                    <option value="#f06595" class="color5">핑크색</option>
+		                                    <option value="#63e6be" class="color6">연두색</option>
+		                                    <option value="#a9e34b" class="color7">초록색</option>
+		                                    <option value="#4d638c" class="color8">남색</option>
+		                                    <option value="#495057" class="color9">검정색</option>
 	                                    </select>
                                     </td>
 					          	</tr>
@@ -240,54 +380,44 @@
 				  </div>
 		          
 		    </div>
-		    
-		    <script src="resources/js/fullCalendar/vendor/bootstrap.min.js"></script>
-		    <script src="resources/js/fullCalendar/vendor/moment.min.js"></script>
-		    <script src="resources/js/fullCalendar/vendor/fullcalendar.min.js"></script>
-		    <script src="resources/js/fullCalendar/vendor/ko.js"></script>
-		    <script src="resources/js/fullCalendar/vendor/select2.min.js"></script>
-		    <script src="resources/js/fullCalendar/editEvent.js"></script>
-		    <script src="resources/js/fullCalendar/etcSetting.js"></script>
-		    
-		   
 		  </div>
-		  <div class="containerInput" style="margin-top:60px">
-		  		<button class="btn btn-primary" id="buttonToggle1" data-bs-toggle="modal" data-bs-target="#schInsert" style="display:none; width:50%; height:20%; font-size:15px;  margin-left:25%; margin-top:20px">일정추가</button>
-		  		<button class="btn btn-primary" id="buttonToggle2" style="display:none; width:50%; height:20%; font-size:15px; margin-left:25%; margin-top:20px;" onclick="myCalendar('${loginMember.memId}', '${loginMember.memNick}');">내 달력 보기</button>
+		  <div class="containerInput">
+		  		<button class="btn btn-primary" id="buttonToggle1" data-bs-toggle="modal" data-bs-target="#schInsert">일정추가</button>
+		  		<button class="btn btn-primary" id="buttonToggle2" onclick="myCalendar('${loginMember.memId}', '${loginMember.memNick}');">내 달력 보기</button>
 		  		<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
 					<c:if test="${ not empty friendList }">
-		  				<p style="font-size:18px; text-align:center">친구 달력 보기</p>
-			  			<div style="width:80%; height:400px; margin:auto; overflow-y: scroll;">
-			  			<table id="scheduleFriendList" style="height:0px;">
+		  				<p id="viewFriendButton">친구 달력 보기</p>
+			  			<div id="viewFriendDiv">
+			  			<table id="scheduleFriendList">
 			  				<tbody>
 			  				<c:forEach items="${ friendList }" var="i">
 			  				<tr class="friendListOne">
 			  					<td>
 			  						<table>
 			  							<tr>
-			  								<td rowspan="2" style="width:20%; height:100%; text-align:center">
+			  								<td rowspan="2" id="viewFriendTd">
 			  									<input type="hidden" value="${i.memId}">
 			  									<input type="hidden" value="${i.memNick}">
 			  									<c:choose>
 				  									<c:when test="${i.memPath != null}">
-				  										<img id="memberimg" style="width:100%; height:100%; margin:0px" src="${i.memPath}" alt="메인사진">
+				  										<img id="viewFriendImg" src="${i.memPath}" alt="메인사진">
 								    				</c:when>
 									    			<c:otherwise>
-								    					<img id="memberimg" style="width:100%; height:100%; margin:0px;" src="https://moyeoyou.kr/assets/common/img/user/default_photo.jpg" alt="메인사진">
+								    					<img id="viewFriendImg" src="https://moyeoyou.kr/assets/common/img/user/default_photo.jpg" alt="메인사진">
 									    			</c:otherwise>
 								    			</c:choose>
 			    							</td>
-			  								<td><p style="width:100%; margin:0px; font-size:13px; padding-left:10%; padding-bottom:5px">${ i.memNick }</p></td>
+			  								<td><p id="viewFriendNick">${ i.memNick }</p></td>
 			  							</tr>
 			  							<tr>
 			  								<td>
 			  									<c:choose>
 				  									<c:when test="${i.memIntro != null}">
-				  										<p style="width:100%; margin:0px; font-size:10px; padding-left:10%; color:gray;">${ i.memIntro }</p>
+				  										<p id="viewFriendIntro">${ i.memIntro }</p>
 								    				</c:when>
 									    			<c:otherwise>
-								    					<p style="width:100%; margin:0px; font-size:10px; padding-left:10%; color:gray">&nbsp;</p>
+								    					<p id="viewFriendIntro">&nbsp;</p>
 									    			</c:otherwise>
 								    			</c:choose>
 								    		</td>
@@ -306,6 +436,13 @@
 	
 	<div id="diaryFooter"><jsp:include page="../../common/footer.jsp" /></div>
 	
+	<script src="resources/js/fullCalendar/vendor/bootstrap.min.js"></script>
+    <script src="resources/js/fullCalendar/vendor/moment.min.js"></script>
+    <script src="resources/js/fullCalendar/vendor/fullcalendar.min.js"></script>
+    <script src="resources/js/fullCalendar/vendor/ko.js"></script>
+    <script src="resources/js/fullCalendar/vendor/select2.min.js"></script>
+    <script src="resources/js/fullCalendar/editEvent.js"></script>
+    <script src="resources/js/fullCalendar/etcSetting.js"></script>
 	
 	<script>
 	$(function() {
@@ -325,9 +462,13 @@
 		if ('${loginMember.memId}' == id) {
 		    $('#buttonToggle1').show();
 		    $('#buttonToggle2').hide();
+		    $('#deleteEvent').show();
+		    $('#updateEvent').show();
 		} else {
 		    $('#buttonToggle1').hide();
 		    $('#buttonToggle2').show();
+		    $('#deleteEvent').hide();
+		    $('#updateEvent').hide();
 		}
 		
 		$('#diaryOwner').text('[' + nick + '] 님의 다이어리')
@@ -338,26 +479,16 @@
 		    locale: 'ko',
 		    height: 800,
 		    timezone: "local", 
-		    nextDayThreshold: "09:00:00",
 		    displayEventTime: false,
-		    displayEventEnd: false,
 		    firstDay: 0,
-		    selectable: false,
 		    editable: false,
+		    defaultDate: moment(),
+		    
 		    eventLimit: true,
+		    eventLimitClick: 'day',
 		    views: {
 		        month: { eventLimit: 4 }
 		    },
-		    eventLimitClick: 'week',
-		    navLinks: true,
-		    defaultDate: moment(),
-		    timeFormat: 'HH:mm',
-		    weekends: true,
-		    nowIndicator: true,
-		    dayPopoverFormat: 'MM/DD dddd',
-		    longPressDelay: 0,
-		    eventLongPressDelay: 0,
-		    selectLongPressDelay: 0,
 		    
 		    header: {
 		        left: 'today, prevYear, nextYear, viewWeekends',
@@ -419,6 +550,15 @@
 		    
 		    eventClick: function (event, jsEvent, view) {
 		        editEvent(event);
+		    },
+		    
+		    select: function(startDate, endDate) {
+		        var events = $('#calendar').fullCalendar('clientEvents');
+		        if (events.length >= 5) {
+		            alert("일정 등록갯수는 5개로 제한되어 있습니다.")
+		            return false;
+		        }
+		        return true;
 		    }
 		})
 		

@@ -38,6 +38,7 @@
 		</c:if>
     
     	<script>
+    	
     	if(${ (!(empty loginMember))} && ${empty clear}){
 		    $(function(){		    	
 		    	socketConnect();

@@ -55,6 +55,10 @@ public class MemberDao {
 		return sqlSession.selectOne("memberMapper.selectMember", member);
 	}
 	
+	public Member selectMemberNick(SqlSession sqlSession, Member member) {
+		return sqlSession.selectOne("memberMapper.selectMemberNick", member);
+	}
+	
 	public Member selectKakaoMember(SqlSession sqlSession, String memKakaoId) {
 		return sqlSession.selectOne("memberMapper.selectKakaoMember", memKakaoId);
 	}

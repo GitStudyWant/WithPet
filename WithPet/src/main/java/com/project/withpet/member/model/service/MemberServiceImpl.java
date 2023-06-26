@@ -66,6 +66,11 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
+	public Member selectMemberNick(Member member) {
+		return memberDao.selectMemberNick(sqlSession, member);
+	}
+	
+	@Override
 	public Member selectKakaoMember(String memKakaoId){
 		return memberDao.selectKakaoMember(sqlSession, memKakaoId);
 	}

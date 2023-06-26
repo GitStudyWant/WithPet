@@ -144,13 +144,24 @@ public class MemberController {
 
 		int loginMemo = memberService.selectReceiveMemoCountCheck(member.getMemId());
 
-		if(loginMember != null && (member.getMemPwd().equals(loginMember.getMemPwd())) /* && bcryptPasswordEncoder.matches(member.getMemPwd(), loginMember.getMemPwd())*/) {
-			session.setAttribute("loginMember", loginMember);
-			session.setAttribute("loginMemo", loginMemo);
-			mv.setViewName("redirect:/");
+		if(loginMember.getMemPwd().substring(0, 1).equals("$")) {
+			if(loginMember != null && bcryptPasswordEncoder.matches(member.getMemPwd(), loginMember.getMemPwd())) {
+				session.setAttribute("loginMember", loginMember);
+				session.setAttribute("loginMemo", loginMemo);
+				mv.setViewName("redirect:/");
+			} else {
+				mv.addObject("errorMsg", "로그인 실패");
+				mv.setViewName("common/main");
+			}
 		} else {
-			mv.addObject("errorMsg", "응 안돼~");
-			mv.setViewName("common/main");
+			if(loginMember != null && (member.getMemPwd().equals(loginMember.getMemPwd()))){
+				session.setAttribute("loginMember", loginMember);
+				session.setAttribute("loginMemo", loginMemo);
+				mv.setViewName("redirect:/");
+			} else {
+				mv.addObject("errorMsg", "로그인 실패");
+				mv.setViewName("common/main");
+			}
 		}
 		
 		return mv;
@@ -657,9 +668,9 @@ public class MemberController {
 	@RequestMapping("insertMemo")
 	public ModelAndView insertMemo(Memo memo, HttpSession session, ModelAndView mv){
 		Member member = new Member();
-		member.setMemId(memo.getMemoReceiver());
+		member.setMemNick(memo.getMemoReceiver());
 		
-		if(memberService.selectMember(member) != null) {
+		if(memberService.selectMemberNick(member) != null) {
 		
 			String memId = (String)((Member)session.getAttribute("loginMember")).getMemId();
 			int discountMemo = memberService.discountMemoCount(memId);

@@ -35,6 +35,8 @@ public interface MemberService {
 	
 	public Member selectMember(Member member);
 	
+	public Member selectMemberNick(Member member);
+	
 	public Member selectKakaoMember(String memKakaoId);
 	
 	public Member selectNaverMember(String memNaverId);
