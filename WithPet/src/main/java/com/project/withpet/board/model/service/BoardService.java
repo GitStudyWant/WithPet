@@ -37,19 +37,32 @@ public interface BoardService {
 	
 	
 	
-	
+	//qna 게시판
 	ArrayList<Board> selectQnList(PageInfo pi);
-	
-	ArrayList<Board> selectNoList(PageInfo pi);
-	
-	
-	
-	
 	
 	int selectQnListCount();
 	
+	int insertQnBoard(Board b);
+
+	int updateQnBoard(Board b);
+	
+	//나눔 게시판
+	ArrayList<Board> selectShList(PageInfo pi);
+	
+	int selectShListCount();
+	
+	int insertShBoard(Board b);
+	
+	int updateShBoard(Board b);
+	
+	// 공지사항
+	ArrayList<Board> selectNoList(PageInfo pi);
+
 	int selectNoListCount();
 	
+	int insertNoBoard(Board b);
+
+	int updateNoBoard(Board b);
 	
 	
 	
@@ -137,6 +150,12 @@ public interface BoardService {
 	Likes likeChk(Likes like);
 	// 좋아요 취소
 	void likeCancle(Likes like);
+
+	
+	
+
+
+	
 	
 	
 	

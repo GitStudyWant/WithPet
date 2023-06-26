@@ -90,6 +90,17 @@
     	color: white;
         background-color: rgb(73, 166, 112);
     }
+     #pagingArea {
+	 	
+	 	text-align: center;
+	 }
+	 
+	 .pagination {
+		 width:fit-content;
+		 margin:auto;
+		 display: inline-block;	
+		 padding-top: 50px;
+	}
 
     
 </style>
@@ -114,7 +125,9 @@
             </form>
             <br><br><br>
             <label for="" id="board-head">공지게시판</label>
-            <a class="btn btn-secondary" style="float:right; margin-right: 100px; width: 150px;" href="enrollForm.bo">글쓰기</a>
+            <c:if test="${not empty sessionScope.loginMember and sessionScope.loginMember.memId eq 'A'}">
+            <a class="btn btn-secondary" style="float:right; margin-right: 100px; width: 150px;" href="enrollForm.no">글쓰기</a>
+            </c:if>
             <br>
             <label for="" id="board-subtext">With pet의 새로운 소식!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
             <br><br>
@@ -123,28 +136,61 @@
                     <thead id="head">
                         <tr>
                             <th style="width: 10%;">글번호</th>
-                            <th style="width: 70%;">제목</th>
+                            <th style="width: 60%;">제목</th>
+                            <th style="width: 10%;">조회수</th>
                             <th style="width: 20%;">게시일자</th>
                         </tr>
                     </thead>
                     <tbody >
-                        <tr>
-                            <td>1</td>
-                            <td>첫 공지사항</td>
-                            <td>20XX.XX.XX</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>두번째 공지사항</td>
-                            <td>20XX.XX.XX</td>
-                        </tr>
+                        <c:forEach items="${ list }" var="b">
+                    		<tr align="center">
+                    			<td class="bno">${ b.boardNo }</td>
+                    			<td>${ b.boardTitle }</td>
+                    			<td>${ b.viewCount }</td>
+                    			<td>${ b.enrolldate }</td>
+                    		</tr>
+                    </c:forEach>
                     </tbody>
                 </table>
-			<br>
-			<a class="btn btn-secondary" style="margin: 0 auto;width: 150px; display: block;">더보기</a>
+			<br><div id="pagingArea">
+                <ul class="pagination">
+                	
+                	<c:choose>
+                		<c:when test="${ pi.currentPage eq 1 }">
+                		<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                		</c:when>
+                		<c:otherwise>
+                		<li class="page-item"><a class="page-link" href="list.no?cPage=${pi.currentPage-1 }">Previous</a></li>
+                		</c:otherwise>
+                	</c:choose>
+                	
+                    
+					
+					<c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
+						<li class="page-item"><a class="page-link" href="list.no?cPage=${p }">${p}</a></li>
+					</c:forEach>
+					
+                    <c:choose>
+                		<c:when test="${ pi.currentPage eq pi.maxPage }">
+                		<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+                		</c:when>
+                		<c:otherwise>
+                		<li class="page-item"><a class="page-link" href="list.no?cPage=${pi.currentPage+1 }">Next</a></li>
+                		</c:otherwise>
+                	</c:choose>
+                    
+                </ul>
+            </div>
             </div>
             
         </div>
     </div>
+    <script>
+				$(function() {
+					$('#notice-form > tbody > tr').click(function() {
+						location.href = 'detail.no?bno='+$(this).children('.bno').text();
+					})				
+				})
+			</script>
 </body>
 </html>

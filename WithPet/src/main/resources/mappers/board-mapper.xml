@@ -208,6 +208,7 @@
 		AND
 				BOARD_NO = #{boardNo}				
 	</select>
+	<!-- 리뷰게시판 끝 -->
 	
 	
 	
@@ -221,8 +222,7 @@
 	
 	
 	
-	
-	
+	<!-- qna게시판 시작 -->
 	<select id="selectQnListCount" resultType="_int">
 			SELECT
 					COUNT(*)
@@ -233,18 +233,6 @@
 			AND
 					BOARD_NUM = 3		
 	</select>
-	<select id="selectNoListCount" resultType="_int">
-			SELECT
-					COUNT(*)
-			FROM
-					BOARD
-			WHERE
-					STATUS = 'Y'
-			AND
-					BOARD_NUM = 6		
-	</select>
-	
-	
 	<select id="selectQnList" resultMap="boardResultSet">
 			SELECT
 					BOARD_NO
@@ -263,7 +251,59 @@
 				BY
 					BOARD_NO DESC
 	</select>
-	<select id="selectNoList" resultMap="boardResultSet">
+	<select id="insertQnBoard" parameterType="board">
+		INSERT
+			INTO
+					BOARD
+					(
+					BOARD_NO
+					,BOARD_TITLE
+					,BOARD_CONTENT
+					,BOARD_WRITER
+					,ORIGIN_NAME
+					,CHANGE_NAME
+					,BOARD_NUM
+					)
+			VALUES
+					(
+					SEQ_BNO.NEXTVAL
+					,#{boardTitle}
+					,#{boardContent}
+					,#{boardWriter}
+					,#{originName}
+					,#{changeName}
+					,3
+					)		
+	</select>
+	
+	<update id="updateQnBoard">
+				UPDATE
+						BOARD
+				SET
+						BOARD_TITLE = #{boardTitle}
+						,BOARD_CONTENT = #{boardContent}
+						,ORIGIN_NAME = #{originName}
+						,CHANGE_NAME = #{changeName}
+				WHERE
+						BOARD_NO = #{boardNo}
+				AND
+						BOARD_NUM =3		
+	</update>
+	<!-- qna게시판 끝 -->
+	
+	
+	<!-- 나눔게시판 시작 -->
+	<select id="selectShListCount" resultType="_int">
+			SELECT
+					COUNT(*)
+			FROM
+					BOARD
+			WHERE
+					STATUS = 'Y'
+			AND
+					BOARD_NUM = 4	
+	</select>
+	<select id="selectShList" resultMap="boardResultSet">
 			SELECT
 					BOARD_NO
 					,BOARD_TITLE
@@ -276,11 +316,132 @@
 			WHERE						
 					STATUS = 'Y'
 			AND
+					BOARD_NUM = 4	
+			ORDER
+				BY
+					BOARD_NO DESC
+	</select>
+	<select id="insertShBoard" parameterType="board">
+		INSERT
+			INTO
+					BOARD
+					(
+					BOARD_NO
+					,BOARD_TITLE
+					,BOARD_CONTENT
+					,BOARD_WRITER
+					,ORIGIN_NAME
+					,CHANGE_NAME
+					,BOARD_NUM
+					)
+			VALUES
+					(
+					SEQ_BNO.NEXTVAL
+					,#{boardTitle}
+					,#{boardContent}
+					,#{boardWriter}
+					,#{originName}
+					,#{changeName}
+					,4
+					)		
+	</select>
+	
+	<update id="updateShBoard">
+				UPDATE
+						BOARD
+				SET
+						BOARD_TITLE = #{boardTitle}
+						,BOARD_CONTENT = #{boardContent}
+						,ORIGIN_NAME = #{originName}
+						,CHANGE_NAME = #{changeName}
+				WHERE
+						BOARD_NO = #{boardNo}
+				AND
+						BOARD_NUM =4		
+	</update>
+	<!-- 나눔게시판 끝 -->
+	
+	
+	
+	
+	<!-- 공지사항 시작 -->
+	<select id="selectNoListCount" resultType="_int">
+			SELECT
+					COUNT(*)
+			FROM
+					BOARD
+			WHERE
+					STATUS = 'Y'
+			AND
+					BOARD_NUM = 6		
+	</select>
+	<select id="selectNoList" resultMap="boardResultSet">
+			SELECT
+					BOARD_NO
+					,BOARD_TITLE
+					,VIEW_COUNT
+					,TO_CHAR(ENROLLDATE, 'YYYY-MM-DD') AS "ENROLLDATE"
+			FROM 
+					BOARD
+			WHERE						
+					STATUS = 'Y'
+			AND
 					BOARD_NUM = 6	
 			ORDER
 				BY
 					BOARD_NO DESC
 	</select>
+	<select id="insertNoBoard" parameterType="board">
+		INSERT
+			INTO
+					BOARD
+					(
+					BOARD_NO
+					,BOARD_TITLE
+					,BOARD_CONTENT
+					,BOARD_WRITER
+					,ORIGIN_NAME
+					,CHANGE_NAME
+					,BOARD_NUM
+					)
+			VALUES
+					(
+					SEQ_BNO.NEXTVAL
+					,#{boardTitle}
+					,#{boardContent}
+					,#{boardWriter}
+					,#{originName}
+					,#{changeName}
+					,6
+					)		
+	</select>
+	
+	<update id="updateNoBoard">
+				UPDATE
+						BOARD
+				SET
+						BOARD_TITLE = #{boardTitle}
+						,BOARD_CONTENT = #{boardContent}
+						,ORIGIN_NAME = #{originName}
+						,CHANGE_NAME = #{changeName}
+				WHERE
+						BOARD_NO = #{boardNo}
+				AND
+						BOARD_NUM =6		
+	</update>
+	<!-- 공지사항 끝 -->
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

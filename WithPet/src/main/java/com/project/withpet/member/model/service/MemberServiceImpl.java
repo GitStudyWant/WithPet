@@ -66,6 +66,11 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
+	public Member selectMemberNick(Member member) {
+		return memberDao.selectMemberNick(sqlSession, member);
+	}
+	
+	@Override
 	public Member selectKakaoMember(String memKakaoId){
 		return memberDao.selectKakaoMember(sqlSession, memKakaoId);
 	}
@@ -86,6 +91,11 @@ public class MemberServiceImpl implements MemberService {
 		return memberDao.selectSchedules(sqlSession, schedule);
 	}
 
+	@Override
+	public ArrayList<Member> findDiaryFriends(String memId) {
+		return memberDao.findDiaryFriends(sqlSession, memId);
+	}
+	
 	@Override
 	public int insertSchedule(Schedule schedule) {
 		return memberDao.insertSchedule(sqlSession, schedule);

@@ -10,7 +10,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.project.withpet.member.model.service.MemberService;
 
-public class WebSocketBasicServer extends TextWebSocketHandler{
+public class WebSocketMemoServer extends TextWebSocketHandler{
 	
 	@Autowired
 	private MemberService memberService;

@@ -109,7 +109,7 @@
 		<div id="modifymain">
 			<form action="updateMember" method="Post" enctype="multipart/form-data">
 			  <div>
-			  	<p style="font-size:15px; text-align:center; margin:0px">정보수정</p>
+			  	<p style="font-size:25px; text-align:center; margin:0px">정보수정</p>
 			  </div>
 			  <div id="modifyDiv">
 		    		<table style="width:65%">
