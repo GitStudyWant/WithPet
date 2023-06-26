@@ -89,7 +89,7 @@
         #header_7>a:hover {cursor:pointer;}
         #header_2_detail a{text-decoration:none; color:black;}
         
-         #liveToast{
+        #liveToast{
         	border: 1px solid black;
    			margin-top: 45px;
    			margin-right : 20px;
@@ -106,6 +106,41 @@
 		    text-align: center;
 		    color: black;
         }
+        
+        #memoBellMain{
+        	display:none;
+        }
+        
+        #position-relative{
+        	background-color:transparent;
+        	border:none;
+        	padding:revert;
+        	margin-right:10px;
+        	margin-top:3px
+        }
+        
+        #position-relative2{
+        	padding-bottom:12px
+        }
+        
+        .bi-bell-fill{
+        	vertical-align:baseline;
+        }
+        
+        #memoBell{
+        	font-size:10px;
+        	width:30px;
+        	height:18px;
+        }
+        
+        .btn-closeToast{
+        	display:none;
+        }
+        
+        #liveToastBtn{
+        	display:none;
+        }
+        
     </style>
 
 </head>
@@ -151,22 +186,22 @@
         	<c:otherwise>
         		<c:choose>
         			<c:when test="${ loginMemo == 0 }">
-	        		<a href="receiveMemo" id="memoBellMain" style="display:none;">
-					<button type="button" class="btn btn-primary position-relative" style="background-color:transparent; border:none; padding:revert; margin-right:10px; margin-top:3px">
-						 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bell-fill" viewBox="0 0 16 16" style="vertical-align:baseline;">
-						 <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zm.995-14.901a1 1 0 1 0-1.99 0A5.002 5.002 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901z" class="position-relative" style="padding-bottom:12px"/>
+	        		<a href="receiveMemo" id="memoBellMain">
+					<button type="button" class="btn btn-primary position-relative" id="position-relative"">
+						 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bell-fill" viewBox="0 0 16 16">
+						 <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zm.995-14.901a1 1 0 1 0-1.99 0A5.002 5.002 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901z" class="position-relative" id="position-relative2"/>
 						 </svg>
-						 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="memoBell" style="font-size:10px; width:30px; height:18px;">0</span>
+						 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="memoBell">0</span>
 					</button>
 					 </a>
 					</c:when>
 					<c:otherwise>
 					<a href="receiveMemo" id="memoBellMain">
-					<button type="button" class="btn btn-primary position-relative" style="background-color:transparent; border:none; padding:revert; margin-right:10px; margin-top:3px">
-						 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bell-fill" viewBox="0 0 16 16" style="vertical-align:baseline;">
-						 <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zm.995-14.901a1 1 0 1 0-1.99 0A5.002 5.002 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901z" class="position-relative" style="padding-bottom:12px"/>
+					<button type="button" class="btn btn-primary position-relative" id="position-relative">
+						 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bell-fill" viewBox="0 0 16 16">
+						 <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zm.995-14.901a1 1 0 1 0-1.99 0A5.002 5.002 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901z" class="position-relative" id="position-relative2"/>
 						 </svg>
-						 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="memoBell" style="font-size:10px; width:30px; height:18px;">${ loginMemo }</span>
+						 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="memoBell">${ loginMemo }</span>
 					</button>
 					 </a>
 					</c:otherwise>
@@ -183,13 +218,13 @@
         	</c:otherwise>        	
         </c:choose>
         
-        <button type="button" class="btn btn-primary" id="liveToastBtn" style="display:none"></button>
+        <button type="button" class="btn btn-primary" id="liveToastBtn"></button>
         
 		<div class="toast-container position-fixed top-0 end-0 p-3">
 		  <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
 		    <div id="toast-header">
 		    	<p id="liveToastInner">새 메세지 수신</p>
-		    	<button type="button" class="btn-closeToast" data-bs-dismiss="toast" aria-label="Close" id="liveToastBtnClose" style="display:none"></button>
+		    	<button type="button" class="btn-closeToast" data-bs-dismiss="toast" aria-label="Close" id="liveToastBtnClose"></button>
 		    </div>
 		  </div>
 		</div>

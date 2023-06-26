@@ -98,6 +98,72 @@
         height : 90%;
         border-radius: 100px;
     }
+    
+    #updateTitle{
+    	font-size:25px;
+    	text-align:center;
+    	margin:0px;
+    }
+    
+    #updateTable{
+    	width:65%;
+    }
+
+	#profileTd{
+		width:20%;
+	}
+	
+	#updateTd{
+		width:30%;
+	}
+	
+	#updateTdDiv{
+		 align:center;
+	}
+	
+	#updateTdDivDiv{
+		width:100%;
+		height:100%
+	}
+	
+	#updateTd2{
+		width:50%;
+		text-align:right;
+	}
+	
+	#updateTd2Input1{
+		width:60px;
+		height:30px;
+		font-size:14px;
+		margin:0px;
+		padding:0px;
+	}
+	
+	#profileImgFile{
+		display:none;
+	}
+	
+	.UnickCheckP{
+		font-size:3px;
+		margin:auto;
+	}
+	
+	#updateImpossibleP{
+		color:skyblue
+	}
+	
+	#resetFormButton, #updateFormButton{
+		width:40px;
+		height:30px;
+		font-size:14px;
+		margin:0px;
+		padding:0px;
+	}
+	
+	#updateButtons{
+		text-align:right;
+		margin-right:20px
+	}
 
 </style>
 </head>
@@ -109,14 +175,14 @@
 		<div id="modifymain">
 			<form action="updateMember" method="Post" enctype="multipart/form-data">
 			  <div>
-			  	<p style="font-size:15px; text-align:center; margin:0px">정보수정</p>
+			  	<p id="updateTitle">정보수정</p>
 			  </div>
 			  <div id="modifyDiv">
-		    		<table style="width:65%">
+		    		<table id="updateTable">
 		    			<tr>
-		    				<td width="20%" id="profileTd"><p>PROFILE</p></td>
-		    				<td width="30%"><div align="center">
-		    				<div style="width:100%; height:100%">
+		    				<td id="profileTd"><p>PROFILE</p></td>
+		    				<td id="updateTd"><div id="updateTdDIv">
+		    				<div id="updateTdDivDiv">
 			    				<c:choose>
 				    				<c:when test="${loginMember.memPath != null}">
 				    				<img id="profileImg" src="${loginMember.memPath}" alt="프로필사진">
@@ -127,15 +193,15 @@
 			    				</c:choose>
 		    				</div>
 		    				</div></td>
-		    				<td width="50%" style="text-align:right">
-		    				<input class="btn btn-primary" type="button" style="width:60px; height:30px; font-size:14px; margin:0px; padding:0px" onclick="profileImgButton()" value="사진등록">
-		    				<input type="file" style="display:none" id="profileImgFile" onchange="loadProfileImg(this)" name="profileImgData">
+		    				<td id="updateTd2">
+		    				<input class="btn btn-primary" id="updateTd2Input1" type="button" onclick="profileImgButton()" value="사진등록">
+		    				<input id="profileImgFile" type="file" onchange="loadProfileImg(this)" name="profileImgData">
 		    				<input type="hidden" name="memPhoto" value="${loginMember.memPhoto}" />
                             <input type="hidden" name="memPath" value="${loginMember.memPath}" />
 		    				</td>
 		    			</tr>
 		    			<tr>
-		    				<td><p>ID </p><p style="color:skyblue">수정불가</p></td>
+		    				<td><p>ID </p><p id="updateImpossibleP">수정불가</p></td>
 		    				<td colspan="2"><input type="text" name="memId" id="UmemId" value="${loginMember.memId}" readonly></td>
 		    			</tr>
 		    			<tr>
@@ -143,14 +209,14 @@
 		    				<td colspan="2"><input type="text" name="memNick" id="UmemNick" value="${loginMember.memNick}"></td>
 		    			</tr>
 		    			<tr id="UnickCheck">
-		          			<td colspan="3" class="checkTd"><p style="font-size:3px; margin:auto"></p></td>
+		          			<td colspan="3" class="checkTd"><p class="UnickCheckP"></p></td>
 		          		<tr>
 		    			<tr>
 		    				<td><p>NEW PASSWORD</p></td>
 		    				<td colspan="2"><input type="password" name="memPwd" id="UmemPwd" placeholder="새 비밀번호"></td>
 		    			</tr>
 		    			<tr class="UpwdCheck">
-		          			<td colspan="3" class="checkTd"><p style="font-size:3px; margin:auto"></p></td>
+		          			<td colspan="3" class="checkTd"><p class="UnickCheckP"></p></td>
 		          		<tr>
 		    			<tr>
 		    				<td><p>NEW PASSWORD CHECK</p></td>
@@ -161,14 +227,14 @@
 		    				<td colspan="2"><input type="text" name="memPhone" id="UmemPhone" maxlength="11" value="${loginMember.memPhone}"></td>
 		    			</tr>
 		    			<tr id="UphoneCheck">
-		          			<td colspan="3" class="checkTd"><p style="font-size:3px; margin:auto"></p></td>
+		          			<td colspan="3" class="checkTd"><p class="UnickCheckP"></p></td>
 		          		<tr>
 		    			<tr>
 		    				<td><p>EMAIL</p></td>
 		    				<td colspan="2"><input type="text" name="memEmail" id="UmemEmail" value="${loginMember.memEmail}"></td>
 		    			</tr>
 		    			<tr id="UemailCheck">
-		          			<td colspan="3" class="checkTd"><p style="font-size:3px; margin:auto"></p></td>
+		          			<td colspan="3" class="checkTd"><p class="UnickCheckP"></p></td>
 		          		<tr>
 		    			<tr>
 		    				<td><p>INTRO</p></td>
@@ -176,9 +242,9 @@
 		    			</tr>
 		    		</table>
 		    		<br><br>
-		    		<div style="text-align:right; margin-right:20px">
-		    		<button class="btn btn-danger" type="reset" style="width:40px; height:30px; font-size:14px; margin:0px; padding:0px">취소</button>
-		    		<button class="btn btn-primary" type="submit" style="width:40px; height:30px; font-size:14px; margin:0px; padding:0px" id="updateFormButton">수정</button>
+		    		<div id="updateButtons">
+		    		<button class="btn btn-danger" id="resetFormButton" type="reset">취소</button>
+		    		<button class="btn btn-primary" id="updateFormButton" type="submit">수정</button>
 		    		</div>
 		    	</div>
 		    </form>

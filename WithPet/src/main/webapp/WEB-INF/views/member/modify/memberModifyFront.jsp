@@ -49,34 +49,56 @@
 		margin-left:60px;
 	}
 	
-	#modifyfrontdiv{
+	#modifyFrontDiv{
 		height:500px;
 		text-align:center;
 	}
 	
-	#modifyfrontdiv table{
+	#modifyFrontDiv table{
 		width : 300px;
 		margin:auto;
 		margin-top:120px;
 	}
 	
-	#modifyfrontdiv td{
+	#modifyFrontDiv td{
 		height: 40px;
 		border : 1px solid black;
 	}
 	
-	#modifyfrontdiv p{
+	#modifyFrontDiv p{
 		margin: 0px;
 		width : 100%;
 		font-size : 15px;
 	}
 	
-	#modifyfrontdiv input{
+	#modifyFrontDiv input{
 		box-sizing: border-box;
 		width : 100%;
 		height: 100%;
 	}
+	
+	#updateTitle{
+		font-size:25px;
+		text-align:center;
+		margin:0px
+	}
+	
+	#modifyFrontDivTd{
+		background-color:aliceblue
+	}
+	
+	#modifyFrontDivTd2{
+		padding:0px;
+	}
 
+	#modifyFrontDivInput{
+		width:100%;
+	}
+	
+	#modifyFrontDivButton{
+	  	height:35px
+	}
+	
 </style>
 </head>
 <body>
@@ -87,17 +109,17 @@
 		<div id="modifyfrontmain">
 			<form action="memberPwdCompare" method="Post">
 			  <div>
-			  	<p style="font-size:25px; text-align:center; margin:0px">정보수정</p>
+			  	<p id="updateTitle">정보수정</p>
 			  	<input type="hidden" name="memId" value="${loginMember.memId}">
 			  </div>
-			  <div id="modifyfrontdiv">
+			  <div id="modifyFrontDiv">
 		    		<table>
 		    			<tr>
-		    				<td colspan="2" witdh="260" style="background-color:aliceblue"><p>비밀번호를 입력해주세요</p></td>
+		    				<td id="modifyFrontDivTd" colspan="2" witdh="260"><p>비밀번호를 입력해주세요</p></td>
 		    			</tr>
 		    			<tr>
-		    				<td width="160" style="padding:0px;"><input type="password" name="memPwd" style="width:100%"></td>
-		    				<td width="60"><button class="btn btn-primary" style="height:35px">Submit</button></td>
+		    				<td width="160" id="modifyFrontDivTd2"><input id="modifyFrontDivInput" type="password" name="memPwd"></td>
+		    				<td width="60"><button class="btn btn-primary" id="modifyFrontDivButton">Submit</button></td>
 		    			</tr>
 		    		</table>
 		    	</div>

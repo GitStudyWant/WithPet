@@ -81,7 +81,62 @@
 		margin : auto;
 	}
 	
-	@media (max-width: 930px) { #deleteButton { font-size: 12px; }
+	#memolisthead1{ width : 5% }
+	#memolisthead2{ width : 10% }
+	#memolisthead3{ width : 35% }
+	#memolisthead4{ width : 25% }
+	#memolisthead5{ width : 25% }
+	
+	#deleteAllMemo{
+		width:8%;
+		height:30px;
+		display:flex;
+		align-items:center;
+		justify-content: center;
+	}
+	
+	#pagingArea{
+		text-align: center;
+	}
+	
+	#pagination{
+		display: flex;
+		justify-content: center;
+	}
+	
+	#modal-header{
+		height:15px;
+		background-color:lightgray
+	}
+	
+	#modal-title{
+		font-size:15px;
+		text-align:center;
+		margin-top:15px;
+		margin-bottom:30px
+	}
+	
+	#memoCheckModalTable{
+		width:70%;
+		margin:auto;
+		font-size:14px;
+	}
+	
+	.memoDetailIssue{
+		width:100%;
+	}
+	
+	#memoDetailContent{
+		width:100%;
+		height:90px;
+		resize:none;
+	}
+	
+	#memoDetailDiv{
+		margin:auto
+	}
+	
+	@media (max-width: 930px) { #deleteAllMemo { font-size: 12px; }
 
 </style>
 </head>
@@ -108,14 +163,14 @@
 		    
 		    <table id="memolist" >
 		    	<tr>
-		    		<th class="memolisthead" width="5%">
+		    		<th class="memolisthead" id="memolisthead1">
 		    		<input id="sendMemoCheckMain" type="checkbox">
 		    		<input type="hidden" id="memoModalButton" data-bs-toggle="modal" data-bs-target="#memoModal">
 		    		</th>
-		    		<th class="memolisthead" width="10%">받은사람</th>
-		    		<th class="memolisthead" width="35%">제목</th>
-		    		<th class="memolisthead" width="25%">발송시간</th>
-		    		<th class="memolisthead" width="25%">수신확인</th>
+		    		<th class="memolisthead" id="memolisthead2">받은사람</th>
+		    		<th class="memolisthead" id="memolisthead3">제목</th>
+		    		<th class="memolisthead" id="memolisthead4">발송시간</th>
+		    		<th class="memolisthead" id="memolisthead5">수신확인</th>
 		    	</tr>
 		    	<c:choose>
 		    	<c:when test="${empty list}">
@@ -165,13 +220,13 @@
 		    <table id="memoetc">
 		    	<tr>
 		    		<td colspan="3">
-		    		<button class="btn btn-danger" onclick="deleteSendMemos()"  style="width:8%; height:30px; display:flex; align-items: center; justify-content: center;" id="deleteButton">삭제</button>
+		    			<button class="btn btn-danger" id="deleteAllMemo" onclick="deleteSendMemos()">삭제</button>
 		    		</td>
 		    	</tr>
 		    	<tr>
 		    		<td colspan="3" width="100%">
-		    			<div id="pagingArea" style="text-align: center;">
-				                <ul class="pagination" style="display: flex; justify-content: center;">
+		    			<div id="pagingArea">
+				                <ul class="pagination" id="pagination">
 				                
 				                	<c:choose>
 				                		<c:when test="${ pi.currentPage eq 1 }">
@@ -283,7 +338,9 @@
 				success : function(result){
 					location.href="http://localhost:8787/withpet/sendMemo";
 				},
-				error : function(error){}
+				error : function(error){
+					console.log(error)
+				}
 			})	
 		}
 		
@@ -295,37 +352,37 @@
  	   <div class="modal-dialog modal-dialog-centered">
 	      <div class="modal-content">
 	      
-	        <div class="modal-header" style="height:15px; background-color:lightgray">
+	        <div class="modal-header" id="modal-header">
 	          <h5 class="modal-title"></h5>
 	          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 	        </div>
 	        
 	        <div class="modal-body">
 	        
-	          <p class="modal-title" style="font-size:15px; text-align:center; margin-top:15px; margin-bottom:30px">쪽지 확인</p>
+	          <p class="modal-title" id="modal-title">쪽지 확인</p>
 	          
 	          <input type="hidden" id="memoDetailNo" name="memoDetailNo">
 	          
-	          <table style="width:70%; margin:auto; font-size:14px;">
+	          <table id="memoCheckModalTable">
 	          	<tr>
 	          		<td>받은사람</td>
-	          		<td><input id="memoDetailReceiver" style="width:100%;" disabled></td>
+	          		<td><input id="memoDetailReceiver" class="memoDetailIssue" disabled></td>
 	          	</tr>
 	          	<tr>
 	          		<td>보낸시간</td>
-	          		<td><input id="memoDetailSendDate" style="width:100%;" disabled></td>
+	          		<td><input id="memoDetailSendDate" class="memoDetailIssue" disabled></td>
 	          	</tr>
 	          	<tr>
 	          		<td>제목</td>
-	          		<td><input id="memoDetailTitle" style="width:100%;" disabled></td>
+	          		<td><input id="memoDetailTitle" class="memoDetailIssue" disabled></td>
 	          	</tr>
 	          	<tr>
 	          		<td>내용</td>
-	          		<td><textarea id="memoDetailContent" style="width:100%; height:90px;; resize:none;" disabled></textarea></td>
+	          		<td><textarea id="memoDetailContent" disabled></textarea></td>
 	          	</tr>
 	          	<tr>
 	          		<td>확인시간</td>
-	          		<td><input id="memoDetailCheckDate" style="width:100%;" disabled></td>
+	          		<td><input id="memoDetailCheckDate" class="memoDetailIssue" disabled></td>
 	          	</tr>
 	          
 	          
@@ -334,7 +391,7 @@
 	        </div>
 	        
 	        <div class="modal-footer">
-	        <div style="margin:auto">
+	        <div id="memoDetailDiv">
 	          <button type="button" class="btn btn-secondary" onclick="rollbackSendMemoOne()" id="rollbackButton">회수</button>
 	          <button type="button" class="btn btn-danger" onclick="deleteSendMemoOne()">삭제</button>
 	        </div>

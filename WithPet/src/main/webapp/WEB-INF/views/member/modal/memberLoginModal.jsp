@@ -9,7 +9,42 @@
 	<style>
 	 	#kakaoLoginButton:hover {cursor:pointer}
 	 	#naverLoginButton:hover {cursor:pointer}
+	 	
+	 	#user-modal-header{
+	 		height:15px;
+	 		background-color:lightgray;
+	 	}
+	 	
+	 	#user-modal-title{
+	 		font-size:15px;
+	 		text-align:center;
+	 		margin-top:15px;
+	 		margin-bottom:30px
+	 	}
+	 	
+	 	#userModalTitleTable{
+	 		text-align:center;
+	 		margin:auto;
+	 	}
+	 	
+	 	.userModalBodyP{
+	 		font-size:10px;
+	 		color:gray;
+	 		margin-top:12px;
+	 	}
+	 	
+	 	.userModalBodyInput{
+	 		width:100%;
+	 		border:solid 1px lightgray;
+	 	}
+	 	
+	 	#userModalLoginButton{
+	 		width:80%;
+	 		margin:35px 50px
+	 	}
+	 	
 	</style>
+	
 </head>
 <body>
 	<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.1.0/kakao.min.js" integrity="sha384-dpu02ieKC6NUeKFoGMOKz6102CLEWi9+5RQjWSV0ikYSFFd8M3Wp2reIcquJOemx" crossorigin="anonymous"></script>
@@ -21,30 +56,29 @@
  	   <div class="modal-dialog modal-dialog-centered">
 	      <div class="modal-content">
 	      
-	        <div class="modal-header" style="height:15px; background-color:lightgray">
-	          <h5 class="modal-title"></h5>
+	        <div class="modal-header" id="user-modal-header">
 	          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 	        </div>
 	        
 	        <div class="modal-body">
 	        
-	          <p class="modal-title" style="font-size:15px; text-align:center; margin-top:15px; margin-bottom:30px">회원 로그인</p>
+	          <p class="modal-title" id="user-modal-title">회원 로그인</p>
 	          <form action="login.me" method="POST">
-	          	<table width="80%" style="text-align:center; margin:auto">
+	          	<table width="80%" id="userModalTitleTable">
 		          	<tr>
-		          		<td width="30"><p style="font-size:10px; color:gray; margin-top:12px">ID</p></td>
-		          		<td width="80"><input type="text" name="memId" style="width:100%; border:solid 1px lightgray"></td>
+		          		<td width="30"><p class="userModalBodyP">ID</p></td>
+		          		<td width="80"><input class="userModalBodyInput" type="text" name="memId"></td>
 		          	<tr>
 		          	<tr>
-			          	<td><p style="font-size:10px; color:gray; margin-top:12px">Password</p></td>
-			          	<td><input type="password" name="memPwd" style="width:100%; border:solid 1px lightgray"></td>
+			          	<td><p class="userModalBodyP">Password</p></td>
+			          	<td><input class="userModalBodyInput" type="password" name="memPwd"></td>
 		          	</tr>
 	          	</table>
-	          	<button type="submit" class="btn btn-primary" style="width:80%; margin:35px 50px">로그인</button>
+	          	<button type="submit" class="btn btn-primary" id="userModalLoginButton">로그인</button>
 	       		</form>
 	       		
 	          	<img src="https://i.postimg.cc/B6cfdvKx/kakao-Login-Button.png" id="kakaoLoginButton" onclick="kakaoLogin()" style="display:block; margin:auto; height:40%; width:50%;">
-	          	<div style="height:10px"></div>
+	          	<div id="socialGap" style="height:10px"></div>
 				<img src="https://i.postimg.cc/VLNPVmLC/naver-Login-Button.png" id="naverLoginButton" onclick="naverLogin()" style="display:block; margin:auto; height:40%; width:50%;">
 				
 	        </div>
@@ -66,7 +100,6 @@
 	      <div class="modal-content">
 	      
 	        <div class="modal-header" style="height:15px; background-color:lightgray">
-	          <h5 class="modal-title"></h5>
 	          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 	        </div>
 	        
@@ -150,8 +183,10 @@
 	  		if('${sessionScope.kakaoId}' != ""){
 	  			$.ajax({
  		 	    	url : "kakaoLogin.me",
- 		 	    	type : 'POST',
- 		 	    	data : {kakaoId : '${sessionScope.kakaoId}'},
+ 		 	    	type : 'get',
+ 		 	    	data : {
+ 		 	    		kakaoId : '${sessionScope.kakaoId}'
+ 		 	    	},
  		 	    	success : function(result){
  		 	    		if(result == "1"){
  		 	    			location.href = "http://localhost:8787/withpet";
@@ -165,7 +200,7 @@
 	  		if('${sessionScope.naverId}' != ""){
 	  			$.ajax({
  		 	    	url : "naverLogin.me",
- 		 	    	type : 'POST',
+ 		 	    	type : 'get',
  		 	    	data : {naverId : '${sessionScope.naverId}'},
  		 	    	success : function(result){
  		 	    		if(result == "1"){
@@ -186,8 +221,7 @@
 	    function kakaoLogin(){	    	
 	    	$.ajax({
 	 	    	url : "kakaoGetCodeUrl",
-	 	    	type : 'GET',
-	 	    	data : {},
+	 	    	type : 'get',
 	 	    	success : function(result){
 	 	    		location.href = result;
 	 	    	}
@@ -197,8 +231,7 @@
 	 	function naverLogin(){	    	
 	    	$.ajax({
 	 	    	url : "naverGetCodeUrl",
-	 	    	type : 'GET',
-	 	    	data : {},
+	 	    	type : 'get',
 	 	    	success : function(result){
 	 	    		location.href = result;
 	 	    	}
