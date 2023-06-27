@@ -13,9 +13,10 @@
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <!-- include summernote css/js-->
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
-<script src="/resources/js/summernote-ko-KR.js"></script>
+<script src="${pageContext.request.contextPath}/resources/summernote/summernote-lite.js"></script>
+<script src="${pageContext.request.contextPath}/resources/summernote/lang/summernote-ko-KR.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/summernote/summernote-lite.css">
+
 
 	
 <style>
@@ -128,14 +129,12 @@
 </head>
 <body>
 
-			<!--  비로그인으로 접근시 이전 페이지로
 	        <c:if test="${ empty sessionScope.loginMember }">
             <script>
             	window.alert('비정상적인 접근입니다. 로그인을 해주세요');
                 history.back();
             </script>
             </c:if>
-            -->
 	
 	<div id="body">
         <div id="wrap">
@@ -158,6 +157,7 @@
 					<input type="file" id="upfile" class="form-control-file border" name="upfile" style="border:solid 1px lightgray;display: inline-block;">
 					<textarea id="summernote" name="boardContent">
 					</textarea>
+					<div id="BoardLength"></div>
 
 					<div align="center">
 						<br>
@@ -203,53 +203,84 @@
     
     <script>	
 			    $(document).ready(function() {
-			        $('#summernote').summernote({
-			          placeholder: '게시글을 입력해주세요',
-			          minHeight: 370,
-			          maxHeight: 500,
-			          focus: true,
-			          lang: 'ko-KR'
-			        	  
-			          var setting = {
-			                  height : 300,
-			                  minHeight : null,
-			                  maxHeight : null,
-			                  focus : true,
-			                  lang : 'ko-KR',
-			                  toolbar : toolbar,
-			                  //콜백 함수
-			                  callbacks : { 
-			                  	onImageUpload : function(files, editor, welEditable) {
-			                  // 파일 업로드(다중업로드를 위해 반복문 사용)
-			                  for (var i = files.length - 1; i >= 0; i--) {
-			                  uploadSummernoteImageFile(files[i],
-			                  this);
-			                  		}
-			                  	}
-			                  }
-			               };
-			              $('#summernote').summernote(setting);
-			              });
-			              
-			              function uploadSummernoteImageFile(file, el) {
-			      			data = new FormData();
-			      			data.append("file", file);
-			      			$.ajax({
-			      				data : data,
-			      				type : "POST",
-			      				url : "uploadSummernoteImageFile",
-			      				contentType : false,
-			      				enctype : 'multipart/form-data',
-			      				processData : false,
-			      				success : function(data) {
-			      					$(el).summernote('editor.insertImage', data.url);
-			      				}
-			      			});
-			      		}
-			        });
-			        
-			        
-			      });
+			    	  var toolbar = [
+			    	    ['fontname', ['fontname']],
+			    	    ['fontsize', ['fontsize']],
+			    	    ['style', ['bold', 'italic', 'underline', 'strikethrough', 'clear']],
+			    	    ['color', ['forecolor', 'color']],
+			    	    ['table', ['table']],
+			    	    ['para', ['ul', 'ol', 'paragraph']],
+			    	    ['height', ['height']],
+			    	    ['insert', ['picture', 'link', 'video']],
+			    	    ['view', ['codeview', 'fullscreen', 'help']]
+			    	  ];
+			
+			    	  var setting = {
+			    	    height: 300,
+			    	    minHeight: 370,
+			    	    maxHeight: 500,
+			    	    focus: true,
+			    	    lang: 'ko-KR',
+			    	    toolbar: toolbar,
+			    	    callbacks: {
+			    	      onInit: function() {
+			    	        countCharacters();
+			    	      },
+			    	      onKeyup: function(e) {
+			    	        countCharacters();
+			    	      },
+			    	      onPaste: function(e) {
+			    	        setTimeout(function() {
+			    	          countCharacters();
+			    	        }, 0);
+			    	      },
+			    	      onImageUpload: function(files, editor, welEditable) {
+			    	        for (var i = files.length - 1; i >= 0; i--) {
+			    	          uploadSummernoteImageFile(files[i], this);
+			    	        }
+			    	      }
+			    	    }
+			    	  };
+			
+			    	  $('#summernote').summernote(setting);
+			
+			    	  function countCharacters() {
+			    	    var content = $('#summernote').summernote('code');
+			    	    var maxLength = 1300; // 최대 글자 수
+			
+			    	    var currentLength = stripHTMLTags(content).length;
+			
+			    	    if (currentLength > maxLength) {
+			    	      var truncatedContent = stripHTMLTags(content).substring(0, maxLength);
+			    	      $('#summernote').summernote('code', truncatedContent);
+			    	      currentLength = maxLength; // 글자 수 제한 후 현재 글자 수를 최대 글자 수로 설정
+			    	    }
+			
+			    	    $('#BoardLength').text(currentLength + '/' + maxLength);
+			    	  }
+			
+			    	  function stripHTMLTags(content) {
+			    	    var div = document.createElement("div");
+			    	    div.innerHTML = content;
+			    	    return div.textContent || div.innerText || "";
+			    	  }
+			    	});
+			   function uploadSummernoteImageFile(file, el) {
+					data = new FormData();
+					data.append("file", file);
+					$.ajax({
+						data : data,
+						type : "POST",
+						url : "uploadSummernoteImageFile",
+						contentType : false,
+						enctype : 'multipart/form-data',
+						processData : false,
+						success : function(data) {
+							$(el).summernote('editor.insertImage', data.url);
+						}
+					});
+				}
+			    
 			    
 			    function setTagNames() {
 			        var tagItems = $('.tag-list-board').children('.tag-item');

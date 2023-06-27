@@ -101,6 +101,12 @@
 		 display: inline-block;	
 		 padding-top: 50px;
 	}
+	#boardContent img {
+        display: none;
+    }
+    #boardContent iframe {
+        display: none;
+    }   
 
     
 </style>

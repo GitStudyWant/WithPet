@@ -84,6 +84,7 @@
     }      
 
     #userId{
+    	float:right;
         margin-top: 15px;
         display:inline-block;
         width: 10%; height: 40px;
@@ -150,7 +151,13 @@
         width: 100%;
         height: 100%;
         object-fit:fill;
-     }   
+     }
+     #boardContent img {
+        display: none;
+    }
+    #boardContent iframe {
+        display: none;
+    }      
 </style>
 </head>
 <body>
@@ -175,7 +182,7 @@
                     		<div class="board-element">
                     		<div class="clickZone">
                 <input type="hidden" name="bno" value="${ b.boardNo }" >
-                <span id="boardTitle" >${ b.boardTitle }</span><span id="userImg"  >작성자프로필</span><span id="userId">${ b.boardWriter }</span><span id="thumbnail" style="float: right;"> <img src="https://geojecci.korcham.net/images/no-image01.gif" alt=""></span>
+                <span id="boardTitle" >${ b.boardTitle }</span><span id="userImg"  ></span><span id="userId">작성자 : ${ b.boardWriter }</span>
                 <span id="boardContent">${ b.boardContent }</span>
                
                 <br>

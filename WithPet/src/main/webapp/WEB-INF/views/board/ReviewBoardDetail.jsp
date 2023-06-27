@@ -170,18 +170,21 @@
 				<hr>
 				</div>
 				<br>
-				<div style="float: right;"><span style="background-color: lightgray; color: white;">
+				<div style="float: right;">
 				<c:choose>
                     	<c:when test="${ empty b.originName }">
+						<span style="background-color: lightgray; color: white;">
                     			첨부파일이 존재하지 않습니다.
+                    			</span>
                     	</c:when>
+                    	
                     	<c:otherwise>
-                        	
+                        	<span style="background-color: rgb(73, 166, 112); color: white;">
                         	첨부파일 : <a href="${b.changeName}" download="${b.originName}">${b.originName}</a>
-                    
+                    		</span>
                     	</c:otherwise>
                     </c:choose>
-				</span></div>
+				</div>
 				<br>
 				<div id="starRating">
 				<c:choose>

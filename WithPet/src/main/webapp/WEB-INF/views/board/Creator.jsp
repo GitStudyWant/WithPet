@@ -84,6 +84,7 @@
     }      
 
     #userId{
+    	float:right;
         margin-top: 15px;
         display:inline-block;
         width: 10%; height: 40px;
@@ -170,7 +171,19 @@
             width: auto;
 			height: auto;
 			vertical-align:middle;
-     }   
+     }
+     #boardContent img {
+        display: none;
+    }
+    #boardContent iframe {
+        display: none;
+    }
+    #boardContent img {
+        display: none;
+    }
+    #boardContent iframe {
+        display: none;
+    }     
 </style>
 </head>
 <body>
@@ -202,7 +215,7 @@
                     		<div class="board-element">
                     		<div class="clickZone">
                 <input type="hidden" name="bno" value="${ b.boardNo }" >
-                <span id="boardTitle" >${ b.boardTitle }</span><span id="userImg"  >작성자프로필</span><span id="userId">${ b.boardWriter }</span><span id="thumbnail" style="float: right;"> <img src="https://geojecci.korcham.net/images/no-image01.gif" alt=""></span>
+                <span id="boardTitle" >${ b.boardTitle }</span><span id="userImg"  ></span><span id="userId">작성자 : ${ b.boardWriter }</span>
                 <span id="boardContent">${ b.boardContent }</span>
                
                 <br>
@@ -429,10 +442,8 @@
 				                            .append($("<div>").addClass("clickZone")
 				                                .append($("<input>").attr("type", "hidden").attr("name", "bno").val(item.boardNo))
 				                                .append($("<span>").attr("id", "boardTitle").text(item.boardTitle))
-				                                .append($("<span>").attr("id", "userImg").text("작성자프로필"))
-				                                .append($("<span>").attr("id", "userId").text(item.boardWriter))
-				                                .append($("<span>").attr("id", "thumbnail").css("float", "right").html("<img src='https://geojecci.korcham.net/images/no-image01.gif' alt=''>"))
-				                                .append($("<span>").attr("id", "boardContent").text(item.boardContent))
+				                                .append($("<span>").attr("id", "userId").text("작성자:"+item.boardWriter))
+				                                .append($("<span>").attr("id", "boardContent").html(item.boardContent))
 				                                .append($("<br>"))
 				                            )
 				                            .append($("<div>").attr("id", "tag-list_" + item.boardNo).addClass("new").css("height", "auto"))
@@ -441,6 +452,8 @@
 				                                .append($("<span>").attr("id", "createDate").text(formattedDate))
 				                            )
 				                        );
+				                    $(".board-list #boardContent img").css("display", "none");
+				                    $(".board-list #boardContent iframe").css("display", "none");
 
 				                    $(".board-list").append(listItem);
 
