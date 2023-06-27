@@ -39,24 +39,28 @@
 			<c:remove var="clear" scope="session"/>
 		</c:if>
     
-    	<script>
-    	
-    	
-    	console.log("000"+'${clear}');
-    	if(${ (!(empty loginMember))} && ${empty clear}){
-		    $(function(){		    	
-		    	socketConnect();
-		    	
-		    	setInterval(function(){
-		    		if(true){
-		    			socketReceive();
-		    		}
-		    		
-		    	}, 3000)
-		    })
-    	}
-    	</script>
-    	
+   	<script>
+   	if(${ (!(empty loginMember))} && ${empty clear}){
+	    $(function(){		    	
+	    	socketConnect();
+	    	
+	    	setInterval(function(){
+	    		if(true){
+	    			socketReceive();
+	    		}
+	    		
+	    	}, 3000)
+	    })
+   	};
+   	</script>
+   
+    <c:if test="${not empty clear}">
+		<script>
+		socket.close();
+		</script>
+		<c:remove var="clear" scope="session"/>
+	</c:if>
+
     <script>
     
     var socket;
