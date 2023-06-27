@@ -30,31 +30,37 @@
             <b class="btag-fontSize">회사소개 제휴제안 이용약관 개인정보처리방침 크리에이터 신청</b>
         </div>
     </div>
-    	<c:if test="${not empty clear}">
+    	<c:if test="${! empty clear}">
 						<script>
-						socket.close();
+							$(function(){
+								socket.close();	
+							})
 						</script>
 			<c:remove var="clear" scope="session"/>
 		</c:if>
     
-    	<script>
-    	
-    	
-    	console.log("000"+'${clear}');
-    	if(${ (!(empty loginMember))} && ${empty clear}){
-		    $(function(){		    	
-		    	socketConnect();
-		    	
-		    	setInterval(function(){
-		    		if(true){
-		    			socketReceive();
-		    		}
-		    		
-		    	}, 3000)
-		    })
-    	}
-    	</script>
-    	
+   	<script>
+   	if(${ (!(empty loginMember))} && ${empty clear}){
+	    $(function(){		    	
+	    	socketConnect();
+	    	
+	    	setInterval(function(){
+	    		if(true){
+	    			socketReceive();
+	    		}
+	    		
+	    	}, 3000)
+	    })
+   	};
+   	</script>
+   
+    <c:if test="${not empty clear}">
+		<script>
+		socket.close();
+		</script>
+		<c:remove var="clear" scope="session"/>
+	</c:if>
+
     <script>
     
     var socket;

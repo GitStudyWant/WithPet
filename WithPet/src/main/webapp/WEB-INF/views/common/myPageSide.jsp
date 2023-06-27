@@ -81,13 +81,15 @@
     }
 
     #memberimg{
-        width : 50%;
-        height : 50%;
+        width : 100px;
+        height : 100px;
         border-radius: 100px;
         margin-top: 60px;
     }
+    @media (max-width: 770px) { #memberimg { width : 40px; height : 40px;} }
     
     #pro b{ font-size:20px;}
+    
     @media (max-width: 770px) { #pro b { font-size: 12px; } }
 
     #memberoption{
