@@ -396,16 +396,17 @@
 		     ,VIEW_COUNT viewCount
 		     ,RATING rating
 		     ,BOARD_NUM boardNum
+		     ,STATUS status
 		 FROM
 		     BOARD
 		WHERE
+			 STATUS = 'Y'
+	     AND
 		     BOARD_TITLE LIKE '%'||#{searchKeyword}||'%'
 	      OR
 	         BOARD_CONTENT LIKE '%'||#{searchKeyword}||'%'
 	      OR 
 	         BOARD_WRITER LIKE '%'||#{searchKeyword}||'%'
-	     AND 
-	         STATUS = 'Y'
 	</select>
 	
 	<insert id="addSearchKeyword">
