@@ -197,6 +197,7 @@
             </div>
             <br><br>
             <div id="boardListContainer" class="board-list">
+            <div class="origin">
             <c:forEach items="${ list }" var="b" >
                     		<div class="board-element">
                     		<div class="clickZone">
@@ -213,9 +214,10 @@
                 <span id="comment"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chat-right" viewBox="0 0 16 16">
   <path d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z"/>
 </svg></span> <span class="commentCount" id="commentCount_${b.boardNo}"></span><span id="create">작성일자 : </span><span id="createDate">${ b.enrolldate }</XXXX-XX-XX></span>    
+					</div>
 				</div>
-            </div>
                     </c:forEach>
+            </div>
                     </div>
                     
             <div id="searchResult">
@@ -262,10 +264,8 @@
     </div>
     <script>		
 				    $("#all").click(function () {
-				    	  $(".delete").remove();
-				    	  $("#newPagingArea").empty();
-				    	  $(".board-element").show();
-				    	  $("#pagingArea").show();
+				    	 $(".origin .board-element").show(); 
+				    	    $(".board-list .delete").remove();
 				    	});
 				    $(function() {
 				        $('.clickZone').click(function() {
@@ -411,9 +411,11 @@
 				            method: "POST",
 				            data: { memNick: memNick },
 				            success: function(response) {
-				                console.log(response);
-				                var listContainer = $("#boardListContainer");
-				                listContainer.empty();
+				            	console.log(response);
+				                var listContainer = $(".board-list");
+
+				                $(".origin .board-element").hide();
+				                $(".board-list .delete").remove();
 
 				                response.forEach(function(item) {
 				                    var enrolldate = new Date(item.enrolldate);
@@ -422,22 +424,27 @@
 				                    var day = ('0' + enrolldate.getDate()).slice(-2);
 				                    var formattedDate = year + '-' + month + '-' + day;
 
-				                    var listItem = $("<div>").addClass("board-element")
-				                        .append($("<div>").addClass("clickZone")
-				                            .append($("<input>").attr("type", "hidden").attr("name", "bno").val(item.boardNo))
-				                            .append($("<span>").attr("id", "boardTitle").text(item.boardTitle))
-				                            .append($("<span>").attr("id", "userImg").text("작성자프로필"))
-				                            .append($("<span>").attr("id", "userId").text(item.boardWriter))
-				                            .append($("<span>").attr("id", "thumbnail").css("float", "right").html("<img src='https://geojecci.korcham.net/images/no-image01.gif' alt=''>"))
-				                            .append($("<span>").attr("id", "boardContent").text(item.boardContent))
-				                            .append($("<br>"))
-				                        )
-				                        .append($("<div>").attr("id", "tag-list_" + item.boardNo).css("height", "auto"))
-				                        .append($("<div>").css("margin-bottom", "5px").css("margin-top", "5px")
-				                            .append($("<span>").attr("id", "create").text("작성일자 : "))
-				                            .append($("<span>").attr("id", "createDate").text(formattedDate))
+				                    var listItem = $("<div>").addClass("delete")
+				                        .append($("<div>").addClass("board-element")
+				                            .append($("<div>").addClass("clickZone")
+				                                .append($("<input>").attr("type", "hidden").attr("name", "bno").val(item.boardNo))
+				                                .append($("<span>").attr("id", "boardTitle").text(item.boardTitle))
+				                                .append($("<span>").attr("id", "userImg").text("작성자프로필"))
+				                                .append($("<span>").attr("id", "userId").text(item.boardWriter))
+				                                .append($("<span>").attr("id", "thumbnail").css("float", "right").html("<img src='https://geojecci.korcham.net/images/no-image01.gif' alt=''>"))
+				                                .append($("<span>").attr("id", "boardContent").text(item.boardContent))
+				                                .append($("<br>"))
+				                            )
+				                            .append($("<div>").attr("id", "tag-list_" + item.boardNo).addClass("new").css("height", "auto"))
+				                            .append($("<div>").addClass("create-section").css("margin-bottom", "5px").css("margin-top", "5px")
+				                                .append($("<span>").attr("id", "create").text("작성일자 : "))
+				                                .append($("<span>").attr("id", "createDate").text(formattedDate))
+				                            )
 				                        );
 
+				                    $(".board-list").append(listItem);
+
+				                    // 태그 목록 조회 및 표시
 				                    $.ajax({
 				                        url: "select.tag",
 				                        method: "POST",
@@ -446,22 +453,24 @@
 				                            response.forEach(function(tagItem) {
 				                                var tag = tagItem.tagName;
 				                                var spanElement = $("<span>").attr("id", "tag").text(tag);
-				                                $("#tag-list_" + item.boardNo).append(spanElement);
+				                                $("#tag-list_" + item.boardNo + ".new").append(spanElement);
 				                            });
 				                        },
 				                        error: function() {
 				                            console.log("태그 목록 조회 실패!");
 				                        }
 				                    });
-
 				                    var clickZone = listContainer.find(".board-element:last .clickZone");
 				                    clickZone.click(function() {
 				                        var bno = $(this).find('input[name="bno"]').val();
 				                        location.href = "http://localhost:8787/withpet/detail.cr?bno=" + bno;
 				                    });
 
-				                    listContainer.append(listItem);
 				                });
+				                
+
+			                    
+
 				            },
 				            error: function() {
 				                console.log("검색 실패!");

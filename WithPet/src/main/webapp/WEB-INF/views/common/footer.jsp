@@ -40,7 +40,10 @@
 		</c:if>
     
     	<script>
-    	if(${ (not empty loginMember)} && ${empty clear}){
+    	
+    	
+    	console.log("000"+'${clear}');
+    	if(${ (!(empty loginMember))} && ${empty clear}){
 		    $(function(){		    	
 		    	socketConnect();
 		    	

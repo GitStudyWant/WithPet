@@ -190,20 +190,20 @@
 		 FROM 
 		      TRANSPORTATION 
 		WHERE 
-		      NOT TR_NO IN AND
+		      NOT TR_NO IN 
 		                       (SELECT 
 		 						       TR_NO
 		 						  FROM 
 		 						       TRANSPORTATION LEFT JOIN 
-		 			 			  	   TAXI_RESERVATION USING(TR_NO
+		 			 			  	   TAXI_RESERVATION USING(TR_NO)
 		 			  			 WHERE 
 		 			  				   TR_TYPE = 'T' AND 
-		 			  				   TR_Type2 = #{trType2} AND
+		 			  				   TR_TYPE2 = #{trType2} AND
 		 			  				   STATUS = 'Y' AND
                                        TAXI_RDATE = TO_DATE(#{taxiRDate},'DD/MM/YY') AND 
-		 			   	 			   TAXI_RTIME = #{taxiRTime})
+		 			   	 			   TAXI_RTIME = #{taxiRTime})AND
 		       TR_TYPE = 'T' AND 
-		       TR_TYPE2 = 'S'
+		       TR_TYPE2 = #{trType2}
 	</select>
 	
 	<insert id="taxiReservation" parameterType="taxiReservation">
@@ -250,23 +250,24 @@
 	
 	<select id="findCarNo" resultType="_int">
 		SELECT 
-		      NVL(MIN(TR_NO),0)TR_NO 
-		  FROM 
-		      TRANSPORTATION 
-		 WHERE 
-		      NOT TR_NO IN AND                    
-			 				(SELECT 
-			 				       TR_NO 
-			 				   FROM                        
-								   TRANSPORTATION LEFT JOIN 
-					 			   CAR_RESERVATION USING(TR_NO)) 
-					 		  WHERE 
-					 		       TR_TYPE='C' AND 
-					 			   TR_TYPE2 = #{trType22} AND
-					 			   STATUS = 'Y' AND
-					 			   END_DATE >= TO_DATE(#{startDate},'DD/MM/YY'))  
-			   TR_TYPE='C' AND 
-			   TR_TYPE2 = #{trType22}
+			      NVL(MIN(TR_NO),0)TR_NO 
+			  FROM 
+			      TRANSPORTATION 
+			 WHERE 
+			      NOT TR_NO IN                     
+				 				(SELECT 
+				 				       TR_NO 
+				 				   FROM                        
+									   TRANSPORTATION LEFT JOIN 
+						 			   CAR_RESERVATION USING(TR_NO)
+						 		  WHERE 
+						 		       TR_TYPE='C' AND 
+						 			   TR_TYPE2 = #{trType22} AND
+						 			   STATUS = 'Y' AND
+						 			   END_DATE >= TO_DATE(#{startDate},'DD/MM/YY'))
+						 			   AND  
+				   TR_TYPE='C' AND 
+				   TR_TYPE2 = #{trType22}    
 	</select>
 	
 	<select id="checkFee" resultType="_int">
