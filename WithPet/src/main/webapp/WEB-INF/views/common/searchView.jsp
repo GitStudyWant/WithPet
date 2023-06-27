@@ -88,7 +88,7 @@
 		         		<tbody>
 		         				<c:forEach var="i" items="${ searchList }">
 		         				<c:choose>
-		         				<c:when test="${ i.boardNum eq '1' }">
+		         				<c:when test="${ i.boardNum eq '1' && i.status eq 'Y' }">
 		         					<tr>
 		         						<td>${ i.boardNo }</td>
 		         						<td>${ i.boardTitle }</td>
@@ -123,7 +123,7 @@
 		         		<tbody>
 		         			<c:forEach var="i" items="${ searchList }">
 		         		<c:choose>
-		         			<c:when test="${ i.boardNum eq '2' }">
+		         			<c:when test="${ i.boardNum eq '2' && i.status eq 'Y' }">
 		         			<tr>
 		         				<td>${ i.boardNo }</td>
          						<td>${ i.boardTitle }</td>
@@ -159,7 +159,7 @@
 		         		<tbody>
 		         			<c:forEach var="i" items="${ searchList }">
 		        	<c:choose>
-		         			<c:when test="${ i.boardNum eq '3' }">
+		         			<c:when test="${ i.boardNum eq '3' && i.status eq 'Y' }">
 		         			<tr>
 		         				<td>${ i.boardNo }</td>
          						<td>${ i.boardTitle }</td>
@@ -194,7 +194,7 @@
 		         		<tbody>
 		         			<c:forEach var="i" items="${ searchList }">
 		         		<c:choose>
-		         			<c:when test="${ i.boardNum eq '4' }">
+		         			<c:when test="${ i.boardNum eq '5' && i.status eq 'Y' }">
 		         			<tr>
 		         				<td>${ i.boardNo }</td>
          						<td>${ i.boardTitle }</td>
@@ -229,7 +229,7 @@
 		         		<tbody>
 		         			<c:forEach var="i" items="${ searchList }">
 		         		<c:choose>
-		         			<c:when test="${ i.boardNum eq '5' }">
+		         			<c:when test="${ i.boardNum eq '4' && i.status eq 'Y' }">
 		         			<tr>
 		         				<td>${ i.boardNo }</td>
          						<td>${ i.boardTitle }</td>
@@ -257,23 +257,28 @@
 		$(function(){
 		
 		$('#review>tbody>tr').click(function(){
-			location.href="http://localhost:8787/withpet/list.review"
+			location.href="http://localhost:8787/withpet/detail.re?bno="+$(this).children().eq(0).text();
+			console.log($(this).children().eq(0).text());
 		})
 		
 		$('#free>tbody>tr').click(function(){
-			location.href="http://localhost:8787/withpet/list.free"
+			location.href="http://localhost:8787/withpet/detail.fr?bno="+$(this).children().eq(0).text();
+			console.log($(this).children().eq(0).text());
 		})
 		
 		$('#qna>tbody>tr').click(function(){
-			location.href="#"
+			location.href="http://localhost:8787/withpet/detail.qna?bno="+$(this).children().eq(0).text();
+			console.log($(this).children().eq(0).text());
 		})
 		
 		$('#creator>tbody>tr').click(function(){
-			location.href="#"
+			location.href="http://localhost:8787/withpet/detail.cr?bno="+$(this).children().eq(0).text();
+			console.log($(this).children().eq(0).text());
 		})
 		
 		$('#share>tbody>tr').click(function(){
-			location.href="#"
+			location.href="http://localhost:8787/withpet/detail.sh?bno="+$(this).children().eq(0).text();
+			console.log($(this).children().eq(0).text());
 		})
 		
 			if(!$('#free>tbody').html().includes('<tr>')){

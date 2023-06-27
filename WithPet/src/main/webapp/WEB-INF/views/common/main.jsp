@@ -23,12 +23,15 @@
 	}
 	
 	#keywordResult{
-		width : 400px;
+		width : 300px;
 		border : 1px solid rgb(73, 166, 112);
 		background-color : white;
 		border-radius : 5px;
 		padding : 10px;
 		display : none;
+		position:absolute; 
+		z-index:100;
+		margin-left : 100px;
 	}
 	
 	.goBestSearch{
@@ -50,6 +53,8 @@
 		height : 50px;
 		border-radius : 50px;
 		background-color: rgb(185, 231, 140);
+		position:relative; 
+		
 	}
 
 	#search
@@ -102,8 +107,8 @@
       background-color : rgb(138, 204, 138);
        color : white;
        text-decoration: none;
-       margin-left : 290px;
        display:inline-block;
+	   
        width : 90px;
        height : 50px;
        text-align : center;
@@ -117,6 +122,10 @@
 	 #a4{
 		font-size: 20px;
 		padding-top: 8px;
+	 }
+
+	 .a3{
+		margin-left: 150px;
 	 }
 
 
@@ -133,7 +142,7 @@
 		<div id="search" align="center">
 			<div id="searchBar">
 				<form action="goSearch" method="GET">
-					<input type="text"  id="searchKeyword" name="searchKeyword" onkeyup="searchKeyword1(this);">
+					<input type="text"  id="searchKeyword" name="searchKeyword" autocomplete="off" onkeyup="searchKeyword1(this);">
 					<div id="keywordResult"></div> 
 					<button type="submit" class="btnn" id="searchBtn">검색</button><br>
 				</form>
@@ -166,11 +175,12 @@
 				</div>
 			</div>
 		</div>
-
-			<a href="list.review" class="a1 a2" id="a1">리뷰</a>
-			<a href="list.free" class="a1 a2" id="a2">자유</a>
-			<a href="list.qna" class="a1 a2" id="a3">질문</a>
-			<a href="list.creator" class="a1" id="a4">Creator</a>
+			<div id="mainBnt" align="center">
+				<a href="list.review" class="a1 a2" id="a1">리뷰</a>
+				<a href="list.free" class="a1 a2 a3" id="a2">자유</a>
+				<a href="list.qna" class="a1 a2 a3" id="a3">질문</a>
+				<a href="list.creator" class="a1 a3" id="a4">Creator</a>
+			</div>
 	</div>
 	
 	
