@@ -150,11 +150,11 @@
            <thead>
             <tr>
                 <th colspan="5"><b></b></th>
-                <th><button class="actBtn" onclick="return updateMemType2();">등급 변경</button></th>
+                <th><button class="actBtn" onclick="return gradeUpdate();">등급 변경</button></th>
             </tr>
             <tr>
                 <th colspan="5"><b></b></th>
-                <th><button class="actBtn" onclick="updateMemType3();">상태 변경</button></th>
+                <th><button class="actBtn" onclick="statusUpdate();">상태 변경</button></th>
             </tr>            
             <tr></tr>
             <tr height="20"></tr>
@@ -240,7 +240,7 @@
 		<script>
 		
 		
-			function updateMemType2() {
+			function gradeUpdate() {
 			  var selectedMembers = $('input[name="memGrade"]:checked');
 			  console.log(selectedMembers.val());
 			  if (selectedMembers.length === 0) {
@@ -264,11 +264,8 @@
 			      error: function(error) {
 			        console.error("회원 등급 변경 중 오류가 발생했습니다.");
 			      }
-			   
 			    });
-			   
 			  })
-			
 			}
 		
         </script>
@@ -276,7 +273,7 @@
 		<script>
 		
 		
-			function updateMemType3() {
+			function statusUpdate() {
 			  var selectedMembers = $('input[name="memStatus"]:checked');
 			  console.log(selectedMembers.val());
 			  if (selectedMembers.length === 0) {

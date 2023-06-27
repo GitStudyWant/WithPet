@@ -45,6 +45,8 @@
 		margin-left : 10px;
 		
 	}
+
+  	
 </style>
 </head>
 <body>
@@ -59,8 +61,11 @@
 				<button type="submit" class="btnn" id="searchBtn">검색</button><br>
 				<div id="bestKeyword"></div>
 			</form>
-		</div>
+		</div>	
 	</div>
+	
+	
+	
 	
 	
 	<script>
