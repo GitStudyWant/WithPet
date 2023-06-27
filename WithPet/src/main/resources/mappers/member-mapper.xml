@@ -630,8 +630,6 @@
                mem_id = #{memberId}
            and
                mem_email = #{email}
-           and
-               mem_pwd = #{password}
 	</update>
 	
 	<select id="myPage" resultType="board" parameterType="pageInfo">
