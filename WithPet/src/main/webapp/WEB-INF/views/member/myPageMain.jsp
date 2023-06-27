@@ -101,7 +101,7 @@
 <body>
 
 	<jsp:include page="../common/myPageSide.jsp" />
-
+	<jsp:include page="../member/modal/memberMainModal.jsp"/>
 	<div id="body">
 			<div id="mainmain">
 				
@@ -138,9 +138,9 @@
 								  <c:forEach items="${boardList}" var="i">
 										<tr>
 										<th scope="row"><p><input class="boardSelect" type="checkbox" value="${i.boardNo}"/></p></th>
-										<td><p>${ i.boardTitle }</p></td>
-										<td><p>${ i.enrolldate }</p></td>
-										<td><p>${ i.viewCount }</p></td>
+										<td onclick="boardDetail('${i.boardNo}');"><p>${ i.boardTitle }</p></td>
+										<td onclick="boardDetail('${i.boardNo}');"><p>${ i.enrolldate }</p></td>
+										<td onclick="boardDetail('${i.boardNo}');"><p>${ i.viewCount }</p></td>
 										</tr>
 									</c:forEach>
 								  </tbody>
@@ -173,7 +173,7 @@
 					    					
 									</th>
 									<th style="width : 10%;"><button class="btn btn-success" onclick="boardDelete();">선택 삭제</button></th>
-									<th style="width : 10%;" ><button class="btn btn-success">글쓰기</button></th>
+									<th style="width : 10%;" ><a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#enrollFormSelect">글쓰기</a></th>
 								</tr>
 							</thead>
 						</table>
@@ -194,9 +194,9 @@
 								  	<c:forEach items="${ReplyList}" var="i">
 										<tr>
 										<th scope="row"><p><input type="checkbox"/></p></th>
-										<td><p>${ i.commentText }</p></td>
-										<td><p>${ i.regDate }</p></td>
-										<td><p>${ i.boardNo }</p></td>
+										<td onclick="boardDetail('${i.boardNo}');"><p>${ i.commentText }</p></td>
+										<td onclick="boardDetail('${i.boardNo}');"><p>${ i.regDate }</p></td>
+										<td onclick="boardDetail('${i.boardNo}');"><p>${ i.boardNo }</p></td>
 										</tr>
 									</c:forEach>
 								  </tbody>
@@ -228,7 +228,7 @@
 					                	</c:choose>
 									</th>
 									<th style="width : 10%;"><button class="btn btn-success">선택 삭제</button></th>
-									<th style="width : 10%;" ><button class="btn btn-success">글쓰기</button></th>
+									<th style="width : 10%;" ><button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#enrollFormSelect">글쓰기</button></th>
 								</tr>
 							</thead>
 						</table>
@@ -276,7 +276,7 @@
 										
 								</th>
 								<th style="width : 10%;"><button class="btn btn-success">선택 삭제</button></th>
-								<th style="width : 10%;" ><button class="btn btn-success">글쓰기</button></th>
+								<th style="width : 10%;" ><a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#enrollFormSelect">글쓰기</a></th>
 							</tr>
 						</thead>
 					</table>
@@ -300,6 +300,7 @@
 							case 1 :  $('#boardPostForm').attr('action', 'myPage').submit(); break;
 							case 2 :  $('#boardPostForm').attr('action', 'myPageReply').submit(); break;
 							case 3 :  $('#boardPostForm').attr('action', 'myPageLike').submit(); break;
+							case 4 :  $('#boardPostForm').attr('action', 'roulette').submit(); break;
 							case 5 :  $('#boardPostForm').attr('action', 'myPageDelete').submit(); break;
 						};
 			    	};
@@ -340,6 +341,12 @@
 							$('.boardSelect').prop('checked',true);
 						}
 					}
+					
+					function boardDetail(bno){
+						console.log(bno);
+						location.href = 'http://localhost:8787/withpet/detail.re?bno=' + bno;
+					}
+					
 				</script>
 			</div>
 	</div>		

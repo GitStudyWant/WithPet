@@ -15,6 +15,7 @@ import com.project.withpet.board.model.vo.Comments;
 import com.project.withpet.board.model.vo.Likes;
 import com.project.withpet.board.model.vo.Tag;
 import com.project.withpet.board.model.vo.TagBridge;
+import com.project.withpet.member.model.vo.Member;
 
 @Repository
 public class BoardDao {
@@ -101,6 +102,51 @@ public class BoardDao {
 		return sqlSession.insert("boardMapper.updateShBoard", b);
 	}
 	
+	//크리에이터 게시판
+	public ArrayList<Board> selectCrList(SqlSessionTemplate sqlSession, PageInfo pi) {
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("boardMapper.selectCrList", null, rowBounds);
+	}
+	
+	public int selectCrListCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("boardMapper.selectCrListCount");
+	}
+	public ArrayList<Board> searchCrList(SqlSessionTemplate sqlSession, String memNick, PageInfo pi) {
+	    Map<String, Object> paramMap = new HashMap<>();
+	    paramMap.put("memNick", memNick);
+	    paramMap.put("pi", pi);
+
+	    int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+	    RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+
+	    List<Object> resultList = sqlSession.selectList("boardMapper.searchCrList", paramMap, rowBounds);
+
+	    ArrayList<Board> boardList = new ArrayList<>();
+	    for (Object obj : resultList) {
+	        if (obj instanceof Board) {
+	            boardList.add((Board) obj);
+	        }
+	    }
+
+	    return boardList;
+	}
+
+	public int searchCrListCount(SqlSessionTemplate sqlSession, String memNick) {
+		System.out.println(memNick);
+		return sqlSession.selectOne("boardMapper.searchCrListCount",memNick);
+	}
+	
+	public int insertCrBoard(SqlSessionTemplate sqlSession, Board b) {
+		return sqlSession.insert("boardMapper.insertCrBoard", b);
+	}
+
+	public int updateCrBoard(SqlSessionTemplate sqlSession, Board b) {
+		return sqlSession.insert("boardMapper.updateCrBoard", b);
+	}
+	public ArrayList<Member> selectHowList(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("boardMapper.selectHowList");
+	}
 	
 	
 	//공지사항
@@ -201,6 +247,10 @@ public class BoardDao {
 		sqlSession.delete("boardMapper.likeCancle",l);
 		
 	}
+
+	
+
+	
 
 	
 	

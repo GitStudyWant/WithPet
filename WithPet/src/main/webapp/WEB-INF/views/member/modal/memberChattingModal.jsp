@@ -97,7 +97,7 @@
 								     + '<p class="marginTop0px" id="searchNick">닉네임 : '+ result.memNick +'</p>'
 								     + '<table id="buttonTable">'
 									 + '<tr align="center">'
-									 + '<td><button class="btn btn-success marginBotton20px btn-Size" onclick="oneChatInsert('+"'" + result.memId + "'"+');">1대1일 채팅 </button></td>'
+									 + '<td><button class="btn btn-success marginBotton20px btn-Size" onclick="oneChatInsert('+"'" + result.memId + "'"+');">1대1 채팅 </button></td>'
 									 + '</tr>'
 									 + '<tr>'
 									 + '</tr>'

@@ -30,7 +30,7 @@
             <b class="btag-fontSize">회사소개 제휴제안 이용약관 개인정보처리방침 크리에이터 신청</b>
         </div>
     </div>
-    	<c:if test="${empty clear}">
+    	<c:if test="${not empty clear}">
 						<script>
 						socket.close();
 						</script>
@@ -38,6 +38,7 @@
 		</c:if>
     
     	<script>
+    	console.log(${clear});
     	if(${ (!(empty loginMember))} && ${empty clear}){
 		    $(function(){		    	
 		    	socketConnect();
@@ -59,7 +60,7 @@
     
     
     function socketConnect(){
-    	var uri = 'ws://localhost:8787/withpet/member';
+    	var uri = 'ws://localhost:8787/withpet/memo';
 		socket = new WebSocket(uri);
     	
 		socket.onopen = () => {
@@ -97,7 +98,7 @@
     	$.ajax({
     		url : "updateloginMemberMemo",
     		type : "get",
-    		data : {memMemoSend : memMemo},
+    			data : {memMemoSend : memMemo},
     		success : function(result){
     			if(($('#memoBell').text() != "") && ($('#memoBell').text() < memMemo)){
     				$('#memoBell').text(memMemo);

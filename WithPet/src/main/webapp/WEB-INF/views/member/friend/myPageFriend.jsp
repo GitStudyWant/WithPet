@@ -253,10 +253,10 @@
 				</c:choose>
 				</div>
 				<form action="" method="post" id="friendForm">
-			         <input type="hidden" id="memberId" name="memberId" value="${ loginMember.memId }"/>
-			         <input id="hidden-page" type="hidden" name="mPage" value="1"/>
-			          <input id="friendId" type="hidden" name="friendId" value=""/>
-			         <input id="memoDetailSender" type="hidden" name="memoDetailSender"/>
+			        <input type="hidden" id="memberId" name="memberId" value="${ loginMember.memId }"/>
+			        <input id="hidden-page" type="hidden" name="mPage" value="1"/>
+			        <input id="friendId" type="hidden" name="friendId" value=""/>
+					<input id="memoDetailSender" type="hidden" name="memoDetailSender"/>
 			    </form>
 			    
 			 
@@ -352,7 +352,6 @@
 					
 				</script>
 			</div>
-	</div>		
 	
 	<div id="mypageFooter"><jsp:include page="../../common/footer.jsp" /></div>
 	

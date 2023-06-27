@@ -158,19 +158,6 @@
 	<jsp:include page="../common/header.jsp" />
 	<div id="body">
         <div id="wrap">
-	<form id="searchForm" action="" method="get" align="center">
-                <div class="select" align="right">
-                    <select class="custom-select" name="condition" style="height: 100%;">
-                        <option value="writer">작성자</option>
-                        <option value="title">제목</option>
-                        <option value="content">내용</option>
-                    </select>
-                </div>
-                <div class="text">
-                    <input type="text" class="form-control" name="keyword">
-                </div>
-                <button type="submit" class="searchBtn btn btn-secondary">검색</button>
-            </form>
             <br><br><br>
             
             <label for="" id="board-head">공유게시판</label>
@@ -180,12 +167,6 @@
             <br>
             <label for="" id="board-subtext">각자 필요한걸 나눠봐요&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
         	
-            <label style="float: right; margin-right: 100px;">
-                <input type="radio" id="new" name="order" value="N" onchange="changeOrder(this.value)">
-				<label for="new">최신순</label>&nbsp;&nbsp;&nbsp;
-				<input type="radio" id="popular" name="order" value="P" onchange="changeOrder(this.value)">
-				<label for="popular">인기순</label>
-            </label>
             <br><br>
             
 
@@ -194,7 +175,7 @@
                     		<div class="board-element">
                     		<div class="clickZone">
                 <input type="hidden" name="bno" value="${ b.boardNo }" >
-                <span id="boardTitle" >${ b.boardTitle }</span><span id="userImg"  >작성자프로필</span><span id="userId">${ b.boardWriter }</span><span id="thumbnail" style="float: right;"> <img src="https://i.namu.wiki/i/uIt7OBpwNR2Cgk90eW_s_0iAZ6628xqGiRY1YyG5drpYaFwXo4ZAKKLltMDxLc2qPyky0s6D9bociJ770v2mwA.webp" alt=""></span>
+                <span id="boardTitle" >${ b.boardTitle }</span><span id="userImg"  >작성자프로필</span><span id="userId">${ b.boardWriter }</span><span id="thumbnail" style="float: right;"> <img src="https://geojecci.korcham.net/images/no-image01.gif" alt=""></span>
                 <span id="boardContent">${ b.boardContent }</span>
                
                 <br>
@@ -224,14 +205,14 @@
                 		<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
                 		</c:when>
                 		<c:otherwise>
-                		<li class="page-item"><a class="page-link" href="list.sh?cPage=${pi.currentPage-1 }">Previous</a></li>
+                		<li class="page-item"><a class="page-link" href="list.share?cPage=${pi.currentPage-1 }">Previous</a></li>
                 		</c:otherwise>
                 	</c:choose>
                 	
                     
 					
 					<c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
-						<li class="page-item"><a class="page-link" href="list.sh?cPage=${p }">${p}</a></li>
+						<li class="page-item"><a class="page-link" href="list.share?cPage=${p }">${p}</a></li>
 					</c:forEach>
 					
                     <c:choose>
@@ -239,7 +220,7 @@
                 		<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
                 		</c:when>
                 		<c:otherwise>
-                		<li class="page-item"><a class="page-link" href="list.sh?cPage=${pi.currentPage+1 }">Next</a></li>
+                		<li class="page-item"><a class="page-link" href="list.share?cPage=${pi.currentPage+1 }">Next</a></li>
                 		</c:otherwise>
                 	</c:choose>
                     

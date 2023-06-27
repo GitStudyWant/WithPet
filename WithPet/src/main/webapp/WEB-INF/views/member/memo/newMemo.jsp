@@ -78,6 +78,35 @@
 	#newMemoTable input{
 		width : 60%;
 	}
+	
+	#newMemoTable{
+		margin:auto
+	}
+	
+	#newMemoContent{
+		width:400px;
+		height:200px;
+		resize:none
+	}
+	
+	#leftMemoDiv{
+		width:20%;
+		margin:auto
+	}
+	
+	#leftMemoP{
+		text-align:center;
+		font-size:12px
+	}
+	
+	#memoSendDiv{
+		width:10%;
+		margin:auto
+	}
+	
+	#sendButton{
+		width:100%;
+	}
 
 </style>
 </head>
@@ -103,22 +132,25 @@
 		    <br><br><br>
 		    
 		    <form action="insertMemo" method="get">
-		    <table id="newMemoTable" style="margin:auto">
+		    <table id="newMemoTable">
 		    		<input class="newMemoIssue" id="newMemoSender" name="memoSender" type="hidden">
 				    <tr><td><p>수신인</p><td></tr>
-				    <tr><td><input class="newMemoIssue" id="newMemoReceiver" name="memoReceiver" type="text"></td></tr>
+				    <tr><td>
+				    	<input class="newMemoIssue" id="newMemoReceiver" name="memoReceiver" type="text">
+				    	<div id="receiverSearchList"></div>
+				 	</td></tr>
 				    <tr><td><p>쪽지제목</p></td></tr>
 				    <tr><td><input class="newMemoIssue" id="newMemoTitle" name="memoTitle" type="text"></td></tr>
 				    <tr><td><p>내용</p></td></tr>
 				    <tr><td>
 				    <fieldset>
-				    	<textarea class="newMemoIssue" id="newMemoContent" name="memoContent" style="width:400px; height:200px; resize:none"></textarea>
+				    	<textarea class="newMemoIssue" id="newMemoContent" name="memoContent"></textarea>
 				    </fieldset>
 				    </td></tr>
 		    </table>
 		    <br><br>
-		    <div style="width:20%; margin:auto"><p style="text-align:center; font-size:12px">남은 쪽지 횟수 : ${ loginMember.memMemo }번</p></div>
-		    <div style="width:10%; margin:auto"><button class="btn btn-primary" id="sendButton" style="width:100%;">보내기</button></div>
+		    <div id="leftMemoDiv"><p id="leftMemoP">남은 쪽지 횟수 : ${ loginMember.memMemo }번</p></div>
+		    <div id="memoSendDiv"><button class="btn btn-primary" id="sendButton">보내기</button></div>
 		    </form>
 		</div>
 	</div>    
@@ -142,6 +174,65 @@
 		
 	})
 	
+	
+	$(function(){
+		$('#newMemoReceiver').keyup(function(){
+  			$.ajax({
+  				url : 'liveSearch.me',
+  				data : {
+  					keyword : $('#newMemoReceiver').val()
+  				},
+  				type : 'get',
+  				success : function(result){
+  					var val = "";
+  					if(result != ''){
+  						for(let i in result){
+  						val += '<p class="searchResult">'+ result[i].memNick +'</p>';
+  						};
+						$('#receiverSearchList').css('display','block');
+  						$('#receiverSearchList').html(val);
+  						$('.searchResult').css({
+  						  'background-color': 'white',
+  						  'border': '1px solid black',
+  						  'font-size': '14px',
+  						  'width': '60%',
+  						  'height' : '35px'
+  						}).hover(function() {
+  						  $(this).css('cursor', 'pointer');
+  						});
+  					} else{
+  						val += '<p class="searchResult">조회결과가 없습니다</p>';
+						$('#receiverSearchList').css('display','block');
+  						$('#receiverSearchList').html(val);
+  						$('.searchResult').css({
+  						  'background-color': 'white',
+  						  'border': '1px solid black',
+  						  'font-size': '14px',
+  						  'width': '60%',
+  						  'height' : '35px'
+  						}).hover(function() {
+    						$(this).css('cursor', 'pointer');
+    					});
+  					}
+  					
+  					$('.searchResult').on("click", function() {
+    				 	$('#newMemoReceiver').val($(this).text());
+    				 	$('.searchResult').css("display","none");
+    				});
+  					
+  					$('#newMemoReceiver').on("focusout", function() {
+  					    setTimeout(function() {
+  					        $('.searchResult').css("display", "none");
+  					    }, 125);
+  					});
+  				},
+  				error : function(){
+  					console.log('실패');
+  				}
+  			});
+  		});
+  	});
+	          		
 	
 	
 	</script>

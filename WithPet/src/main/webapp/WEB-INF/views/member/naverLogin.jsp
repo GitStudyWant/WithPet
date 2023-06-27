@@ -22,7 +22,7 @@
          	    	url : "naverGetTokenUser",
          	    	type : 'get',
          	    	data : {
-         	    	code : code,
+         	    		code : code,
          	    	},
          	    	success : function(result){
          	    		location.href = result;
