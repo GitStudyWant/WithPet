@@ -76,6 +76,7 @@
 		      			type : 'post',
 		      			success : function(num){
 		      				console.log(num);
+							  alert('메시지 전송 성공');
 		      			},
 		      			error : function(){
 		      				console.log('메일 보내기 실패');
