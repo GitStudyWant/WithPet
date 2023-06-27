@@ -322,6 +322,12 @@
 		margin-top : 5px;
 		border-radius: 10px;
 	}
+	
+	.msgMyUser{
+		text-align: right;
+		margin-top : 5px;
+		border-radius: 10px;
+	}
 	.message-wrap{
 		overflow-y:scroll;
 		height: 100%;
@@ -330,6 +336,12 @@
 	.msgOther{
 		text-align: left;
 		border: 1px solid #dee2e6;
+		margin-top : 5px;
+		border-radius: 10px;
+	}
+	
+	.msgOtherUser{
+		text-align: left;
 		margin-top : 5px;
 		border-radius: 10px;
 	}
@@ -360,6 +372,11 @@
 		background-color: rgb(152, 239, 126);
 	}
 	
+	.chatUser{
+		width : 20px;
+		height : 20px;
+		border-radius: 100px;
+	}
 	
 </style>
 </head>
@@ -491,9 +508,9 @@
 									var div = "";
 									for(let i in result){
 										if(result[i].memberId == '${loginMember.memId}'){
-									 		div += '<div class="msgMy">'+result[i].memberId +'<br>'+ result[i].chatContent +'</div>';
+									 		div += '<div class="msgMyUser">'+result[i].memberId +'<img class="chatUser" src="resources/myPage/user.png"></div><div class="msgMy">'+ result[i].chatContent +'</div>';
 										}else{
-											div += '<div class="msgOther">'+result[i].memberId +'<br>'+ result[i].chatContent +'</div>';
+											div += '<div class="msgOtherUser">'+result[i].memberId +'<img class="chatUser" src="resources/myPage/user.png"></div><div class="msgOhter">'+ result[i].chatContent +'</div>';
 										}
 									}
 									$('.message-wrap').html(div);
@@ -585,9 +602,9 @@
 									var div = "";
 									for(let i in result){
 										if(result[i].memberId == '${loginMember.memId}'){
-									 		div += '<div class="msgMy">'+result[i].memberId +'<br>'+ result[i].oneChatContent +'</div>';
+									 		div += '<div class="msgMyUser">'+result[i].memberId +'<img class="chatUser" src="resources/myPage/user.png"><div class="msgMy">'+ result[i].oneChatContent +'</div>';
 										}else{
-											div += '<div class="msgOther">'+result[i].memberId +'<br>'+ result[i].oneChatContent +'</div>';
+											div += '<div class="msgOtherUser">'+result[i].memberId +'<img class="chatUser" src="resources/myPage/user.png"><div class="msgOther">'+ result[i].oneChatContent +'</div>';
 										}
 									}
 									$('.message-wrap').html(div);
