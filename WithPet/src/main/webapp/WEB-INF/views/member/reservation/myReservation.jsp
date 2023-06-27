@@ -305,7 +305,7 @@
 				resNo = $('input[name=tRno]:checked').val();
 				console.log(resNo);
 				taxiRDate = $('#'+resNo+'taxiRDate').text();
-				taxiDay = taxiRDate.substr(-1);
+				taxiDay = taxiRDate.substr(-2);
 				console.log(taxiDay);
 				taxiMonth = taxiRDate.substr(3, 2);
 				console.log(taxiMonth);
@@ -334,13 +334,14 @@
 				
 				carSDate = $('#'+resNo+'startDate').text();
 				console.log(carSDate);
-				carDay = carSDate.substr(-1);
+				carDay = carSDate.substr(-2);
 				console.log(carDay);
 				carMonth = carSDate.substr(3, 2);
 				console.log(carMonth);
 				let today = new Date();
 				let month2 = today.getMonth()+1;
 				let day2 = today.getDate();
+				console.log(day2);
 				
 				if(month2 == carMonth && carDay-day2 < 2){
 					

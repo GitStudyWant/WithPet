@@ -150,9 +150,6 @@
                         <th><a href="adminReportList">신고 관리</a></th>
                     </tr>
                     <tr>
-                        <th><a href="#">금칙어 관리</a></th>
-                    </tr>
-                    <tr>
                         <th><a href="adminTransportation">교통수단 관리</a></th>
                     </tr>
                     <tr>
