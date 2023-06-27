@@ -776,8 +776,6 @@ public class MemberController {
 			ArrayList<CarReservation> cList = memberService.selectMyCarRes(memId);
 			ArrayList<CafeRes> cpList = memberService.selectMyCafeRes(memId);
 			
-			//System.out.println(tList);
-			//System.out.println(cList);
 			m.addAttribute("tList", tList);
 			m.addAttribute("cList", cList);
 			m.addAttribute("cpList", cpList);
