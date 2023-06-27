@@ -9,6 +9,7 @@ import com.project.withpet.board.model.vo.Comments;
 import com.project.withpet.board.model.vo.Likes;
 import com.project.withpet.board.model.vo.Tag;
 import com.project.withpet.board.model.vo.TagBridge;
+import com.project.withpet.member.model.vo.Member;
 
 public interface BoardService {
 	
@@ -54,6 +55,27 @@ public interface BoardService {
 	int insertShBoard(Board b);
 	
 	int updateShBoard(Board b);
+	
+	// 크리에이터
+	// 일반적인 게시글 목록 조회
+	ArrayList<Board> selectCrList(PageInfo pi);
+	
+	int selectCrListCount();
+	
+	// 특정 크리에이터의 게시글 목록조회
+	ArrayList<Board> searchCrList(String memNick,PageInfo pi);
+
+	int searchCrListCount(String memNick);
+	
+	// 크리에이터들 목록 표시
+	ArrayList<Member> selectHowList();
+	
+	// 공통기능(게시글 업데이트 삭제)
+	int insertCrBoard(Board b);
+
+	int updateCrBoard(Board b);
+	
+	
 	
 	// 공지사항
 	ArrayList<Board> selectNoList(PageInfo pi);
@@ -150,6 +172,9 @@ public interface BoardService {
 	Likes likeChk(Likes like);
 	// 좋아요 취소
 	void likeCancle(Likes like);
+
+
+	
 
 	
 	

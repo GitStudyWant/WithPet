@@ -15,6 +15,7 @@ import com.project.withpet.board.model.vo.Comments;
 import com.project.withpet.board.model.vo.Likes;
 import com.project.withpet.board.model.vo.Tag;
 import com.project.withpet.board.model.vo.TagBridge;
+import com.project.withpet.member.model.vo.Member;
 
 
 @Service
@@ -122,8 +123,42 @@ public class BoardServiceImpl implements BoardService {
 		return boardDao.updateShBoard(sqlSession,b);
 	}
 
+	// 크리에이터 게시판
+	@Override
+	public ArrayList<Board> selectCrList(PageInfo pi) {
+		return boardDao.selectCrList(sqlSession,pi);
+	}
+
+	@Override
+	public int selectCrListCount() {
+		return boardDao.selectCrListCount(sqlSession);
+	}
 	
+	@Override
+	public ArrayList<Board> searchCrList(String memNick,PageInfo pi) {
+		return boardDao.searchCrList(sqlSession,memNick,pi);
+	}
+
+	@Override
+	public int searchCrListCount(String memNick) {
+		return boardDao.searchCrListCount(sqlSession,memNick);
+	}
 	
+	@Override
+	public int insertCrBoard(Board b) {
+		return boardDao.insertCrBoard(sqlSession,b);
+	}
+
+	@Override
+	public int updateCrBoard(Board b) {
+		return boardDao.updateCrBoard(sqlSession,b);
+	}
+	@Override
+	public ArrayList<Member> selectHowList() {
+		return boardDao.selectHowList(sqlSession);
+	}
+	
+
 	
 	
 	// 공지사항
@@ -246,6 +281,9 @@ public class BoardServiceImpl implements BoardService {
 	public void likeCancle(Likes l) {
 		boardDao.likeCancle(sqlSession,l);
 	}
+
+
+	
 
 	
 	

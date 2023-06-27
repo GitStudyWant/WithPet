@@ -3,6 +3,7 @@ package com.project.withpet.board.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -10,8 +11,11 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.logging.Logger;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpSession;
 
 
@@ -30,6 +34,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.project.withpet.board.common.model.vo.PageInfo;
 import com.project.withpet.board.common.template.Pagination;
 import com.project.withpet.board.model.service.BoardService;
@@ -252,6 +257,7 @@ public class BoardController {
 			return "common/errorPage";
 		}
 	}
+	
 	//자유게시판 끝
 	
 	
@@ -749,6 +755,172 @@ public class BoardController {
 	
 	//나눔게시판 끝
 	
+	//크리에이터게시판
+		@RequestMapping("list.creator")
+		public String selectCrList(@RequestParam(value="cPage", defaultValue = "1") int currentPage,
+										Model model) {
+			PageInfo pi = Pagination.getPageInfo(boardService.selectCrListCount(), currentPage, 3, 10);
+			model.addAttribute("pi", pi);
+			model.addAttribute("list", boardService.selectCrList(pi));
+			model.addAttribute("clist", boardService.selectHowList());
+			return "board/Creator";
+		}
+		@ResponseBody
+		@RequestMapping(value = "search.creator", method = RequestMethod.POST)
+		public List<Board> searchCrList(@RequestParam(value="cPage", defaultValue = "1") int currentPage,
+		                               @RequestParam("memNick") String memNick,
+		                               Model model) {
+		  System.out.println(memNick);
+
+		  PageInfo pi = Pagination.getPageInfo(boardService.searchCrListCount(memNick), currentPage, 100, 10);
+		  List<Board> boardList = boardService.searchCrList(memNick, pi);
+		  System.out.println(boardList);
+		  System.out.println(boardService.searchCrListCount(memNick));
+		  
+		  return boardList;
+		}
+		
+		@RequestMapping("enrollForm.cr")
+		public String enrollCrForm() {
+			return "board/CreatorEnroll";
+		}
+		
+		@RequestMapping("insert.cr")
+		public String insertCrBoard(Board b,
+		                            MultipartFile upfile,
+		                            @RequestParam(value = "tagNames", required = false) String[] tagNames,
+		                            HttpSession session,
+		                            Model model) {
+				
+			System.out.println("전달된 태그값들은: " + Arrays.toString(tagNames));
+			
+		    if (!upfile.getOriginalFilename().equals("")) {
+		        b.setOriginName(upfile.getOriginalFilename());
+		        b.setChangeName("resources/BoardFiles/" + saveFile(upfile, session));
+		    }
+
+		    
+		    if (boardService.insertCrBoard(b) > 0) {// 게시글 insert시 발동(게시글 등록의 bno.nextval을 태그브릿지의 bno.currval로 쓰려고)
+		    	if (tagNames != null && tagNames.length > 0) {
+		            List<TagBridge> tagBridges = new ArrayList<>();
+
+		            for (String tagName : tagNames) {
+		                Tag tag = boardService.selectTagId(tagName);
+		                if (tag != null) {
+		                    TagBridge tagBridge = new TagBridge();
+		                    tagBridge.setBridgeNo(b.getBoardNo());
+		                    tagBridge.setBridgeId(tag.getTagId());
+		                    tagBridges.add(tagBridge);
+		                }
+		            }
+		            if (!tagBridges.isEmpty()) {
+		                boardService.insertTagBridges(tagBridges);
+		            }
+		        }
+
+
+		        session.setAttribute("alertMsg", "게시글 등록 성공");
+		        return "redirect:list.creator";
+		    } else {
+		        model.addAttribute("errorMsg", "게시글 작성 실패...");
+		        return "redirect:list.creator";
+		    }
+		}
+		
+		
+		
+		@RequestMapping("detail.cr")
+		public ModelAndView selectCrBoard(ModelAndView mv, int bno) {
+		    if (boardService.increaseCount(bno) > 0) {
+		        ArrayList<Tag> tagList = boardService.selectTagName(bno);
+
+		        System.out.println(tagList.size());
+		        for (Tag tag : tagList) {
+		            System.out.println(tag.getTagName());
+		        }
+		        mv.addObject("b", boardService.selectBoard(bno)).addObject("t", tagList).setViewName("board/CreatorDetail");
+		    } else {
+		        mv.addObject("errorMsg", "상세조회실패~").setViewName("common/errorPage");
+		    }
+		    return mv;
+		}
+		
+		@RequestMapping("delete.cr")
+		public String deleteCrBoard(@RequestParam(value="bno")int bno, String filePath,HttpSession session) {
+			
+			if(boardService.deleteBoard(bno)> 0) {
+				
+				if(filePath.equals("")) { 
+					new File(session.getServletContext().getRealPath(filePath)).delete();
+				
+			}
+			session.setAttribute("alertMsg", "삭제 성공");
+			System.out.println(bno+"번 게시물 삭제!");
+			return "redirect:list.creator";
+		}else {
+			session.setAttribute("errorMsg", "삭제 실패");
+			System.out.println(bno+"번 게시물 삭제 실패!");
+			return "common/errorPage";
+			 
+			 
+		}
+		}
+		@RequestMapping("updateForm.cr")
+		public ModelAndView updateCrForm(int bno, ModelAndView mv) {
+			 ArrayList<Tag> tagList = boardService.selectTagName(bno);
+
+		        System.out.println(tagList.size());
+		        for (Tag tag : tagList) {
+		            System.out.println(tag.getTagName());
+		        }
+			mv.addObject("b", boardService.selectBoard(bno)).addObject("t", tagList).setViewName("board/CreatorUpdate");
+			return mv;
+		}
+		@RequestMapping("update.cr")
+		public String updateCrBoard(Board b,
+						            MultipartFile reUpfile,
+						            @RequestParam(value = "tagNames", required = false) String[] tagNames,
+						            HttpSession session,
+						            Model model) {
+			
+			if(!reUpfile.getOriginalFilename().equals("")) {
+				
+				if(b.getOriginName() != null) {
+					new File(session.getServletContext().getRealPath(b.getChangeName())).delete();
+				}
+				
+				String changeName = saveFile(reUpfile,session);
+				
+				b.setOriginName(reUpfile.getOriginalFilename());
+				b.setChangeName("resources/BoardFiles/" + changeName);
+			}
+			
+			if(boardService.updateCrBoard(b) >0) {
+				boardService.deleteTagBridges(b.getBoardNo());
+				if (tagNames != null && tagNames.length > 0) {
+		            List<TagBridge> tagBridges = new ArrayList<>();
+
+		            for (String tagName : tagNames) {
+		                Tag tag = boardService.selectTagId(tagName);
+		                if (tag != null) {
+		                    TagBridge tagBridge = new TagBridge();
+		                    tagBridge.setBridgeNo(b.getBoardNo());
+		                    tagBridge.setBridgeId(tag.getTagId());
+		                    tagBridges.add(tagBridge);
+		                }
+		            }
+		            if (!tagBridges.isEmpty()) {
+		                boardService.updateTagBridges(tagBridges);
+		            }
+		        }
+				session.setAttribute("alertMsg", "수정 성공");
+				return "redirect:detail.cr?bno=" + b.getBoardNo();
+			}else {
+				session.setAttribute("errorMsg", "수정 실패");
+				return "common/errorPage";
+			}
+		}
+	//크리에이터게시판 끝
 	
 	
 	
@@ -909,13 +1081,6 @@ public class BoardController {
 	
 	
 	
-	@RequestMapping("list.creator")
-	public String selectCreatorList() {
-		
-		
-		
-		return "board/Creator";
-	}
 	
 	
 	

@@ -143,12 +143,12 @@
         <div id="wrap">
             <br><br><br>
             
-            <<label for="" id="board-head">공유게시판</label>
-            <c:if test="${ not empty sessionScope.loginMember }">
-            <a class="btn btn-secondary" style="float:right; margin-right: 100px; width: 150px;" href="enrollForm.sh">글쓰기</a>
+            <label for="" id="board-head">크리에이터 게시판</label>
+            <c:if test="${not empty sessionScope.loginMember and sessionScope.loginMember.memGrade eq 'CREATOR'}">
+            <a class="btn btn-secondary" style="float:right; margin-right: 100px; width: 150px;" href="enrollForm.cr">글쓰기</a>
             </c:if>
             <br>
-            <label for="" id="board-subtext">각자 필요한걸 나눠봐요&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+            <label for="" id="board-subtext">크리에이터분들의 창작 마당!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
         
             <br><br>
             
@@ -216,10 +216,10 @@
            			
            			if(num==1){
            			// 수정하기 클릭시
-           				$('#updateForm').attr('action','updateForm.sh').submit();
+           				$('#updateForm').attr('action','updateForm.cr').submit();
            			}else{
            			// 삭제하기 클리시
-           				$('#updateForm').attr('action','delete.sh').submit();
+           				$('#updateForm').attr('action','delete.cr').submit();
            			}
 				}
            	</script>
