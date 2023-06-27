@@ -52,7 +52,7 @@
 		</script>
 		<c:remove var="clear" scope="session"/>
 	</c:if>
-    
+
     <script>
     
     var socket;
