@@ -154,7 +154,6 @@
 						}else{
 							alert('삭제가 실패했습니다. 다시 시도해주세요.');
 						}
-						
 					},
 					error : function(){
 						console.log('삭제 실패 ㅠㅠ');

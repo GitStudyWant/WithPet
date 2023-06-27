@@ -23,12 +23,15 @@
 	}
 	
 	#keywordResult{
-		width : 400px;
+		width : 300px;
 		border : 1px solid rgb(73, 166, 112);
 		background-color : white;
 		border-radius : 5px;
 		padding : 10px;
 		display : none;
+		position:absolute; 
+		z-index:100;
+		margin-left : 100px;
 	}
 	
 	.goBestSearch{
@@ -50,6 +53,8 @@
 		height : 50px;
 		border-radius : 50px;
 		background-color: rgb(185, 231, 140);
+		position:relative; 
+		
 	}
 
 	#search
@@ -137,7 +142,7 @@
 		<div id="search" align="center">
 			<div id="searchBar">
 				<form action="goSearch" method="GET">
-					<input type="text"  id="searchKeyword" name="searchKeyword" onkeyup="searchKeyword1(this);">
+					<input type="text"  id="searchKeyword" name="searchKeyword" autocomplete="off" onkeyup="searchKeyword1(this);">
 					<div id="keywordResult"></div> 
 					<button type="submit" class="btnn" id="searchBtn">검색</button><br>
 				</form>
