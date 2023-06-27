@@ -144,7 +144,7 @@ tr {
                  <tr style="height: 10px;"></tr>
                  <tr style="margin-top:5px">
                      <td height="25" style="font-size:13px; color:gray; width: 70px">예약일 : </td>
-                     <td width="100"><input type="text" name="resDate" id="resDate" style="width:75%; border:solid 1px lightgray"></td>
+                     <td width="100"><input type="text" name="resDate" id="resDate" autocomplete="off" style="width:75%; border:solid 1px lightgray"></td>
                 </tr>
                 <tr style="height: 10px;"></tr>
                 <tr style="margin-top:5px">
