@@ -239,7 +239,6 @@
 
 		<script>
 		
-		
 			function gradeUpdate() {
 			  var selectedMembers = $('input[name="memGrade"]:checked');
 			  console.log(selectedMembers.val());
