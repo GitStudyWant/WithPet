@@ -38,7 +38,9 @@
 		</c:if>
     
     	<script>
-    	console.log(${clear});
+    	
+    	
+    	console.log("000"+'${clear}');
     	if(${ (!(empty loginMember))} && ${empty clear}){
 		    $(function(){		    	
 		    	socketConnect();
