@@ -277,8 +277,12 @@
 	</select>
 
 	<select id="searchKeyword" resultType="search">
-		SELECT
-		      SEARCH_KEYWORD searchKeyword
+			 SELECT 
+		            searchKeyword
+		        FROM 
+		            (SELECT ROWNUM RNUM, A.* FROM   
+		                                         (SELECT
+		      											SEARCH_KEYWORD searchKeyword, count(search_keyword) count
 		 FROM
 		     SEARCH
 		WHERE
@@ -286,6 +290,8 @@
 		GROUP 
 		   BY
 		     SEARCH_KEYWORD
+        ORDER BY COUNT DESC) A) 
+      WHERE RNUM BETWEEN 1 and 5
 	</select>
 	
 
