@@ -1832,7 +1832,8 @@ public class MemberController {
 		HttpSession session = request.getSession();
 		String memberId = ((Member)session.getAttribute("loginMember")).getMemId();
 		ArrayList<OneChatting> one = memberService.oneChatList(memberId);
-		session.setAttribute("clear", "clear");
+		//session.setAttribute("clear", "clear");
+		m.addAttribute("clear", "clear");
 		m.addAttribute("oneChatList", one);
 		m.addAttribute("lastChat", all);
 		return "member/chatting/memberChatting";

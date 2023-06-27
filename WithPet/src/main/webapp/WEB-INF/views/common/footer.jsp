@@ -30,6 +30,14 @@
             <b class="btag-fontSize">회사소개 제휴제안 이용약관 개인정보처리방침 크리에이터 신청</b>
         </div>
     </div>
+    	<c:if test="${! empty clear}">
+						<script>
+							$(function(){
+								socket.close();	
+							})
+						</script>
+			<c:remove var="clear" scope="session"/>
+		</c:if>
     
    	<script>
    	if(${ (!(empty loginMember))} && ${empty clear}){

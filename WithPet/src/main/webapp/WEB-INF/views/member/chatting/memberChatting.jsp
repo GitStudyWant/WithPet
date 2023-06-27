@@ -510,7 +510,7 @@
 										if(result[i].memberId == '${loginMember.memId}'){
 									 		div += '<div class="msgMyUser">'+result[i].memberId +'<img class="chatUser" src="resources/myPage/user.png"></div><div class="msgMy">'+ result[i].chatContent +'</div>';
 										}else{
-											div += '<div class="msgOtherUser">'+result[i].memberId +'<img class="chatUser" src="resources/myPage/user.png"></div><div class="msgOhter">'+ result[i].chatContent +'</div>';
+											div += '<div class="msgOtherUser">'+result[i].memberId +'<img class="chatUser" src="resources/myPage/user.png"></div><div class="msgOther">'+ result[i].chatContent +'</div>';
 										}
 									}
 									$('.message-wrap').html(div);
@@ -554,12 +554,16 @@
 						let test = e.data;
 						test = test.split(":");
 						if(test[0] == '${loginMember.memId}'){
-							var div = $('<div class="msgMy"></div>');
+							var div1 = $('<div class="msgMyUser"></div>');
+							var div2 = $('<div class="msgMy"></div>');
 						} else{
-							var div = $('<div class="msgOther"></div>');
+							var div1 = $('<div class="msgOtherUser"></div>')
+							var div2 = $('<div class="msgOther"></div>');
 						};
-						div.html(test[0] + '<br>' + test[1]);
-						$('.message-wrap').append(div);
+						div1.html(test[0] + '<img class="chatUser" src="resources/myPage/user.png">' + '<br>');
+						div2.html(test[1] + '<br>');
+						//let div = div1.html() + div2.html();
+						$('.message-wrap').append(div1, div2);
 						$('.message-wrap').scrollTop($('.message-wrap')[0].scrollHeight);
 					}
 					
@@ -651,12 +655,16 @@
 						let test = e.data;
 						test = test.split(":");
 						if(test[0] == '${loginMember.memId}'){
-							var div = $('<div class="msgMy"></div>');
+							var div1 = $('<div class="msgMyUser"></div>');
+							var div2 = $('<div class="msgMy"></div>');
 						} else{
-							var div = $('<div class="msgOther"></div>');
+							var div1 = $('<div class="msgOtherUser"></div>')
+							var div2 = $('<div class="msgOther"></div>');
 						};
-						div.html(test[0] + '<br>' + test[1]);
-						$('.message-wrap').append(div);
+						div1.html(test[0] + '<img class="chatUser" src="resources/myPage/user.png">' + '<br>');
+						div2.html(test[1] + '<br>');
+						//let div = div1.html() + div2.html();
+						$('.message-wrap').append(div1, div2);
 						$('.message-wrap').scrollTop($('.message-wrap')[0].scrollHeight);
 					}
 					

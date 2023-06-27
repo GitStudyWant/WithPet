@@ -119,7 +119,7 @@
 		    			</tr>
 		    			<tr>
 		    				<td width="160" id="modifyFrontDivTd2"><input id="modifyFrontDivInput" type="password" name="memPwd"></td>
-		    				<td width="60"><button class="btn btn-primary" id="modifyFrontDivButton">Submit</button></td>
+		    				<td width="60"><button class="btn btn-primary" id="modifyFrontDivButton">입장</button></td>
 		    			</tr>
 		    		</table>
 		    	</div>

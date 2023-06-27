@@ -37,7 +37,8 @@
         #header_6 {width: 12%; height:100%; float:left;}
         #header_7 {width: 21%; height:100%; float:left;}
 
-        #header_1>img {height:100%; position:absolute; margin:auto; top:0px; bottom:0px; right:0px; left:0px;}
+        
+        #header_1 img {height:100%; width : 220px; position:absolute; top:10px; bottom:0px; right:0px; left:10px;}
 
         #header_2{text-align:center; line-height:60px; font-size:17px; padding-top:55px;}
         @media (max-width: 470px) { #header_2 { font-size: 8px; } }
@@ -159,7 +160,7 @@
 		</c:if>
 		
 	    <div id="header">
-        <div id="header_1"></div>
+        <div id="header_1"><a href="/withpet/"><img src="resources/main/logo.png"></a></div>
         <div id="header_2"><a id="header_2_a">Trip</a>
             <div id="header_2_detail">
                 <div id="header_2_detail_1"><a href="aroundSearch">내 주변 조회</a></div>
