@@ -115,35 +115,17 @@
 								<td>${ c.resDate }</td>
 								<td>
 								<c:choose>
-									<c:when test="${ c.resTime eq 5 }">
-										<select>
-										<option selected disabled>10시~12시</option>
-										</select>
-									</c:when>
-									<c:when test="${  c.resTime eq 7 }">
-										<select>
-										<option selected disabled>12시~14시</option>
-										</select>
-									</c:when>
-									<c:when test="${  c.resTime eq 9 }">
-										<select>
-										<option selected disabled>14시~16시</option>
-										</select>
-									</c:when>
-									<c:when test="${  c.resTime eq 11 }">
-										<select>
-										<option selected disabled>16시~18시</option>
-										</select>
-									</c:when>
-									<c:otherwise>
-										<select>
-										<option selected disabled>18시~20시</option>
-										</select>
-									</c:otherwise>
+									<c:when test="${ c.resTime eq 5 }"> <select> <option selected disabled>10시~12시</option> </select> </c:when>
+									<c:when test="${  c.resTime eq 7 }"> <select> <option selected disabled>12시~14시</option> </select> </c:when>
+									<c:when test="${  c.resTime eq 9 }"> <select> <option selected disabled>14시~16시</option> </select> </c:when>
+									<c:when test="${  c.resTime eq 11 }"> <select> <option selected disabled>16시~18시</option> </select> </c:when>
+							 	 <c:otherwise>
+									<select> <option selected disabled>18시~20시</option> </select>
+								 </c:otherwise>
 								</c:choose>
 								</td>
-								<td>${ c.memId }</td>
-								<td>${ c.cafeResStatus}</td>
+								 <td>${ c.memId }</td>
+								 <td>${ c.cafeResStatus}</td>
 								</tr>
 							</c:forEach>
 						</c:when>
